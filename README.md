@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="./public/logo-bg-trans.png" alt="JQLite Logo" width="200"/>
+  <img src="./public/logo-bg-trans.png" alt="JQLite Logo" width="175px"/>
 </p>
 
-<h1 style="padding: 0;margin: 0;" align="center">JQLite</h1>
+<h1 style="margin-top: -50px;" align="center">JQLite</h1>
 <p align="center"><b>The query language for JSON</b></p>
 
 <p align="center">
