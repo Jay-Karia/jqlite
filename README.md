@@ -1,5 +1,5 @@
 <div align="center" style="margin-top: 40px">
-    <img src="./public/svg-logo-bg-trans-cropped.svg" alt="JQLite Logo" width="40px"/>
+    <img src="./public/svg-logo-bg-trans-cropped.svg" alt="JQLite Logo" width="50px"/>
     <h1 style="margin-top: 15px;">JQLite</h1>
     <p><b>The query language for JSON</b></p>
 </div>
