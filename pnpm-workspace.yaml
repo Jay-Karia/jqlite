@@ -1,0 +1,6 @@
+packages:
+  - "adapters/*"
+  - "cli"
+  - "web"
+  - "apps/*"
+  - "tests"

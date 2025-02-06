@@ -10,8 +10,14 @@ export default tseslint.config(
 
   { languageOptions: { globals: globals.node } },
   {
-    files: ["src/**/*.ts"],
-    ignores: ["**/*.config.js", "!**/eslint.config.js"],
+    ignores: [
+      "**/*.config.js",
+      "!**/eslint.config.js",
+      "pnpm-workspace.yaml",
+      "pnpm-lock.yaml",
+      ".npmrc",
+      ".gitignore",
+    ],
     rules: {
       semi: "error",
       "@typescript-eslint/no-explicit-any": "off",

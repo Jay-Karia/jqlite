@@ -2,6 +2,7 @@
   "name": "@jqlite/core",
   "version": "1.0.0",
   "description": "The core engine of the query language",
+  "packageManager": "pnpm@10.2.0",
   "main": "dist/index.js",
   "type": "module",
   "files": [
@@ -14,10 +15,12 @@
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm",
     "start": "node dist/index.js",
     "dev:tsc": "tsc --watch --preserveWatchOutput",
-    "dev:node": "node --watch dist/index.js",
+    "dev": "node --watch dist/index.js",
     "dev:esbuild": "pnpm run build --watch",
     "lint": "npx eslint .",
-    "format": "npx prettier . --write"
+    "lint:src": "npx eslint src",
+    "format": "npx prettier . --write",
+    "format:src": "npx prettier src --write"
   },
   "keywords": [
     "query-language",

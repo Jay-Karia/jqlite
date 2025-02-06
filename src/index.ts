@@ -1,3 +1,1 @@
-export class JQLite {
-  
-}
+export class JQLite {}
