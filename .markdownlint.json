@@ -1,0 +1,9 @@
+{
+  "default": true,
+  "MD003": { "style": "atx_closed" },
+  "MD007": { "indent": 4 },
+  "no-hard-tabs": false,
+  "no-inline-html": false,
+  "line-length": {"line_length": 110},
+  "first-line-h1": false
+}
