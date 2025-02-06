@@ -4,6 +4,6 @@
   "MD007": { "indent": 4 },
   "no-hard-tabs": false,
   "no-inline-html": false,
-  "line-length": {"line_length": 110},
+  "line-length": false,
   "first-line-h1": false
 }
