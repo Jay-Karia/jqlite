@@ -1,2 +1,3 @@
-const a = undefined;
-console.log(a);
+export class JQLite {
+  
+}

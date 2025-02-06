@@ -14,6 +14,7 @@ export default tseslint.config(
     ignores: ["**/*.config.js", "!**/eslint.config.js"],
     rules: {
       semi: "error",
+      "@typescript-eslint/no-explicit-any": "off",
     },
   }
 );
