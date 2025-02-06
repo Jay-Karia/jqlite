@@ -12,10 +12,10 @@
 
 ---
 
-<br/>
-
-<div style="padding: 15px; font-size: 1.1rem; text-align: center; color: white; background: linear-gradient(120deg, rgba(0, 26, 0, 0.15), rgba(255, 255, 255, 0.2)); margin-bottom: 10px; font-weight: bold; box-shadow: 0px 2px 5px rgba(26, 25, 25, 0.1);">
-  <p style="margin: 0;">
-    🚀 Coming Soon!
-  </p>
-</div>
+<table align="center">
+  <tr>
+    <td align="center">
+      <strong>🚀 Coming Soon!</strong><br>
+    </td>
+  </tr>
+</table>
