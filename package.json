@@ -13,13 +13,14 @@
   ],
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm",
+    "build:watch": "pnpm run build --watch",
     "start": "node dist/index.js",
     "dev": "node --watch dist/index.js",
-    "dev:esbuild": "pnpm run build --watch",
     "lint": "npx eslint .",
     "lint:src": "npx eslint src",
     "format": "npx prettier . --write",
-    "format:src": "npx prettier src --write"
+    "format:src": "npx prettier src --write",
+    "test:src": "npx jest src"
   },
   "keywords": [
     "query-language",

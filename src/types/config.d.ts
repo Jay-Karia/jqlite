@@ -1,3 +1,5 @@
+/** @format */
+
 interface Alias {
   alias: string;
   path: string;

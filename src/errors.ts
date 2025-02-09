@@ -1,44 +1,86 @@
-const CONFIG_ERRORS = {
-  ALIAS_EXISTS: {
-    message: "Alias already exists",
-    code: "C101",
-    cause: "Tried to allocate an alias that already exists",
-  },
-  PATH_EXISTS: {
-    message: "Path already exists",
-    code: "C102",
-    cause: "Tried to allocate a path that already exists",
-  },
-  ALIAS_NOT_FOUND: {
-    message: "Alias not found",
-    code: "C103",
-    cause: "Tried to remove an alias that does not exist",
-  },
-  EMPTY_ALIAS: {
-    message: "Alias is empty",
-    code: "C104",
-    cause: "Tried to add an empty alias",
-  },
-  EMPTY_PATH: {
-    message: "Path is empty",
-    code: "C105",
-    cause: "Tried to add an empty path",
-  },
-  NO_ALIASES: {
-    message: "No aliases",
-    code: "C106",
-    cause: "Tried to remove an alias from an empty array",
-  },
-}
+import { ERROR_DOCS_BASE_URL } from "@constants/index";
 
-export class ConfigError extends Error {
-  private code: string;
-  constructor({ message, code, cause }: { message: string, code: string, cause: string }) {
+// All the errors related to configuration
+const CONFIG_ERRORS = {
+  ALIAS: {
+    EXISTS: {
+      message: "Alias already exists",
+      code: "A101",
+      cause: "Tried to allocate an alias that already exists",
+    },
+    NOT_FOUND: {
+      message: "Alias not found",
+      code: "A102",
+      cause: "Tried to remove an alias that does not exist",
+    },
+    EMPTY: {
+      message: "Alias is empty",
+      code: "A103",
+      cause: "Tried to add an empty alias",
+    },
+    NULL_ARRAY: {
+      message: "No aliases",
+      code: "A104",
+      cause: "Tried to remove an alias from an empty array",
+    },
+  },
+  PATH: {
+    EXISTS: {
+      message: "Path already exists",
+      code: "A105",
+      cause: "Tried to allocate a path that already exists",
+    },
+    EMPTY: {
+      message: "Path is empty",
+      code: "A106",
+      cause: "Tried to add an empty path",
+    },
+  },
+  FUZZY: {
+    INVALID_DISTANCE: {
+      message: "Invalid fuzzy distance",
+      code: "A107",
+      cause: "Fuzzy distance must be a non-negative number",
+    },
+    INVALID_LIMIT: {
+      message: "Invalid fuzzy limit",
+      code: "A108",
+      cause: "Fuzzy limit must be a non-negative number",
+    },
+  },
+};
+
+/**
+ * The base error class
+ */
+export class JQLiteError extends Error {
+  protected code: string;
+  protected documentation: string;
+  constructor(message: string, code: string, cause: string) {
     super(message);
-    this.name = "ConfigError";
-    this.cause = cause;
+    this.name = "JQLiteError";
     this.code = code;
+    this.cause = cause;
+    this.documentation = `${ERROR_DOCS_BASE_URL}/${code}`;
   }
 }
 
-export {CONFIG_ERRORS}
+/**
+ * The error class for configuration errors
+ */
+export class ConfigError extends JQLiteError {
+  constructor({
+    message,
+    code,
+    cause,
+  }: {
+    message: string;
+    code: string;
+    cause: string;
+  }) {
+    super(message, code, cause);
+    this.name = "ConfigError";
+  }
+}
+
+export { CONFIG_ERRORS };
