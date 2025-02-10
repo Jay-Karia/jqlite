@@ -9,7 +9,7 @@
     "lib": ["es2022", "dom"],
     "baseUrl": "./src",
     "emitDeclarationOnly": true,
-    "declaration": true,
+    "declaration": true
   },
   "include": ["src"],
   "exclude": ["./dist/**/*", "eslint.config.mjs"]

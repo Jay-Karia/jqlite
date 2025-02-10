@@ -12,8 +12,8 @@
     "package.json"
   ],
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "build:watch": "npx tsup src/index.ts --dts --outDir dist --format esm,cjs --watch",
+    "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist --format=esm --minify",
+    "build:watch": "pnpm run build --watch",
     "start": "node dist/index.js",
     "dev": "node --watch dist/index.js",
     "lint": "npx eslint .",
@@ -36,6 +36,7 @@
     "@eslint/js": "^9.19.0",
     "@types/node": "^22.13.1",
     "@vitest/coverage-v8": "3.0.5",
+    "esbuild": "^0.25.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",

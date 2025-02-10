@@ -5,9 +5,9 @@ import { ConfigManager } from "config";
  * JQLite
  */
 export class JQLite {
-  public config: ConfigManager;
+  public configManager: ConfigManager;
 
   constructor(config?: Config) {
-    this.config = new ConfigManager(config);
+    this.configManager = new ConfigManager(config);
   }
 }
