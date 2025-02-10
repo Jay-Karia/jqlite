@@ -20,7 +20,8 @@
     "lint:src": "npx eslint src",
     "format": "npx prettier . --write",
     "format:src": "npx prettier src --write",
-    "test:src": "npx jest src"
+    "test:src": "vitest",
+    "coverage:src": "vitest run --coverage"
   },
   "keywords": [
     "query-language",
@@ -34,12 +35,15 @@
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@types/node": "^22.13.1",
+    "@vitest/coverage-v8": "3.0.5",
     "esbuild": "0.24.2",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
     "prettier": "3.4.2",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.23.0"
+    "typescript-eslint": "^8.23.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.5"
   }
 }

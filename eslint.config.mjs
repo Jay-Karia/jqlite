@@ -23,5 +23,5 @@ export default tseslint.config(
       case: "camelcase",
       "@typescript-eslint/no-explicit-any": "off",
     },
-  }
+  },
 );

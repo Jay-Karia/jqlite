@@ -2,15 +2,7 @@ import { Config } from "types/config";
 import { ConfigError } from "errors";
 import { CONFIG_ERRORS } from "errors";
 import { validateConfig } from "@lib/validate-config";
-
-// Default config object
-const DEFAULT_CONFIG: Config = {
-  aliases: null,
-  fallback: null,
-  fuzzyDistance: 2,
-  fuzzyLimit: 1,
-  fuzzyIgnoreCase: true,
-};
+import { DEFAULT_CONFIG } from "@constants/index";
 
 /**
  * Override the default config object with the given config object
