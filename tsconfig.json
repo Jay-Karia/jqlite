@@ -8,12 +8,8 @@
     "strict": true,
     "lib": ["es2022", "dom"],
     "baseUrl": "./src",
-    "paths": {
-      "@lib/*": ["lib/*"],
-      "@utils/*": ["utils/*"],
-      "@constants/*": ["constants/*"],
-      "types/*": ["./@types/*"]
-    }
+    "emitDeclarationOnly": true,
+    "declaration": true,
   },
   "include": ["src"],
   "exclude": ["./dist/**/*", "eslint.config.mjs"]

@@ -1,8 +1,8 @@
-import { Config } from "types/config";
-import { ConfigError } from "errors";
-import { CONFIG_ERRORS } from "errors";
-import { validateConfig } from "@lib/validate-config";
-import { DEFAULT_CONFIG } from "@constants/index";
+import { Config } from "./types/config";
+import { ConfigError } from "./errors";
+import { CONFIG_ERRORS } from "./errors";
+import { validateConfig } from "./lib/validate-config";
+import { DEFAULT_CONFIG } from "./constants/index";
 
 /**
  * Override the default config object with the given config object

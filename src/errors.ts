@@ -1,4 +1,4 @@
-import { ERROR_DOCS_BASE_URL } from "@constants/index";
+import { ERROR_DOCS_BASE_URL } from "./constants/index";
 
 // All the errors related to configuration
 const CONFIG_ERRORS = {

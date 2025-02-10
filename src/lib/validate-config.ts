@@ -1,5 +1,5 @@
-import { CONFIG_ERRORS, ConfigError } from "errors";
-import { Config } from "types/config";
+import { CONFIG_ERRORS, ConfigError } from "../errors";
+import { Config } from "../types/config";
 
 /**
  * Validate the config object
