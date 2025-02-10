@@ -16,6 +16,17 @@ function validateConfig(config: Config) {
     if (config.aliases.some(a => a.path.length == 0))
       throw new ConfigError(CONFIG_ERRORS.PATH.EMPTY);
   }
+
+  // check for duplicate aliases and paths
+  if (config.aliases) {
+    const aliases = config.aliases.map(a => a.alias);
+    const paths = config.aliases.map(a => a.path);
+
+    if (new Set(aliases).size !== aliases.length)
+      throw new ConfigError(CONFIG_ERRORS.ALIAS.DUPLICATE);
+    if (new Set(paths).size !== paths.length)
+      throw new ConfigError(CONFIG_ERRORS.PATH.DUPLICATE);
+  }
 }
 
 export { validateConfig };

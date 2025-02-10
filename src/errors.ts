@@ -23,6 +23,11 @@ const CONFIG_ERRORS = {
       code: "A104",
       cause: "Tried to remove an alias from an empty array",
     },
+    DUPLICATE: {
+      message: "Duplicate alias found",
+      code: "A110",
+      cause: "Multiple aliases with same name",
+    },
   },
   PATH: {
     EXISTS: {
@@ -34,6 +39,11 @@ const CONFIG_ERRORS = {
       message: "Path is empty",
       code: "A106",
       cause: "Tried to add an empty path",
+    },
+    DUPLICATE: {
+      message: "Duplicate path found",
+      code: "A109",
+      cause: "Multiple aliases with same path",
     },
   },
   FUZZY: {
@@ -61,7 +71,7 @@ export class JQLiteError extends Error {
     this.name = "JQLiteError";
     this.code = code;
     this.cause = cause;
-    this.documentation = `${ERROR_DOCS_BASE_URL}/${code}`;
+    this.documentation = `${ERROR_DOCS_BASE_URL}/core#${code.toLowerCase()}`;
   }
 }
 
@@ -80,6 +90,7 @@ export class ConfigError extends JQLiteError {
   }) {
     super(message, code, cause);
     this.name = "ConfigError";
+    this.documentation = `${ERROR_DOCS_BASE_URL}/config#${code.toLowerCase()}`;
   }
 }
 

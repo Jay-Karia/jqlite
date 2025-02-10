@@ -1,4 +1,4 @@
-import {Config} from "types/config";
+import { Config } from "types/config";
 
 const ERROR_DOCS_BASE_URL = "https://example.com/docs/errors";
 

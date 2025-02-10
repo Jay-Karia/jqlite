@@ -10,6 +10,7 @@ import { DEFAULT_CONFIG } from "@constants/index";
  * @returns The new config object
  */
 function overrideConfig(config: Config): Config {
+  validateConfig(config);
   return { ...DEFAULT_CONFIG, ...config };
 }
 
@@ -18,6 +19,13 @@ function overrideConfig(config: Config): Config {
  */
 export class ConfigManager {
   private config: Config;
+  public default = DEFAULT_CONFIG;
+
+  public aliases = DEFAULT_CONFIG.aliases;
+  public fuzzyDistance = DEFAULT_CONFIG.fuzzyDistance;
+  public fuzzyIgnoreCase = DEFAULT_CONFIG.fuzzyIgnoreCase;
+  public fuzzyLimit = DEFAULT_CONFIG.fuzzyLimit;
+  public fallback = DEFAULT_CONFIG.fallback;
 
   /**
    * Initialize a new object
@@ -25,6 +33,12 @@ export class ConfigManager {
    */
   constructor(config?: Config) {
     this.config = config ? overrideConfig(config) : DEFAULT_CONFIG;
+
+    this.aliases = this.config.aliases;
+    this.fuzzyDistance = this.config.fuzzyDistance;
+    this.fuzzyIgnoreCase = this.config.fuzzyIgnoreCase;
+    this.fuzzyLimit = this.config.fuzzyLimit;
+    this.fallback = this.config.fallback;
   }
 
   /**
@@ -54,6 +68,7 @@ export class ConfigManager {
     } else this.config.aliases = [];
 
     this.config.aliases.push({ alias, path });
+    // this.aliases = this.config.aliases;
   }
 
   /**
@@ -69,14 +84,16 @@ export class ConfigManager {
     const aliasExists = this.config.aliases.some(a => a.alias === alias);
     if (!aliasExists) throw new ConfigError(CONFIG_ERRORS.ALIAS.NOT_FOUND);
 
-    this.config.aliases = this.config.aliases.filter(a => a.alias !== alias);
+    this.config.aliases = this.aliases = this.config.aliases.filter(
+      a => a.alias !== alias
+    );
   }
 
   /**
    * Remove all aliases from the config object
    */
   public clearAliases(): void {
-    this.config.aliases = null;
+    this.config.aliases = this.aliases = null;
   }
 
   /**
@@ -84,7 +101,7 @@ export class ConfigManager {
    * @param fallback The fallback to set
    */
   public setFallback(fallback: string | null): void {
-    this.config.fallback = fallback;
+    this.config.fallback = this.fallback = fallback;
   }
 
   /**
@@ -94,7 +111,7 @@ export class ConfigManager {
   public setFuzzyDistance(fuzzyDistance: number): void {
     if (fuzzyDistance < 0)
       throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_DISTANCE);
-    this.config.fuzzyDistance = fuzzyDistance;
+    this.config.fuzzyDistance = this.fuzzyDistance = fuzzyDistance;
   }
 
   /**
@@ -104,7 +121,7 @@ export class ConfigManager {
   public setFuzzyLimit(fuzzyLimit: number): void {
     if (fuzzyLimit < 0)
       throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_LIMIT);
-    this.config.fuzzyLimit = fuzzyLimit;
+    this.config.fuzzyLimit = this.fuzzyLimit = fuzzyLimit;
   }
 
   /**
@@ -112,7 +129,7 @@ export class ConfigManager {
    * @param fuzzyIgnoreCase The fuzzy ignore case to set
    */
   public setFuzzyIgnoreCase(fuzzyIgnoreCase: boolean): void {
-    this.config.fuzzyIgnoreCase = fuzzyIgnoreCase;
+    this.config.fuzzyIgnoreCase = this.fuzzyIgnoreCase = fuzzyIgnoreCase;
   }
 
   /**
@@ -123,8 +140,25 @@ export class ConfigManager {
   public set(config: Config): Config {
     validateConfig(config);
     this.config = { ...this.config, ...config };
+    this.aliases = this.config.aliases;
+    this.fuzzyDistance = this.config.fuzzyDistance;
+    this.fuzzyIgnoreCase = this.config.fuzzyIgnoreCase;
+    this.fuzzyLimit = this.config.fuzzyLimit;
+    this.fallback = this.config.fallback;
 
     return this.config;
+  }
+
+  /**
+   * Reset the config object to the default config object
+   */
+  public reset() {
+    this.config = DEFAULT_CONFIG;
+    this.aliases = DEFAULT_CONFIG.aliases;
+    this.fuzzyDistance = DEFAULT_CONFIG.fuzzyDistance;
+    this.fuzzyIgnoreCase = DEFAULT_CONFIG.fuzzyIgnoreCase;
+    this.fuzzyLimit = DEFAULT_CONFIG.fuzzyLimit;
+    this.fallback = DEFAULT_CONFIG.fallback;
   }
 }
 

@@ -20,8 +20,8 @@ export default tseslint.config(
     ],
     rules: {
       semi: "error",
-      case: "camelcase",
+      camelcase: "warn",
       "@typescript-eslint/no-explicit-any": "off",
     },
-  },
+  }
 );
