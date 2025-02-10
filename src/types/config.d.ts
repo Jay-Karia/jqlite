@@ -1,7 +1,7 @@
-export interface Alias {
+export type Alias = {
   alias: string;
   path: string;
-}
+};
 
 export type Config = {
   aliases?: Alias[];

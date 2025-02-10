@@ -1,4 +1,4 @@
-import { Config } from "./types/config";
+import { type Config } from "./types/config";
 import { ConfigError } from "./errors";
 import { CONFIG_ERRORS } from "./errors";
 import {
@@ -24,7 +24,7 @@ function overrideConfig(config: Config): Config {
  */
 export class ConfigManager {
   public config: Config;
-  public DEFAULT_CONFIG = DEFAULT_CONFIG;
+  public defaultConfig = DEFAULT_CONFIG;
 
   /**
    * Initialize a new object
