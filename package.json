@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
-    "build:watch": "node scripts/build-watch.mjs",
+    "build:watch": "npx tsup src/index.ts --dts --outDir dist --format esm,cjs --watch",
     "start": "node dist/index.js",
     "dev": "node --watch dist/index.js",
     "lint": "npx eslint .",
