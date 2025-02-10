@@ -204,7 +204,7 @@ describe("Clear Aliases", () => {
   test("should set the aliases array to null", () => {
     const jqlite = new JQLite();
     jqlite.configManager.clearAliases();
-    expect(jqlite.configManager.config.aliases).toBeNull();
+    expect(jqlite.configManager.config.aliases).toEqual([]);
   });
 });
 

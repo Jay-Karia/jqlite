@@ -18,15 +18,10 @@ const CONFIG_ERRORS = {
       code: "A103",
       cause: "Tried to add an empty alias",
     },
-    NULL_ARRAY: {
+    EMPTY_ARRAY: {
       message: "No aliases",
       code: "A104",
       cause: "Tried to remove an alias from an empty array",
-    },
-    DUPLICATE: {
-      message: "Duplicate alias found",
-      code: "A110",
-      cause: "Multiple aliases with same name",
     },
   },
   PATH: {
@@ -39,11 +34,6 @@ const CONFIG_ERRORS = {
       message: "Path is empty",
       code: "A106",
       cause: "Tried to add an empty path",
-    },
-    DUPLICATE: {
-      message: "Duplicate path found",
-      code: "A109",
-      cause: "Multiple aliases with same path",
     },
   },
   FUZZY: {

@@ -4,7 +4,7 @@ export interface Alias {
 }
 
 export type Config = {
-  aliases?: Alias[] | null;
+  aliases?: Alias[];
   fallback?: string | null;
   fuzzyDistance?: number;
   fuzzyLimit?: number;

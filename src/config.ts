@@ -1,7 +1,12 @@
 import { Config } from "./types/config";
 import { ConfigError } from "./errors";
 import { CONFIG_ERRORS } from "./errors";
-import { validateConfig } from "./lib/validate-config";
+import {
+  checkDuplicateAliases,
+  validateAlias,
+  validateConfig,
+  validateFuzzyOptions,
+} from "./lib/validate-config";
 import { DEFAULT_CONFIG } from "./constants/index";
 
 /**
@@ -38,17 +43,8 @@ export class ConfigManager {
     if (alias.length == 0) throw new ConfigError(CONFIG_ERRORS.ALIAS.EMPTY);
     if (path.length == 0) throw new ConfigError(CONFIG_ERRORS.PATH.EMPTY);
 
-    // Checks if the alias or path already exists
-    if (this.config.aliases) {
-      const aliasExists = this.config.aliases.some(a => a.alias === alias);
-      if (aliasExists) throw new ConfigError(CONFIG_ERRORS.ALIAS.EXISTS);
-
-      const pathExists = this.config.aliases.some(a => a.path === path);
-      if (pathExists) throw new ConfigError(CONFIG_ERRORS.PATH.EXISTS);
-    } else this.config.aliases = [];
-
-    this.config.aliases.push({ alias, path });
-    // this.aliases = this.config.aliases;
+    checkDuplicateAliases(this.config, { alias, path });
+    this.config.aliases?.push({ alias, path });
   }
 
   /**
@@ -56,22 +52,15 @@ export class ConfigManager {
    * @param alias The alias to remove
    */
   public removeAlias(alias: string): void {
-    // Checks if the aliases array exists
-    if (!this.config.aliases)
-      throw new ConfigError(CONFIG_ERRORS.ALIAS.NULL_ARRAY);
-
-    // Checks if the given alias exists
-    const aliasExists = this.config.aliases.some(a => a.alias === alias);
-    if (!aliasExists) throw new ConfigError(CONFIG_ERRORS.ALIAS.NOT_FOUND);
-
-    this.config.aliases = this.config.aliases.filter(a => a.alias !== alias);
+    validateAlias(this.config, alias);
+    this.config.aliases = this.config.aliases?.filter(a => a.alias !== alias);
   }
 
   /**
    * Remove all aliases from the config object
    */
   public clearAliases(): void {
-    this.config.aliases = null;
+    this.config.aliases = [];
   }
 
   /**
@@ -87,8 +76,7 @@ export class ConfigManager {
    * @param fuzzyDistance The fuzzy distance to set
    */
   public setFuzzyDistance(fuzzyDistance: number): void {
-    if (fuzzyDistance < 0)
-      throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_DISTANCE);
+    validateFuzzyOptions(fuzzyDistance);
     this.config.fuzzyDistance = fuzzyDistance;
   }
 
@@ -97,8 +85,7 @@ export class ConfigManager {
    * @param fuzzyLimit The fuzzy limit to set
    */
   public setFuzzyLimit(fuzzyLimit: number): void {
-    if (fuzzyLimit < 0)
-      throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_LIMIT);
+    validateFuzzyOptions(undefined, fuzzyLimit);
     this.config.fuzzyLimit = fuzzyLimit;
   }
 

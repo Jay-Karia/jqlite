@@ -11,3 +11,8 @@ export class JQLite {
     this.configManager = new ConfigManager(config);
   }
 }
+
+const jqlite = new JQLite();
+// jqlite.configManager.addAlias("foo", "bar")
+
+console.log(jqlite.configManager.config);
