@@ -366,7 +366,9 @@ describe("Set Config", () => {
     const jqlite = new JQLite();
     jqlite.configManager.set({
       aliases: [{ alias: "foo", path: "bar" }],
-      fallback: "baz",
+      fallback: {
+        strategy: "error",
+      },
       enableFuzzy: false,
       fuzzyDistance: 3,
       fuzzyLimit: 2,
@@ -375,7 +377,9 @@ describe("Set Config", () => {
 
     expect(jqlite.configManager.config).toEqual({
       aliases: [{ alias: "foo", path: "bar" }],
-      fallback: "baz",
+      fallback: {
+        strategy: "error",
+      },
       enableFuzzy: false,
       fuzzyDistance: 3,
       fuzzyLimit: 2,

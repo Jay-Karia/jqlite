@@ -1,4 +1,4 @@
-import { CONFIG_ERRORS, ConfigError } from "../errors";
+import { CONFIG_ERRORS, ConfigError } from "../utils/errors";
 import { Config, Fallback } from "../types/config";
 
 /**
@@ -43,6 +43,11 @@ function validateFuzzyOptions(
     throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_LIMIT);
 }
 
+/**
+ * Check for duplicate aliases and paths
+ * @param config The config object to check
+ * @param param1 The alias and path to check
+ */
 function checkDuplicateAliases(
   config: Config,
   { alias, path }: { alias: string; path: string }
@@ -56,6 +61,11 @@ function checkDuplicateAliases(
   }
 }
 
+/**
+ * Validate an alias
+ * @param config The config object to check
+ * @param alias Teh alias to validate
+ */
 function validateAlias(config: Config, alias: string) {
   if (!config.aliases || config.aliases.length === 0)
     throw new ConfigError(CONFIG_ERRORS.ALIAS.EMPTY_ARRAY);
@@ -64,6 +74,10 @@ function validateAlias(config: Config, alias: string) {
   if (!aliasExists) throw new ConfigError(CONFIG_ERRORS.ALIAS.NOT_FOUND);
 }
 
+/**
+ * Validate a fallback object
+ * @param fallback Teh fallback object to validate
+ */
 function validateFallback(fallback?: Fallback) {
   if (fallback) {
     if (fallback.strategy !== "default" && fallback.value)

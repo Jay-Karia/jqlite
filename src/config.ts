@@ -1,10 +1,11 @@
 import { Fallback, Strategies, type Config } from "./types/config";
-import { ConfigError } from "./errors";
-import { CONFIG_ERRORS } from "./errors";
+import { ConfigError } from "./utils/errors";
+import { CONFIG_ERRORS } from "./utils/errors";
 import {
   checkDuplicateAliases,
   validateAlias,
   validateConfig,
+  validateFallback,
   validateFuzzyOptions,
 } from "./lib/validate-config";
 import { DEFAULT_CONFIG } from "./constants/index";
@@ -75,13 +76,9 @@ export class ConfigManager {
     value?: string;
   }): void {
     // override the fallback object with the given keys
-    if (this.config.fallback) {
-      if (strategy !== "default" && value)
-        throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_NOT_REQUIRED);
-      if (strategy === "default" && !value)
-        throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_REQUIRED);
-
-      if (strategy) this.config.fallback.strategy = strategy;
+    if (this.config.fallback && strategy) {
+      validateFallback({ strategy, value });
+      this.config.fallback.strategy = strategy;
       if (value) this.config.fallback.value = value;
     }
   }

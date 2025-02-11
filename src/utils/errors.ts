@@ -1,5 +1,5 @@
-import { ERROR_DOCS_BASE_URL } from "./constants/index";
-import { type Error } from "./types/error";
+import { ERROR_DOCS_BASE_URL } from "../constants/index";
+import { type Error } from "../types/error";
 
 // All the errors related to configuration
 const CONFIG_ERRORS = {
