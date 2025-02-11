@@ -5,7 +5,8 @@ const ERROR_DOCS_BASE_URL = "https://example.com/docs/errors";
 const DEFAULT_CONFIG: Config = {
   aliases: [],
   fallback: {
-    strategy: "skip",
+    strategy: "default",
+    value: "No value"
   },
   enableFuzzy: false,
   fuzzyDistance: 2,
