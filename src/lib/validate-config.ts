@@ -1,5 +1,6 @@
-import { CONFIG_ERRORS, ConfigError } from "../utils/errors";
+import { CONFIG_ERRORS } from "../constants/errors";
 import { Config, Fallback } from "../types/config";
+import { ConfigError } from "../utils/errors";
 
 /**
  * Validate the config object

@@ -6,7 +6,7 @@ const DEFAULT_CONFIG: Config = {
   aliases: [],
   fallback: {
     strategy: "default",
-    value: "No value"
+    value: "No value",
   },
   enableFuzzy: false,
   fuzzyDistance: 2,
