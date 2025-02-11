@@ -66,6 +66,14 @@ describe("Override Config", () => {
         aliases: [
           {
             alias: "",
+            path: "bar",
+          },
+        ],
+      },
+      {
+        aliases: [
+          {
+            alias: "foo",
             path: "",
           },
         ],
@@ -78,6 +86,18 @@ describe("Override Config", () => {
           },
           {
             alias: "foo",
+            path: "baz",
+          },
+        ],
+      },
+      {
+        aliases: [
+          {
+            alias: "foo",
+            path: "bar",
+          },
+          {
+            alias: "baz",
             path: "bar",
           },
         ],
@@ -246,11 +266,10 @@ describe("Fuzzy Config", () => {
   });
 
   test("should set the fuzzy ignore case", () => {
-    const jqlite = new JQLite({
-      fuzzyIgnoreCase: false,
-    });
+    const jqlite = new JQLite();
+    jqlite.configManager.setFuzzyIgnoreCase(true);
 
-    expect(jqlite.configManager.config.fuzzyIgnoreCase).toBe(false);
+    expect(jqlite.configManager.config.fuzzyIgnoreCase).toBe(true);
   });
 
   test("should throw an error if the fuzzy distance is negative", () => {

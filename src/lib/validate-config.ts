@@ -52,7 +52,7 @@ function checkDuplicateAliases(
 
     const pathExists = config.aliases.some(a => a.path === path);
     if (pathExists) throw new ConfigError(CONFIG_ERRORS.PATH.EXISTS);
-  } else config.aliases = [];
+  }
 }
 
 function validateAlias(config: Config, alias: string) {
