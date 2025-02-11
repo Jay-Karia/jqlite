@@ -84,6 +84,21 @@ function validateFallback(fallback?: Fallback) {
       throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_NOT_REQUIRED);
     if (fallback.strategy === "default" && !fallback.value)
       throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_REQUIRED);
+
+    if (fallback.strategy === "infer")
+      if (
+        !fallback.inferRules ||
+        (fallback.inferRules &&
+          !fallback.inferRules.alternateKeys &&
+          !fallback.inferRules.alternateQueries) ||
+        (fallback.inferRules &&
+          (fallback.inferRules.alternateKeys?.length === 0 ||
+            fallback.inferRules.alternateQueries?.length === 0))
+      )
+        throw new ConfigError(CONFIG_ERRORS.FALLBACK.INFER_RULES_REQUIRED);
+
+    if (fallback.strategy !== "infer" && fallback.inferRules)
+      throw new ConfigError(CONFIG_ERRORS.FALLBACK.INFER_RULES_NOT_REQUIRED);
   }
 }
 

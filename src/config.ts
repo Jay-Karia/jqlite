@@ -1,4 +1,4 @@
-import { Fallback, Strategies, type Config } from "./types/config";
+import { InferRules, Strategies, type Config } from "./types/config";
 import { ConfigError } from "./utils/errors";
 import { CONFIG_ERRORS } from "./utils/errors";
 import {
@@ -71,15 +71,16 @@ export class ConfigManager {
   public overrideFallback({
     strategy,
     value,
+    inferRules,
   }: {
     strategy?: Strategies;
     value?: string;
+    inferRules?: InferRules;
   }): void {
     // override the fallback object with the given keys
     if (this.config.fallback && strategy) {
-      validateFallback({ strategy, value });
-      this.config.fallback.strategy = strategy;
-      if (value) this.config.fallback.value = value;
+      validateFallback({ strategy, value, inferRules });
+      this.config.fallback = { strategy, value, inferRules };
     }
   }
 

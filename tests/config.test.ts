@@ -271,6 +271,7 @@ describe("Set Fallback", () => {
     expect(jqlite.configManager.config.fallback).toStrictEqual({
       strategy: "default",
       value: "foo",
+      inferRules: undefined,
     });
   });
 
@@ -304,6 +305,7 @@ describe("Set Fallback", () => {
 
   test("should throw an error if value is passed to skip strategy", () => {
     const jqlite = new JQLite();
+
     expect(() =>
       jqlite.configManager.overrideFallback({
         strategy: "skip",
@@ -311,13 +313,154 @@ describe("Set Fallback", () => {
       })
     ).toThrowError();
   });
+
+  test("should throw an error if value is passed to infer strategy", () => {
+    const jqlite = new JQLite();
+
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        value: "foo",
+        inferRules: {
+          alternateKeys: ["username"],
+        },
+      })
+    ).toThrowError();
+  });
+
+  test("should throw an error if infer rules are passed to strategies except infer", () => {
+    const jqlite = new JQLite();
+
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "default",
+        value: "foo",
+        inferRules: {
+          alternateKeys: ["username"],
+        },
+      })
+    ).toThrowError();
+
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "error",
+        inferRules: {
+          alternateKeys: ["username"],
+        },
+      })
+    ).toThrowError();
+
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "skip",
+        inferRules: {
+          alternateKeys: [],
+        },
+      })
+    ).toThrowError();
+  });
+
+  test("should have infer rules for infer strategy", () => {
+    const jqlite = new JQLite();
+
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+      })
+    ).toThrowError();
+
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {
+          alternateKeys: ["username"],
+        },
+      })
+    ).not.toThrowError();
+
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {
+          alternateQueries: ["$.me.username"],
+        },
+      })
+    ).not.toThrowError();
+  });
+
+  test("should override fallback with valid infer strategy", () => {
+    const jqlite = new JQLite();
+
+    expect(() => {
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+      });
+    }).toThrowError();
+
+    expect(() => {
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {
+          alternateKeys: ["username"],
+        },
+      });
+    }).not.toThrowError();
+
+    expect(() => {
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {
+          alternateQueries: ["$.me.username"],
+        },
+      });
+    }).not.toThrowError();
+  });
+
+  test("should throw an error for empty infer rules", () => {
+    const jqlite = new JQLite();
+
+    expect(() => {
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {},
+      });
+    }).toThrowError();
+
+    expect(() => {
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {
+          alternateKeys: [],
+        },
+      });
+    }).toThrowError();
+
+    expect(() => {
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {
+          alternateQueries: [],
+        },
+      });
+    }).toThrowError();
+
+    expect(() => {
+      jqlite.configManager.overrideFallback({
+        strategy: "infer",
+        inferRules: {
+          alternateKeys: [],
+          alternateQueries: [],
+        },
+      });
+    }).toThrowError();
+  });
 });
 
 /**
  * Fuzzy Config
  */
 describe("Fuzzy Config", () => {
-  test("shoud set the enable fuzzy option", () => {
+  test("should set the enable fuzzy option", () => {
     const jqlite = new JQLite();
     jqlite.configManager.setFuzzy(true);
 

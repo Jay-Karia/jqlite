@@ -68,7 +68,19 @@ const CONFIG_ERRORS = {
       message: "Fallback value not required",
       code: "A110",
       cause: "Tried to set a fallback strategy with a value",
-      solution: "Value is only required for defaul fallback strategy",
+      solution: "Value is only required for default fallback strategy",
+    } as Error,
+    INFER_RULES_REQUIRED: {
+      message: "Rules are required for infer strategy",
+      code: "A111",
+      cause: "Missing infer rules key from fallback object",
+      solution: "Add infer rules",
+    } as Error,
+    INFER_RULES_NOT_REQUIRED: {
+      message: "Rules are not required for strategies except infer",
+      code: "A112",
+      cause: "Additional infer rules key from fallback object",
+      solution: "Remove infer rules",
     } as Error,
   },
 };
