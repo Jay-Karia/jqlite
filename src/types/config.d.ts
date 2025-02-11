@@ -3,9 +3,17 @@ export type Alias = {
   path: string;
 };
 
+export type Strategies = "default" | "error" | "skip";
+
+export type Fallback = {
+  strategy: Strategies;
+  value?: string;
+};
+
 export type Config = {
   aliases?: Alias[];
-  fallback?: string | null;
+  fallback?: Fallback;
+  enableFuzzy?: boolean;
   fuzzyDistance?: number;
   fuzzyLimit?: number;
   fuzzyIgnoreCase?: boolean;

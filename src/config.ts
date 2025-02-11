@@ -1,4 +1,4 @@
-import { type Config } from "./types/config";
+import { Fallback, Strategies, type Config } from "./types/config";
 import { ConfigError } from "./errors";
 import { CONFIG_ERRORS } from "./errors";
 import {
@@ -14,7 +14,7 @@ import { DEFAULT_CONFIG } from "./constants/index";
  * @param config The config object to override
  * @returns The new config object
  */
-function overrideConfig(config: Config): Config {
+function overrideDefaultConfig(config: Config): Config {
   validateConfig(config);
   return { ...DEFAULT_CONFIG, ...config };
 }
@@ -31,7 +31,7 @@ export class ConfigManager {
    * @param config The config object
    */
   constructor(config?: Config) {
-    this.config = config ? overrideConfig(config) : DEFAULT_CONFIG;
+    this.config = config ? overrideDefaultConfig(config) : DEFAULT_CONFIG;
   }
 
   /**
@@ -67,8 +67,23 @@ export class ConfigManager {
    * Set the fallback for the config object
    * @param fallback The fallback to set
    */
-  public setFallback(fallback: string | null): void {
-    this.config.fallback = fallback;
+  public overrideFallback({
+    strategy,
+    value,
+  }: {
+    strategy?: Strategies;
+    value?: string;
+  }): void {
+    // override the fallback object with the given keys
+    if (this.config.fallback) {
+      if (strategy !== "default" && value)
+        throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_NOT_REQUIRED);
+      if (strategy === "default" && !value)
+        throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_REQUIRED);
+
+      if (strategy) this.config.fallback.strategy = strategy;
+      if (value) this.config.fallback.value = value;
+    }
   }
 
   /**
@@ -98,6 +113,14 @@ export class ConfigManager {
   }
 
   /**
+   * Enables global fuzzy search to all variables
+   * @param fuzzy The fuzzy to set
+   */
+  public setFuzzy(fuzzy: boolean): void {
+    this.config.enableFuzzy = fuzzy;
+  }
+
+  /**
    * Set the config object
    * @param config The config object to override
    * @returns The new config object
@@ -116,4 +139,4 @@ export class ConfigManager {
   }
 }
 
-export { DEFAULT_CONFIG, overrideConfig };
+export { DEFAULT_CONFIG, overrideDefaultConfig };

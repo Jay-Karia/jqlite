@@ -18,7 +18,10 @@ describe("Override Config", () => {
         ],
       },
       {
-        fallback: "baz",
+        fallback: {
+          strategy: "default",
+          value: "foo",
+        },
       },
       {
         fuzzyDistance: 3,
@@ -30,6 +33,7 @@ describe("Override Config", () => {
       {
         aliases: configs[0].aliases,
         fallback: DEFAULT_CONFIG.fallback,
+        enableFuzzy: DEFAULT_CONFIG.enableFuzzy,
         fuzzyDistance: DEFAULT_CONFIG.fuzzyDistance,
         fuzzyLimit: DEFAULT_CONFIG.fuzzyLimit,
         fuzzyIgnoreCase: DEFAULT_CONFIG.fuzzyIgnoreCase,
@@ -37,6 +41,7 @@ describe("Override Config", () => {
       {
         aliases: DEFAULT_CONFIG.aliases,
         fallback: configs[1].fallback,
+        enableFuzzy: DEFAULT_CONFIG.enableFuzzy,
         fuzzyDistance: DEFAULT_CONFIG.fuzzyDistance,
         fuzzyLimit: DEFAULT_CONFIG.fuzzyLimit,
         fuzzyIgnoreCase: DEFAULT_CONFIG.fuzzyIgnoreCase,
@@ -44,6 +49,7 @@ describe("Override Config", () => {
       {
         aliases: DEFAULT_CONFIG.aliases,
         fallback: DEFAULT_CONFIG.fallback,
+        enableFuzzy: DEFAULT_CONFIG.enableFuzzy,
         fuzzyDistance: configs[2].fuzzyDistance,
         fuzzyLimit: configs[2].fuzzyLimit,
         fuzzyIgnoreCase: DEFAULT_CONFIG.fuzzyIgnoreCase,
@@ -102,6 +108,23 @@ describe("Override Config", () => {
           },
         ],
       },
+      {
+        fallback: {
+          strategy: "default",
+        },
+      },
+      {
+        fallback: {
+          strategy: "error",
+          value: "foo",
+        },
+      },
+      {
+        fallback: {
+          strategy: "skip",
+          value: "foo",
+        },
+      },
     ];
 
     configs.forEach(config => {
@@ -132,12 +155,18 @@ describe("Get Config", () => {
 
   test("should return the config object with a fallback", () => {
     const jqlite = new JQLite({
-      fallback: "foo",
+      fallback: {
+        strategy: "default",
+        value: "foo",
+      },
     });
 
     expect(jqlite.configManager.config).toEqual({
       ...DEFAULT_CONFIG,
-      fallback: "foo",
+      fallback: {
+        strategy: "default",
+        value: "foo",
+      },
     });
   });
 });
@@ -234,14 +263,53 @@ describe("Clear Aliases", () => {
 describe("Set Fallback", () => {
   test("should set the fallback for the config object", () => {
     const jqlite = new JQLite();
-    jqlite.configManager.setFallback("foo");
-    expect(jqlite.configManager.config.fallback).toBe("foo");
+    jqlite.configManager.overrideFallback({
+      strategy: "default",
+      value: "foo",
+    });
+
+    expect(jqlite.configManager.config.fallback).toStrictEqual({
+      strategy: "default",
+      value: "foo",
+    });
   });
 
-  test("should set the fallback to null", () => {
+  test("should set the fallback strategy", () => {
     const jqlite = new JQLite();
-    jqlite.configManager.setFallback(null);
-    expect(jqlite.configManager.config.fallback).toBeNull();
+    jqlite.configManager.overrideFallback({
+      strategy: "skip",
+    });
+
+    expect(jqlite.configManager.config.fallback.strategy).toBe("skip");
+  });
+
+  test("should throw an error if value is passed to error strategy", () => {
+    const jqlite = new JQLite();
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "error",
+        value: "foo",
+      })
+    ).toThrowError();
+  });
+
+  test("should throw an error if value is not passed to default strategy", () => {
+    const jqlite = new JQLite();
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "default",
+      })
+    ).toThrowError();
+  });
+
+  test("should throw an error if value is passed to skip strategy", () => {
+    const jqlite = new JQLite();
+    expect(() =>
+      jqlite.configManager.overrideFallback({
+        strategy: "skip",
+        value: "foo",
+      })
+    ).toThrowError();
   });
 });
 
@@ -249,6 +317,13 @@ describe("Set Fallback", () => {
  * Fuzzy Config
  */
 describe("Fuzzy Config", () => {
+  test("shoud set the enable fuzzy option", () => {
+    const jqlite = new JQLite();
+    jqlite.configManager.setFuzzy(true);
+
+    expect(jqlite.configManager.config.enableFuzzy).toBe(true);
+  });
+
   test("should set the fuzzy distance", () => {
     const jqlite = new JQLite({
       fuzzyDistance: 3,
@@ -292,6 +367,7 @@ describe("Set Config", () => {
     jqlite.configManager.set({
       aliases: [{ alias: "foo", path: "bar" }],
       fallback: "baz",
+      enableFuzzy: false,
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,
@@ -300,6 +376,7 @@ describe("Set Config", () => {
     expect(jqlite.configManager.config).toEqual({
       aliases: [{ alias: "foo", path: "bar" }],
       fallback: "baz",
+      enableFuzzy: false,
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,
@@ -317,7 +394,11 @@ describe("Set Config", () => {
   test("should override only the specified values", () => {
     const jqlite = new JQLite({
       aliases: [{ alias: "foo", path: "bar" }],
-      fallback: "baz",
+      fallback: {
+        strategy: "default",
+        value: "baz",
+      },
+      enableFuzzy: false,
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,
@@ -329,7 +410,11 @@ describe("Set Config", () => {
 
     expect(jqlite.configManager.config).toEqual({
       aliases: [{ alias: "baz", path: "foo" }],
-      fallback: "baz",
+      fallback: {
+        strategy: "default",
+        value: "baz",
+      },
+      enableFuzzy: false,
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,
@@ -344,7 +429,10 @@ describe("Reset Config", () => {
   test("should reset the config object to the default config object", () => {
     const jqlite = new JQLite({
       aliases: [{ alias: "foo", path: "bar" }],
-      fallback: "baz",
+      fallback: {
+        strategy: "default",
+        value: "baz",
+      },
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,

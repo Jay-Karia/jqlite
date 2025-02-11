@@ -57,6 +57,20 @@ const CONFIG_ERRORS = {
       solution: "Use a non-negative number for fuzzy limit",
     } as Error,
   },
+  FALLBACK: {
+    VALUE_REQUIRED: {
+      message: "Fallback value required",
+      code: "A109",
+      cause: "Tried to set a fallback strategy without a value",
+      solution: "Set a value for the fallback strategy",
+    } as Error,
+    VALUE_NOT_REQUIRED: {
+      message: "Fallback value not required",
+      code: "A110",
+      cause: "Tried to set a fallback strategy with a value",
+      solution: "Value is only required for defaul fallback strategy",
+    } as Error,
+  },
 };
 
 /**

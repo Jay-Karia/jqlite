@@ -1,5 +1,5 @@
 import { CONFIG_ERRORS, ConfigError } from "../errors";
-import { Config } from "../types/config";
+import { Config, Fallback } from "../types/config";
 
 /**
  * Validate the config object
@@ -7,6 +7,7 @@ import { Config } from "../types/config";
  */
 function validateConfig(config: Config) {
   validateFuzzyOptions(config.fuzzyDistance, config.fuzzyLimit);
+  validateFallback(config.fallback);
 
   if (config.aliases) {
     if (config.aliases.some(a => a.alias.length == 0))
@@ -63,9 +64,19 @@ function validateAlias(config: Config, alias: string) {
   if (!aliasExists) throw new ConfigError(CONFIG_ERRORS.ALIAS.NOT_FOUND);
 }
 
+function validateFallback(fallback?: Fallback) {
+  if (fallback) {
+    if (fallback.strategy !== "default" && fallback.value)
+      throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_NOT_REQUIRED);
+    if (fallback.strategy === "default" && !fallback.value)
+      throw new ConfigError(CONFIG_ERRORS.FALLBACK.VALUE_REQUIRED);
+  }
+}
+
 export {
   validateConfig,
   validateFuzzyOptions,
   checkDuplicateAliases,
   validateAlias,
+  validateFallback,
 };
