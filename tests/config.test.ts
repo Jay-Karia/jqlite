@@ -281,7 +281,7 @@ describe("Set Fallback", () => {
       strategy: "skip",
     });
 
-    expect(jqlite.configManager.config.fallback.strategy).toBe("skip");
+    expect(jqlite.configManager.config.fallback?.strategy).toBe("skip");
   });
 
   test("should throw an error if value is passed to error strategy", () => {

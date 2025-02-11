@@ -3,9 +3,9 @@ import { DataError } from "utils/errors";
 import { readFileSync } from "node:fs";
 import { Error } from "../types/error";
 
-function parseJSON(data: string, error: Error): unknown {
+function validateJSON(data: string, error: Error): string {
   try {
-    return JSON.parse(data);
+    return JSON.stringify(JSON.parse(data));
   } catch {
     throw new DataError(error);
   }
@@ -15,18 +15,17 @@ function validateData(data: string): string {
   const isPath =
     data.startsWith("/") || data.startsWith("./") || data.startsWith("../");
 
-  if (isPath) {
-    let contents: string = "";
+  if (isPath)
     try {
-      contents = readFileSync(data, "utf-8");
+      return validateJSON(
+        readFileSync(data, "utf-8"),
+        DATA_ERRORS.JSON_FILE_NOT_FOUND
+      );
     } catch {
       throw new DataError(DATA_ERRORS.INVALID_PATH);
     }
-    parseJSON(contents, DATA_ERRORS.JSON_FILE_NOT_FOUND);
-    return contents;
-  } else parseJSON(data, DATA_ERRORS.INVALID_JSON);
 
-  return data;
+  return validateJSON(data, DATA_ERRORS.INVALID_JSON);
 }
 
 export { validateData };
