@@ -7,10 +7,10 @@ import { validateData } from "lib/validate-data";
  */
 export class JQLite {
   public configManager: ConfigManager;
-  public data: string;
+  public data: string | object;
 
   constructor(config?: Config, data?: string) {
     this.configManager = new ConfigManager(config);
-    this.data = data ? validateData(data as string) : "";
+    this.data = data ? validateData(data as string) : {};
   }
 }

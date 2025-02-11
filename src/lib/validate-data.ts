@@ -3,6 +3,12 @@ import { DataError } from "utils/errors";
 import { readFileSync } from "node:fs";
 import { Error } from "../types/error";
 
+/**
+ * Validates the JSON data
+ * @param data The input JSON data
+ * @param error The type of error to throw
+ * @returns The validated JSON data
+ */
 function validateJSON(data: string, error: Error): string {
   try {
     return JSON.stringify(JSON.parse(data));
@@ -11,6 +17,11 @@ function validateJSON(data: string, error: Error): string {
   }
 }
 
+/**
+ * Validates the input JSON data or path to a JSON file
+ * @param data The input JSON data or path to a JSON file
+ * @returns The JSON data
+ */
 function validateData(data: string): string {
   const isPath =
     data.startsWith("/") || data.startsWith("./") || data.startsWith("../");
