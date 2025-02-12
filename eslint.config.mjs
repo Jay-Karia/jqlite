@@ -17,7 +17,7 @@ export default tseslint.config(
       "pnpm-lock.yaml",
       ".npmrc",
       ".gitignore",
-      "build/index.js",
+      "dist/index.js",
     ],
     rules: {
       semi: "error",

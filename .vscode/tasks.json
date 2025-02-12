@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "Build",
+			"detail": "esbuild src/index.ts --bundle --platform=node --outdir=dist --format=esm --minify"
+		},
+		{
+			"type": "npm",
+			"script": "format",
+			"problemMatcher": [],
+			"label": "Format",
+			"detail": "npx prettier . --write"
+		},
+		{
+			"type": "npm",
+			"script": "test:src",
+			"problemMatcher": [],
+			"label": "Test",
+			"detail": "vitest"
+		},
+		{
+			"type": "npm",
+			"script": "lint",
+			"problemMatcher": [],
+			"label": "ESLint",
+			"detail": "npx eslint ."
+		},
+		{
+			"type": "npm",
+			"script": "coverage:src",
+			"problemMatcher": [],
+			"label": "Coverage Report",
+			"detail": "vitest run --coverage"
+		}
+	]
+}
+

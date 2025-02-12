@@ -160,7 +160,9 @@ describe("Clear Data", () => {
 describe("URL Data", () => {
   test("should accept valid URL and set data from JSON", async () => {
     const jqlite = new JQLite();
-    await jqlite.setDataUrl("https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json");
+    await jqlite.setDataUrl(
+      "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
+    );
     expect(jqlite.data).toStrictEqual(
       JSON.stringify({
         hello: "world",

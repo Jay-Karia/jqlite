@@ -3,3 +3,4 @@ coverage
 dist
 pnpm-lock.yaml
 pnpm-workspace.yaml
+.vscode
