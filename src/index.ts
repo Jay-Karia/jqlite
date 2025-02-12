@@ -1,6 +1,8 @@
 import { Config } from "./types/config";
 import { ConfigManager } from "./config";
 import { validateData } from "lib/validate-data";
+import { DataError } from "utils/errors";
+import { DATA_ERRORS } from "constants/errors";
 
 /**
  * JQLite
@@ -20,11 +22,25 @@ export class JQLite {
   }
 
   /**
-   * Overwrites the data
+   * Overwrites the data, only file paths and JSON data are allowed
    * @param data The data to overwrite
    */
   public setData(data: string): void {
     this.data = validateData(data);
+  }
+
+  /**
+   * Overwrites the data to the data fetched from the url
+   * @param url The url to fetch the data from
+   */
+  public async setDataUrl(url: string): Promise<void> {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      this.data = JSON.stringify(data);
+    } catch {
+      throw new DataError(DATA_ERRORS.INVALID_URL);
+    }
   }
 
   /**

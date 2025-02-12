@@ -104,6 +104,12 @@ const DATA_ERRORS = {
     cause: "Tried to read from a file which is not JSON",
     solution: "Check if the file has JSON content",
   } as Error,
+  INVALID_URL: {
+    message: "Invalid JSON URL",
+    code: "D104",
+    cause: "Tried to read from an invalid URL or from an url that does not return JSON",
+    solution: "Check if the URL exists and has JSON content",
+  } as Error
 };
 
 export { CONFIG_ERRORS, DATA_ERRORS };

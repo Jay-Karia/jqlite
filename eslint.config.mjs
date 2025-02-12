@@ -23,6 +23,7 @@ export default tseslint.config(
       semi: "error",
       camelcase: "warn",
       "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "warn",
     },
   }
 );

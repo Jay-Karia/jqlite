@@ -15,6 +15,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist --format=esm --minify",
     "build:watch": "pnpm run build --watch",
     "start": "node dist/index.js",
+    "start:ts": "npx tsx src/index.ts",
     "dev": "node --watch dist/index.js",
     "lint": "npx eslint .",
     "lint:src": "npx eslint src",
@@ -41,10 +42,16 @@
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
     "prettier": "3.4.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.23.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5"
+  },
+  "dependencies": {
+    "@types/deasync": "^0.1.5",
+    "deasync": "^0.1.30"
   }
 }

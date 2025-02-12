@@ -4,7 +4,7 @@ import { JQLite } from "../src/index";
 /**
  * Data Validation while initialization
  */
-describe("Data Validation while init", () => {
+describe("Data Validation", () => {
   test("should expect data to be empty object if not provided", () => {
     const jqlite = new JQLite();
     expect(jqlite.data).toEqual({});
@@ -151,5 +151,33 @@ describe("Clear Data", () => {
     const jqlite = new JQLite();
     jqlite.clearData();
     expect(jqlite.data).toEqual({});
+  });
+});
+
+/**
+ * URL Data
+ */
+describe("URL Data", () => {
+  test("should accept valid URL and set data from JSON", async () => {
+    const jqlite = new JQLite();
+    await jqlite.setDataUrl("https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json");
+    expect(jqlite.data).toStrictEqual(
+      JSON.stringify({
+        hello: "world",
+      })
+    );
+  });
+
+  test("should reject an invalid URL", async () => {
+    const jqlite = new JQLite();
+    await expect(jqlite.setDataUrl("invalid-url")).rejects.toThrowError();
+  });
+
+  test("should reject URL that does not return valid JSON", async () => {
+    const jqlite = new JQLite();
+    // Assuming the URL returns invalid JSON data
+    await expect(
+      jqlite.setDataUrl("http://example.com/invalid.json")
+    ).rejects.toThrowError();
   });
 });
