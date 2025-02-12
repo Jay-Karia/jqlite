@@ -48,7 +48,7 @@ describe("Data Validation while init", () => {
   });
 
   test("should accept valid JSON file path", () => {
-    const jqlite = new JQLite({}, "./tests/data.json");
+    const jqlite = new JQLite({}, "./data.json");
     expect(jqlite.data).toEqual(
       JSON.stringify({
         hello: "world",
@@ -79,7 +79,7 @@ describe("Set Data", () => {
     }).toThrowError();
   });
 
-  test("should not accpet invalid JSON file path", () => {
+  test("should not accept invalid JSON file path", () => {
     const jqlite = new JQLite();
     expect(() => {
       jqlite.setData("invalid-path");
@@ -106,16 +106,6 @@ describe("Set Data", () => {
     );
   });
 
-  test("should accept valid JSON file path", () => {
-    const jqlite = new JQLite();
-    jqlite.setData("./tests/data.json");
-    expect(jqlite.data).toEqual(
-      JSON.stringify({
-        hello: "world",
-      })
-    );
-  });
-
   test("should overwrite the existing data", () => {
     const jqlite = new JQLite({}, JSON.stringify({ key: "value" }));
     jqlite.setData(
@@ -123,6 +113,17 @@ describe("Set Data", () => {
         hello: "world",
       })
     );
+    expect(jqlite.data).toEqual(
+      JSON.stringify({
+        hello: "world",
+      })
+    );
+  });
+
+  test("should accept valid JSON file path", () => {
+    const jqlite = new JQLite();
+    jqlite.setData("./data.json");
+
     expect(jqlite.data).toEqual(
       JSON.stringify({
         hello: "world",

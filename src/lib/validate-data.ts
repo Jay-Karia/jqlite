@@ -2,6 +2,7 @@ import { DATA_ERRORS } from "constants/errors";
 import { DataError } from "utils/errors";
 import { readFileSync } from "node:fs";
 import { Error } from "../types/error";
+import path from "node:path";
 
 /**
  * Validates the JSON data
@@ -28,6 +29,7 @@ function validateData(data: string): string {
 
   if (isPath)
     try {
+      data = path.resolve(data);
       return validateJSON(
         readFileSync(data, "utf-8"),
         DATA_ERRORS.JSON_FILE_NOT_FOUND
