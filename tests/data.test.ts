@@ -130,6 +130,42 @@ describe("Set Data", () => {
       })
     );
   });
+
+  test("should not accept invalid json url", () => {
+    const jqlite = new JQLite();
+
+    expect(() => {
+      jqlite.setData(
+        "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/eslint.config.mjs"
+      );
+      expect(jqlite.data).toEqual({});
+    }).toThrowError();
+  });
+
+  test("should accept valid json url", async () => {
+    const jqlite = new JQLite();
+    await jqlite
+      .setData(
+        "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
+      )
+      .resolve();
+
+    expect(jqlite.data).toStrictEqual({
+      hello: "world",
+    });
+  });
+
+  test("should resolve data", async () => {
+    const jqlite = new JQLite();
+    jqlite.setData(
+      "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
+    );
+
+    await jqlite.resolve();
+    expect(jqlite.data).toStrictEqual({
+      hello: "world",
+    });
+  });
 });
 
 /**
@@ -151,35 +187,5 @@ describe("Clear Data", () => {
     const jqlite = new JQLite();
     jqlite.clearData();
     expect(jqlite.data).toEqual({});
-  });
-});
-
-/**
- * URL Data
- */
-describe("URL Data", () => {
-  test("should accept valid URL and set data from JSON", async () => {
-    const jqlite = new JQLite();
-    await jqlite.setDataUrl(
-      "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
-    );
-    expect(jqlite.data).toStrictEqual(
-      JSON.stringify({
-        hello: "world",
-      })
-    );
-  });
-
-  test("should reject an invalid URL", async () => {
-    const jqlite = new JQLite();
-    await expect(jqlite.setDataUrl("invalid-url")).rejects.toThrowError();
-  });
-
-  test("should reject URL that does not return valid JSON", async () => {
-    const jqlite = new JQLite();
-    // Assuming the URL returns invalid JSON data
-    await expect(
-      jqlite.setDataUrl("http://example.com/invalid.json")
-    ).rejects.toThrowError();
   });
 });

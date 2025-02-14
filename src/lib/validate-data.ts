@@ -10,7 +10,7 @@ import path from "node:path";
  * @param error The type of error to throw
  * @returns The validated JSON data
  */
-function validateJSON(data: string, error: Error): string {
+export function validateJSON(data: string, error: Error): string {
   try {
     return JSON.stringify(JSON.parse(data));
   } catch {
@@ -23,7 +23,7 @@ function validateJSON(data: string, error: Error): string {
  * @param data The input JSON data or path to a JSON file
  * @returns The JSON data
  */
-function validateData(data: string): string {
+function validateData(data: string): string | Promise<string> {
   const isPath =
     data.startsWith("/") || data.startsWith("./") || data.startsWith("../");
 
@@ -37,6 +37,14 @@ function validateData(data: string): string {
     } catch {
       throw new DataError(DATA_ERRORS.INVALID_PATH);
     }
+
+  const isUrl = data.startsWith("http://") || data.startsWith("https://");
+  if (isUrl)
+    return fetch(data)
+      .then(res => res.json())
+      .catch(() => {
+        throw new DataError(DATA_ERRORS.INVALID_URL);
+      });
 
   return validateJSON(data, DATA_ERRORS.INVALID_JSON);
 }

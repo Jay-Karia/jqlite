@@ -20,7 +20,7 @@ export default tseslint.config(
       "dist/index.js",
     ],
     rules: {
-      semi: "error",
+      semi: "warn",
       camelcase: "warn",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": "warn",

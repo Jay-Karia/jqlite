@@ -1,15 +1,13 @@
 import { Config } from "./types/config";
 import { ConfigManager } from "./config";
 import { validateData } from "lib/validate-data";
-import { DataError } from "utils/errors";
-import { DATA_ERRORS } from "constants/errors";
 
 /**
  * JQLite
  */
 export class JQLite {
   public configManager: ConfigManager;
-  public data: string | object;
+  public data: string | object | Promise<string>;
 
   /**
    * The constructor for JQLite
@@ -22,25 +20,16 @@ export class JQLite {
   }
 
   /**
-   * Overwrites the data, only file paths and JSON data are allowed
+   * Overwrites the data
    * @param data The data to overwrite
    */
-  public setData(data: string): void {
+  public setData(data: string): { resolve: () => Promise<void> } {
     this.data = validateData(data);
-  }
-
-  /**
-   * Overwrites the data to the data fetched from the url
-   * @param url The url to fetch the data from
-   */
-  public async setDataUrl(url: string): Promise<void> {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      this.data = JSON.stringify(data);
-    } catch {
-      throw new DataError(DATA_ERRORS.INVALID_URL);
-    }
+    return {
+      resolve: async () => {
+        this.data = await this.data;
+      },
+    };
   }
 
   /**
@@ -48,5 +37,12 @@ export class JQLite {
    */
   public clearData(): void {
     this.data = {};
+  }
+
+  /**
+   * Resolves the data if it is a promise
+   */
+  public async resolve() {
+    this.data = await this.data;
   }
 }
