@@ -3,16 +3,25 @@ export type Alias = {
   path: string;
 };
 
-export type Strategies = "default" | "error" | "skip" | "infer";
+export type FallbackStrategy = "default" | "error" | "skip" | "infer";
 export type InferRules = {
   alternateKeys?: string[];
   alternateQueries?: string[];
 };
 
 export type Fallback = {
-  strategy: Strategies;
+  strategy: FallbackStrategy;
   value?: string;
   inferRules?: InferRules;
+};
+
+export type CacheStrategy = "none" | "memory" | "local";
+
+export type DataCache = {
+  strategy: CacheStrategy;
+  limit?: number;
+  location?: string;
+  autoSave?: boolean;
 };
 
 export type Config = {
@@ -22,4 +31,5 @@ export type Config = {
   fuzzyDistance?: number;
   fuzzyLimit?: number;
   fuzzyIgnoreCase?: boolean;
+  dataCache?: DataCache;
 };

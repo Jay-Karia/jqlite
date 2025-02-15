@@ -1,5 +1,5 @@
 import { CONFIG_ERRORS } from "../constants/errors";
-import { Config, Fallback } from "../types/config";
+import { Config, DataCache, Fallback } from "../types/config";
 import { ConfigError } from "../errors";
 
 /**
@@ -9,6 +9,7 @@ import { ConfigError } from "../errors";
 function validateConfig(config: Config) {
   validateFuzzyOptions(config.fuzzyDistance, config.fuzzyLimit);
   validateFallback(config.fallback);
+  validateDataCache(config.dataCache);
 
   if (config.aliases) {
     if (config.aliases.some(a => a.alias.length == 0))
@@ -103,10 +104,22 @@ function validateFallback(fallback?: Fallback) {
   }
 }
 
+function validateDataCache(dataCache?: DataCache) {
+  if (dataCache) {
+    if (dataCache.strategy === "none" && dataCache.limit)
+      throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.LIMIT_NOT_REQUIRED);
+    if (dataCache.strategy === "local" && !dataCache.location)
+      throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.LOCATION_REQUIRED);
+    if (dataCache.strategy !== "local" && dataCache.location)
+      throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.LOCATION_NOT_REQUIRED);
+  }
+}
+
 export {
   validateConfig,
   validateFuzzyOptions,
   checkDuplicateAliases,
   validateAlias,
   validateFallback,
+  validateDataCache,
 };

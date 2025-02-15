@@ -27,6 +27,12 @@ describe("Override Config", () => {
         fuzzyDistance: 3,
         fuzzyLimit: 2,
       },
+      {
+        dataCache: {
+          strategy: "memory",
+          autoSave: false,
+        },
+      },
     ];
 
     const finalConfig: Config[] = [
@@ -37,6 +43,7 @@ describe("Override Config", () => {
         fuzzyDistance: DEFAULT_CONFIG.fuzzyDistance,
         fuzzyLimit: DEFAULT_CONFIG.fuzzyLimit,
         fuzzyIgnoreCase: DEFAULT_CONFIG.fuzzyIgnoreCase,
+        dataCache: DEFAULT_CONFIG.dataCache,
       },
       {
         aliases: DEFAULT_CONFIG.aliases,
@@ -45,6 +52,7 @@ describe("Override Config", () => {
         fuzzyDistance: DEFAULT_CONFIG.fuzzyDistance,
         fuzzyLimit: DEFAULT_CONFIG.fuzzyLimit,
         fuzzyIgnoreCase: DEFAULT_CONFIG.fuzzyIgnoreCase,
+        dataCache: DEFAULT_CONFIG.dataCache,
       },
       {
         aliases: DEFAULT_CONFIG.aliases,
@@ -53,6 +61,16 @@ describe("Override Config", () => {
         fuzzyDistance: configs[2].fuzzyDistance,
         fuzzyLimit: configs[2].fuzzyLimit,
         fuzzyIgnoreCase: DEFAULT_CONFIG.fuzzyIgnoreCase,
+        dataCache: DEFAULT_CONFIG.dataCache,
+      },
+      {
+        aliases: DEFAULT_CONFIG.aliases,
+        fallback: DEFAULT_CONFIG.fallback,
+        enableFuzzy: DEFAULT_CONFIG.enableFuzzy,
+        fuzzyDistance: DEFAULT_CONFIG.fuzzyDistance,
+        fuzzyLimit: DEFAULT_CONFIG.fuzzyLimit,
+        fuzzyIgnoreCase: DEFAULT_CONFIG.fuzzyIgnoreCase,
+        dataCache: configs[3].dataCache,
       },
     ];
 
@@ -123,6 +141,11 @@ describe("Override Config", () => {
         fallback: {
           strategy: "skip",
           value: "foo",
+        },
+      },
+      {
+        dataCache: {
+          strategy: "local",
         },
       },
     ];
@@ -516,6 +539,10 @@ describe("Set Config", () => {
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,
+      dataCache: {
+        strategy: "memory",
+        limit: 100,
+      },
     });
 
     expect(jqlite.configManager.config).toEqual({
@@ -527,6 +554,10 @@ describe("Set Config", () => {
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,
+      dataCache: {
+        strategy: "memory",
+        limit: 100,
+      },
     });
   });
 
@@ -565,6 +596,10 @@ describe("Set Config", () => {
       fuzzyDistance: 3,
       fuzzyLimit: 2,
       fuzzyIgnoreCase: false,
+      dataCache: {
+        strategy: "memory",
+        autoSave: true,
+      },
     });
   });
 });
@@ -587,5 +622,88 @@ describe("Reset Config", () => {
 
     jqlite.configManager.reset();
     expect(jqlite.configManager.config).toEqual(DEFAULT_CONFIG);
+  });
+});
+
+/**
+ * Set Data Cache
+ */
+describe("Data Cache", () => {
+  test("should not accept invalid data cache values", () => {
+    const jqlite = new JQLite();
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "local",
+      });
+
+      expect(jqlite.configManager.config === DEFAULT_CONFIG);
+    }).toThrowError();
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "memory",
+        location: "./location.txt",
+      });
+
+      expect(jqlite.configManager.config === DEFAULT_CONFIG);
+    }).toThrowError();
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "none",
+        limit: 100,
+      });
+
+      expect(jqlite.configManager.config === DEFAULT_CONFIG);
+    }).toThrowError();
+  });
+
+  test("should accept valid data cache values", () => {
+    const jqlite = new JQLite();
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "local",
+        location: "./location.txt",
+      });
+
+      expect(jqlite.configManager.config.dataCache).toBe({
+        strategy: "local",
+        location: "./location.txt",
+      });
+    });
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "memory",
+      });
+
+      expect(jqlite.configManager.config.dataCache).toBe({
+        strategy: "memory",
+      });
+    });
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "memory",
+        limit: 100,
+      });
+
+      expect(jqlite.configManager.config.dataCache).toBe({
+        strategy: "memory",
+        limit: 100,
+      });
+    });
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "none",
+      });
+
+      expect(jqlite.configManager.config.dataCache).toBe({
+        strategy: "none",
+      });
+    });
   });
 });

@@ -12,6 +12,10 @@ const DEFAULT_CONFIG: Config = {
   fuzzyDistance: 2,
   fuzzyLimit: 1,
   fuzzyIgnoreCase: true,
+  dataCache: {
+    strategy: "memory",
+    autoSave: true,
+  },
 };
 
 export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG };

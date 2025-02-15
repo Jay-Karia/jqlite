@@ -1,10 +1,16 @@
-import { InferRules, Strategies, type Config } from "./types/config";
+import {
+  InferRules,
+  FallbackStrategy,
+  type Config,
+  CacheStrategy,
+} from "./types/config";
 import { ConfigError } from "./errors";
 import { CONFIG_ERRORS } from "./constants/errors";
 import {
   checkDuplicateAliases,
   validateAlias,
   validateConfig,
+  validateDataCache,
   validateFallback,
   validateFuzzyOptions,
 } from "./lib/validate-config";
@@ -73,14 +79,47 @@ export class ConfigManager {
     value,
     inferRules,
   }: {
-    strategy?: Strategies;
+    strategy?: FallbackStrategy;
     value?: string;
     inferRules?: InferRules;
   }): void {
     // override the fallback object with the given keys
-    if (this.config.fallback && strategy) {
-      validateFallback({ strategy, value, inferRules });
-      this.config.fallback = { strategy, value, inferRules };
+    if (this.config.fallback) {
+      const fallbackStrategy = strategy
+        ? strategy
+        : this.config.fallback.strategy;
+      validateFallback({ strategy: fallbackStrategy, value, inferRules });
+      this.config.fallback = { strategy: fallbackStrategy, value, inferRules };
+    }
+  }
+
+  public overrideDataCache({
+    strategy,
+    limit,
+    location,
+    autoSave,
+  }: {
+    strategy?: CacheStrategy;
+    limit?: number;
+    location?: string;
+    autoSave?: boolean;
+  }): void {
+    if (this.config.dataCache) {
+      const dataCacheStrategy = strategy
+        ? strategy
+        : this.config.dataCache.strategy;
+      validateDataCache({
+        strategy: dataCacheStrategy,
+        limit,
+        location,
+        autoSave,
+      });
+      this.config.dataCache = {
+        strategy: dataCacheStrategy,
+        limit,
+        location,
+        autoSave,
+      };
     }
   }
 

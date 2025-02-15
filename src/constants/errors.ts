@@ -82,6 +82,26 @@ const CONFIG_ERRORS = {
       solution: "Remove infer rules",
     } as Error,
   },
+  DATA_CACHE: {
+    LIMIT_NOT_REQUIRED: {
+      message: "Limit is not required",
+      code: "A113",
+      cause: "Tried to set a limit for data cache of none strategy",
+      solution: "Remove the limit key from data cache",
+    } as Error,
+    LOCATION_REQUIRED: {
+      message: "Location is required for local cache",
+      code: "A114",
+      cause: "Tried to set a local cache without location",
+      solution: "Add a location key to data cache",
+    } as Error,
+    LOCATION_NOT_REQUIRED: {
+      message: "Location is not required for cache",
+      code: "A115",
+      cause: "Tried to set a location for data cache of strategy none",
+      solution: "Remove the location key from data cache",
+    } as Error,
+  },
 };
 
 // All the errors related to data
