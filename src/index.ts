@@ -1,6 +1,7 @@
 import { Config } from "./types/config";
 import { ConfigManager } from "./config";
-import { validateData } from "lib/validate-data";
+import { validateData } from "validators/validate-data";
+import { CacheManager } from "cache";
 
 /**
  * JQLite
@@ -8,6 +9,7 @@ import { validateData } from "lib/validate-data";
 export class JQLite {
   public configManager: ConfigManager;
   public data: string | Promise<string>;
+  public cacheManager: CacheManager;
 
   /**
    * The constructor for JQLite
@@ -17,6 +19,7 @@ export class JQLite {
   constructor(config?: Config, data?: string) {
     this.configManager = new ConfigManager(config);
     this.data = data ? validateData(data as string) : "{}";
+    this.cacheManager = new CacheManager();
   }
 
   /**

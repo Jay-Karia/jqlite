@@ -145,7 +145,14 @@ describe("Override Config", () => {
       },
       {
         dataCache: {
-          strategy: "local",
+          strategy: "none",
+          limit: 100,
+        },
+      },
+      {
+        dataCache: {
+          strategy: "none",
+          autoSave: true,
         },
       },
     ];
@@ -634,7 +641,8 @@ describe("Data Cache", () => {
 
     expect(() => {
       jqlite.configManager.overrideDataCache({
-        strategy: "local",
+        strategy: "none",
+        autoSave: true,
       });
 
       expect(jqlite.configManager.config === DEFAULT_CONFIG);

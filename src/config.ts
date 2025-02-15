@@ -13,7 +13,7 @@ import {
   validateDataCache,
   validateFallback,
   validateFuzzyOptions,
-} from "./lib/validate-config";
+} from "./validators/validate-config";
 import { DEFAULT_CONFIG } from "./constants/index";
 
 /**

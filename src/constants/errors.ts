@@ -89,17 +89,17 @@ const CONFIG_ERRORS = {
       cause: "Tried to set a limit for data cache of none strategy",
       solution: "Remove the limit key from data cache",
     } as Error,
-    LOCATION_REQUIRED: {
-      message: "Location is required for local cache",
-      code: "A114",
-      cause: "Tried to set a local cache without location",
-      solution: "Add a location key to data cache",
-    } as Error,
     LOCATION_NOT_REQUIRED: {
       message: "Location is not required for cache",
       code: "A115",
       cause: "Tried to set a location for data cache of strategy none",
       solution: "Remove the location key from data cache",
+    } as Error,
+    AUTO_SAVE_NOT_REQUIRED: {
+      message: "Auto save is not required",
+      code: "A116",
+      cause: "Tried to set auto save for data cache of none strategy",
+      solution: "Remove the auto save key from data cache",
     } as Error,
   },
 };
