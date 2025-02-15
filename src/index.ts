@@ -7,7 +7,7 @@ import { validateData } from "lib/validate-data";
  */
 export class JQLite {
   public configManager: ConfigManager;
-  public data: string | object | Promise<string>;
+  public data: string | Promise<string>;
 
   /**
    * The constructor for JQLite
@@ -16,7 +16,7 @@ export class JQLite {
    */
   constructor(config?: Config, data?: string) {
     this.configManager = new ConfigManager(config);
-    this.data = data ? validateData(data as string) : {};
+    this.data = data ? validateData(data as string) : "{}";
   }
 
   /**
@@ -36,7 +36,7 @@ export class JQLite {
    * Clears the data
    */
   public clearData(): void {
-    this.data = {};
+    this.data = "{}";
   }
 
   /**

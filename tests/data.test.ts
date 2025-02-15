@@ -7,7 +7,7 @@ import { JQLite } from "../src/index";
 describe("Data Validation", () => {
   test("should expect data to be empty object if not provided", () => {
     const jqlite = new JQLite();
-    expect(jqlite.data).toEqual({});
+    expect(jqlite.data).toEqual("{}");
   });
 
   test("should not accept invalid JSON data", () => {
@@ -15,7 +15,7 @@ describe("Data Validation", () => {
 
     expect(() => {
       jqlite = new JQLite({}, "invalid-json");
-      expect(jqlite.data).toEqual({});
+      expect(jqlite.data).toEqual("{}");
     }).toThrowError();
   });
 
@@ -24,12 +24,12 @@ describe("Data Validation", () => {
 
     expect(() => {
       jqlite = new JQLite({}, "invalid-path");
-      expect(jqlite.data).toEqual({});
+      expect(jqlite.data).toEqual("{}");
     }).toThrowError();
 
     expect(() => {
       jqlite = new JQLite({}, "./src/index.ts");
-      expect(jqlite.data).toEqual({});
+      expect(jqlite.data).toEqual("{}");
     }).toThrowError();
   });
 
@@ -75,7 +75,7 @@ describe("Set Data", () => {
     const jqlite = new JQLite();
     expect(() => {
       jqlite.setData("invalid-json");
-      expect(jqlite.data).toEqual({});
+      expect(jqlite.data).toEqual("{}");
     }).toThrowError();
   });
 
@@ -83,12 +83,12 @@ describe("Set Data", () => {
     const jqlite = new JQLite();
     expect(() => {
       jqlite.setData("invalid-path");
-      expect(jqlite.data).toEqual({});
+      expect(jqlite.data).toEqual("{}");
     }).toThrowError();
 
     expect(() => {
       jqlite.setData("./src/index.ts");
-      expect(jqlite.data).toEqual({});
+      expect(jqlite.data).toEqual("{}");
     }).toThrowError();
   });
 
@@ -131,15 +131,20 @@ describe("Set Data", () => {
     );
   });
 
-  test("should not accept invalid json url", () => {
-    const jqlite = new JQLite();
+  test("should not accept invalid json url", async () => {
+    await expect(async () => {
+      const jqlite = new JQLite();
+      await jqlite.setData("https://invalid-url.com").resolve();
+    }).rejects.toThrowError();
 
-    expect(() => {
-      jqlite.setData(
-        "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/eslint.config.mjs"
-      );
-      expect(jqlite.data).toEqual({});
-    }).toThrowError();
+    await expect(async () => {
+      const jqlite = new JQLite();
+      await jqlite
+        .setData(
+          "https://github.com/Jay-Karia/jqlite/raw/refs/heads/main/eslint.config.mjs"
+        )
+        .resolve();
+    }).rejects.toThrowError();
   });
 
   test("should accept valid json url", async () => {
@@ -180,12 +185,12 @@ describe("Clear Data", () => {
       })
     );
     jqlite.clearData();
-    expect(jqlite.data).toEqual({});
+    expect(jqlite.data).toEqual("{}");
   });
 
   test("should clear the data if not set", () => {
     const jqlite = new JQLite();
     jqlite.clearData();
-    expect(jqlite.data).toEqual({});
+    expect(jqlite.data).toEqual("{}");
   });
 });
