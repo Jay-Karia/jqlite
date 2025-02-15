@@ -1,5 +1,5 @@
 import { DATA_ERRORS } from "constants/errors";
-import { DataError } from "utils/errors";
+import { DataError } from "errors";
 import { readFileSync } from "node:fs";
 import { Error } from "../types/error";
 import path from "node:path";

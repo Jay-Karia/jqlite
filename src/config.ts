@@ -1,5 +1,5 @@
 import { InferRules, Strategies, type Config } from "./types/config";
-import { ConfigError } from "./utils/errors";
+import { ConfigError } from "./errors";
 import { CONFIG_ERRORS } from "./constants/errors";
 import {
   checkDuplicateAliases,
