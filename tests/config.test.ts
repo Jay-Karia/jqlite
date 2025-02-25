@@ -672,12 +672,12 @@ describe("Data Cache", () => {
 
     expect(() => {
       jqlite.configManager.overrideDataCache({
-        strategy: "local",
+        strategy: "disk",
         location: "./location.txt",
       });
 
       expect(jqlite.configManager.config.dataCache).toBe({
-        strategy: "local",
+        strategy: "disk",
         location: "./location.txt",
       });
     });

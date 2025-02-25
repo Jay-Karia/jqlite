@@ -15,7 +15,7 @@ export type Fallback = {
   inferRules?: InferRules;
 };
 
-export type CacheStrategy = "none" | "memory" | "local";
+export type CacheStrategy = "none" | "memory" | "disk";
 
 export type DataCache = {
   strategy: CacheStrategy;
