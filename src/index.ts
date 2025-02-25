@@ -19,7 +19,7 @@ export class JQLite {
   constructor(config?: Config, data?: string) {
     this.configManager = new ConfigManager(config);
     this.data = data ? validateData(data as string) : "{}";
-    this.cacheManager = new CacheManager();
+    this.cacheManager = new CacheManager(this);
   }
 
   /**
