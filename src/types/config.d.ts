@@ -20,7 +20,6 @@ export type CacheStrategy = "none" | "memory" | "disk";
 export type DataCache = {
   strategy: CacheStrategy;
   limit?: number;
-  location?: string;
   autoSave?: boolean;
 };
 

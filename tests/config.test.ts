@@ -650,15 +650,6 @@ describe("Data Cache", () => {
 
     expect(() => {
       jqlite.configManager.overrideDataCache({
-        strategy: "memory",
-        location: "./location.txt",
-      });
-
-      expect(jqlite.configManager.config === DEFAULT_CONFIG);
-    }).toThrowError();
-
-    expect(() => {
-      jqlite.configManager.overrideDataCache({
         strategy: "none",
         limit: 100,
       });
@@ -673,12 +664,10 @@ describe("Data Cache", () => {
     expect(() => {
       jqlite.configManager.overrideDataCache({
         strategy: "disk",
-        location: "./location.txt",
       });
 
       expect(jqlite.configManager.config.dataCache).toBe({
         strategy: "disk",
-        location: "./location.txt",
       });
     });
 
