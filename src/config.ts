@@ -96,7 +96,6 @@ export class ConfigManager {
   public overrideDataCache({
     strategy,
     limit,
-    location,
     autoSave,
   }: {
     strategy?: CacheStrategy;
@@ -111,13 +110,11 @@ export class ConfigManager {
       validateDataCache({
         strategy: dataCacheStrategy,
         limit,
-        location,
         autoSave,
       });
       this.config.dataCache = {
         strategy: dataCacheStrategy,
         limit,
-        location,
         autoSave,
       };
     }
