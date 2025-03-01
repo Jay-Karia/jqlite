@@ -108,10 +108,10 @@ function validateDataCache(dataCache?: DataCache) {
   if (dataCache) {
     if (dataCache.strategy === "none" && dataCache.limit)
       throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.LIMIT_NOT_REQUIRED);
-    if (dataCache.strategy !== "local" && dataCache.location)
-      throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.LOCATION_NOT_REQUIRED);
     if (dataCache.strategy === "none" && dataCache.autoSave)
       throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.AUTO_SAVE_NOT_REQUIRED);
+    if (dataCache.expiration && dataCache.expiration <= 0)
+      throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.INVALID_EXPIRATION);
   }
 }
 

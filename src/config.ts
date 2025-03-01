@@ -97,11 +97,13 @@ export class ConfigManager {
     strategy,
     limit,
     autoSave,
+    expiration,
   }: {
     strategy?: CacheStrategy;
     limit?: number;
     location?: string;
     autoSave?: boolean;
+    expiration?: number;
   }): void {
     if (this.config.dataCache) {
       const dataCacheStrategy = strategy
@@ -111,11 +113,13 @@ export class ConfigManager {
         strategy: dataCacheStrategy,
         limit,
         autoSave,
+        expiration,
       });
       this.config.dataCache = {
         strategy: dataCacheStrategy,
         limit,
         autoSave,
+        expiration
       };
     }
   }

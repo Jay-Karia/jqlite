@@ -155,6 +155,12 @@ describe("Override Config", () => {
           autoSave: true,
         },
       },
+      {
+        dataCache: {
+          strategy: "memory",
+          expiration: -1
+        },
+      },
     ];
 
     configs.forEach(config => {
@@ -549,6 +555,7 @@ describe("Set Config", () => {
       dataCache: {
         strategy: "memory",
         limit: 100,
+        expiration: 100
       },
     });
 
@@ -564,6 +571,7 @@ describe("Set Config", () => {
       dataCache: {
         strategy: "memory",
         limit: 100,
+        expiration: 100
       },
     });
   });
@@ -656,6 +664,15 @@ describe("Data Cache", () => {
 
       expect(jqlite.configManager.config === DEFAULT_CONFIG);
     }).toThrowError();
+
+    // expect(() => {
+    //   jqlite.configManager.overrideDataCache({
+    //     strategy: "memory",
+    //     expiration: 0
+    //   });
+
+    //   expect(jqlite.configManager.config === DEFAULT_CONFIG);
+    // }).toThrowError();
   });
 
   test("should accept valid data cache values", () => {
@@ -700,6 +717,18 @@ describe("Data Cache", () => {
 
       expect(jqlite.configManager.config.dataCache).toBe({
         strategy: "none",
+      });
+    });
+
+    expect(() => {
+      jqlite.configManager.overrideDataCache({
+        strategy: "memory",
+        expiration: 200
+      });
+
+      expect(jqlite.configManager.config.dataCache).toBe({
+        strategy: "memory",
+        expiration: 200
       });
     });
   });

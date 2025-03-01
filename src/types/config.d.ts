@@ -21,6 +21,7 @@ export type DataCache = {
   strategy: CacheStrategy;
   limit?: number;
   autoSave?: boolean;
+  expiration?: number;
 };
 
 export type Config = {

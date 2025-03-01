@@ -89,17 +89,17 @@ const CONFIG_ERRORS = {
       cause: "Tried to set a limit for data cache of none strategy",
       solution: "Remove the limit key from data cache",
     } as Error,
-    LOCATION_NOT_REQUIRED: {
-      message: "Location is not required for cache",
-      code: "A115",
-      cause: "Tried to set a location for data cache of strategy none",
-      solution: "Remove the location key from data cache",
-    } as Error,
     AUTO_SAVE_NOT_REQUIRED: {
       message: "Auto save is not required",
       code: "A116",
       cause: "Tried to set auto save for data cache of none strategy",
       solution: "Remove the auto save key from data cache",
+    } as Error,
+    INVALID_EXPIRATION: {
+      message: "Invalid expiration",
+      code: "A117",
+      cause: "Tried to set an expiration less than or equal to 0",
+      solution: "Set an expiration greater than 0",
     } as Error,
   },
 };
