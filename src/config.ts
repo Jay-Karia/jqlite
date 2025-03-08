@@ -1,30 +1,15 @@
+import {overrideDefaultConfig} from "helpers/index";
+import {CONFIG_ERRORS} from "./constants/errors";
+import {DEFAULT_CONFIG} from "./constants/index";
+import {ConfigError} from "./errors";
 import {
-  InferRules,
-  FallbackStrategy,
   type Config,
-  CacheStrategy,
 } from "./types/config";
-import { ConfigError } from "./errors";
-import { CONFIG_ERRORS } from "./constants/errors";
 import {
   checkDuplicateAliases,
   validateAlias,
-  validateConfig,
-  validateDataCache,
-  validateFallback,
-  validateFuzzyOptions,
+  validateConfig
 } from "./validators/validate-config";
-import { DEFAULT_CONFIG } from "./constants/index";
-
-/**
- * Override the default config object with the given config object
- * @param config The config object to override
- * @returns The new config object
- */
-function overrideDefaultConfig(config: Config): Config {
-  validateConfig(config);
-  return { ...DEFAULT_CONFIG, ...config };
-}
 
 /**
  * Config Manager for the query language
@@ -71,94 +56,6 @@ export class ConfigManager {
   }
 
   /**
-   * Set the fallback for the config object
-   * @param fallback The fallback to set
-   */
-  public overrideFallback({
-    strategy,
-    value,
-    inferRules,
-  }: {
-    strategy?: FallbackStrategy;
-    value?: string;
-    inferRules?: InferRules;
-  }): void {
-    // override the fallback object with the given keys
-    if (this.config.fallback) {
-      const fallbackStrategy = strategy
-        ? strategy
-        : this.config.fallback.strategy;
-      validateFallback({ strategy: fallbackStrategy, value, inferRules });
-      this.config.fallback = { strategy: fallbackStrategy, value, inferRules };
-    }
-  }
-
-  public overrideDataCache({
-    strategy,
-    limit,
-    autoSave,
-    expiration,
-  }: {
-    strategy?: CacheStrategy;
-    limit?: number;
-    location?: string;
-    autoSave?: boolean;
-    expiration?: number;
-  }): void {
-    if (this.config.dataCache) {
-      const dataCacheStrategy = strategy
-        ? strategy
-        : this.config.dataCache.strategy;
-      validateDataCache({
-        strategy: dataCacheStrategy,
-        limit,
-        autoSave,
-        expiration,
-      });
-      this.config.dataCache = {
-        strategy: dataCacheStrategy,
-        limit,
-        autoSave,
-        expiration
-      };
-    }
-  }
-
-  /**
-   * Set the fuzzy distance for the config object
-   * @param fuzzyDistance The fuzzy distance to set
-   */
-  public setFuzzyDistance(fuzzyDistance: number): void {
-    validateFuzzyOptions(fuzzyDistance);
-    this.config.fuzzyDistance = fuzzyDistance;
-  }
-
-  /**
-   * Set the fuzzy limit for the config object
-   * @param fuzzyLimit The fuzzy limit to set
-   */
-  public setFuzzyLimit(fuzzyLimit: number): void {
-    validateFuzzyOptions(undefined, fuzzyLimit);
-    this.config.fuzzyLimit = fuzzyLimit;
-  }
-
-  /**
-   * Set the fuzzy ignore case for the config object
-   * @param fuzzyIgnoreCase The fuzzy ignore case to set
-   */
-  public setFuzzyIgnoreCase(fuzzyIgnoreCase: boolean): void {
-    this.config.fuzzyIgnoreCase = fuzzyIgnoreCase;
-  }
-
-  /**
-   * Enables global fuzzy search to all variables
-   * @param fuzzy The fuzzy to set
-   */
-  public setFuzzy(fuzzy: boolean): void {
-    this.config.enableFuzzy = fuzzy;
-  }
-
-  /**
    * Set the config object
    * @param config The config object to override
    * @returns The new config object
@@ -177,4 +74,4 @@ export class ConfigManager {
   }
 }
 
-export { DEFAULT_CONFIG, overrideDefaultConfig };
+export {DEFAULT_CONFIG,overrideDefaultConfig};
