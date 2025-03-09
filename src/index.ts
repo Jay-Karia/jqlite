@@ -7,16 +7,16 @@ import { CacheManager } from "cache/index";
  * JQLite
  */
 export class JQLite {
-  public ConfigManager: ConfigManager;
-  public CacheManager: CacheManager;
+  public configManager: ConfigManager;
+  public cacheManager: CacheManager;
   public data: string | Promise<string>;
 
   set config(config: Config) {
-    this.ConfigManager.setConfig(config);
+    this.configManager.setConfig(config);
   }
 
   get config(): Config {
-    return this.ConfigManager.getConfig();
+    return this.configManager.getConfig();
   }
 
   /**
@@ -25,9 +25,9 @@ export class JQLite {
    * @param data The JSON data or path to a JSON file
    */
   constructor(config?: Config, data?: string) {
-    this.ConfigManager = new ConfigManager(config);
+    this.configManager = new ConfigManager(config);
     this.data = data ? validateData(data as string) : "{}";
-    this.CacheManager = new CacheManager(this);
+    this.cacheManager = new CacheManager(this);
   }
 
   /**
