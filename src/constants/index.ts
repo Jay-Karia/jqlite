@@ -1,4 +1,4 @@
-import { Config } from "types/config";
+import { Config, DataCache } from "types/config";
 
 const ERROR_DOCS_BASE_URL = "https://example.com/docs/errors";
 
@@ -18,4 +18,9 @@ const DEFAULT_CONFIG: Config = {
   },
 };
 
-export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG };
+const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
+  strategy: "memory",
+  autoSave: true,
+};
+
+export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG };

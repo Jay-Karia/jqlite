@@ -1,7 +1,7 @@
 import { Config } from "./types/config";
 import { ConfigManager } from "./config";
 import { validateData } from "validators/validate-data";
-import { CacheManager } from "cache";
+import { CacheManager } from "cache/index";
 
 /**
  * JQLite
@@ -49,3 +49,12 @@ export class JQLite {
     this.data = await this.data;
   }
 }
+
+const jqlite = new JQLite();
+jqlite.configManager.set({
+  dataCache: {
+    strategy: "disk",
+    autoSave: false,
+  },
+});
+console.log(jqlite.cacheManager.dataCache.config);

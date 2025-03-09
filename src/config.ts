@@ -1,14 +1,12 @@
-import {overrideDefaultConfig} from "helpers/index";
-import {CONFIG_ERRORS} from "./constants/errors";
-import {DEFAULT_CONFIG} from "./constants/index";
-import {ConfigError} from "./errors";
-import {
-  type Config,
-} from "./types/config";
+import { overrideDefaultConfig } from "helpers/index";
+import { CONFIG_ERRORS } from "./constants/errors";
+import { DEFAULT_CONFIG } from "./constants/index";
+import { ConfigError } from "./errors";
+import { type Config } from "./types/config";
 import {
   checkDuplicateAliases,
   validateAlias,
-  validateConfig
+  validateConfig,
 } from "./validators/validate-config";
 
 /**
@@ -74,4 +72,4 @@ export class ConfigManager {
   }
 }
 
-export {DEFAULT_CONFIG,overrideDefaultConfig};
+export { DEFAULT_CONFIG, overrideDefaultConfig };
