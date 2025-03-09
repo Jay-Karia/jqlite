@@ -8,10 +8,12 @@ const DEFAULT_CONFIG: Config = {
     strategy: "default",
     value: "No value",
   },
-  enableFuzzy: false,
-  fuzzyDistance: 2,
-  fuzzyLimit: 1,
-  fuzzyIgnoreCase: true,
+  fuzzy: {
+    enable: false,
+    distance: 2,
+    limit: 1,
+    ignoreCase: true,
+  },
   dataCache: {
     strategy: "memory",
     autoSave: true,

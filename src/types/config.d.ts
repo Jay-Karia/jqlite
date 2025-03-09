@@ -24,12 +24,16 @@ export type DataCache = {
   expiration?: number;
 };
 
+export type Fuzzy = {
+  enable?: boolean;
+  distance?: number;
+  limit?: number;
+  ignoreCase?: boolean;
+}
+
 export type Config = {
   aliases?: Alias[];
   fallback?: Fallback;
-  enableFuzzy?: boolean;
-  fuzzyDistance?: number;
-  fuzzyLimit?: number;
-  fuzzyIgnoreCase?: boolean;
+  fuzzy?: Fuzzy;
   dataCache?: DataCache;
 };

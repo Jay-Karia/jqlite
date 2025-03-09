@@ -1,5 +1,5 @@
 import { CONFIG_ERRORS } from "../constants/errors";
-import { Config, DataCache, Fallback } from "../types/config";
+import { Config, DataCache, Fallback, Fuzzy } from "../types/config";
 import { ConfigError } from "../errors";
 
 /**
@@ -7,7 +7,7 @@ import { ConfigError } from "../errors";
  * @param config The config object to validate
  */
 function validateConfig(config: Config) {
-  validateFuzzyOptions(config.fuzzyDistance, config.fuzzyLimit);
+  validateFuzzyOptions(config.fuzzy);
   validateFallback(config.fallback);
   validateDataCache(config.dataCache);
 
@@ -35,14 +35,13 @@ function validateConfig(config: Config) {
  * @param fuzzyDistance The fuzzy distance to validate
  * @param fuzzyLimit The fuzzy limit to validate
  */
-function validateFuzzyOptions(
-  fuzzyDistance?: number,
-  fuzzyLimit?: number
-): void {
-  if (fuzzyDistance && fuzzyDistance < 0)
-    throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_DISTANCE);
-  if (fuzzyLimit && fuzzyLimit < 0)
-    throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_LIMIT);
+function validateFuzzyOptions(fuzzy?: Fuzzy) {
+  if (fuzzy) {
+    if (fuzzy.distance && fuzzy.distance < 0)
+      throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_DISTANCE);
+    if (fuzzy.limit && fuzzy.limit < 0)
+      throw new ConfigError(CONFIG_ERRORS.FUZZY.INVALID_LIMIT);
+  }
 }
 
 /**
