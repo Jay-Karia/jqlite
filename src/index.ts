@@ -7,9 +7,17 @@ import { CacheManager } from "cache/index";
  * JQLite
  */
 export class JQLite {
-  public configManager: ConfigManager;
+  public ConfigManager: ConfigManager;
+  public CacheManager: CacheManager;
   public data: string | Promise<string>;
-  public cacheManager: CacheManager;
+
+  set config(config: Config) {
+    this.ConfigManager.setConfig(config);
+  }
+
+  get config(): Config {
+    return this.ConfigManager.getConfig();
+  }
 
   /**
    * The constructor for JQLite
@@ -17,9 +25,9 @@ export class JQLite {
    * @param data The JSON data or path to a JSON file
    */
   constructor(config?: Config, data?: string) {
-    this.configManager = new ConfigManager(config);
+    this.ConfigManager = new ConfigManager(config);
     this.data = data ? validateData(data as string) : "{}";
-    this.cacheManager = new CacheManager(this);
+    this.CacheManager = new CacheManager(this);
   }
 
   /**
@@ -45,16 +53,7 @@ export class JQLite {
   /**
    * Resolves the data if it is a promise
    */
-  public async resolve() {
+  public async resolveData() {
     this.data = await this.data;
   }
 }
-
-const jqlite = new JQLite();
-jqlite.configManager.set({
-  dataCache: {
-    strategy: "disk",
-    autoSave: false,
-  },
-});
-console.log(jqlite.cacheManager.dataCache.config);

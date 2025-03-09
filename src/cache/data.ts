@@ -8,10 +8,10 @@ export class DataCacheManager {
   }
 
   get config(): DataCacheConfigType | undefined {
-    return this.jqlite.configManager.config.dataCache;
+    return this.jqlite.ConfigManager.getConfig().dataCache;
   }
 
   set config(config: DataCacheConfigType | undefined) {
-    this.jqlite.configManager.set({ dataCache: config });
+    this.jqlite.ConfigManager.setConfig({ dataCache: config });
   }
 }

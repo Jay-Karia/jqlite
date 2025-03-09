@@ -13,8 +13,8 @@ import {
  * Config Manager for the query language
  */
 export class ConfigManager {
-  public config: Config;
-  public defaultConfig = DEFAULT_CONFIG;
+  private config: Config;
+  public DEFAULT_CONFIG = DEFAULT_CONFIG;
 
   /**
    * Initialize a new object
@@ -58,16 +58,20 @@ export class ConfigManager {
    * @param config The config object to override
    * @returns The new config object
    */
-  public set(config: Config): Config {
+  public setConfig(config: Config): Config {
     validateConfig(config);
     this.config = { ...this.config, ...config };
+    return this.config;
+  }
+
+  public getConfig(): Config {
     return this.config;
   }
 
   /**
    * Reset the config object to the default config object
    */
-  public reset() {
+  public resetConfig() {
     this.config = DEFAULT_CONFIG;
   }
 }
