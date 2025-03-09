@@ -15,10 +15,10 @@ export type Fallback = {
   inferRules?: InferRules;
 };
 
-export type CacheStrategy = "none" | "memory" | "disk";
+export type CacheType = "none" | "memory" | "disk";
 
 export type DataCache = {
-  strategy: CacheStrategy;
+  type: CacheType;
   limit?: number;
   autoSave?: boolean;
   expiration?: number;

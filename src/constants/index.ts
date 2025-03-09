@@ -15,13 +15,13 @@ const DEFAULT_CONFIG: Config = {
     ignoreCase: true,
   },
   dataCache: {
-    strategy: "memory",
+    type: "memory",
     autoSave: true,
   },
 };
 
 const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
-  strategy: "memory",
+  type: "memory",
   autoSave: true,
 };
 
