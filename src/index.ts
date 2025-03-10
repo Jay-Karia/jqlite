@@ -26,8 +26,8 @@ export class JQLite {
    */
   constructor(config?: Config, data?: string) {
     this.configManager = new ConfigManager(config);
-    this.data = data ? validateData(data as string) : "{}";
     this.cacheManager = new CacheManager(this);
+    this.data = data ? validateData(data, this.cacheManager.dataCacheManager) : "{}";
   }
 
   /**
@@ -35,7 +35,7 @@ export class JQLite {
    * @param data The data to overwrite
    */
   public setData(data: string): { resolve: () => Promise<void> } {
-    this.data = validateData(data);
+    this.data = validateData(data, this.cacheManager.dataCacheManager);
     return {
       resolve: async () => {
         this.data = await this.data;

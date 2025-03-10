@@ -3,10 +3,10 @@ import { DataCacheManager } from "./data";
 
 export class CacheManager {
   private jqlite: JQLite;
-  public dataCache: DataCacheManager;
+  public dataCacheManager: DataCacheManager;
 
   constructor(jqlite: JQLite) {
     this.jqlite = jqlite;
-    this.dataCache = new DataCacheManager(this.jqlite);
+    this.dataCacheManager = new DataCacheManager(this.jqlite);
   }
 }
