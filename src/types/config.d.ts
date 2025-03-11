@@ -18,9 +18,9 @@ export type Fallback = {
 export type CacheType = "none" | "memory" | "disk";
 
 export type DataCache = {
+  enable?: boolean;
   type: CacheType;
   limit?: number;
-  autoSave?: boolean;
   expiration?: number;
 };
 
@@ -29,7 +29,7 @@ export type Fuzzy = {
   distance?: number;
   limit?: number;
   ignoreCase?: boolean;
-}
+};
 
 export type Config = {
   aliases?: Alias[];

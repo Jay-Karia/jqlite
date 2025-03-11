@@ -3,8 +3,8 @@ import { DataError } from "errors";
 import { readFileSync } from "node:fs";
 import { Error } from "../types/error";
 import path from "node:path";
-import {DataCacheManager} from "cache/data";
-import {cacheUrl} from "lib/cacheUrl";
+import { DataCacheManager } from "cache/data";
+import { getDataCache } from "lib/getDataCache";
 
 /**
  * Validates the JSON data
@@ -25,7 +25,10 @@ export function validateJSON(data: string, error: Error): string {
  * @param data The input JSON data or path to a JSON file
  * @returns The JSON data
  */
-function validateData(data: string, dataCacheManager: DataCacheManager): string | Promise<string> {
+function validateData(
+  data: string,
+  dataCacheManager: DataCacheManager
+): string | Promise<string> {
   const isPath =
     data.startsWith("/") || data.startsWith("./") || data.startsWith("../");
 
@@ -42,13 +45,21 @@ function validateData(data: string, dataCacheManager: DataCacheManager): string 
 
   const isUrl = data.startsWith("http://") || data.startsWith("https://");
   if (isUrl) {
-    cacheUrl(data, dataCacheManager);
+    // returns the cached data if it exists
+    getDataCache(data, dataCacheManager);
+
     return fetch(data)
-      .then(res => res.json())
+      .then(res => {
+        const urlData = res.json();
+
+        // update the cache with the new data
+
+        return urlData;
+      })
       .catch(() => {
         throw new DataError(DATA_ERRORS.INVALID_URL);
       });
-    }
+  }
 
   return validateJSON(data, DATA_ERRORS.INVALID_JSON);
 }

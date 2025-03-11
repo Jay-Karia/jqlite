@@ -1,14 +1,14 @@
 import { Config } from "./types/config";
 import { ConfigManager } from "./config";
 import { validateData } from "validators/validate-data";
-import { CacheManager } from "cache/index";
+import { DataCacheManager } from "cache/data";
 
 /**
  * JQLite
  */
 export class JQLite {
   public configManager: ConfigManager;
-  public cacheManager: CacheManager;
+  public dataCacheManager: DataCacheManager;
   public data: string | Promise<string>;
 
   set config(config: Config) {
@@ -26,8 +26,8 @@ export class JQLite {
    */
   constructor(config?: Config, data?: string) {
     this.configManager = new ConfigManager(config);
-    this.cacheManager = new CacheManager(this);
-    this.data = data ? validateData(data, this.cacheManager.dataCacheManager) : "{}";
+    this.dataCacheManager = new DataCacheManager(this);
+    this.data = data ? validateData(data, this.dataCacheManager) : "{}";
   }
 
   /**
@@ -35,7 +35,7 @@ export class JQLite {
    * @param data The data to overwrite
    */
   public setData(data: string): { resolve: () => Promise<void> } {
-    this.data = validateData(data, this.cacheManager.dataCacheManager);
+    this.data = validateData(data, this.dataCacheManager);
     return {
       resolve: async () => {
         this.data = await this.data;
