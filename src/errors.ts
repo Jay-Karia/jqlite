@@ -59,3 +59,21 @@ export class DataError extends JQLiteError {
     this.documentation = `${ERROR_DOCS_BASE_URL}/data#${code.toLowerCase()}`;
   }
 }
+
+export class CacheError extends JQLiteError {
+  constructor({
+    message,
+    code,
+    cause,
+    solution,
+  }: {
+    message: string;
+    code: string;
+    cause: string;
+    solution?: string;
+  }) {
+    super(message, code, cause, solution);
+    this.name = "CacheError";
+    this.documentation = `${ERROR_DOCS_BASE_URL}/cache#${code.toLowerCase()}`;
+  }
+}

@@ -48,7 +48,8 @@ function validateData(
     // returns the cached data if it exists
     const url = data;
     const cachedData = getDataCache(url, dataCacheManager);
-    if (cachedData !== undefined && !dataCacheManager.hasCacheExpired()) return cachedData;
+    if (cachedData !== undefined && !dataCacheManager.hasCacheExpired())
+      return cachedData;
 
     return fetch(url)
       .then(res => {

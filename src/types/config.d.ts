@@ -19,7 +19,6 @@ export type Fallback = {
 export type CacheType = "none" | "memory" | "disk";
 
 export type DataCache = {
-  enabled?: boolean;
   type: CacheType;
   limit?: number;
   expiration?: Date;

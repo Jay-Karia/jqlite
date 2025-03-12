@@ -133,4 +133,13 @@ const DATA_ERRORS = {
   } as Error,
 };
 
-export { CONFIG_ERRORS, DATA_ERRORS };
+const CACHE_ERRORS = {
+  LIMIT_EXCEEDED: {
+    message: "Cache limit exceeded",
+    code: "C101",
+    cause: "Tried to set a cache value when the cache limit is reached",
+    solution: "Clear the cache before setting a new value",
+  } as Error,
+};
+
+export { CONFIG_ERRORS, DATA_ERRORS, CACHE_ERRORS };

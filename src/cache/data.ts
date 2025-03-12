@@ -1,6 +1,8 @@
 import { DEFAULT_DATA_CACHE_CONFIG } from "constants/index";
+import { CacheError } from "errors";
 import { JQLite } from "index";
 import { DataCache as DataCacheConfigType } from "types/config";
+import { CACHE_ERRORS } from "constants/errors";
 
 export class DataCacheManager {
   private jqlite: JQLite;
@@ -34,6 +36,11 @@ export class DataCacheManager {
   }
 
   public setCache(key: string, value: any): void {
+    const cacheSize = this.getCacheSize();
+    const cacheLimit = this.config.limit;
+    if (cacheLimit && cacheSize > cacheLimit) {
+      throw new CacheError(CACHE_ERRORS.LIMIT_EXCEEDED);
+    }
     this.cache.set(key, value);
   }
 
@@ -46,7 +53,9 @@ export class DataCacheManager {
   }
 
   public isCacheEnabled(): boolean {
-    return this.jqlite.configManager.getConfig().dataCache?.enabled || false;
+    return (
+      this.jqlite.configManager.getConfig().dataCache?.type !== "none" || false
+    );
   }
 
   public hasCacheExpired(): boolean {
