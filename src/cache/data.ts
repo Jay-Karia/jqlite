@@ -50,4 +50,14 @@ export class DataCacheManager {
     return this.jqlite.configManager.getConfig().dataCache?.enabled || false;
   }
 
+  public hasCacheExpired(): boolean {
+    const expirationTime = this.jqlite.configManager.getConfig().dataCache?.expiration || 0;
+    return expirationTime > 0 && Date.now() > expirationTime;
+  }
+
+  public removeExpiredCache(): void {
+    if (this.hasCacheExpired())
+      this.cache.clear();
+  }
+
 }

@@ -4,6 +4,7 @@ export type Alias = {
 };
 
 export type FallbackStrategy = "default" | "error" | "skip" | "infer";
+
 export type InferRules = {
   alternateKeys?: string[];
   alternateQueries?: string[];
@@ -37,3 +38,10 @@ export type Config = {
   fuzzy?: Fuzzy;
   dataCache?: DataCache;
 };
+
+export type SureConfig = {
+  aliases: Alias[];
+  fallback: Fallback;
+  fuzzy: Fuzzy;
+  dataCache: DataCache;
+}
