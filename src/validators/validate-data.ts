@@ -5,6 +5,7 @@ import { Error } from "../types/error";
 import path from "node:path";
 import { DataCacheManager } from "cache/data";
 import { getDataCache } from "lib/getDataCache";
+import { isValidUrl } from "lib/isValidUrl";
 
 /**
  * Validates the JSON data
@@ -43,8 +44,7 @@ function validateData(
       throw new DataError(DATA_ERRORS.INVALID_PATH);
     }
 
-  const isUrl = data.startsWith("http://") || data.startsWith("https://");
-  if (isUrl) {
+  if (isValidUrl(data)) {
     // returns the cached data if it exists
     const url = data;
     const cachedData = getDataCache(url, dataCacheManager);

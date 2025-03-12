@@ -2,6 +2,8 @@ import { Config } from "./types/config";
 import { ConfigManager } from "./config";
 import { validateData } from "validators/validate-data";
 import { DataCacheManager } from "cache/data";
+import { updateDataCache } from "lib/updateDataCache";
+import { isValidUrl } from "lib/isValidUrl";
 // import {resolveCacheData} from "lib/resolveCacheData";
 
 /**
@@ -11,7 +13,7 @@ export class JQLite {
   public configManager: ConfigManager;
   public dataCacheManager: DataCacheManager;
   public data: string | Promise<string>;
-  private currentDataUrl: string | null = null;
+  private currentDataUrl: string | undefined;
 
   set config(config: Config) {
     this.configManager.setConfig(config);
@@ -29,9 +31,7 @@ export class JQLite {
   constructor(config?: Config, data?: string) {
     this.configManager = new ConfigManager(config);
     this.dataCacheManager = new DataCacheManager(this);
-    if (data && (data.startsWith("http://") || data.startsWith("https://"))) {
-      this.currentDataUrl = data;
-    }
+    this.currentDataUrl = isValidUrl(data) ? data : undefined;
     this.data = data ? validateData(data, this.dataCacheManager) : "{}";
   }
 
@@ -40,21 +40,16 @@ export class JQLite {
    * @param data The data to overwrite
    */
   public setData(data: string): { resolve: () => Promise<void> } {
-    if (data.startsWith("http://") || data.startsWith("https://")) {
-      this.currentDataUrl = data;
-    } else {
-      this.currentDataUrl = null;
-    }
+    this.currentDataUrl = isValidUrl(data) ? data : undefined;
     this.data = validateData(data, this.dataCacheManager);
     return {
       resolve: async () => {
         this.data = await this.data;
-        if (this.currentDataUrl) {
-          this.dataCacheManager.setCache(
-            this.currentDataUrl,
-            this.data as string
-          );
-        }
+        updateDataCache(
+          this.currentDataUrl,
+          this.data as string,
+          this.dataCacheManager
+        );
       },
     };
   }
@@ -71,20 +66,10 @@ export class JQLite {
    */
   public async resolveData() {
     this.data = await this.data;
-    if (this.currentDataUrl) {
-      this.dataCacheManager.setCache(this.currentDataUrl, this.data as string);
-    }
+    updateDataCache(
+      this.currentDataUrl,
+      this.data as string,
+      this.dataCacheManager
+    );
   }
 }
-
-const jqlite = new JQLite(
-  {},
-  "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
-);
-await jqlite.resolveData();
-
-const cacheManager = jqlite.dataCacheManager;
-
-console.log(cacheManager.getCache());
-
-console.log(jqlite.data);
