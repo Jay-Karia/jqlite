@@ -46,12 +46,15 @@ function validateData(
   const isUrl = data.startsWith("http://") || data.startsWith("https://");
   if (isUrl) {
     // returns the cached data if it exists
-    const cachedData = getDataCache(data, dataCacheManager);
+    const url = data;
+    const cachedData = getDataCache(url, dataCacheManager);
     if (cachedData !== undefined) return cachedData;
 
-    return fetch(data)
+    return fetch(url)
       .then(res => {
-        return res.json();
+        const urlData = res.json();
+        dataCacheManager.setCache(url, urlData);
+        return urlData;
       })
       .catch(() => {
         throw new DataError(DATA_ERRORS.INVALID_URL);

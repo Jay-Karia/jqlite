@@ -4,7 +4,7 @@ import { DataCache as DataCacheConfigType } from "types/config";
 
 export class DataCacheManager {
   private jqlite: JQLite;
-  private cache: Map<string, any> = new Map();
+  private cache: Map<string, string | Promise<string>> = new Map();
 
   constructor(jqlite: JQLite) {
     this.jqlite = jqlite;
@@ -21,7 +21,7 @@ export class DataCacheManager {
     return this.cache;
   }
 
-  public getCacheForKey(key: string): string | void {
+  public getCacheForKey(key: string): string | Promise<string> | void {
     return this.cache.get(key);
   }
 
