@@ -140,6 +140,12 @@ const CACHE_ERRORS = {
     cause: "Tried to set a cache value when the cache limit is reached",
     solution: "Clear the cache before setting a new value",
   } as Error,
+  KEY_NOT_FOUND: {
+    message: "Key not found",
+    code: "C102",
+    cause: "Tried to remove a key that does not exist in the cache",
+    solution: "Check if the key exists before removing it",
+  } as Error,
 };
 
 export { CONFIG_ERRORS, DATA_ERRORS, CACHE_ERRORS };

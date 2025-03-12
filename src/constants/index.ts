@@ -16,13 +16,12 @@ const DEFAULT_CONFIG: Config = {
   },
   dataCache: {
     type: "memory",
-    enabled: true,
+    limit: 10,
   },
 };
 
 const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
   type: "memory",
-  enabled: true,
 };
 
 export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG };

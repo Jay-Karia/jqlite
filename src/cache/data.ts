@@ -23,25 +23,60 @@ export class DataCacheManager {
     return this.cache;
   }
 
+  /**
+   * Get the cache value for a key
+   * @param key The cache ket to get
+   * @returns The cache value for the key
+   */
   public getCacheForKey(key: string): string | Promise<string> | void {
+    if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
     return this.cache.get(key);
   }
 
-  public clearCache(): void {
-    this.cache.clear();
-  }
-
+  /**
+   * Clear the cache for a specific key
+   * @param key The key to clear the cache for
+   */
   public clearCacheForKey(key: string): void {
+    if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
     this.cache.delete(key);
   }
 
+  /**
+   * Sets the cache for a key
+   * @param key The key to set the cache for
+   * @param value The value to set the cache for
+   */
   public setCache(key: string, value: any): void {
+    // check if the cache is enabled
+    if (!this.isCacheEnabled()) return;
+
+    // check for limit
     const cacheSize = this.getCacheSize();
     const cacheLimit = this.config.limit;
     if (cacheLimit && cacheSize > cacheLimit) {
       throw new CacheError(CACHE_ERRORS.LIMIT_EXCEEDED);
     }
     this.cache.set(key, value);
+  }
+
+  /**
+   * Returns whether the cache has expired
+   * @returns Whether the cache has expired
+   */
+  public hasCacheExpired(): boolean {
+    const expirationTime =
+      this.jqlite.configManager.getConfig().dataCache?.expiration;
+    if (!expirationTime) return false;
+    const currentTime = new Date();
+    return expirationTime < currentTime;
+  }
+
+  /**
+   * Clears the cache if expired
+   */
+  public removeExpiredCache(): void {
+    if (this.hasCacheExpired()) this.cache.clear();
   }
 
   public getCacheSize(): number {
@@ -58,15 +93,7 @@ export class DataCacheManager {
     );
   }
 
-  public hasCacheExpired(): boolean {
-    const expirationTime =
-      this.jqlite.configManager.getConfig().dataCache?.expiration;
-    if (!expirationTime) return false;
-    const currentTime = new Date();
-    return expirationTime < currentTime;
-  }
-
-  public removeExpiredCache(): void {
-    if (this.hasCacheExpired()) this.cache.clear();
+  public clearCache(): void {
+    this.cache.clear();
   }
 }

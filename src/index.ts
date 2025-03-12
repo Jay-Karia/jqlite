@@ -4,7 +4,6 @@ import { validateData } from "validators/validate-data";
 import { DataCacheManager } from "cache/data";
 import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
-// import {resolveCacheData} from "lib/resolveCacheData";
 
 /**
  * JQLite
