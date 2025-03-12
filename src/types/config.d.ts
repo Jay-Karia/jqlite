@@ -22,7 +22,7 @@ export type DataCache = {
   enabled?: boolean;
   type: CacheType;
   limit?: number;
-  expiration?: number;
+  expiration?: Date;
 };
 
 export type Fuzzy = {
