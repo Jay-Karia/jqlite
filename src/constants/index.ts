@@ -9,20 +9,20 @@ const DEFAULT_CONFIG: Config = {
     value: "No value",
   },
   fuzzy: {
-    enable: false,
+    enabled: false,
     distance: 2,
     limit: 1,
     ignoreCase: true,
   },
   dataCache: {
     type: "memory",
-    enable: true,
+    enabled: true,
   },
 };
 
 const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
   type: "memory",
-  enable: true,
+  enabled: true,
 };
 
 export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG };

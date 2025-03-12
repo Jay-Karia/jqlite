@@ -18,14 +18,14 @@ export type Fallback = {
 export type CacheType = "none" | "memory" | "disk";
 
 export type DataCache = {
-  enable?: boolean;
+  enabled?: boolean;
   type: CacheType;
   limit?: number;
   expiration?: number;
 };
 
 export type Fuzzy = {
-  enable?: boolean;
+  enabled?: boolean;
   distance?: number;
   limit?: number;
   ignoreCase?: boolean;
