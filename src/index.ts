@@ -39,6 +39,7 @@ export class JQLite {
     return {
       resolve: async () => {
         this.data = await this.data;
+        this.dataCacheManager.setCache(this.data, this.data);
       },
     };
   }
@@ -55,5 +56,15 @@ export class JQLite {
    */
   public async resolveData() {
     this.data = await this.data;
+    this.dataCacheManager.setCache(this.data, this.data);
   }
 }
+
+const jqlite = new JQLite(
+  {},
+  "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
+);
+await jqlite.resolveData();
+
+console.log(jqlite.dataCacheManager.getCache());
+console.log(jqlite.data);

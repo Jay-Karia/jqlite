@@ -44,4 +44,4 @@ export type SureConfig = {
   fallback: Fallback;
   fuzzy: Fuzzy;
   dataCache: DataCache;
-}
+};

@@ -21,10 +21,9 @@ export class DataCacheManager {
     return this.cache;
   }
 
-  public getCacheForKey(key: string): any {
+  public getCacheForKey(key: string): string | void {
     return this.cache.get(key);
   }
-
 
   public clearCache(): void {
     this.cache.clear();
@@ -51,13 +50,12 @@ export class DataCacheManager {
   }
 
   public hasCacheExpired(): boolean {
-    const expirationTime = this.jqlite.configManager.getConfig().dataCache?.expiration || 0;
+    const expirationTime =
+      this.jqlite.configManager.getConfig().dataCache?.expiration || 0;
     return expirationTime > 0 && Date.now() > expirationTime;
   }
 
   public removeExpiredCache(): void {
-    if (this.hasCacheExpired())
-      this.cache.clear();
+    if (this.hasCacheExpired()) this.cache.clear();
   }
-
 }
