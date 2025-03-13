@@ -4,6 +4,7 @@ import { validateData } from "validators/validate-data";
 import { DataCacheManager } from "cache/data";
 import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
+import {Options} from "types/options";
 
 /**
  * JQLite
@@ -12,7 +13,19 @@ export class JQLite {
   public configManager: ConfigManager;
   public dataCacheManager: DataCacheManager;
   public data: string | Promise<string>;
-  private currentDataUrl: string | undefined;
+  public currentDataUrl: string | undefined;
+
+  /**
+   * The constructor for JQLite
+   * @param config The config object to override
+   * @param data The JSON data or path to a JSON file
+   */
+  constructor(options: Options) {
+    this.configManager = new ConfigManager(options.config);
+    this.dataCacheManager = new DataCacheManager(this);
+    this.currentDataUrl = isValidUrl(options.data) ? options.data : undefined;
+    this.data = options.data ? validateData(options.data, this.dataCacheManager) : "{}";
+  }
 
   /**
    * Set the config
@@ -26,18 +39,6 @@ export class JQLite {
    */
   get config(): Config {
     return this.configManager.getConfig();
-  }
-
-  /**
-   * The constructor for JQLite
-   * @param config The config object to override
-   * @param data The JSON data or path to a JSON file
-   */
-  constructor(config?: Config, data?: string) {
-    this.configManager = new ConfigManager(config);
-    this.dataCacheManager = new DataCacheManager(this);
-    this.currentDataUrl = isValidUrl(data) ? data : undefined;
-    this.data = data ? validateData(data, this.dataCacheManager) : "{}";
   }
 
   /**
