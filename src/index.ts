@@ -14,10 +14,16 @@ export class JQLite {
   public data: string | Promise<string>;
   private currentDataUrl: string | undefined;
 
+  /**
+   * Set the config
+   */
   set config(config: Config) {
     this.configManager.setConfig(config);
   }
 
+  /**
+   * Get the config
+   */
   get config(): Config {
     return this.configManager.getConfig();
   }
@@ -44,11 +50,7 @@ export class JQLite {
     return {
       resolve: async () => {
         this.data = await this.data;
-        updateDataCache(
-          this.currentDataUrl,
-          this.data,
-          this.dataCacheManager
-        );
+        updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
       },
     };
   }
@@ -65,10 +67,6 @@ export class JQLite {
    */
   public async resolveData() {
     this.data = await this.data;
-    updateDataCache(
-      this.currentDataUrl,
-      this.data,
-      this.dataCacheManager
-    );
+    updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
   }
 }

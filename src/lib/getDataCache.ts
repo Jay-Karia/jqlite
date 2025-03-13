@@ -14,7 +14,11 @@ function getDataCache(
 
   switch (cacheType) {
     case "memory":
-      return dataCacheManager.getCacheForKey(url);
+      try {
+        return dataCacheManager.getCacheForKey(url);
+      } catch {
+        return;
+      }
     default:
       return;
   }
