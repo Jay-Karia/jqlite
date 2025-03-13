@@ -37,10 +37,3 @@ export type Config = {
   fuzzy?: Fuzzy;
   dataCache?: DataCache;
 };
-
-export type SureConfig = {
-  aliases: Alias[];
-  fallback: Fallback;
-  fuzzy: Fuzzy;
-  dataCache: DataCache;
-};
