@@ -133,7 +133,8 @@ const DATA_ERRORS = {
   } as Error,
 };
 
-const CACHE_ERRORS = {
+// All the errors related to cache
+const DATA_CACHE_ERRORS = {
   LIMIT_EXCEEDED: {
     message: "Cache limit exceeded",
     code: "C101",
@@ -146,6 +147,12 @@ const CACHE_ERRORS = {
     cause: "Tried to remove a key that does not exist in the cache",
     solution: "Check if the key exists before removing it",
   } as Error,
+  MANAGER_NOT_DEFINED: {
+    message: "Data cache manager not defined",
+    code: "C103",
+    cause: "Tried to access data cache manager before defining it",
+    solution: "Define the data cache manager before accessing it",
+  } as Error
 };
 
-export { CONFIG_ERRORS, DATA_ERRORS, CACHE_ERRORS };
+export { CONFIG_ERRORS, DATA_ERRORS, DATA_CACHE_ERRORS };

@@ -107,9 +107,7 @@ function validateDataCache(dataCache?: DataCache) {
   if (dataCache) {
     if (dataCache.type === "none" && dataCache.limit)
       throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.LIMIT_NOT_REQUIRED);
-    if (dataCache.type === "none" && dataCache.autoSave)
-      throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.AUTO_SAVE_NOT_REQUIRED);
-    if (dataCache.expiration && dataCache.expiration <= 0)
+    if (dataCache.expiration && dataCache.expiration <= new Date())
       throw new ConfigError(CONFIG_ERRORS.DATA_CACHE.INVALID_EXPIRATION);
   }
 }
