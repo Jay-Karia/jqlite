@@ -2,7 +2,7 @@ import { DEFAULT_DATA_CACHE_CONFIG } from "constants/index";
 import { CacheError } from "errors";
 import { JQLite } from "index";
 import { DataCache as DataCacheConfigType } from "types/config";
-import { DATA_CACHE_ERRORS } from "constants/errors";
+import { CACHE_ERRORS } from "constants/errors";
 
 export class DataCacheManager {
   private jqlite: JQLite;
@@ -29,7 +29,7 @@ export class DataCacheManager {
    * @returns The cache value for the key
    */
   public getCacheForKey(key: string): string | Promise<string> | void {
-    if (!this.cache.has(key)) throw new CacheError(DATA_CACHE_ERRORS.KEY_NOT_FOUND);
+    if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
     return this.cache.get(key);
   }
 
@@ -38,7 +38,7 @@ export class DataCacheManager {
    * @param key The key to clear the cache for
    */
   public clearCacheForKey(key: string): void {
-    if (!this.cache.has(key)) throw new CacheError(DATA_CACHE_ERRORS.KEY_NOT_FOUND);
+    if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
     this.cache.delete(key);
   }
 
@@ -55,7 +55,7 @@ export class DataCacheManager {
     const cacheSize = this.getCacheSize();
     const cacheLimit = this.config.limit;
     if (cacheLimit && cacheSize > cacheLimit) {
-      throw new CacheError(DATA_CACHE_ERRORS.LIMIT_EXCEEDED);
+      throw new CacheError(CACHE_ERRORS.LIMIT_EXCEEDED);
     }
     this.cache.set(key, value);
   }

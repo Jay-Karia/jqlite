@@ -46,7 +46,7 @@ export class JQLite {
         this.data = await this.data;
         updateDataCache(
           this.currentDataUrl,
-          this.data as string,
+          this.data,
           this.dataCacheManager
         );
       },
@@ -67,7 +67,7 @@ export class JQLite {
     this.data = await this.data;
     updateDataCache(
       this.currentDataUrl,
-      this.data as string,
+      this.data,
       this.dataCacheManager
     );
   }

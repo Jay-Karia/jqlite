@@ -22,6 +22,7 @@ const DEFAULT_CONFIG: Config = {
 
 const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
   type: "memory",
+  limit: 10,
 };
 
 export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG };
