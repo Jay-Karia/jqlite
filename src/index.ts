@@ -24,7 +24,9 @@ export class JQLite {
     this.configManager = new ConfigManager(options.config);
     this.dataCacheManager = new DataCacheManager(this);
     this.currentDataUrl = isValidUrl(options.data) ? options.data : undefined;
-    this.data = options.data ? validateData(options.data, this.dataCacheManager) : "{}";
+    this.data = options.data
+      ? validateData(options.data, this.dataCacheManager)
+      : "{}";
   }
 
   /**
@@ -49,10 +51,7 @@ export class JQLite {
     this.currentDataUrl = isValidUrl(data) ? data : undefined;
     this.data = validateData(data, this.dataCacheManager);
     return {
-      resolve: async () => {
-        this.data = await this.data;
-        updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
-      },
+      resolve: async () => this.resolveData(),
     };
   }
 
