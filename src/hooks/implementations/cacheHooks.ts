@@ -1,4 +1,4 @@
-import {EventManager} from "hooks/eventManager";
+import { EventManager } from "hooks/eventManager";
 
 export function registerCacheHooks(eventManager: EventManager) {
   eventManager.on("CACHE_HIT", () => {

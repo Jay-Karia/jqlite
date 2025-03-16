@@ -162,7 +162,7 @@ const EVENT_ERRORS = {
     code: "E102",
     cause: "Tried to add an invalid event",
     solution: "Use a valid event name",
-  }
+  },
 };
 
 export { CONFIG_ERRORS, DATA_ERRORS, CACHE_ERRORS, EVENT_ERRORS };

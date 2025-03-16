@@ -1,4 +1,4 @@
-import {EventManager} from "hooks/eventManager";
+import { EventManager } from "hooks/eventManager";
 
 export function registerDataHooks(eventManager: EventManager) {
   eventManager.on("AFTER_GET_DATA", () => {

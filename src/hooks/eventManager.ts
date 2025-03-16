@@ -8,10 +8,13 @@ export class EventManager {
   private events: Record<EventType, Callback[]>;
 
   constructor() {
-    this.events = Object.keys(EVENTS).reduce((acc, key) => {
-      acc[key as EventType] = [];
-      return acc;
-    }, {} as Record<EventType, Callback[]>);
+    this.events = Object.keys(EVENTS).reduce(
+      (acc, key) => {
+        acc[key as EventType] = [];
+        return acc;
+      },
+      {} as Record<EventType, Callback[]>
+    );
   }
 
   public on(event: EventType, callback: () => void): void {
@@ -24,14 +27,6 @@ export class EventManager {
   public clear(event: EventType) {
     if (this.events[event]) {
       delete this.events[event];
-    }
-  }
-
-  public off(event: EventType, callback: Callback) {
-    if (this.events[event]) {
-      this.events[event] = this.events[event].filter(
-        cb => cb !== callback
-      );
     }
   }
 

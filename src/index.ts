@@ -4,8 +4,9 @@ import { validateData } from "validators/validate-data";
 import { DataCacheManager } from "cache/data";
 import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
-import {Options} from "types/options";
-import {eventManager} from "hooks/index";
+import { Options } from "types/options";
+import { EventManager } from "hooks/eventManager";
+import { eventManager } from "hooks/index";
 
 /**
  * JQLite
@@ -15,6 +16,7 @@ export class JQLite {
   public dataCacheManager: DataCacheManager;
   public data: string | Promise<string>;
   private currentDataUrl: string | undefined;
+  public eventManager: EventManager = eventManager;
 
   /**
    * The constructor for JQLite
@@ -71,7 +73,3 @@ export class JQLite {
     updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
   }
 }
-
-const jqlite = new JQLite();
-
-console.log(jqlite.config);

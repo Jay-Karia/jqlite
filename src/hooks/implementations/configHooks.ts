@@ -1,4 +1,4 @@
-import {EventManager} from "hooks/eventManager";
+import { EventManager } from "hooks/eventManager";
 
 export function registerConfigHooks(eventManager: EventManager) {
   eventManager.on("AFTER_SET_CONFIG", () => {
