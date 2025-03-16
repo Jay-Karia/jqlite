@@ -149,4 +149,20 @@ const CACHE_ERRORS = {
   } as Error,
 };
 
-export { CONFIG_ERRORS, DATA_ERRORS, CACHE_ERRORS };
+// All the errors related to events
+const EVENT_ERRORS = {
+  EVENT_NOT_FOUND: {
+    message: "Event not found",
+    code: "E101",
+    cause: "Tried to remove an event that does not exist",
+    solution: "Check if the event exists before removing it",
+  } as Error,
+  INVALID_EVENT: {
+    message: "Invalid event",
+    code: "E102",
+    cause: "Tried to add an invalid event",
+    solution: "Use a valid event name",
+  }
+};
+
+export { CONFIG_ERRORS, DATA_ERRORS, CACHE_ERRORS, EVENT_ERRORS };
