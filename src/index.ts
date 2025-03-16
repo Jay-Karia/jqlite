@@ -90,3 +90,11 @@ export class JQLite {
     this.eventManager.emit("AFTER_RESOLVE_DATA");
   }
 }
+
+const jqlite = new JQLite();
+
+// jqlite.eventManager.clear("GET_DATA");
+
+jqlite.eventManager.on("GET_DATA", () => console.log("Getting data new event "));
+
+console.log(jqlite.getData());

@@ -5,18 +5,19 @@ import { EVENTS, EventType } from "./events";
 type Callback = (...args: any[]) => void;
 
 export class EventManager {
-  private events: Record<EventType, Callback[]>;
+  private events: Record<EventType, Callback>;
 
   /**
    * Initialize a new EventManager
    */
   constructor() {
+    // remove the callback array and only want one callback per event
     this.events = Object.keys(EVENTS).reduce(
       (acc, key) => {
-        acc[key as EventType] = [];
+        acc[key as EventType] = () => {};
         return acc;
       },
-      {} as Record<EventType, Callback[]>
+      {} as Record<EventType, Callback>
     );
   }
 
@@ -28,8 +29,8 @@ export class EventManager {
   public on(event: EventType, callback: Callback): void {
     if (!(event in EVENTS)) throw new EventError(EVENT_ERRORS.INVALID_EVENT);
 
-    if (!this.events[event]) this.events[event] = [];
-    this.events[event].push(callback);
+    if (!this.events[event]) this.events[event] = callback;
+    this.events[event] = callback;
   }
 
   /**
@@ -38,8 +39,21 @@ export class EventManager {
    */
   public clear(event: EventType) {
     if (this.events[event]) {
-      this.events[event] = [];
+      this.events[event] = () => {};
     }
+  }
+
+  /**
+   * Clear all events
+   */
+  public clearAllEvents() {
+    this.events = Object.keys(EVENTS).reduce(
+      (acc, key) => {
+        acc[key as EventType] = () => {};
+        return acc;
+      },
+      {} as Record<EventType, Callback>
+    );
   }
 
   /**
@@ -48,7 +62,7 @@ export class EventManager {
    */
   public emit(event: EventType, ...args: any[]): void {
     if (this.events[event]) {
-      this.events[event].forEach(callback => callback(...args));
+      this.events[event](...args);
     }
   }
 
@@ -56,7 +70,7 @@ export class EventManager {
    * Get all the events
    * @returns All events
    */
-  public getEvents(): Record<EventType, Callback[]> {
+  public getEvents(): Record<EventType, Callback> {
     return this.events;
   }
 }
