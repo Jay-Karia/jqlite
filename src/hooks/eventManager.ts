@@ -25,7 +25,7 @@ export class EventManager {
    * @param event The event to listen for
    * @param callback The callback to run when the event is emitted
    */
-  public on(event: EventType, callback: () => void): void {
+  public on(event: EventType, callback: Callback): void {
     if (!(event in EVENTS)) throw new EventError(EVENT_ERRORS.INVALID_EVENT);
 
     if (!this.events[event]) this.events[event] = [];
@@ -38,7 +38,7 @@ export class EventManager {
    */
   public clear(event: EventType) {
     if (this.events[event]) {
-      delete this.events[event];
+      this.events[event] = [];
     }
   }
 
@@ -46,9 +46,9 @@ export class EventManager {
    * Emits an event
    * @param event The event to emit
    */
-  public emit(event: EventType) {
+  public emit(event: EventType, ...args: any[]): void {
     if (this.events[event]) {
-      this.events[event].forEach(callback => callback());
+      this.events[event].forEach(callback => callback(...args));
     }
   }
 

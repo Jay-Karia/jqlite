@@ -9,7 +9,7 @@ export function registerConfigHooks(eventManager: EventManager) {
     console.log("Setting config...");
   });
 
-  eventManager.on("BEFORE_GET_CONFIG", () => {
+  eventManager.on("GET_CONFIG", () => {
     console.log("Getting config...");
   });
 }

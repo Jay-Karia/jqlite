@@ -45,7 +45,7 @@ export class JQLite {
    * Get the config
    */
   get config(): Config {
-    this.eventManager.emit("BEFORE_GET_CONFIG");
+    this.eventManager.emit("GET_CONFIG");
     return this.configManager.getConfig();
   }
 
@@ -53,7 +53,7 @@ export class JQLite {
    * Get the data
    */
   public getData(): string | Promise<string> {
-    this.eventManager.emit("BEFORE_GET_DATA");
+    this.eventManager.emit("GET_DATA");
     return this.data;
   }
 

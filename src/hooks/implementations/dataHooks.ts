@@ -13,7 +13,7 @@ export function registerDataHooks(eventManager: EventManager) {
     console.log("Data resolved!");
   });
 
-  eventManager.on("BEFORE_GET_DATA", () => {
+  eventManager.on("GET_DATA", () => {
     console.log("Getting data...");
   });
 
