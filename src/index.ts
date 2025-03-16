@@ -5,7 +5,7 @@ import { DataCacheManager } from "cache/data";
 import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
 import {Options} from "types/options";
-import { eventManager } from "hooks/index";
+import {eventManager} from "hooks/index";
 
 /**
  * JQLite
@@ -21,11 +21,11 @@ export class JQLite {
    * @param config The config object to override
    * @param data The JSON data or path to a JSON file
    */
-  constructor(options: Options) {
-    this.configManager = new ConfigManager(options.config);
+  constructor(options?: Options) {
+    this.configManager = new ConfigManager(options?.config);
     this.dataCacheManager = new DataCacheManager(this);
-    this.currentDataUrl = isValidUrl(options.data) ? options.data : undefined;
-    this.data = options.data
+    this.currentDataUrl = isValidUrl(options?.data) ? options?.data : undefined;
+    this.data = options?.data
       ? validateData(options.data, this.dataCacheManager)
       : "{}";
   }
@@ -71,3 +71,7 @@ export class JQLite {
     updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
   }
 }
+
+const jqlite = new JQLite();
+
+console.log(jqlite.config);

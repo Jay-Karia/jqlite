@@ -40,4 +40,8 @@ export class EventManager {
       this.events[event].forEach(callback => callback(...args));
     }
   }
+
+  public getEvents(): Record<EventType, Callback[]> {
+    return this.events;
+  }
 }
