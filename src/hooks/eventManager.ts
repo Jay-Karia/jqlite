@@ -1,23 +1,43 @@
 import { EVENT_ERRORS } from "constants/errors";
 import { EventError } from "errors";
 import { EVENTS, EventType } from "./events";
+import { registerDataHooks } from "./implementations/dataHooks";
+import { registerCacheHooks } from "./implementations/cacheHooks";
+import { registerConfigHooks } from "./implementations/configHooks";
+import { JQLite } from "index";
+import { DEFAULT_EVENTS_CONFIG } from "constants/index";
 
 type Callback = (...args: any[]) => void;
 
 export class EventManager {
   private events: Record<EventType, Callback>;
+  private jqlite: JQLite;
 
   /**
    * Initialize a new EventManager
    */
-  constructor() {
-    // remove the callback array and only want one callback per event
+  constructor(jqlite: JQLite) {
     this.events = Object.keys(EVENTS).reduce(
       (acc, key) => {
         acc[key as EventType] = () => {};
         return acc;
       },
       {} as Record<EventType, Callback>
+    );
+
+    registerDataHooks(this);
+    registerCacheHooks(this);
+    registerConfigHooks(this);
+
+    this.jqlite = jqlite;
+  }
+
+  /**
+   * Get the config
+   */
+  get config() {
+    return (
+      this.jqlite.configManager.getConfig().events || DEFAULT_EVENTS_CONFIG
     );
   }
 
@@ -61,6 +81,7 @@ export class EventManager {
    * @param event The event to emit
    */
   public emit(event: EventType, ...args: any[]): void {
+    if (this.config && this.config.emit === false) return;
     if (this.events[event]) {
       this.events[event](...args);
     }

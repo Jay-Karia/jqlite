@@ -31,9 +31,14 @@ export type Fuzzy = {
   ignoreCase?: boolean;
 };
 
+export type Events = {
+  emit?: boolean;
+}
+
 export type Config = {
   aliases?: Alias[];
   fallback?: Fallback;
   fuzzy?: Fuzzy;
   dataCache?: DataCache;
+  events?: Events;
 };

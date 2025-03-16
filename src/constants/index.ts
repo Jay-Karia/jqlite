@@ -2,6 +2,15 @@ import { Config, DataCache } from "types/config";
 
 const ERROR_DOCS_BASE_URL = "https://example.com/docs/errors";
 
+const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
+  type: "memory",
+  limit: 10,
+};
+
+const DEFAULT_EVENTS_CONFIG = {
+  emit: true,
+}
+
 const DEFAULT_CONFIG: Config = {
   aliases: [],
   fallback: {
@@ -14,15 +23,9 @@ const DEFAULT_CONFIG: Config = {
     limit: 1,
     ignoreCase: true,
   },
-  dataCache: {
-    type: "memory",
-    limit: 10,
-  },
+  dataCache: DEFAULT_DATA_CACHE_CONFIG,
+  events: DEFAULT_EVENTS_CONFIG
 };
 
-const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
-  type: "memory",
-  limit: 10,
-};
 
-export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG };
+export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG, DEFAULT_EVENTS_CONFIG };

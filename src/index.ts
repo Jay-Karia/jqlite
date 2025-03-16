@@ -6,7 +6,6 @@ import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
 import { Options } from "types/options";
 import { EventManager } from "hooks/eventManager";
-import { eventManager } from "hooks/index";
 
 /**
  * JQLite
@@ -16,7 +15,7 @@ export class JQLite {
   public dataCacheManager: DataCacheManager;
   private data: string | Promise<string>;
   private currentDataUrl: string | undefined;
-  public eventManager: EventManager = eventManager;
+  public eventManager: EventManager;
 
   /**
    * The constructor for JQLite
@@ -26,6 +25,7 @@ export class JQLite {
   constructor(options?: Options) {
     this.configManager = new ConfigManager(options?.config);
     this.dataCacheManager = new DataCacheManager(this);
+    this.eventManager = new EventManager(this);
     this.currentDataUrl = isValidUrl(options?.data) ? options?.data : undefined;
     this.data = options?.data
       ? validateData(options.data, this.dataCacheManager)
@@ -91,10 +91,19 @@ export class JQLite {
   }
 }
 
-const jqlite = new JQLite();
-
-// jqlite.eventManager.clear("GET_DATA");
-
-jqlite.eventManager.on("GET_DATA", () => console.log("Getting data new event "));
+const jqlite = new JQLite({
+  config: {
+    events: {
+      emit: true,
+    },
+  },
+});
 
 console.log(jqlite.getData());
+console.log(jqlite.clearData());
+jqlite.config = {
+  fuzzy: {
+    limit: 1,
+  }
+};
+console.log(jqlite.config);
