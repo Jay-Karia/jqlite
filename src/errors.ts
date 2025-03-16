@@ -77,3 +77,21 @@ export class CacheError extends JQLiteError {
     this.documentation = `${ERROR_DOCS_BASE_URL}/cache#${code.toLowerCase()}`;
   }
 }
+
+export class EventError extends JQLiteError {
+  constructor({
+    message,
+    code,
+    cause,
+    solution,
+  }: {
+    message: string;
+    code: string;
+    cause: string;
+    solution?: string;
+  }) {
+    super(message, code, cause, solution);
+    this.name = "EventError";
+    this.documentation = `${ERROR_DOCS_BASE_URL}/events#${code.toLowerCase()}`;
+  }
+}
