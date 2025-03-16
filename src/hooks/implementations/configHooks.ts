@@ -5,10 +5,6 @@ export function registerConfigHooks(eventManager: EventManager) {
     console.log("Config set!");
   });
 
-  eventManager.on("AFTER_GET_CONFIG", () => {
-    console.log("Config retrieved!");
-  });
-
   eventManager.on("BEFORE_SET_CONFIG", () => {
     console.log("Setting config...");
   });

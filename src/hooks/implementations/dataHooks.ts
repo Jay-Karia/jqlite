@@ -1,10 +1,6 @@
 import { EventManager } from "hooks/eventManager";
 
 export function registerDataHooks(eventManager: EventManager) {
-  eventManager.on("AFTER_GET_DATA", () => {
-    console.log("Data retrieved!");
-  });
-
   eventManager.on("AFTER_SET_DATA", () => {
     console.log("Data set!");
   });

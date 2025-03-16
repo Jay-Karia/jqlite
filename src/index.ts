@@ -14,7 +14,7 @@ import { eventManager } from "hooks/index";
 export class JQLite {
   public configManager: ConfigManager;
   public dataCacheManager: DataCacheManager;
-  public data: string | Promise<string>;
+  private data: string | Promise<string>;
   private currentDataUrl: string | undefined;
   public eventManager: EventManager = eventManager;
 
@@ -36,14 +36,25 @@ export class JQLite {
    * Set the config
    */
   set config(config: Config) {
+    this.eventManager.emit("BEFORE_SET_CONFIG");
     this.configManager.setConfig(config);
+    this.eventManager.emit("AFTER_SET_CONFIG");
   }
 
   /**
    * Get the config
    */
   get config(): Config {
+    this.eventManager.emit("BEFORE_GET_CONFIG");
     return this.configManager.getConfig();
+  }
+
+  /**
+   * Get the data
+   */
+  public getData(): string | Promise<string> {
+    this.eventManager.emit("BEFORE_GET_DATA");
+    return this.data;
   }
 
   /**
@@ -51,8 +62,10 @@ export class JQLite {
    * @param data The data to overwrite
    */
   public setData(data: string): { resolve: () => Promise<void> } {
+    this.eventManager.emit("BEFORE_SET_DATA");
     this.currentDataUrl = isValidUrl(data) ? data : undefined;
     this.data = validateData(data, this.dataCacheManager);
+    this.eventManager.emit("AFTER_SET_DATA");
     return {
       resolve: async () => this.resolveData(),
     };
@@ -62,14 +75,18 @@ export class JQLite {
    * Clears the data
    */
   public clearData(): void {
+    this.eventManager.emit("BEFORE_CLEAR_DATA");
     this.data = "{}";
+    this.eventManager.emit("AFTER_CLEAR_DATA");
   }
 
   /**
    * Resolves the data if it is a promise
    */
   public async resolveData() {
+    this.eventManager.emit("BEFORE_RESOLVE_DATA");
     this.data = await this.data;
     updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
+    this.eventManager.emit("AFTER_RESOLVE_DATA");
   }
 }
