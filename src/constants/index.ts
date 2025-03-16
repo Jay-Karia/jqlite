@@ -9,7 +9,7 @@ const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
 
 const DEFAULT_EVENTS_CONFIG = {
   emit: true,
-}
+};
 
 const DEFAULT_CONFIG: Config = {
   aliases: [],
@@ -24,8 +24,12 @@ const DEFAULT_CONFIG: Config = {
     ignoreCase: true,
   },
   dataCache: DEFAULT_DATA_CACHE_CONFIG,
-  events: DEFAULT_EVENTS_CONFIG
+  events: DEFAULT_EVENTS_CONFIG,
 };
 
-
-export { ERROR_DOCS_BASE_URL, DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG, DEFAULT_EVENTS_CONFIG };
+export {
+  ERROR_DOCS_BASE_URL,
+  DEFAULT_CONFIG,
+  DEFAULT_DATA_CACHE_CONFIG,
+  DEFAULT_EVENTS_CONFIG,
+};

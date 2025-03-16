@@ -90,20 +90,3 @@ export class JQLite {
     this.eventManager.emit("AFTER_RESOLVE_DATA");
   }
 }
-
-const jqlite = new JQLite({
-  config: {
-    events: {
-      emit: true,
-    },
-  },
-});
-
-console.log(jqlite.getData());
-console.log(jqlite.clearData());
-jqlite.config = {
-  fuzzy: {
-    limit: 1,
-  }
-};
-console.log(jqlite.config);

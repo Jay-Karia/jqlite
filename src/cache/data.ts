@@ -32,6 +32,7 @@ export class DataCacheManager {
    * @returns The cache
    */
   public getCache(): Map<string, any> {
+    this.jqlite.eventManager.emit("CACHE_HIT");
     return this.cache;
   }
 
@@ -42,6 +43,7 @@ export class DataCacheManager {
    */
   public getCacheForKey(key: string): string | Promise<string> | void {
     if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
+    this.jqlite.eventManager.emit("CACHE_HIT");
     return this.cache.get(key);
   }
 
@@ -52,6 +54,7 @@ export class DataCacheManager {
   public clearCacheForKey(key: string): void {
     if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
     this.cache.delete(key);
+    this.jqlite.eventManager.emit("CACHE_CLEARED");
   }
 
   /**
@@ -81,7 +84,9 @@ export class DataCacheManager {
       this.jqlite.configManager.getConfig().dataCache?.expiration;
     if (!expirationTime) return false;
     const currentTime = new Date();
-    return expirationTime < currentTime;
+    const expired = expirationTime < currentTime;
+    if (expired) this.jqlite.eventManager.emit("CACHE_EXPIRED");
+    return expired;
   }
 
   /**
@@ -89,6 +94,7 @@ export class DataCacheManager {
    */
   public removeExpiredCache(): void {
     if (this.hasCacheExpired()) this.cache.clear();
+    this.jqlite.eventManager.emit("CACHE_CLEARED");
   }
 
   /**
@@ -143,6 +149,7 @@ export class DataCacheManager {
    */
   public clearCache(): void {
     this.cache.clear();
+    this.jqlite.eventManager.emit("CACHE_CLEARED");
   }
 
   /**
@@ -152,5 +159,6 @@ export class DataCacheManager {
     this.jqlite.configManager.setConfig({
       dataCache: DEFAULT_DATA_CACHE_CONFIG,
     });
+    this.jqlite.eventManager.emit("AFTER_SET_CONFIG");
   }
 }

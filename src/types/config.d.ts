@@ -33,7 +33,7 @@ export type Fuzzy = {
 
 export type Events = {
   emit?: boolean;
-}
+};
 
 export type Config = {
   aliases?: Alias[];
