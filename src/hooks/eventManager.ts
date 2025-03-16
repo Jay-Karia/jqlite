@@ -6,6 +6,7 @@ import { registerCacheHooks } from "./implementations/cacheHooks";
 import { registerConfigHooks } from "./implementations/configHooks";
 import { JQLite } from "index";
 import { DEFAULT_EVENTS_CONFIG } from "constants/index";
+import {Events} from "types/config";
 
 type Callback = (...args: any[]) => void;
 
@@ -25,17 +26,20 @@ export class EventManager {
       {} as Record<EventType, Callback>
     );
 
+    this.jqlite = jqlite;
+
+    if (this.config && !(this.config.defaultEvents)) return;
+
     registerDataHooks(this);
     registerCacheHooks(this);
     registerConfigHooks(this);
 
-    this.jqlite = jqlite;
   }
 
   /**
    * Get the config
    */
-  get config() {
+  get config(): Events {
     return (
       this.jqlite.configManager.getConfig().events || DEFAULT_EVENTS_CONFIG
     );
