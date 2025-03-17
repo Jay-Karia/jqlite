@@ -3,6 +3,7 @@ import { CacheError } from "errors";
 import { DataCache as DataCacheConfigType } from "types/config";
 import { CACHE_ERRORS } from "constants/errors";
 import { getConfig, updateConfig } from "lib/globalConfig";
+import { emit } from "lib/globalEmitter";
 
 export class DataCacheManager {
   private cache: Map<string, string | Promise<string>> = new Map();
@@ -20,7 +21,7 @@ export class DataCacheManager {
    * @returns The cache
    */
   public getCache(): Map<string, any> {
-    // this.jqlite.eventManager.emit("CACHE_HIT");
+    emit("CACHE_HIT");
     return this.cache;
   }
 
@@ -31,7 +32,7 @@ export class DataCacheManager {
    */
   public getCacheForKey(key: string): string | Promise<string> | void {
     if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
-    // this.jqlite.eventManager.emit("CACHE_HIT");
+    emit("CACHE_HIT");
     return this.cache.get(key);
   }
 
@@ -42,7 +43,7 @@ export class DataCacheManager {
   public clearCacheForKey(key: string): void {
     if (!this.cache.has(key)) throw new CacheError(CACHE_ERRORS.KEY_NOT_FOUND);
     this.cache.delete(key);
-    // this.jqlite.eventManager.emit("CACHE_CLEARED");
+    emit("CACHE_CLEARED");
   }
 
   /**
@@ -72,7 +73,7 @@ export class DataCacheManager {
     if (!expirationTime) return false;
     const currentTime = new Date();
     const expired = expirationTime < currentTime;
-    // if (expired) this.jqlite.eventManager.emit("CACHE_EXPIRED");
+    if (expired) emit("CACHE_EXPIRED");
     return expired;
   }
 
@@ -81,7 +82,7 @@ export class DataCacheManager {
    */
   public removeExpiredCache(): void {
     if (this.hasCacheExpired()) this.cache.clear();
-    // this.jqlite.eventManager.emit("CACHE_CLEARED");
+    emit("CACHE_CLEARED");
   }
 
   /**
@@ -95,7 +96,7 @@ export class DataCacheManager {
         expiration,
       },
     });
-    // this.jqlite.eventManager.emit("AFTER_SET_CONFIG");
+    emit("AFTER_SET_CONFIG");
   }
 
   /**
@@ -135,7 +136,7 @@ export class DataCacheManager {
    */
   public clearCache(): void {
     this.cache.clear();
-    // this.jqlite.eventManager.emit("CACHE_CLEARED");
+    emit("CACHE_CLEARED");
   }
 
   /**
@@ -145,6 +146,6 @@ export class DataCacheManager {
     updateConfig({
       dataCache: DEFAULT_DATA_CACHE_CONFIG,
     });
-    // this.jqlite.eventManager.emit("AFTER_SET_CONFIG");
+    emit("AFTER_SET_CONFIG");
   }
 }

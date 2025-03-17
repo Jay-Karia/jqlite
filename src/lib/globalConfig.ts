@@ -10,7 +10,3 @@ export function getConfig() {
 export function updateConfig(config: Config) {
   Object.assign(CONFIG, config);
 }
-
-export function overrideConfig(config: Config) {
-  return Object.assign({}, CONFIG, config);
-}

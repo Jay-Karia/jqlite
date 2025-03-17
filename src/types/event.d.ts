@@ -1,1 +1,1 @@
-export type EventCategory = "data" | "cache" | "config" | "all";
+export type EventCategory = "data" | "cache" | "config";

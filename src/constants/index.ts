@@ -1,4 +1,4 @@
-import { Config, DataCache } from "types/config";
+import { Config, DataCache, Events } from "types/config";
 
 const ERROR_DOCS_BASE_URL = "https://example.com/docs/errors";
 
@@ -7,9 +7,8 @@ const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
   limit: 10,
 };
 
-const DEFAULT_EVENTS_CONFIG = {
+const DEFAULT_EVENTS_CONFIG: Events = {
   emit: true,
-  defaultEvents: true,
 };
 
 const DEFAULT_CONFIG: Config = {

@@ -79,6 +79,10 @@ export class ConfigManager {
     return this.config;
   }
 
+  /**
+   * Get the config object
+   * @returns The config object
+   */
   public getConfig(): Config {
     emit("GET_CONFIG");
     return getConfig();

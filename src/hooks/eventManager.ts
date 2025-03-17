@@ -19,6 +19,7 @@ type Callback = (...args: any[]) => void;
 
 export class EventManager {
   private events: Record<EventType, Callback>;
+
   /**
    * Initialize a new EventManager
    */
@@ -30,8 +31,6 @@ export class EventManager {
       },
       {} as Record<EventType, Callback>
     );
-
-    if (this.config && this.config.defaultEvents === false) return;
 
     registerDataHooks(this);
     registerCacheHooks(this);
@@ -83,9 +82,6 @@ export class EventManager {
       case "config":
         clearConfigHooks(this);
         break;
-      case "all":
-        this.clearAllEvents();
-        break;
       default:
         throw new EventError(EVENT_ERRORS.INVALID_EVENT_CATEGORY);
     }
@@ -109,7 +105,6 @@ export class EventManager {
    * @param event The event to emit
    */
   public emit(event: EventType, ...args: any[]): void {
-    // if (this.config && this.config.defaultEvents === false)
     if (this.config && this.config.emit === false) return;
     if (this.events[event]) {
       this.events[event](...args);

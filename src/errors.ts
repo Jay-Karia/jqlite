@@ -8,6 +8,13 @@ export class JQLiteError extends Error {
   protected documentation: string;
   protected solution?: string;
 
+  /**
+   * The main error class
+   * @param message The error message
+   * @param code The error code
+   * @param cause The error cause
+   * @param solution The error solution
+   */
   constructor(message: string, code: string, cause: string, solution?: string) {
     super(message);
     this.name = "JQLiteError";
