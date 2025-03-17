@@ -87,3 +87,15 @@ export class JQLite {
     this.eventManager.emit("AFTER_RESOLVE_DATA");
   }
 }
+// can only modify default events when initializing the main class
+const jqlite = new JQLite({
+  config: {
+    events: {
+      defaultEvents: false,
+    },
+  },
+});
+
+console.log(jqlite.getData());
+
+// TODO: make the event emitter global like the config object and update it via the event manager.

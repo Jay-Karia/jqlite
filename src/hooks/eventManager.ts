@@ -31,6 +31,8 @@ export class EventManager {
       {} as Record<EventType, Callback>
     );
 
+    if (this.config && this.config.defaultEvents === false) return;
+
     registerDataHooks(this);
     registerCacheHooks(this);
     registerConfigHooks(this);

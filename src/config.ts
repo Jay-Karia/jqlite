@@ -28,6 +28,7 @@ export class ConfigManager {
     this.config = config ? overrideDefaultConfig(config) : DEFAULT_CONFIG;
     if (!jqlite.eventManager) this.eventManager = new EventManager();
     else this.eventManager = jqlite.eventManager;
+    updateConfig(this.config);
   }
 
   /**
