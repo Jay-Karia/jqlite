@@ -1,12 +1,17 @@
 import { DEFAULT_CONFIG } from "config/index";
 import { Config } from "config/config";
 
-const CONFIG = DEFAULT_CONFIG;
+let CONFIG: Config | undefined;
 
 export function getConfig() {
+  if (!CONFIG) return DEFAULT_CONFIG;
   return CONFIG;
 }
 
 export function updateConfig(config: Config) {
-  Object.assign(CONFIG, config);
+  CONFIG = config;
+}
+
+export function getDefaultConfig() {
+  return DEFAULT_CONFIG;
 }

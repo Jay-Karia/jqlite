@@ -8,7 +8,7 @@ import {
   validateAlias,
   validateConfig,
 } from "../validators/validate-config";
-import { getConfig, updateConfig } from "lib/globalConfig";
+import { getConfig, getDefaultConfig, updateConfig } from "lib/globalConfig";
 import { emit } from "lib/globalEmitter";
 
 /**
@@ -16,7 +16,7 @@ import { emit } from "lib/globalEmitter";
  */
 export class ConfigManager {
   private config: Config;
-  public DEFAULT_CONFIG = DEFAULT_CONFIG;
+  public DEFAULT_CONFIG = getDefaultConfig();
 
   /**
    * Initialize a new object
