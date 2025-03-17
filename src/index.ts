@@ -24,7 +24,7 @@ export class JQLite {
    */
   constructor(options?: Options) {
     this.configManager = new ConfigManager(this, options?.config);
-    this.eventManager = new EventManager(this);
+    this.eventManager = new EventManager();
     this.dataCacheManager = new DataCacheManager(this);
     this.currentDataUrl = isValidUrl(options?.data) ? options?.data : undefined;
     this.data = options?.data
@@ -43,7 +43,6 @@ export class JQLite {
    * Get the config
    */
   get config(): Config {
-    this.eventManager.emit("GET_CONFIG");
     return this.configManager.getConfig();
   }
 

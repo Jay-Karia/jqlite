@@ -1,24 +1,28 @@
 import { EVENT_ERRORS } from "constants/errors";
 import { EventError } from "errors";
 import { EVENTS, EventType } from "./events";
-import { registerDataHooks } from "./implementations/dataHooks";
-import { registerCacheHooks } from "./implementations/cacheHooks";
-import { registerConfigHooks } from "./implementations/configHooks";
-import { JQLite } from "index";
+import { clearDataHooks, registerDataHooks } from "./implementations/dataHooks";
+import {
+  clearCacheHooks,
+  registerCacheHooks,
+} from "./implementations/cacheHooks";
+import {
+  clearConfigHooks,
+  registerConfigHooks,
+} from "./implementations/configHooks";
 import { DEFAULT_EVENTS_CONFIG } from "constants/index";
 import { Events } from "types/config";
 import { getConfig } from "lib/globalConfig";
+import { EventCategory } from "types/event";
 
 type Callback = (...args: any[]) => void;
 
 export class EventManager {
   private events: Record<EventType, Callback>;
-  private jqlite: JQLite | undefined;
-
   /**
    * Initialize a new EventManager
    */
-  constructor(jqlite?: JQLite) {
+  constructor() {
     this.events = Object.keys(EVENTS).reduce(
       (acc, key) => {
         acc[key as EventType] = () => {};
@@ -27,17 +31,13 @@ export class EventManager {
       {} as Record<EventType, Callback>
     );
 
-    this.jqlite = jqlite;
-
-    if (this.config && !this.config.defaultEvents) return;
-
     registerDataHooks(this);
     registerCacheHooks(this);
     registerConfigHooks(this);
   }
 
   /**
-   * Get the config
+   * Get the events config
    */
   get config(): Events {
     return getConfig().events || DEFAULT_EVENTS_CONFIG;
@@ -61,7 +61,31 @@ export class EventManager {
    */
   public off(event: EventType) {
     if (this.events[event]) {
+      // console.log(this.events[event]);
       this.events[event] = () => {};
+    }
+  }
+
+  /**
+   * Clear an event category
+   * @param event The event category to clear
+   */
+  public clearEventCategory(event: EventCategory) {
+    switch (event) {
+      case "data":
+        clearDataHooks(this);
+        break;
+      case "cache":
+        clearCacheHooks(this);
+        break;
+      case "config":
+        clearConfigHooks(this);
+        break;
+      case "all":
+        this.clearAllEvents();
+        break;
+      default:
+        throw new EventError(EVENT_ERRORS.INVALID_EVENT_CATEGORY);
     }
   }
 
@@ -83,6 +107,7 @@ export class EventManager {
    * @param event The event to emit
    */
   public emit(event: EventType, ...args: any[]): void {
+    // if (this.config && this.config.defaultEvents === false)
     if (this.config && this.config.emit === false) return;
     if (this.events[event]) {
       this.events[event](...args);

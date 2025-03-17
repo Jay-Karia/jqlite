@@ -83,6 +83,7 @@ export class ConfigManager {
   }
 
   public getConfig(): Config {
+    this.eventManager.emit("GET_CONFIG");
     return getConfig();
   }
 

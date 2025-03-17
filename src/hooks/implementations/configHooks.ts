@@ -45,3 +45,17 @@ export function registerConfigHooks(eventManager: EventManager) {
     console.log("Config reset!");
   });
 }
+
+export function clearConfigHooks(eventManager: EventManager) {
+  eventManager.off("AFTER_SET_CONFIG");
+  eventManager.off("BEFORE_SET_CONFIG");
+  eventManager.off("GET_CONFIG");
+  eventManager.off("BEFORE_ADD_ALIAS");
+  eventManager.off("AFTER_ADD_ALIAS");
+  eventManager.off("BEFORE_REMOVE_ALIAS");
+  eventManager.off("AFTER_REMOVE_ALIAS");
+  eventManager.off("BEFORE_CLEAR_ALIASES");
+  eventManager.off("AFTER_CLEAR_ALIASES");
+  eventManager.off("BEFORE_RESET_CONFIG");
+  eventManager.off("AFTER_RESET_CONFIG");
+}

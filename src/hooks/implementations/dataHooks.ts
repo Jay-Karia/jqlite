@@ -29,3 +29,13 @@ export function registerDataHooks(eventManager: EventManager) {
     console.log("Resolving data...");
   });
 }
+
+export function clearDataHooks(eventManager: EventManager) {
+  eventManager.off("AFTER_SET_DATA");
+  eventManager.off("AFTER_CLEAR_DATA");
+  eventManager.off("AFTER_RESOLVE_DATA");
+  eventManager.off("GET_DATA");
+  eventManager.off("BEFORE_SET_DATA");
+  eventManager.off("BEFORE_CLEAR_DATA");
+  eventManager.off("BEFORE_RESOLVE_DATA");
+}

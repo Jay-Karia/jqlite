@@ -163,6 +163,12 @@ const EVENT_ERRORS = {
     cause: "Tried to add an invalid event",
     solution: "Use a valid event name",
   },
+  INVALID_EVENT_CATEGORY: {
+    message: "Invalid event category",
+    code: "E103",
+    cause: "Tried to clear an invalid event category",
+    solution: "Use a valid event category",
+  },
 };
 
 export { CONFIG_ERRORS, DATA_ERRORS, CACHE_ERRORS, EVENT_ERRORS };

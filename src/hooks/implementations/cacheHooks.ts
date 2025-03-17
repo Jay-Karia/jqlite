@@ -17,3 +17,10 @@ export function registerCacheHooks(eventManager: EventManager) {
     console.log("Cache cleared!");
   });
 }
+
+export function clearCacheHooks(eventManager: EventManager) {
+  eventManager.off("CACHE_HIT");
+  eventManager.off("CACHE_MISS");
+  eventManager.off("CACHE_EXPIRED");
+  eventManager.off("CACHE_CLEARED");
+}
