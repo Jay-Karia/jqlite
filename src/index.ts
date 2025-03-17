@@ -5,6 +5,7 @@ import { DataCacheManager } from "cache/data";
 import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
 import { Options } from "types/options";
+import { emit, eventManager } from "lib/globalEmitter";
 import { EventManager } from "hooks/eventManager";
 
 /**
@@ -23,9 +24,9 @@ export class JQLite {
    * @param data The JSON data or path to a JSON file
    */
   constructor(options?: Options) {
-    this.configManager = new ConfigManager(this, options?.config);
-    this.eventManager = new EventManager();
-    this.dataCacheManager = new DataCacheManager(this);
+    this.eventManager = eventManager;
+    this.configManager = new ConfigManager(options?.config);
+    this.dataCacheManager = new DataCacheManager();
     this.currentDataUrl = isValidUrl(options?.data) ? options?.data : undefined;
     this.data = options?.data
       ? validateData(options.data, this.dataCacheManager)
@@ -50,7 +51,7 @@ export class JQLite {
    * Get the data
    */
   public getData(): string | Promise<string> {
-    this.eventManager.emit("GET_DATA");
+    emit("GET_DATA");
     return this.data;
   }
 
@@ -59,10 +60,10 @@ export class JQLite {
    * @param data The data to overwrite
    */
   public setData(data: string): { resolve: () => Promise<void> } {
-    this.eventManager.emit("BEFORE_SET_DATA");
+    emit("BEFORE_SET_DATA");
     this.currentDataUrl = isValidUrl(data) ? data : undefined;
     this.data = validateData(data, this.dataCacheManager);
-    this.eventManager.emit("AFTER_SET_DATA");
+    emit("AFTER_SET_DATA");
     return {
       resolve: async () => this.resolveData(),
     };
@@ -72,30 +73,18 @@ export class JQLite {
    * Clears the data
    */
   public clearData(): void {
-    this.eventManager.emit("BEFORE_CLEAR_DATA");
+    emit("BEFORE_CLEAR_DATA");
     this.data = "{}";
-    this.eventManager.emit("AFTER_CLEAR_DATA");
+    emit("AFTER_CLEAR_DATA");
   }
 
   /**
    * Resolves the data if it is a promise
    */
   public async resolveData() {
-    this.eventManager.emit("BEFORE_RESOLVE_DATA");
+    emit("BEFORE_RESOLVE_DATA");
     this.data = await this.data;
     updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
-    this.eventManager.emit("AFTER_RESOLVE_DATA");
+    emit("AFTER_RESOLVE_DATA");
   }
 }
-// can only modify default events when initializing the main class
-const jqlite = new JQLite({
-  config: {
-    events: {
-      defaultEvents: false,
-    },
-  },
-});
-
-console.log(jqlite.getData());
-
-// TODO: make the event emitter global like the config object and update it via the event manager.
