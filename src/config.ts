@@ -10,6 +10,7 @@ import {
 } from "./validators/validate-config";
 import { JQLite } from "index";
 import {EventManager} from "hooks/eventManager";
+import {updateConfig} from "lib/globalConfig";
 
 /**
  * Config Manager for the query language
@@ -41,6 +42,7 @@ export class ConfigManager {
 
     checkDuplicateAliases(this.config, { alias, path });
     this.config.aliases?.push({ alias, path });
+    updateConfig(this.config);
   }
 
   /**
@@ -50,6 +52,7 @@ export class ConfigManager {
   public removeAlias(alias: string): void {
     validateAlias(this.config, alias);
     this.config.aliases = this.config.aliases?.filter(a => a.alias !== alias);
+    updateConfig(this.config);
   }
 
   /**
@@ -57,6 +60,7 @@ export class ConfigManager {
    */
   public clearAliases(): void {
     this.config.aliases = [];
+    updateConfig(this.config);
   }
 
   /**
@@ -67,6 +71,7 @@ export class ConfigManager {
   public setConfig(config: Config): Config {
     validateConfig(config);
     this.config = { ...this.config, ...config };
+    updateConfig(this.config);
     return this.config;
   }
 
@@ -79,6 +84,7 @@ export class ConfigManager {
    */
   public resetConfig() {
     this.config = DEFAULT_CONFIG;
+    updateConfig(this.config);
   }
 }
 

@@ -6,6 +6,7 @@ import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
 import { Options } from "types/options";
 import { EventManager } from "hooks/eventManager";
+import {getConfig} from "lib/globalConfig";
 
 /**
  * JQLite
@@ -90,15 +91,3 @@ export class JQLite {
     this.eventManager.emit("AFTER_RESOLVE_DATA");
   }
 }
-
-const jqlite = new JQLite();
-
-jqlite.config = {
-  events: {
-    emit: false,
-  }
-};
-// TODO: should obey the config
-jqlite.configManager.addAlias("al", "path");
-
-console.log(jqlite.config);
