@@ -8,6 +8,7 @@ import {
   validateAlias,
   validateConfig,
 } from "./validators/validate-config";
+import { JQLite } from "index";
 
 /**
  * Config Manager for the query language
@@ -15,12 +16,13 @@ import {
 export class ConfigManager {
   private config: Config;
   public DEFAULT_CONFIG = DEFAULT_CONFIG;
+  // private eventManager: EventManager;
 
   /**
    * Initialize a new object
    * @param config The config object
    */
-  constructor(config?: Config) {
+  constructor(jqlite: JQLite, config?: Config) {
     this.config = config ? overrideDefaultConfig(config) : DEFAULT_CONFIG;
   }
 
@@ -30,6 +32,7 @@ export class ConfigManager {
    * @param path The path to add
    */
   public addAlias(alias: string, path: string): void {
+    // this.eventManager.emit("BEFORE_ADD_ALIAS");
     if (alias.length == 0) throw new ConfigError(CONFIG_ERRORS.ALIAS.EMPTY);
     if (path.length == 0) throw new ConfigError(CONFIG_ERRORS.PATH.EMPTY);
 

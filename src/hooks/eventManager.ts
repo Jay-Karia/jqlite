@@ -6,7 +6,7 @@ import { registerCacheHooks } from "./implementations/cacheHooks";
 import { registerConfigHooks } from "./implementations/configHooks";
 import { JQLite } from "index";
 import { DEFAULT_EVENTS_CONFIG } from "constants/index";
-import {Events} from "types/config";
+import { Events } from "types/config";
 
 type Callback = (...args: any[]) => void;
 
@@ -28,12 +28,11 @@ export class EventManager {
 
     this.jqlite = jqlite;
 
-    if (this.config && !(this.config.defaultEvents)) return;
+    if (this.config && !this.config.defaultEvents) return;
 
     registerDataHooks(this);
     registerCacheHooks(this);
     registerConfigHooks(this);
-
   }
 
   /**
@@ -61,7 +60,7 @@ export class EventManager {
    * Clear an event
    * @param event The event to clear
    */
-  public clear(event: EventType) {
+  public off(event: EventType) {
     if (this.events[event]) {
       this.events[event] = () => {};
     }

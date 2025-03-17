@@ -23,9 +23,9 @@ export class JQLite {
    * @param data The JSON data or path to a JSON file
    */
   constructor(options?: Options) {
-    this.configManager = new ConfigManager(options?.config);
-    this.dataCacheManager = new DataCacheManager(this);
+    this.configManager = new ConfigManager(this, options?.config);
     this.eventManager = new EventManager(this);
+    this.dataCacheManager = new DataCacheManager(this);
     this.currentDataUrl = isValidUrl(options?.data) ? options?.data : undefined;
     this.data = options?.data
       ? validateData(options.data, this.dataCacheManager)

@@ -12,4 +12,8 @@ export function registerConfigHooks(eventManager: EventManager) {
   eventManager.on("GET_CONFIG", () => {
     console.log("Getting config...");
   });
+
+  eventManager.on("BEFORE_ADD_ALIAS", () => {
+    console.log("Adding Alias...");
+  });
 }
