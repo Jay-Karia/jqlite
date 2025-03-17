@@ -1,5 +1,5 @@
-import { EventManager } from "hooks/eventManager";
-import { EventType } from "hooks/events";
+import { EventManager } from "events/eventManager";
+import { EventType } from "events/events";
 
 const eventManager = new EventManager();
 

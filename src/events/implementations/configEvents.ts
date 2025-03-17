@@ -1,6 +1,6 @@
-import { EventManager } from "hooks/eventManager";
+import { EventManager } from "events/eventManager";
 
-export function registerConfigHooks(eventManager: EventManager) {
+export function registerConfigEvents(eventManager: EventManager) {
   eventManager.on("AFTER_SET_CONFIG", () => {
     console.log("Config set!");
   });
@@ -46,7 +46,7 @@ export function registerConfigHooks(eventManager: EventManager) {
   });
 }
 
-export function clearConfigHooks(eventManager: EventManager) {
+export function clearConfigEvents(eventManager: EventManager) {
   eventManager.off("AFTER_SET_CONFIG");
   eventManager.off("BEFORE_SET_CONFIG");
   eventManager.off("GET_CONFIG");

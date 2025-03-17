@@ -1,6 +1,6 @@
-import { EventManager } from "hooks/eventManager";
+import { EventManager } from "events/eventManager";
 
-export function registerCacheHooks(eventManager: EventManager) {
+export function registerCacheEvents(eventManager: EventManager) {
   eventManager.on("CACHE_HIT", () => {
     console.log("Cache hit!");
   });
@@ -18,7 +18,7 @@ export function registerCacheHooks(eventManager: EventManager) {
   });
 }
 
-export function clearCacheHooks(eventManager: EventManager) {
+export function clearCacheEvents(eventManager: EventManager) {
   eventManager.off("CACHE_HIT");
   eventManager.off("CACHE_MISS");
   eventManager.off("CACHE_EXPIRED");

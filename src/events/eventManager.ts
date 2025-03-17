@@ -1,15 +1,15 @@
 import { EVENT_ERRORS } from "constants/errors";
 import { EventError } from "errors";
 import { EVENTS, EventType } from "./events";
-import { clearDataHooks, registerDataHooks } from "./implementations/dataHooks";
+import { clearDataEvents, registerDataEvents } from "./implementations/dataEvents";
 import {
-  clearCacheHooks,
-  registerCacheHooks,
-} from "./implementations/cacheHooks";
+  clearCacheEvents,
+  registerCacheEvents,
+} from "./implementations/cacheEvents";
 import {
-  clearConfigHooks,
-  registerConfigHooks,
-} from "./implementations/configHooks";
+  clearConfigEvents,
+  registerConfigEvents,
+} from "./implementations/configEvents";
 import { Events } from "config/config";
 import { getConfig } from "lib/globalConfig";
 import { EventCategory } from "types/event";
@@ -32,9 +32,9 @@ export class EventManager {
       {} as Record<EventType, Callback>
     );
 
-    registerDataHooks(this);
-    registerCacheHooks(this);
-    registerConfigHooks(this);
+    registerDataEvents(this);
+    registerCacheEvents(this);
+    registerConfigEvents(this);
   }
 
   /**
@@ -74,13 +74,13 @@ export class EventManager {
   public clearEventCategory(event: EventCategory) {
     switch (event) {
       case "data":
-        clearDataHooks(this);
+        clearDataEvents(this);
         break;
       case "cache":
-        clearCacheHooks(this);
+        clearCacheEvents(this);
         break;
       case "config":
-        clearConfigHooks(this);
+        clearConfigEvents(this);
         break;
       default:
         throw new EventError(EVENT_ERRORS.INVALID_EVENT_CATEGORY);

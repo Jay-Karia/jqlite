@@ -6,7 +6,7 @@ import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
 import { Options } from "types/options";
 import { emit, eventManager } from "lib/globalEmitter";
-import { EventManager } from "hooks/eventManager";
+import { EventManager } from "events/eventManager";
 
 /**
  * JQLite
@@ -88,6 +88,3 @@ export class JQLite {
     emit("AFTER_RESOLVE_DATA");
   }
 }
-
-const jqlite = new JQLite();
-console.log(jqlite.config);

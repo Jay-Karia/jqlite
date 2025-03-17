@@ -1,6 +1,6 @@
-import { EventManager } from "hooks/eventManager";
+import { EventManager } from "events/eventManager";
 
-export function registerDataHooks(eventManager: EventManager) {
+export function registerDataEvents(eventManager: EventManager) {
   eventManager.on("AFTER_SET_DATA", () => {
     console.log("Data set!");
   });
@@ -30,7 +30,7 @@ export function registerDataHooks(eventManager: EventManager) {
   });
 }
 
-export function clearDataHooks(eventManager: EventManager) {
+export function clearDataEvents(eventManager: EventManager) {
   eventManager.off("AFTER_SET_DATA");
   eventManager.off("AFTER_CLEAR_DATA");
   eventManager.off("AFTER_RESOLVE_DATA");
