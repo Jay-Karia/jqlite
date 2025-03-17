@@ -1,7 +1,10 @@
 import { EVENT_ERRORS } from "constants/errors";
 import { EventError } from "errors";
 import { EVENTS, EventType } from "./events";
-import { clearDataEvents, registerDataEvents } from "./implementations/dataEvents";
+import {
+  clearDataEvents,
+  registerDataEvents,
+} from "./implementations/dataEvents";
 import {
   clearCacheEvents,
   registerCacheEvents,
@@ -13,7 +16,7 @@ import {
 import { Events } from "config/config";
 import { getConfig } from "lib/globalConfig";
 import { EventCategory } from "types/event";
-import {DEFAULT_EVENTS_CONFIG} from "config/defaultConfig";
+import { DEFAULT_EVENTS_CONFIG } from "config/defaultConfig";
 
 type Callback = (...args: any[]) => void;
 

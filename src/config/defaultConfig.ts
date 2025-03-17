@@ -1,4 +1,4 @@
-import {Config, DataCache, Events} from "./config";
+import { Config, DataCache, Events } from "./config";
 
 const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
   type: "memory",
@@ -25,8 +25,4 @@ const DEFAULT_CONFIG: Config = {
   events: DEFAULT_EVENTS_CONFIG,
 };
 
-export {
-  DEFAULT_CONFIG,
-  DEFAULT_DATA_CACHE_CONFIG,
-  DEFAULT_EVENTS_CONFIG,
-};
+export { DEFAULT_CONFIG, DEFAULT_DATA_CACHE_CONFIG, DEFAULT_EVENTS_CONFIG };

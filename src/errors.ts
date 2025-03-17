@@ -4,9 +4,9 @@ import { ERROR_DOCS_BASE_URL } from "./constants/index";
  * The base error class
  */
 export class JQLiteError extends Error {
-  protected code: string;
-  protected documentation: string;
-  protected solution?: string;
+  public code: string;
+  public documentation: string;
+  public solution?: string;
 
   /**
    * The main error class
@@ -25,80 +25,34 @@ export class JQLiteError extends Error {
   }
 }
 
-/**
- * The error class for configuration errors
- */
-export class ConfigError extends JQLiteError {
-  constructor({
-    message,
-    code,
-    cause,
-    solution,
-  }: {
-    message: string;
-    code: string;
-    cause: string;
-    solution?: string;
-  }) {
-    super(message, code, cause, solution);
-    this.name = "ConfigError";
-    this.documentation = `${ERROR_DOCS_BASE_URL}/config#${code.toLowerCase()}`;
-  }
-}
+// Common error params type
+type ErrorParams = {
+  message: string;
+  code: string;
+  cause: string;
+  solution?: string;
+};
 
 /**
- * The error class for data errors
+ * Factory function to create specialized error classes
  */
-export class DataError extends JQLiteError {
-  constructor({
-    message,
-    code,
-    cause,
-    solution,
-  }: {
-    message: string;
-    code: string;
-    cause: string;
-    solution?: string;
-  }) {
-    super(message, code, cause, solution);
-    this.name = "DataError";
-    this.documentation = `${ERROR_DOCS_BASE_URL}/data#${code.toLowerCase()}`;
-  }
+function createErrorClass(name: string, section: string) {
+  // Using a named class to ensure proper stack traces
+  const errorClass = {
+    [name]: class extends JQLiteError {
+      constructor(params: ErrorParams) {
+        super(params.message, params.code, params.cause, params.solution);
+        this.name = name;
+        this.documentation = `${ERROR_DOCS_BASE_URL}/${section}#${params.code.toLowerCase()}`;
+      }
+    },
+  }[name];
+
+  return errorClass;
 }
 
-export class CacheError extends JQLiteError {
-  constructor({
-    message,
-    code,
-    cause,
-    solution,
-  }: {
-    message: string;
-    code: string;
-    cause: string;
-    solution?: string;
-  }) {
-    super(message, code, cause, solution);
-    this.name = "CacheError";
-    this.documentation = `${ERROR_DOCS_BASE_URL}/cache#${code.toLowerCase()}`;
-  }
-}
-
-export class EventError extends JQLiteError {
-  constructor({
-    message,
-    code,
-    cause,
-    solution,
-  }: {
-    message: string;
-    code: string;
-    cause: string;
-    solution?: string;
-  }) {
-    super(message, code, cause, solution);
-    this.name = "EventError";
-    this.documentation = `${ERROR_DOCS_BASE_URL}/events#${code.toLowerCase()}`;
-  }
-}
+// Create and export specialized error classes
+export const ConfigError = createErrorClass("ConfigError", "config");
+export const DataError = createErrorClass("DataError", "data");
+export const CacheError = createErrorClass("CacheError", "cache");
+export const EventError = createErrorClass("EventError", "events");

@@ -88,15 +88,3 @@ export class JQLite {
     emit("AFTER_RESOLVE_DATA");
   }
 }
-
-const jqlite = new JQLite({
-  config: {
-    fuzzy: {
-      enabled: true,
-    }
-  }
-});
-
-jqlite.configManager.resetConfig();
-
-console.log(jqlite.config);
