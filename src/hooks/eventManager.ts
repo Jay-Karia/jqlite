@@ -12,12 +12,12 @@ type Callback = (...args: any[]) => void;
 
 export class EventManager {
   private events: Record<EventType, Callback>;
-  private jqlite: JQLite;
+  private jqlite: JQLite | undefined;
 
   /**
    * Initialize a new EventManager
    */
-  constructor(jqlite: JQLite) {
+  constructor(jqlite?: JQLite) {
     this.events = Object.keys(EVENTS).reduce(
       (acc, key) => {
         acc[key as EventType] = () => {};
@@ -39,6 +39,8 @@ export class EventManager {
    * Get the config
    */
   get config(): Events {
+    if (!this.jqlite)
+      return DEFAULT_EVENTS_CONFIG;
     return (
       this.jqlite.configManager.getConfig().events || DEFAULT_EVENTS_CONFIG
     );

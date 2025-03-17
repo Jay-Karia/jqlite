@@ -9,6 +9,7 @@ import {
   validateConfig,
 } from "./validators/validate-config";
 import { JQLite } from "index";
+import {EventManager} from "hooks/eventManager";
 
 /**
  * Config Manager for the query language
@@ -16,7 +17,7 @@ import { JQLite } from "index";
 export class ConfigManager {
   private config: Config;
   public DEFAULT_CONFIG = DEFAULT_CONFIG;
-  // private eventManager: EventManager;
+  private eventManager: EventManager;
 
   /**
    * Initialize a new object
@@ -24,6 +25,8 @@ export class ConfigManager {
    */
   constructor(jqlite: JQLite, config?: Config) {
     this.config = config ? overrideDefaultConfig(config) : DEFAULT_CONFIG;
+    if (!jqlite.eventManager) this.eventManager = new EventManager();
+    else this.eventManager = jqlite.eventManager;
   }
 
   /**
@@ -32,7 +35,7 @@ export class ConfigManager {
    * @param path The path to add
    */
   public addAlias(alias: string, path: string): void {
-    // this.eventManager.emit("BEFORE_ADD_ALIAS");
+    this.eventManager.emit("BEFORE_ADD_ALIAS");
     if (alias.length == 0) throw new ConfigError(CONFIG_ERRORS.ALIAS.EMPTY);
     if (path.length == 0) throw new ConfigError(CONFIG_ERRORS.PATH.EMPTY);
 

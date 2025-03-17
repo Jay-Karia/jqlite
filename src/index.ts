@@ -24,12 +24,12 @@ export class JQLite {
    */
   constructor(options?: Options) {
     this.configManager = new ConfigManager(this, options?.config);
+    this.eventManager = new EventManager(this);
     this.dataCacheManager = new DataCacheManager(this);
     this.currentDataUrl = isValidUrl(options?.data) ? options?.data : undefined;
     this.data = options?.data
       ? validateData(options.data, this.dataCacheManager)
       : "{}";
-    this.eventManager = new EventManager(this);
   }
 
   /**
@@ -92,4 +92,13 @@ export class JQLite {
 }
 
 const jqlite = new JQLite();
+
+jqlite.config = {
+  events: {
+    emit: false,
+  }
+};
+// TODO: should obey the config
+jqlite.configManager.addAlias("al", "path");
+
 console.log(jqlite.config);
