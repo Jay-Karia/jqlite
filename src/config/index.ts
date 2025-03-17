@@ -1,13 +1,13 @@
 import { overrideDefaultConfig } from "helpers/index";
-import { CONFIG_ERRORS } from "./constants/errors";
-import { DEFAULT_CONFIG } from "./constants/index";
-import { ConfigError } from "./errors";
-import { type Config } from "./types/config";
+import { CONFIG_ERRORS } from "../constants/errors";
+import { DEFAULT_CONFIG } from "./defaultConfig";
+import { ConfigError } from "../errors";
+import { type Config } from "./config";
 import {
   checkDuplicateAliases,
   validateAlias,
   validateConfig,
-} from "./validators/validate-config";
+} from "../validators/validate-config";
 import { getConfig, updateConfig } from "lib/globalConfig";
 import { emit } from "lib/globalEmitter";
 

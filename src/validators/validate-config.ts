@@ -1,5 +1,5 @@
 import { CONFIG_ERRORS } from "../constants/errors";
-import { Config, DataCache, Fallback, Fuzzy } from "../types/config";
+import { Config, DataCache, Fallback, Fuzzy } from "../config/config";
 import { ConfigError } from "../errors";
 
 /**

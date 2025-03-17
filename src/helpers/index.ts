@@ -1,5 +1,5 @@
-import { DEFAULT_CONFIG } from "config";
-import { Config } from "types/config";
+import { DEFAULT_CONFIG } from "config/index";
+import { Config } from "config/config";
 import { validateConfig } from "validators/validate-config";
 
 /**

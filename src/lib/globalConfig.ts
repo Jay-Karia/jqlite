@@ -1,5 +1,5 @@
-import { DEFAULT_CONFIG } from "config";
-import { Config } from "types/config";
+import { DEFAULT_CONFIG } from "config/index";
+import { Config } from "config/config";
 
 const CONFIG = DEFAULT_CONFIG;
 

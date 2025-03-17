@@ -1,6 +1,6 @@
-import { DEFAULT_DATA_CACHE_CONFIG } from "constants/index";
+import { DEFAULT_DATA_CACHE_CONFIG } from "config/defaultConfig";
 import { CacheError } from "errors";
-import { DataCache as DataCacheConfigType } from "types/config";
+import { DataCache as DataCacheConfigType } from "config/config";
 import { CACHE_ERRORS } from "constants/errors";
 import { getConfig, updateConfig } from "lib/globalConfig";
 import { emit } from "lib/globalEmitter";

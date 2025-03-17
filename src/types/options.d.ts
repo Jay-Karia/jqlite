@@ -1,4 +1,4 @@
-import { Config } from "./config";
+import { Config } from "../config/config";
 
 export type Options = {
   config?: Config;

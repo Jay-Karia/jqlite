@@ -1,5 +1,5 @@
-import { Config } from "./types/config";
-import { ConfigManager } from "./config";
+import { Config } from "./config/config";
+import { ConfigManager } from "./config/index";
 import { validateData } from "validators/validate-data";
 import { DataCacheManager } from "cache/data";
 import { updateDataCache } from "lib/updateDataCache";
@@ -88,3 +88,6 @@ export class JQLite {
     emit("AFTER_RESOLVE_DATA");
   }
 }
+
+const jqlite = new JQLite();
+console.log(jqlite.config);

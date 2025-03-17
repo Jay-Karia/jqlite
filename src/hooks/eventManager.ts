@@ -10,10 +10,10 @@ import {
   clearConfigHooks,
   registerConfigHooks,
 } from "./implementations/configHooks";
-import { DEFAULT_EVENTS_CONFIG } from "constants/index";
-import { Events } from "types/config";
+import { Events } from "config/config";
 import { getConfig } from "lib/globalConfig";
 import { EventCategory } from "types/event";
+import {DEFAULT_EVENTS_CONFIG} from "config/defaultConfig";
 
 type Callback = (...args: any[]) => void;
 
