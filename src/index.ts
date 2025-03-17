@@ -6,7 +6,6 @@ import { updateDataCache } from "lib/updateDataCache";
 import { isValidUrl } from "lib/isValidUrl";
 import { Options } from "types/options";
 import { EventManager } from "hooks/eventManager";
-import {getConfig} from "lib/globalConfig";
 
 /**
  * JQLite
@@ -37,9 +36,7 @@ export class JQLite {
    * Set the config
    */
   set config(config: Config) {
-    this.eventManager.emit("BEFORE_SET_CONFIG");
     this.configManager.setConfig(config);
-    this.eventManager.emit("AFTER_SET_CONFIG");
   }
 
   /**

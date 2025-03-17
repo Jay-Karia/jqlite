@@ -3,6 +3,7 @@ import { CacheError } from "errors";
 import { JQLite } from "index";
 import { DataCache as DataCacheConfigType } from "types/config";
 import { CACHE_ERRORS } from "constants/errors";
+import { getConfig, updateConfig } from "lib/globalConfig";
 
 export class DataCacheManager {
   private jqlite: JQLite;
@@ -21,10 +22,7 @@ export class DataCacheManager {
    * @returns The cache config
    */
   get config(): DataCacheConfigType {
-    return (
-      this.jqlite.configManager.getConfig().dataCache ||
-      DEFAULT_DATA_CACHE_CONFIG
-    );
+    return getConfig().dataCache || DEFAULT_DATA_CACHE_CONFIG;
   }
 
   /**
@@ -80,8 +78,7 @@ export class DataCacheManager {
    * @returns Whether the cache has expired
    */
   public hasCacheExpired(): boolean {
-    const expirationTime =
-      this.jqlite.configManager.getConfig().dataCache?.expiration;
+    const expirationTime = getConfig().dataCache?.expiration;
     if (!expirationTime) return false;
     const currentTime = new Date();
     const expired = expirationTime < currentTime;
@@ -102,12 +99,13 @@ export class DataCacheManager {
    * @param expiration The expiration date for the cache
    */
   public setCacheExpiration(expiration: Date) {
-    this.jqlite.configManager.setConfig({
+    updateConfig({
       dataCache: {
         ...this.config,
         expiration,
       },
     });
+    this.jqlite.eventManager.emit("AFTER_SET_CONFIG");
   }
 
   /**
@@ -139,9 +137,7 @@ export class DataCacheManager {
    * @returns Whether the cache is enabled
    */
   public isCacheEnabled(): boolean {
-    return (
-      this.jqlite.configManager.getConfig().dataCache?.type !== "none" || false
-    );
+    return getConfig().dataCache?.type !== "none" || false;
   }
 
   /**
@@ -156,7 +152,7 @@ export class DataCacheManager {
    * Reset the cache config
    */
   public resetConfig() {
-    this.jqlite.configManager.setConfig({
+    updateConfig({
       dataCache: DEFAULT_DATA_CACHE_CONFIG,
     });
     this.jqlite.eventManager.emit("AFTER_SET_CONFIG");

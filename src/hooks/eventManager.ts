@@ -7,6 +7,7 @@ import { registerConfigHooks } from "./implementations/configHooks";
 import { JQLite } from "index";
 import { DEFAULT_EVENTS_CONFIG } from "constants/index";
 import { Events } from "types/config";
+import { getConfig } from "lib/globalConfig";
 
 type Callback = (...args: any[]) => void;
 
@@ -39,11 +40,7 @@ export class EventManager {
    * Get the config
    */
   get config(): Events {
-    if (!this.jqlite)
-      return DEFAULT_EVENTS_CONFIG;
-    return (
-      this.jqlite.configManager.getConfig().events || DEFAULT_EVENTS_CONFIG
-    );
+    return getConfig().events || DEFAULT_EVENTS_CONFIG;
   }
 
   /**

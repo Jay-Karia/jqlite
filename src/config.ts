@@ -9,8 +9,8 @@ import {
   validateConfig,
 } from "./validators/validate-config";
 import { JQLite } from "index";
-import {EventManager} from "hooks/eventManager";
-import {updateConfig} from "lib/globalConfig";
+import { EventManager } from "hooks/eventManager";
+import { getConfig, updateConfig } from "lib/globalConfig";
 
 /**
  * Config Manager for the query language
@@ -43,6 +43,7 @@ export class ConfigManager {
     checkDuplicateAliases(this.config, { alias, path });
     this.config.aliases?.push({ alias, path });
     updateConfig(this.config);
+    this.eventManager.emit("AFTER_ADD_ALIAS");
   }
 
   /**
@@ -50,17 +51,21 @@ export class ConfigManager {
    * @param alias The alias to remove
    */
   public removeAlias(alias: string): void {
+    this.eventManager.emit("BEFORE_REMOVE_ALIAS");
     validateAlias(this.config, alias);
     this.config.aliases = this.config.aliases?.filter(a => a.alias !== alias);
     updateConfig(this.config);
+    this.eventManager.emit("AFTER_REMOVE_ALIAS");
   }
 
   /**
    * Remove all aliases from the config object
    */
   public clearAliases(): void {
+    this.eventManager.emit("BEFORE_CLEAR_ALIASES");
     this.config.aliases = [];
     updateConfig(this.config);
+    this.eventManager.emit("AFTER_CLEAR_ALIASES");
   }
 
   /**
@@ -69,22 +74,26 @@ export class ConfigManager {
    * @returns The new config object
    */
   public setConfig(config: Config): Config {
+    this.eventManager.emit("BEFORE_SET_CONFIG");
     validateConfig(config);
     this.config = { ...this.config, ...config };
     updateConfig(this.config);
+    this.eventManager.emit("AFTER_SET_CONFIG");
     return this.config;
   }
 
   public getConfig(): Config {
-    return this.config;
+    return getConfig();
   }
 
   /**
    * Reset the config object to the default config object
    */
   public resetConfig() {
+    this.eventManager.emit("BEFORE_RESET_CONFIG");
     this.config = DEFAULT_CONFIG;
     updateConfig(this.config);
+    this.eventManager.emit("AFTER_RESET_CONFIG");
   }
 }
 

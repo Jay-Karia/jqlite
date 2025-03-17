@@ -12,6 +12,13 @@ export const EVENTS = {
   AFTER_SET_CONFIG: "afterSetConfig",
   GET_CONFIG: "getConfig",
   BEFORE_ADD_ALIAS: "beforeAddAlias",
+  AFTER_ADD_ALIAS: "afterAddAlias",
+  BEFORE_REMOVE_ALIAS: "beforeRemoveAlias",
+  AFTER_REMOVE_ALIAS: "afterRemoveAlias",
+  BEFORE_CLEAR_ALIASES: "beforeClearAliases",
+  AFTER_CLEAR_ALIASES: "afterClearAliases",
+  BEFORE_RESET_CONFIG: "beforeResetConfig",
+  AFTER_RESET_CONFIG: "afterResetConfig",
   // Cache Events
   CACHE_HIT: "cacheHit",
   CACHE_MISS: "cacheMiss",
