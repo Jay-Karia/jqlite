@@ -9,7 +9,7 @@ const DEFAULT_DATA_CACHE_CONFIG: DataCache = {
 
 const DEFAULT_EVENTS_CONFIG = {
   emit: true,
-  defaultEmits: true,
+  defaultEvents: true,
 };
 
 const DEFAULT_CONFIG: Config = {
