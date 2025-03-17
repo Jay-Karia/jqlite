@@ -1,8 +1,10 @@
 import { EventManager } from "events/eventManager";
+import { isVerboseEvent } from "helpers/index";
 
 export function registerConfigEvents(eventManager: EventManager) {
-  eventManager.on("AFTER_SET_CONFIG", () => {
+  eventManager.on("AFTER_SET_CONFIG", (keys: string[]) => {
     console.log("Config set!");
+    if (isVerboseEvent()) console.log("Changed keys:", keys);
   });
 
   eventManager.on("BEFORE_SET_CONFIG", () => {
@@ -17,24 +19,27 @@ export function registerConfigEvents(eventManager: EventManager) {
     console.log("Adding Alias...");
   });
 
-  eventManager.on("AFTER_ADD_ALIAS", () => {
-    console.log("Alias added!");
+  eventManager.on("AFTER_ADD_ALIAS", (alias: string, path: string) => {
+    console.log("Alias Added");
+    if (isVerboseEvent()) console.log(`Alias: ${alias} -> ${path}`);
   });
 
   eventManager.on("BEFORE_REMOVE_ALIAS", () => {
     console.log("Removing Alias...");
   });
 
-  eventManager.on("AFTER_REMOVE_ALIAS", () => {
+  eventManager.on("AFTER_REMOVE_ALIAS", (alias: string) => {
     console.log("Alias removed!");
+    if (isVerboseEvent()) console.log("Removed alias:", alias);
   });
 
   eventManager.on("BEFORE_CLEAR_ALIASES", () => {
     console.log("Clearing aliases...");
   });
 
-  eventManager.on("AFTER_CLEAR_ALIASES", () => {
+  eventManager.on("AFTER_CLEAR_ALIASES", (aliases: string[]) => {
     console.log("Aliases cleared!");
+    if (isVerboseEvent()) console.log("Removed aliases: " + aliases);
   });
 
   eventManager.on("BEFORE_RESET_CONFIG", () => {

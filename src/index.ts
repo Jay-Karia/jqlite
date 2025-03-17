@@ -63,7 +63,7 @@ export class JQLite {
     emit("BEFORE_SET_DATA");
     this.currentDataUrl = isValidUrl(data) ? data : undefined;
     this.data = validateData(data, this.dataCacheManager);
-    emit("AFTER_SET_DATA");
+    emit("AFTER_SET_DATA", data);
     return {
       resolve: async () => this.resolveData(),
     };
@@ -85,6 +85,6 @@ export class JQLite {
     emit("BEFORE_RESOLVE_DATA");
     this.data = await this.data;
     updateDataCache(this.currentDataUrl, this.data, this.dataCacheManager);
-    emit("AFTER_RESOLVE_DATA");
+    emit("AFTER_RESOLVE_DATA", JSON.stringify(this.data));
   }
 }

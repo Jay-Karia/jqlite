@@ -40,7 +40,7 @@ export class ConfigManager {
     checkDuplicateAliases(this.config, { alias, path });
     this.config.aliases?.push({ alias, path });
     updateConfig(this.config);
-    emit("AFTER_ADD_ALIAS");
+    emit("AFTER_ADD_ALIAS", alias, path);
   }
 
   /**
@@ -52,7 +52,7 @@ export class ConfigManager {
     validateAlias(this.config, alias);
     this.config.aliases = this.config.aliases?.filter(a => a.alias !== alias);
     updateConfig(this.config);
-    emit("AFTER_REMOVE_ALIAS");
+    emit("AFTER_REMOVE_ALIAS", alias);
   }
 
   /**
@@ -60,9 +60,10 @@ export class ConfigManager {
    */
   public clearAliases(): void {
     emit("BEFORE_CLEAR_ALIASES");
+    const aliases: string[] = this.config.aliases?.map(a => a.alias) || [];
     this.config.aliases = [];
     updateConfig(this.config);
-    emit("AFTER_CLEAR_ALIASES");
+    emit("AFTER_CLEAR_ALIASES", aliases);
   }
 
   /**
@@ -71,11 +72,11 @@ export class ConfigManager {
    * @returns The new config object
    */
   public setConfig(config: Config): Config {
-    emit("BEFORE_SET_CONFIG");
+    emit("BEFORE_SET_CONFIG", Object.keys(config));
     validateConfig(config);
     this.config = { ...this.config, ...config };
     updateConfig(this.config);
-    emit("AFTER_SET_CONFIG");
+    emit("AFTER_SET_CONFIG", Object.keys(config));
     return this.config;
   }
 
