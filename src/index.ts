@@ -1,7 +1,5 @@
-import { queryRunner } from "./core/queryRunner";
+import { queryRunner } from "./core/runner";
+import { dataManager } from "./data/manager";
+import { configManager } from "./config/manager";
 
-export { queryRunner };
-
-export default {
-  queryRunner,
-};
+export { queryRunner, dataManager, configManager };
