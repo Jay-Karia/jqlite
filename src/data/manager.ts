@@ -1,8 +1,15 @@
-import { loadFromFile, loadUrlData } from "./loader";
+import { loadFromFile, loadFromUrl } from "./loader";
+import {dataStore} from "./store";
 import { isValidUrl, parseJson, saveToFile } from "./utils";
 
 export class DataManager {
-  private _memoryData: object | null = null;
+  /**
+   * Get JSON data from memory
+   * @returns The JSON data stored in memory
+   */
+  public get(): object | null {
+    return dataStore.get();
+  }
 
   /**
    * Set JSON data in memory
@@ -10,22 +17,14 @@ export class DataManager {
    */
   public set(data: string | object) {
     const parsedData = typeof data === "string" ? parseJson(data) : data;
-    this._memoryData = parsedData;
-  }
-
-  /**
-   * Get JSON data from memory
-   * @returns The JSON data stored in memory
-   */
-  public get(): object | null {
-    return this._memoryData;
+    dataStore.set(parsedData);
   }
 
   /**
    * Clear JSON data from memory
    */
   public clear() {
-    this._memoryData = null;
+    dataStore.clear();
   }
 
   /**
@@ -33,8 +32,9 @@ export class DataManager {
    * @param filePath The file path to save the JSON data
    */
   public save(filePath: string) {
-    if (!this._memoryData) throw new Error("No data to save");
-    saveToFile(filePath, this._memoryData);
+    const memoryData = dataStore.get();
+    if (!memoryData) throw new Error("No data to save");
+    saveToFile(filePath, memoryData);
   }
 
   /**
@@ -46,7 +46,7 @@ export class DataManager {
     const isUrl = isValidUrl(url);
     if (!isUrl) throw new Error("Invalid URL");
 
-    const urlData = await loadUrlData(url);
+    const urlData = await loadFromUrl(url);
     if (!urlData) throw new Error("No data to save");
 
     saveToFile(filePath, urlData);
@@ -73,7 +73,7 @@ export class DataManager {
     const isUrl = isValidUrl(url);
     if (!isUrl) throw new Error("Invalid URL");
 
-    const urlData = await loadUrlData(url);
+    const urlData = await loadFromUrl(url);
     if (!urlData) throw new Error("No data to load");
     this.set(urlData);
 
@@ -85,15 +85,38 @@ export class DataManager {
    * @param filePath The file path to use data from
    */
   public use(filePath: string) {
-    console.log(`Using data from ${filePath}`);
+    const fileData = loadFromFile(filePath);
+    if (!fileData) throw new Error("No data to use");
+    dataStore.use(fileData);
   }
 
   /**
    * Use data from a URL without loading it to memory
    * @param url The URL to use data from
    */
-  public useFromUrl(url: string) {
-    console.log(`Using data from ${url}`);
+  public async useFromUrl(url: string) {
+    const isUrl = isValidUrl(url);
+    if (!isUrl) throw new Error("Invalid URL");
+
+    const urlData = await loadFromUrl(url);
+    if (!urlData) throw new Error("No data to use");
+
+    dataStore.use(urlData);
+  }
+
+  /**
+   * Reset session data
+   */
+  public resetSession() {
+    dataStore.resetSession();
+  }
+
+  /**
+   * Get the active data
+   * @returns The active data
+   */
+  public getActiveData(): object | null {
+    return dataStore.getActiveData();
   }
 }
 

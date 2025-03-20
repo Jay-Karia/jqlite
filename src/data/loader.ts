@@ -6,7 +6,7 @@ import {parseJson} from "./utils";
  * @param url The URL to fetch data from
  * @returns The fetched data
  */
-export async function loadUrlData(url: string): Promise<object | null> {
+export async function loadFromUrl(url: string): Promise<object | null> {
   try {
     const response = await fetch(url);
     const data = await response.json();
