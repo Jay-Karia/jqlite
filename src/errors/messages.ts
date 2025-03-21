@@ -57,5 +57,11 @@ export const ERROR_MESSAGES = {
       cause: "Empty default path in config",
       solution: "Add default path in config or add file path while using `save()`"
     } as ErrorParams,
+    NO_OVERWRITE: {
+      message: "Cannot overwrite file",
+      code: "NO_OVERWRITE",
+      cause: "Tried to overwrite file without permission",
+      solution: "Set `allowOverwrite` to true in config or remove the file"
+    } as ErrorParams
   }
 };

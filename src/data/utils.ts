@@ -1,3 +1,4 @@
+import {configStore} from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync, writeFileSync } from "fs";
@@ -23,7 +24,18 @@ export function parseJson(data: string): object | null {
 export function saveToFile(filePath: string, data: object): void {
   // Check if the file path is valid
   const isFile = existsSync(filePath);
-  if (!isFile) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
+  if (!isFile) {
+    // Check if the file should be created if missing
+    const createIfMissing = configStore.get().createIfMissing;
+    if (!createIfMissing) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
+
+    // Create the file
+    writeFileSync(filePath, JSON.stringify(data, null, 2));
+  }
+
+  // Check if the file can be overwritten
+  const canOverwrite = configStore.get().allowOverwrite;
+  if (!canOverwrite) throw new DataError(ERROR_MESSAGES.DATA.NO_OVERWRITE);
 
   // Save the data to the file
   writeFileSync(filePath, JSON.stringify(data, null, 2));
