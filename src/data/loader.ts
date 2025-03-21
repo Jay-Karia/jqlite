@@ -14,7 +14,7 @@ export async function loadFromUrl(url: string): Promise<object | null> {
     const data = await response.json();
     return data;
   } catch {
-    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA);
+    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA);
   }
 }
 
@@ -28,6 +28,6 @@ export function loadFromFile(path: string): object | null {
     const data = readFileSync(path, "utf-8");
     return parseJson(data);
   } catch {
-    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA);
+    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA);
   }
 }
