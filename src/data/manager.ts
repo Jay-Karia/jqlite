@@ -1,6 +1,8 @@
+import {DataError} from "errors/factory";
 import { loadFromFile, loadFromUrl } from "./loader";
 import {dataStore} from "./store";
 import { isValidUrl, parseJson, saveToFile } from "./utils";
+import {ERROR_MESSAGES} from "errors/messages";
 
 export class DataManager {
   /**
@@ -33,7 +35,7 @@ export class DataManager {
    */
   public save(filePath: string) {
     const memoryData = dataStore.get();
-    if (!memoryData) throw new Error("No data to save");
+    if (!memoryData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
     saveToFile(filePath, memoryData);
   }
 
@@ -44,10 +46,10 @@ export class DataManager {
    */
   public async saveFromUrl(url: string, filePath: string) {
     const isUrl = isValidUrl(url);
-    if (!isUrl) throw new Error("Invalid URL");
+    if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
 
     const urlData = await loadFromUrl(url);
-    if (!urlData) throw new Error("No data to save");
+    if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
 
     saveToFile(filePath, urlData);
   }
@@ -58,7 +60,7 @@ export class DataManager {
    */
   public load(filePath: string): object {
     const fileData = loadFromFile(filePath);
-    if (!fileData) throw new Error("No data to load");
+    if (!fileData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
     this.set(fileData);
 
     return fileData;
@@ -71,10 +73,10 @@ export class DataManager {
    */
   public async loadFromUrl(url: string): Promise<object | void> {
     const isUrl = isValidUrl(url);
-    if (!isUrl) throw new Error("Invalid URL");
+    if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
 
     const urlData = await loadFromUrl(url);
-    if (!urlData) throw new Error("No data to load");
+    if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
     this.set(urlData);
 
     return urlData;
@@ -86,7 +88,7 @@ export class DataManager {
    */
   public use(filePath: string) {
     const fileData = loadFromFile(filePath);
-    if (!fileData) throw new Error("No data to use");
+    if (!fileData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
     dataStore.use(fileData);
   }
 
@@ -96,10 +98,10 @@ export class DataManager {
    */
   public async useFromUrl(url: string) {
     const isUrl = isValidUrl(url);
-    if (!isUrl) throw new Error("Invalid URL");
+    if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
 
     const urlData = await loadFromUrl(url);
-    if (!urlData) throw new Error("No data to use");
+    if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
 
     dataStore.use(urlData);
   }

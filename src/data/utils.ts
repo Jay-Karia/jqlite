@@ -1,3 +1,5 @@
+import {DataError} from "errors/factory";
+import {ERROR_MESSAGES} from "errors/messages";
 import { lstatSync, writeFileSync } from "fs";
 
 /**
@@ -8,9 +10,8 @@ import { lstatSync, writeFileSync } from "fs";
 export function parseJson(data: string): object | null {
   try {
     return JSON.parse(data);
-  } catch (error) {
-    console.error("Error parsing JSON data", error);
-    return null;
+  } catch {
+    throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON);
   }
 }
 
@@ -22,7 +23,7 @@ export function parseJson(data: string): object | null {
 export function saveToFile(filePath: string, data: object): void {
   // Check if the file path is valid
   const isFile = lstatSync(filePath).isFile();
-  if (!isFile) throw new Error("Invalid file path");
+  if (!isFile) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
 
   // Save the data to the file
   writeFileSync(filePath, JSON.stringify(data, null, 2));

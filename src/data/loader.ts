@@ -1,5 +1,7 @@
 import {readFileSync} from "fs";
 import {parseJson} from "./utils";
+import {DataError} from "errors/factory";
+import {ERROR_MESSAGES} from "errors/messages";
 
 /**
  * Load data from a URL
@@ -11,9 +13,8 @@ export async function loadFromUrl(url: string): Promise<object | null> {
     const response = await fetch(url);
     const data = await response.json();
     return data;
-  } catch (error) {
-    console.error("Error loading URL data", error);
-    return null;
+  } catch {
+    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA);
   }
 }
 
@@ -26,8 +27,7 @@ export function loadFromFile(path: string): object | null {
   try {
     const data = readFileSync(path, "utf-8");
     return parseJson(data);
-  } catch (error) {
-    console.error("Error loading file data", error);
-    return null;
+  } catch {
+    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA);
   }
 }
