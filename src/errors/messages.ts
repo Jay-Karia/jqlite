@@ -1,5 +1,8 @@
 import {ErrorParams} from "./types";
 
+/**
+ * All the error messages
+ */
 export const ERROR_MESSAGES = {
   DATA: {
     INVALID_JSON: {

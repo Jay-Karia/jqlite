@@ -1,10 +1,17 @@
 import { ErrorParams } from "./types";
 
+/**
+ * Base error class
+ */
 export class BaseError extends Error {
   public code: string;
   public cause?: string;
   public solution?: string;
 
+  /**
+   * Initializes the error class
+   * @param param0 The error parameters
+   */
   constructor({ message, code, cause, solution }: ErrorParams) {
     super(message);
     this.name = this.constructor.name;
@@ -13,6 +20,10 @@ export class BaseError extends Error {
     this.solution = solution;
   }
 
+  /**
+   * Get the error as a JSON object
+   * @returns The error as a JSON object
+   */
   public toJSON() {
     return {
       name: this.name,
