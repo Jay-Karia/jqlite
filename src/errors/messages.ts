@@ -45,5 +45,17 @@ export const ERROR_MESSAGES = {
       cause: "Error loading data from a file",
       solution: "Make sure the file exists and is accessible",
     } as ErrorParams,
+    INVALID_DEFAULT_PATH: {
+      message: "Invalid default file path",
+      code: "INVALID_DEFAULT_PATH",
+      cause: "Tried to add invalid default path in config",
+      solution: "Update the `defaultPath` key in config to valid one"
+    } as ErrorParams,
+    NO_DEFAULT_PATH: {
+      message: "No default path to save data",
+      code: "NO_DEFAULT_PATH",
+      cause: "Empty default path in config",
+      solution: "Add default path in config or add file path while using `save()`"
+    } as ErrorParams,
   }
 };

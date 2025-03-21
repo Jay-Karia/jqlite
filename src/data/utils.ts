@@ -1,6 +1,6 @@
-import {DataError} from "errors/factory";
-import {ERROR_MESSAGES} from "errors/messages";
-import { lstatSync, writeFileSync } from "fs";
+import { DataError } from "errors/factory";
+import { ERROR_MESSAGES } from "errors/messages";
+import { existsSync, writeFileSync } from "fs";
 
 /**
  * Parse JSON data
@@ -22,12 +22,11 @@ export function parseJson(data: string): object | null {
  */
 export function saveToFile(filePath: string, data: object): void {
   // Check if the file path is valid
-  const isFile = lstatSync(filePath).isFile();
+  const isFile = existsSync(filePath);
   if (!isFile) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
 
   // Save the data to the file
   writeFileSync(filePath, JSON.stringify(data, null, 2));
-
 }
 
 /**

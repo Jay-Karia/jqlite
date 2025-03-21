@@ -1,8 +1,9 @@
-import {DataError} from "errors/factory";
+import { DataError } from "errors/factory";
 import { loadFromFile, loadFromUrl } from "./loader";
-import {dataStore} from "./store";
+import { dataStore } from "./store";
 import { isValidUrl, parseJson, saveToFile } from "./utils";
-import {ERROR_MESSAGES} from "errors/messages";
+import { ERROR_MESSAGES } from "errors/messages";
+import { configStore } from "config/store";
 
 export class DataManager {
   /**
@@ -33,10 +34,18 @@ export class DataManager {
    * Save memory data to a file
    * @param filePath The file path to save the JSON data
    */
-  public save(filePath: string) {
+  public save(filePath?: string) {
     const memoryData = dataStore.get();
     if (!memoryData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
-    saveToFile(filePath, memoryData);
+
+    // Check config for default path
+    if (!filePath) {
+      const defaultPath = configStore.get().defaultPath;
+      if (!defaultPath)
+        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_PATH);
+
+      saveToFile(defaultPath, memoryData);
+    } else saveToFile(filePath, memoryData);
   }
 
   /**
