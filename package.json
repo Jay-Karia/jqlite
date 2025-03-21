@@ -51,7 +51,13 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
-    "@types/deasync": "^0.1.5",
-    "deasync": "^0.1.30"
+    "@jqlite/core": "link:",
+    "core": "link:../../.local/share/pnpm/global/5/node_modules/@jqlite/core"
+  },
+  "pnpm": {
+    "overrides": {
+      "@jqlite/core": "link:",
+      "core": "link:../../.local/share/pnpm/global/5/node_modules/@jqlite/core"
+    }
   }
 }

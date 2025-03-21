@@ -4,3 +4,4 @@ dist
 coverage
 testing-jqlite
 features.txt
+test.json
