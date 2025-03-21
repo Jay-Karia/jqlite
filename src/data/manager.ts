@@ -55,7 +55,7 @@ export class DataManager {
   }
 
   /**
-   * Load data from a file path memory
+   * Load data from a file to memory
    * @param filePath The file path load data from
    */
   public load(filePath: string): object {
