@@ -53,17 +53,24 @@ export const ERROR_MESSAGES = {
     } as ErrorParams,
     NO_DEFAULT_SAVE_FILE: {
       message: "No default path to save data",
-      code: "NO_DEFAULT_PATH",
+      code: "NO_DEFAULT_SAVE_FILE",
       cause: "Empty default path in config",
       solution:
         "Add default path in config or add file path while using `save()`",
     } as ErrorParams,
     NO_DEFAULT_LOAD_FILE: {
       message: "No default path to load data",
-      code: "NO_DEFAULT_PATH",
+      code: "NO_DEFAULT_LOAD_FILE",
       cause: "Empty default path in config",
       solution:
         "Add default path in config or add file path while using `load()`",
+    } as ErrorParams,
+    NO_DEFAULT_LOAD_URL: {
+      message: "No default url to load data",
+      code: "NO_DEFAULT_PATH",
+      cause: "Empty default url in config",
+      solution:
+        "Add default url in config or add url while using `loadFromUrl()`",
     } as ErrorParams,
     NO_OVERWRITE: {
       message: "Cannot overwrite file",

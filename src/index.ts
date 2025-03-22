@@ -2,11 +2,7 @@ import { queryRunner } from "./core/runner";
 import { dataManager } from "./data/manager";
 import { configManager } from "./config/manager";
 
-dataManager.set({
-  name: "John Doe",
-  age: 30,
-});
-
-dataManager.save();
+await dataManager.loadFromUrl();
+console.log(dataManager.get());
 
 export { queryRunner, dataManager, configManager };

@@ -4,6 +4,7 @@ import { dataStore } from "./store";
 import { getDefaultFile, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
+import { configStore } from "config/store";
 
 /**
  * DataManager class
@@ -148,7 +149,7 @@ export class DataManager {
   /**
    * Load data from a URL to memory
    * @async
-   * @param {string} url The URL to fetch data from
+   * @param {string} [url] The URL to fetch data from
    * @description This method will fetch the JSON data from the URL and store it in memory. If no URL is provided, it will use the default URL from the config.
    * @returns The fetched data
    * @example
@@ -161,15 +162,20 @@ export class DataManager {
    * @throws {DataError} If no default URL is found in the config.
    * @author Jay-Karia
    */
-  public async loadFromUrl(url: string): Promise<object | void> {
-    // TODO: add default url in config
+  public async loadFromUrl(url?: string): Promise<object | void> {
+    let urlToLoad: string | null | undefined = url;
+
+    // Use the load url from config
+    if (!url) urlToLoad = configStore.get().loadUrl;
+    if (!urlToLoad)
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_URL);
 
     // Check if URL is valid
-    const isUrl = isValidUrl(url);
+    const isUrl = isValidUrl(urlToLoad);
     if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
 
     // Check if data is in URL
-    const urlData = await loadFromUrl(url);
+    const urlData = await loadFromUrl(urlToLoad);
     if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
 
     // Set data to memory
