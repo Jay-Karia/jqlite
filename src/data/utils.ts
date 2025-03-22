@@ -2,7 +2,6 @@ import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync, writeFileSync } from "fs";
-import { onError, tryOperation } from "utils";
 
 /**
  * Parse JSON data
@@ -11,12 +10,11 @@ import { onError, tryOperation } from "utils";
  * @returns {object | null} The parsed JSON data
  */
 export function parseJson(data: string): object | null {
-  return tryOperation(
-    () => JSON.parse(data),
-    onError(() => {
-      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON);
-    })
-  );
+  try {
+    return JSON.parse(data);
+  } catch {
+    throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON);
+  }
 }
 
 /**
@@ -33,7 +31,10 @@ export function saveToFile(filePath: string, data: object): void {
     // Check if the file should be created if missing
     const createIfMissing = configStore.get().createIfMissing;
     if (!createIfMissing)
-      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
+        filePath,
+        "config.createIfMissing": createIfMissing,
+      });
 
     // Create the file
     writeFileSync(filePath, JSON.stringify(data, null, 2));
@@ -42,7 +43,11 @@ export function saveToFile(filePath: string, data: object): void {
 
   // Check if the file can be overwritten
   const canOverwrite = configStore.get().allowOverwrite;
-  if (!canOverwrite) throw new DataError(ERROR_MESSAGES.DATA.NO_OVERWRITE);
+  if (!canOverwrite)
+    throw new DataError(ERROR_MESSAGES.DATA.NO_OVERWRITE, {
+      filePath,
+      "config.allowOverwrite": canOverwrite,
+    });
 
   // Save the data to the file
   writeFileSync(filePath, JSON.stringify(data, null, 2));
@@ -55,12 +60,12 @@ export function saveToFile(filePath: string, data: object): void {
  * @returns {boolean | URL} Whether the URL is valid
  */
 export function isValidUrl(url: string): boolean | URL {
-  return tryOperation(
-    () => new URL(url),
-    onError(() => {
-      return false;
-    })
-  );
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -74,14 +79,18 @@ export function getDefaultFile(type: "save" | "load"): string {
     case "save": {
       const savePath = configStore.get().saveFile;
       if (!savePath)
-        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_SAVE_FILE);
+        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_SAVE_FILE, {
+          "config.saveFile": savePath,
+        });
       return savePath;
     }
     // Get the default load file
     case "load": {
       const loadPath = configStore.get().loadFile;
       if (!loadPath)
-        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_FILE);
+        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_FILE, {
+          "config.loadFile": loadPath,
+        });
       return loadPath;
     }
   }

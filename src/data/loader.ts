@@ -2,7 +2,6 @@ import { readFileSync } from "fs";
 import { parseJson } from "./utils";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
-import { onError, tryOperation } from "utils";
 
 /**
  * Load data from a URL
@@ -10,16 +9,18 @@ import { onError, tryOperation } from "utils";
  * @returns The fetched data
  */
 export async function loadFromUrl(url: string): Promise<object | null> {
-  return tryOperation(
-    async () => {
-      const response = await fetch(url);
-      const data = await response.json();
-      return data;
-    },
-    onError(() => {
-      throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA);
-    })
-  );
+  let urlData;
+  try {
+    const response = await fetch(url);
+    urlData = await response.json();
+    return urlData;
+  } catch {
+    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA, {
+      url,
+      urlData: urlData?.substring(0, 20) + "...",
+      timeStamp: new Date().toLocaleTimeString(),
+    });
+  }
 }
 
 /**
@@ -28,13 +29,15 @@ export async function loadFromUrl(url: string): Promise<object | null> {
  * @returns The loaded data
  */
 export function loadFromFile(path: string): object | null {
-  return tryOperation(
-    () => {
-      const data = readFileSync(path, "utf-8");
-      return parseJson(data);
-    },
-    onError(() => {
-      throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA);
-    })
-  );
+  let data;
+  try {
+    data = readFileSync(path, "utf-8");
+    return parseJson(data);
+  } catch {
+    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA, {
+      filePath: path,
+      fileData: data?.substring(0, 20) + "...",
+      timeStamp: new Date().toLocaleTimeString(),
+    });
+  }
 }

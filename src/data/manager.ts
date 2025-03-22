@@ -73,7 +73,12 @@ export class DataManager {
   public save(filePath?: string) {
     // Check if data is in memory
     const memoryData = dataStore.get();
-    if (!memoryData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
+    if (!memoryData)
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA, {
+        memoryData,
+        filePath: filePath,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Use the default file path from config
     if (!filePath) saveToFile(getDefaultFile("save"), memoryData);
@@ -100,11 +105,22 @@ export class DataManager {
   public async saveFromUrl(url: string, filePath?: string) {
     // Check if URL is valid
     const isUrl = isValidUrl(url);
-    if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
+    if (!isUrl)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, {
+        url,
+        filePath: filePath,
+        isUrl,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Check if the data is in URL
     const urlData = await loadFromUrl(url);
-    if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
+    if (!urlData)
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA, {
+        url,
+        filePath: filePath,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Check config for default file path
     if (!filePath) filePath = getDefaultFile("save");
@@ -134,11 +150,21 @@ export class DataManager {
 
     // Check if file path is valid
     const isFile = existsSync(filePath);
-    if (!isFile) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
+    if (!isFile)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
+        filePath,
+        isFile,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);
-    if (!fileData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
+    if (!fileData)
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
+        filePath,
+        fileData,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Set data to memory
     this.set(fileData);
@@ -168,15 +194,28 @@ export class DataManager {
     // Use the load url from config
     if (!url) urlToLoad = configStore.get().loadUrl;
     if (!urlToLoad)
-      throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_URL);
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_URL, {
+        url: urlToLoad,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Check if URL is valid
     const isUrl = isValidUrl(urlToLoad);
-    if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
+    if (!isUrl)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, {
+        url: urlToLoad,
+        isUrl,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Check if data is in URL
     const urlData = await loadFromUrl(urlToLoad);
-    if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
+    if (!urlData)
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
+        url: urlToLoad,
+        urlData,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Set data to memory
     this.set(urlData);
@@ -201,11 +240,21 @@ export class DataManager {
   public use(filePath: string): object | void {
     // Check if file path is valid
     const isFile = existsSync(filePath);
-    if (!isFile) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
+    if (!isFile)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
+        filePath,
+        isFile,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);
-    if (!fileData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
+    if (!fileData)
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
+        filePath,
+        fileData,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Set data to memory
     dataStore.use(fileData);
@@ -232,11 +281,21 @@ export class DataManager {
   public async useFromUrl(url: string): Promise<object | void> {
     // Check if URL is valid
     const isUrl = isValidUrl(url);
-    if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
+    if (!isUrl)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, {
+        url,
+        isUrl,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Check if data is in URL
     const urlData = await loadFromUrl(url);
-    if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD);
+    if (!urlData)
+      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
+        url,
+        urlData,
+        timeStamp: new Date().toLocaleTimeString(),
+      });
 
     // Set data to memory
     dataStore.use(urlData);

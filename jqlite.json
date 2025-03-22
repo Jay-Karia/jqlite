@@ -1,5 +1,4 @@
 {
   "allowOverwrite": true,
-  "loadFile": "data.json",
-  "loadUrl": "https://jsonplaceholder.typicode.com/posts/2"
+  "createIfMissing": false
 }

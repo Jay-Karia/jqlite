@@ -29,7 +29,9 @@ export function validateConfig(config: ConfigType): boolean {
 
   const extraKeys = configKeys.filter(key => !validKeys.includes(key));
   if (extraKeys.length > 0)
-    throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_KEYS);
+    throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_KEYS, {
+      extraKeys,
+    });
 
   // Validate the values if required
 

@@ -14,6 +14,8 @@ export const ERROR_MESSAGES = {
     INVALID_FILE_PATH: {
       message: "Invalid file path",
       code: "INVALID_FILE_PATH",
+      cause: "The file path doesn't exist",
+      solution: "Make sure the file path is valid and accessible",
     } as ErrorParams,
     INVALID_JSON_URL: {
       message: "Invalid JSON URL",
@@ -59,11 +61,11 @@ export const ERROR_MESSAGES = {
         "Add default path in config or add file path while using `save()`",
     } as ErrorParams,
     NO_DEFAULT_LOAD_FILE: {
-      message: "No default path to load data",
+      message: "No default file to load data",
       code: "NO_DEFAULT_LOAD_FILE",
-      cause: "Empty default path in config",
+      cause: "Empty load file path in config",
       solution:
-        "Add default path in config or add file path while using `load()`",
+        "Add default load file in config or add file path while using `load()`",
     } as ErrorParams,
     NO_DEFAULT_LOAD_URL: {
       message: "No default url to load data",

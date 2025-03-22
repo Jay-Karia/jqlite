@@ -3,4 +3,5 @@ export type ErrorParams = {
   code: string;
   cause: string;
   solution?: string;
+  metadata?: Record<string, any>;
 };

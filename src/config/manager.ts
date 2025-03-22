@@ -72,7 +72,9 @@ export class ConfigManager {
     // Check if the config file exists
     const isFile = existsSync(configFilePath);
     if (!isFile)
-      throw new ConfigError(ERROR_MESSAGES.CONFIG.CONFIG_FILE_NOT_FOUND);
+      throw new ConfigError(ERROR_MESSAGES.CONFIG.CONFIG_FILE_NOT_FOUND, {
+        filePath: configFilePath,
+      });
 
     // Get the config object
     const config = loadConfigFile(configFilePath);
