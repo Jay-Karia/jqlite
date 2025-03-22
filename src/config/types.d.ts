@@ -4,6 +4,12 @@ export type ConfigType = {
   loadUrl?: string | null;
   allowOverwrite?: boolean;
   createIfMissing?: boolean;
+  dataStreaming?: {
+    enabled?: boolean;
+    bufferSize?: number;
+    chunkSize?: number;
+    minDataSize?: number;
+  };
 };
 
 export type DefaultConfigType = {
@@ -12,4 +18,10 @@ export type DefaultConfigType = {
   loadUrl: string | null;
   allowOverwrite: boolean;
   createIfMissing: boolean;
+  dataStreaming: {
+    enabled: boolean;
+    bufferSize: number;
+    chunkSize: number;
+    minDataSize: number;
+  };
 };

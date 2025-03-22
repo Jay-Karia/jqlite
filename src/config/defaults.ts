@@ -8,4 +8,10 @@ export const DEFAULT_CONFIG: DefaultConfigType = {
   loadUrl: null,
   allowOverwrite: false,
   createIfMissing: true,
+  dataStreaming: {
+    enabled: true,
+    bufferSize: 262144, // 256KB
+    chunkSize: 32768, // 32KB
+    minDataSize: 1048576, // 1MB
+  },
 };

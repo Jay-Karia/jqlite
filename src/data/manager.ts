@@ -128,7 +128,7 @@ export class DataManager {
 
   /**
    * Load data from a file to memory
-   * @param {string} filePath The file path load data from
+   * @param {string} filePath The file path to load data from
    * @description This method will load the JSON data from the file and store it in memory. If no file path is provided, it will use the default file path from the config.
    * @returns {object} The loaded data
    * @example
