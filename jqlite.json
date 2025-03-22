@@ -1,4 +1,4 @@
 {
-  "defaultSaveFile": "data.json",
-  "allowOverwrite": true
+  "allowOverwrite": true,
+  "loadFile": "data.json"
 }

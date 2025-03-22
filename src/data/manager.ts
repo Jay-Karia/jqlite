@@ -1,7 +1,7 @@
 import { DataError } from "errors/factory";
 import { loadFromFile, loadFromUrl } from "./loader";
 import { dataStore } from "./store";
-import { getDefaultPath, isValidUrl, parseJson, saveToFile } from "./utils";
+import { getDefaultFile, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
 
@@ -75,8 +75,7 @@ export class DataManager {
     if (!memoryData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
 
     // Use the default file path from config
-    if (!filePath) saveToFile(getDefaultPath(), memoryData);
-
+    if (!filePath) saveToFile(getDefaultFile("save"), memoryData);
     // Use provided file path
     else saveToFile(filePath, memoryData);
   }
@@ -107,7 +106,7 @@ export class DataManager {
     if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
 
     // Check config for default file path
-    if (!filePath) filePath = getDefaultPath();
+    if (!filePath) filePath = getDefaultFile("save");
 
     // Save data to file
     saveToFile(filePath, urlData);
@@ -130,7 +129,7 @@ export class DataManager {
    */
   public load(filePath?: string): object {
     // Use the default file path from config
-    if (!filePath) filePath = getDefaultPath();
+    if (!filePath) filePath = getDefaultFile("load");
 
     // Check if file path is valid
     const isFile = existsSync(filePath);
@@ -175,7 +174,6 @@ export class DataManager {
 
     // Set data to memory
     this.set(urlData);
-
     return urlData;
   }
 

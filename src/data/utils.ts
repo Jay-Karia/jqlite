@@ -67,10 +67,22 @@ export function isValidUrl(url: string): boolean {
  * Get the default path to save data
  * @description This method will return the default path to save data. If no default path is found, it will throw an error.
  * @returns {string} The default path to save data
-*/
-export function getDefaultPath(): string {
-  const defaultSaveFile = configStore.get().defaultSaveFile;
-  if (!defaultSaveFile)
-    throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_PATH);
-  return defaultSaveFile;
+ */
+export function getDefaultFile(type: "save" | "load"): string {
+  switch (type) {
+    // Get the default save file
+    case "save": {
+      const savePath = configStore.get().saveFile;
+      if (!savePath)
+        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_SAVE_FILE);
+      return savePath;
+    }
+    // Get the default load file
+    case "load": {
+      const loadPath = configStore.get().loadFile;
+      if (!loadPath)
+        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_FILE);
+      return loadPath;
+    }
+  }
 }
