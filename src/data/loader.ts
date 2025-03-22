@@ -2,6 +2,7 @@ import { readFileSync } from "fs";
 import { parseJson } from "./utils";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
+import { onError, tryOperation } from "utils";
 
 /**
  * Load data from a URL
@@ -9,14 +10,16 @@ import { ERROR_MESSAGES } from "errors/messages";
  * @returns The fetched data
  */
 export async function loadFromUrl(url: string): Promise<object | null> {
-  // TODO: try to even refactor this to use the fetch API and/or with that utils function
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  } catch {
-    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA);
-  }
+  return tryOperation(
+    async () => {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    },
+    onError(() => {
+      throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA);
+    })
+  );
 }
 
 /**
@@ -25,11 +28,13 @@ export async function loadFromUrl(url: string): Promise<object | null> {
  * @returns The loaded data
  */
 export function loadFromFile(path: string): object | null {
-  // TODO: even this
-  try {
-    const data = readFileSync(path, "utf-8");
-    return parseJson(data);
-  } catch {
-    throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA);
-  }
+  return tryOperation(
+    () => {
+      const data = readFileSync(path, "utf-8");
+      return parseJson(data);
+    },
+    onError(() => {
+      throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA);
+    })
+  );
 }

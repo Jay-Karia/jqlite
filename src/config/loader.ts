@@ -4,6 +4,7 @@ import { ConfigType, DefaultConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { validateConfig } from "./utils";
+import { onError, tryOperation } from "utils";
 
 /**
  * Load the default config
@@ -20,16 +21,15 @@ export function loadDefaultConfig(): DefaultConfigType {
  * @returns {ConfigType} The config object
  */
 export function loadConfigFile(configFilePath: string): ConfigType {
-  // TODO: create a util function to abstract try catch block
   const config = readFileSync(configFilePath, "utf-8");
 
   // Check if the config has valid JSON
-  let parsedConfig: ConfigType;
-  try {
-    parsedConfig = JSON.parse(config);
-  } catch {
-    throw new ConfigError(ERROR_MESSAGES.CONFIG.NOT_JSON_CONFIG);
-  }
+  const parsedConfig: ConfigType = tryOperation(
+    () => JSON.parse(config),
+    onError(() => {
+      throw new ConfigError(ERROR_MESSAGES.CONFIG.NOT_JSON_CONFIG);
+    })
+  );
 
   // Validate the config
   const isValidConfig = validateConfig(parsedConfig);

@@ -2,6 +2,7 @@ import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync, writeFileSync } from "fs";
+import { onError, tryOperation } from "utils";
 
 /**
  * Parse JSON data
@@ -10,12 +11,12 @@ import { existsSync, writeFileSync } from "fs";
  * @returns {object | null} The parsed JSON data
  */
 export function parseJson(data: string): object | null {
-  // TODO: try to even refactor this
-  try {
-    return JSON.parse(data);
-  } catch {
-    throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON);
-  }
+  return tryOperation(
+    () => JSON.parse(data),
+    onError(() => {
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON);
+    })
+  );
 }
 
 /**
@@ -51,16 +52,15 @@ export function saveToFile(filePath: string, data: object): void {
  * Check if a URL is valid
  * @param {string} url The URL to validate
  * @description This method will check if the URL is valid. If the URL is valid, it will return true. Otherwise, it will return false.
- * @returns {boolean} Whether the URL is valid
+ * @returns {boolean | URL} Whether the URL is valid
  */
-export function isValidUrl(url: string): boolean {
-  // TODO: looking ugly, refactor this
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
+export function isValidUrl(url: string): boolean | URL {
+  return tryOperation(
+    () => new URL(url),
+    onError(() => {
+      return false;
+    })
+  );
 }
 
 /**
