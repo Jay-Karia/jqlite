@@ -9,10 +9,9 @@ import { ErrorParams } from "./types";
 export function createErrorClass(name: string) {
   const errorClass = {
     [name]: class extends BaseError {
-      constructor(params: ErrorParams, metadata?: Record<string, any>) {
-        super(params);
+      constructor(params: ErrorParams, metadata: Record<string, any>) {
+        super(params, metadata);
         this.name = name;
-        this.metadata = metadata || {};
       }
     },
   }[name];

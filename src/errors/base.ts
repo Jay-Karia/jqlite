@@ -7,7 +7,9 @@ export class BaseError extends Error {
   public code: string;
   public cause: string;
   public solution?: string;
-  public metadata?: Record<string, any>;
+  public metadata: Record<string, any>;
+  public timeStamp: string = new Date().toLocaleTimeString();
+  public date: Date = new Date();
 
   /**
    * Initializes the error class
@@ -15,7 +17,7 @@ export class BaseError extends Error {
    */
   constructor(
     { message, code, cause, solution }: ErrorParams,
-    metadata?: Record<string, any>
+    metadata: Record<string, any>
   ) {
     super(message);
     this.name = this.constructor.name;

@@ -13,7 +13,9 @@ export function parseJson(data: string): object | null {
   try {
     return JSON.parse(data);
   } catch {
-    throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON);
+    throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON, {
+      jsonData: data.substring(0, 20) + "...",
+    });
   }
 }
 

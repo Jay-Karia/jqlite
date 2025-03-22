@@ -77,7 +77,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA, {
         memoryData,
         filePath: filePath,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Use the default file path from config
@@ -110,7 +109,6 @@ export class DataManager {
         url,
         filePath: filePath,
         isUrl,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Check if the data is in URL
@@ -119,7 +117,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA, {
         url,
         filePath: filePath,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Check config for default file path
@@ -154,7 +151,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
         filePath,
         isFile,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Check if data is in file
@@ -163,7 +159,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         filePath,
         fileData,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Set data to memory
@@ -196,7 +191,6 @@ export class DataManager {
     if (!urlToLoad)
       throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_URL, {
         url: urlToLoad,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Check if URL is valid
@@ -205,7 +199,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, {
         url: urlToLoad,
         isUrl,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Check if data is in URL
@@ -214,7 +207,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         url: urlToLoad,
         urlData,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Set data to memory
@@ -244,7 +236,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
         filePath,
         isFile,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Check if data is in file
@@ -253,7 +244,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         filePath,
         fileData,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Set data to memory
@@ -285,7 +275,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, {
         url,
         isUrl,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Check if data is in URL
@@ -294,7 +283,6 @@ export class DataManager {
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         url,
         urlData,
-        timeStamp: new Date().toLocaleTimeString(),
       });
 
     // Set data to memory

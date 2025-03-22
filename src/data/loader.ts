@@ -18,7 +18,6 @@ export async function loadFromUrl(url: string): Promise<object | null> {
     throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA, {
       url,
       urlData: urlData?.substring(0, 20) + "...",
-      timeStamp: new Date().toLocaleTimeString(),
     });
   }
 }
@@ -37,7 +36,6 @@ export function loadFromFile(path: string): object | null {
     throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA, {
       filePath: path,
       fileData: data?.substring(0, 20) + "...",
-      timeStamp: new Date().toLocaleTimeString(),
     });
   }
 }
