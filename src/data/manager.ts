@@ -1,10 +1,9 @@
 import { DataError } from "errors/factory";
 import { loadFromFile, loadFromUrl } from "./loader";
 import { dataStore } from "./store";
-import { isValidUrl, parseJson, saveToFile } from "./utils";
+import { getDefaultPath, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
-import { configStore } from "config/store";
-import {existsSync} from "fs";
+import { existsSync } from "fs";
 
 /**
  * DataManager class
@@ -75,22 +74,18 @@ export class DataManager {
     const memoryData = dataStore.get();
     if (!memoryData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
 
-    // Check config for default path
-    if (!filePath) {
-      const defaultSaveFile = configStore.get().defaultSaveFile;
-      if (!defaultSaveFile)
-        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_PATH);
+    // Use the default file path from config
+    if (!filePath) saveToFile(getDefaultPath(), memoryData);
 
-      // Save data to default path
-      saveToFile(defaultSaveFile, memoryData);
-    } else saveToFile(filePath, memoryData);
+    // Use provided file path
+    else saveToFile(filePath, memoryData);
   }
 
   /**
    * Save data from a URL to a file
    * @async
    * @param {string} url The URL to fetch data from
-   * @param {string} filePath The file path to save the fetched data
+   * @param {string} [filePath] The file path to save the fetched data
    * @description This method will fetch the JSON data from the URL and save it to a file. If no file path is provided, it will use the default file path from the config.
    * @example
    * ```ts
@@ -102,15 +97,17 @@ export class DataManager {
    * @throws {DataError} If no data is found in the URL.
    * @author Jay-Karia
    */
-  public async saveFromUrl(url: string, filePath: string) {
+  public async saveFromUrl(url: string, filePath?: string) {
     // Check if URL is valid
-    // TODO: make filePath optional and use default path from config
     const isUrl = isValidUrl(url);
     if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
 
-    // Check if file path is valid
+    // Check if the data is in URL
     const urlData = await loadFromUrl(url);
     if (!urlData) throw new DataError(ERROR_MESSAGES.DATA.NO_DATA);
+
+    // Check config for default file path
+    if (!filePath) filePath = getDefaultPath();
 
     // Save data to file
     saveToFile(filePath, urlData);
@@ -131,8 +128,9 @@ export class DataManager {
    * @throws {DataError} If the file path is invalid.
    * @author Jay-Karia
    */
-  public load(filePath: string): object {
-    // TODO: make filePath optional and use default path from config
+  public load(filePath?: string): object {
+    // Use the default file path from config
+    if (!filePath) filePath = getDefaultPath();
 
     // Check if file path is valid
     const isFile = existsSync(filePath);

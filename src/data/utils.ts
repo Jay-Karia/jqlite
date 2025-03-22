@@ -62,3 +62,15 @@ export function isValidUrl(url: string): boolean {
     return false;
   }
 }
+
+/**
+ * Get the default path to save data
+ * @description This method will return the default path to save data. If no default path is found, it will throw an error.
+ * @returns {string} The default path to save data
+*/
+export function getDefaultPath(): string {
+  const defaultSaveFile = configStore.get().defaultSaveFile;
+  if (!defaultSaveFile)
+    throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_PATH);
+  return defaultSaveFile;
+}
