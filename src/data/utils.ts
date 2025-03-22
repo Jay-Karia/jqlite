@@ -32,6 +32,7 @@ export function saveToFile(filePath: string, data: object): void {
 
     // Create the file
     writeFileSync(filePath, JSON.stringify(data, null, 2));
+    return;
   }
 
   // Check if the file can be overwritten
