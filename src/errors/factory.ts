@@ -1,5 +1,5 @@
-import {BaseError} from "./base";
-import {ErrorParams} from "./types";
+import { BaseError } from "./base";
+import { ErrorParams } from "./types";
 
 /**
  * Create an error class for a specific category
@@ -20,3 +20,4 @@ export function createErrorClass(name: string) {
 }
 
 export const DataError = createErrorClass("DataError");
+export const ConfigError = createErrorClass("ConfigError");

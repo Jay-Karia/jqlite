@@ -1,7 +1,7 @@
-import {readFileSync} from "fs";
-import {parseJson} from "./utils";
-import {DataError} from "errors/factory";
-import {ERROR_MESSAGES} from "errors/messages";
+import { readFileSync } from "fs";
+import { parseJson } from "./utils";
+import { DataError } from "errors/factory";
+import { ERROR_MESSAGES } from "errors/messages";
 
 /**
  * Load data from a URL

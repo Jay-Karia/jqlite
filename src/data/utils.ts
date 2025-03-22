@@ -1,4 +1,4 @@
-import {configStore} from "config/store";
+import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync, writeFileSync } from "fs";
@@ -27,7 +27,8 @@ export function saveToFile(filePath: string, data: object): void {
   if (!isFile) {
     // Check if the file should be created if missing
     const createIfMissing = configStore.get().createIfMissing;
-    if (!createIfMissing) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
+    if (!createIfMissing)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH);
 
     // Create the file
     writeFileSync(filePath, JSON.stringify(data, null, 2));

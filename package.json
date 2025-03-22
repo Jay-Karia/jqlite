@@ -15,7 +15,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist --format=esm --minify",
     "build:watch": "pnpm run build --watch",
     "start": "node dist/index.js",
-    "start:ts": "npx tsx src/index.ts",
+    "start:ts": "tsx src/index.ts",
     "dev": "node --watch dist/index.js",
     "lint": "npx eslint .",
     "lint:src": "npx eslint src",
