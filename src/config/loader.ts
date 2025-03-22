@@ -1,5 +1,5 @@
-import { readFileSync } from "fs";
-import { DEFAULT_CONFIG } from "./defaults";
+import { existsSync, readFileSync } from "fs";
+import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILE_NAME } from "./defaults";
 import { ConfigType, DefaultConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
@@ -35,4 +35,22 @@ export function loadConfigFile(configFilePath: string): ConfigType {
     throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_FILE);
 
   return parsedConfig;
+}
+
+/**
+ * Load the default config file
+ * @returns The default config object or void if not found
+ */
+export function loadDefaultConfigFile(): ConfigType | void {
+  // Search the root folder for a config file
+  const fileName = DEFAULT_CONFIG_FILE_NAME;
+  const filePath = `${process.cwd()}/${fileName}`;
+
+  // Check if the config file exists
+  const isFile = existsSync(filePath);
+  if (!isFile) return;
+
+  // Get the config object
+  const config = loadConfigFile(filePath);
+  return config;
 }
