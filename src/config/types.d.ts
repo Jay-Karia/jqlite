@@ -1,11 +1,11 @@
 export type ConfigType = {
-  defaultPath?: string | null;
+  defaultSaveFile?: string | null;
   allowOverwrite?: boolean;
   createIfMissing?: boolean;
 };
 
 export type DefaultConfigType = {
-  defaultPath: null;
+  defaultSaveFile: null;
   allowOverwrite: boolean;
   createIfMissing: boolean;
 };

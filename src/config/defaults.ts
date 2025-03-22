@@ -1,7 +1,7 @@
 import { DefaultConfigType } from "./types";
 
 export const DEFAULT_CONFIG: DefaultConfigType = {
-  defaultPath: null,
+  defaultSaveFile: null,
   allowOverwrite: false,
   createIfMissing: true,
 };

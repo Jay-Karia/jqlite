@@ -40,11 +40,11 @@ export class DataManager {
 
     // Check config for default path
     if (!filePath) {
-      const defaultPath = configStore.get().defaultPath;
-      if (!defaultPath)
+      const defaultSaveFile = configStore.get().defaultSaveFile;
+      if (!defaultSaveFile)
         throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_PATH);
 
-      saveToFile(defaultPath, memoryData);
+      saveToFile(defaultSaveFile, memoryData);
     } else saveToFile(filePath, memoryData);
   }
 
