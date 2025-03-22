@@ -5,9 +5,10 @@ import { ERROR_MESSAGES } from "errors/messages";
 
 /**
  * Override the given config with the new one
- * @param oldConfig The old config
- * @param newConfig The new config to override
- * @returns The new overridden config
+ * @param {ConfigType} oldConfig The old config
+ * @param {ConfigType} newConfig The new config to override
+ * @description This method will override the config object. It will only update the values that are passed in the new config object.
+ * @returns {ConfigType} The new overridden config
  */
 export function overrideConfig(
   oldConfig: ConfigType,
@@ -18,8 +19,8 @@ export function overrideConfig(
 
 /**
  * Check if the config is valid
- * @param config The config object to validate
- * @returns Whether the config is valid or not
+ * @param {ConfigType} config The config object to validate
+ * @returns {boolean} Whether the config is valid or not
  */
 export function validateConfig(config: ConfigType): boolean {
   // Check for any extra keys

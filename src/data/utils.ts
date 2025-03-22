@@ -5,10 +5,12 @@ import { existsSync, writeFileSync } from "fs";
 
 /**
  * Parse JSON data
- * @param data The JSON data to parse
- * @returns The parsed JSON data
+ * @param {string} data The JSON data to parse
+ * @description This method will parse the JSON data and return it as an object. If the data is already an object, it will be returned as is.
+ * @returns {object | null} The parsed JSON data
  */
 export function parseJson(data: string): object | null {
+  // TODO: try to even refactor this
   try {
     return JSON.parse(data);
   } catch {
@@ -18,8 +20,10 @@ export function parseJson(data: string): object | null {
 
 /**
  * Save JSON data to a file
- * @param filePath The file path to save the JSON data
- * @param data The JSON data to save
+ * @param {string} filePath The file path to save the JSON data
+ * @param {object} data The JSON data to save
+ * @description This method will save the JSON data to a file. If the file already exists, it will overwrite the existing data.
+ * If the file does not exist, it will create a new file with the provided data.
  */
 export function saveToFile(filePath: string, data: object): void {
   // Check if the file path is valid
@@ -45,10 +49,12 @@ export function saveToFile(filePath: string, data: object): void {
 
 /**
  * Check if a URL is valid
- * @param url The URL to validate
- * @returns Whether the URL is valid
+ * @param {string} url The URL to validate
+ * @description This method will check if the URL is valid. If the URL is valid, it will return true. Otherwise, it will return false.
+ * @returns {boolean} Whether the URL is valid
  */
 export function isValidUrl(url: string): boolean {
+  // TODO: looking ugly, refactor this
   try {
     new URL(url);
     return true;

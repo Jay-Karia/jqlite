@@ -15,10 +15,12 @@ export function loadDefaultConfig(): DefaultConfigType {
 
 /**
  * Load a config file
- * @param configFilePath The path to the config file
- * @returns The config object
+ * @param {string} configFilePath The path to the config file
+ * @description Reads the config file and parses it to a JSON object
+ * @returns {ConfigType} The config object
  */
 export function loadConfigFile(configFilePath: string): ConfigType {
+  // TODO: create a util function to abstract try catch block
   const config = readFileSync(configFilePath, "utf-8");
 
   // Check if the config has valid JSON
@@ -39,7 +41,8 @@ export function loadConfigFile(configFilePath: string): ConfigType {
 
 /**
  * Load the default config file
- * @returns The default config object or void if not found
+ * @description Searches the root folder for a config file and loads it
+ * @returns {ConfigType} The default config object or void if not found
  */
 export function loadDefaultConfigFile(): ConfigType | void {
   // Search the root folder for a config file

@@ -9,6 +9,7 @@ import { ERROR_MESSAGES } from "errors/messages";
  * @returns The fetched data
  */
 export async function loadFromUrl(url: string): Promise<object | null> {
+  // TODO: try to even refactor this to use the fetch API and/or with that utils function
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -24,6 +25,7 @@ export async function loadFromUrl(url: string): Promise<object | null> {
  * @returns The loaded data
  */
 export function loadFromFile(path: string): object | null {
+  // TODO: even this
   try {
     const data = readFileSync(path, "utf-8");
     return parseJson(data);
