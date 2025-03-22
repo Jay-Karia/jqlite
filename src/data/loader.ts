@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { parseJson } from "./utils";
+import { parseJson, trimData } from "./utils";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 
@@ -17,7 +17,7 @@ export async function loadFromUrl(url: string): Promise<object | null> {
   } catch {
     throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA, {
       url,
-      urlData: urlData?.substring(0, 20) + "...",
+      urlData: trimData(urlData),
     });
   }
 }
@@ -35,7 +35,7 @@ export function loadFromFile(path: string): object | null {
   } catch {
     throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA, {
       filePath: path,
-      fileData: data?.substring(0, 20) + "...",
+      fileData: trimData(data),
     });
   }
 }

@@ -158,12 +158,10 @@ export class DataManager {
     if (!fileData)
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         filePath,
-        fileData,
       });
 
     // Set data to memory
     this.set(fileData);
-
     return fileData;
   }
 
@@ -206,7 +204,6 @@ export class DataManager {
     if (!urlData)
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         url: urlToLoad,
-        urlData,
       });
 
     // Set data to memory
@@ -243,12 +240,10 @@ export class DataManager {
     if (!fileData)
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         filePath,
-        fileData,
       });
 
     // Set data to memory
     dataStore.use(fileData);
-
     return fileData;
   }
 
@@ -282,7 +277,6 @@ export class DataManager {
     if (!urlData)
       throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
         url,
-        urlData,
       });
 
     // Set data to memory

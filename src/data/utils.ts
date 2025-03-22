@@ -97,3 +97,23 @@ export function getDefaultFile(type: "save" | "load"): string {
     }
   }
 }
+
+/**
+ * Trim the data
+ * @param {string} data The data to trim
+ * @description This method will trim the data to a certain length and add "..." at the end if required. This is required to print the data in the error message.
+ * @returns {string} The trimmed data
+ */
+export function trimData(data?: string): string {
+  // Check if the data is defined
+  if (!data) return "";
+
+  // Check if the data is too long
+  const maxLength = 50;
+  if (data.length > maxLength) {
+    return data.substring(0, maxLength) + " ...";
+  }
+
+  // Return the data as is
+  return data;
+}
