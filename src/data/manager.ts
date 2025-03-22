@@ -230,8 +230,6 @@ export class DataManager {
    * @author Jay-Karia
    */
   public async useFromUrl(url: string): Promise<object | void> {
-    // TODO: add default url in config
-
     // Check if URL is valid
     const isUrl = isValidUrl(url);
     if (!isUrl) throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL);
