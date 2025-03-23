@@ -113,5 +113,31 @@ export const ERROR_MESSAGES = {
       cause: "The buffer size value is negative or floating",
       solution: "Make the value of buffer size a natural number",
     } as ErrorParams,
+    INVALID_CHUNK_SIZE: {
+      message: "Invalid chunk size",
+      code: "INVALID_CHUNK_SIZE",
+      cause: "The chunk size value is negative or floating",
+      solution: "Make the value of chunk size a natural number",
+    } as ErrorParams,
+    INVALID_MIN_DATA_SIZE: {
+      message: "Invalid min data size",
+      code: "INVALID_MIN_DATA_SIZE",
+      cause: "The min data size value is negative or floating",
+      solution: "Make the value of min data size a natural number",
+    } as ErrorParams,
+    ERR_BUFFER_AND_CHUNK_SIZE: {
+      message: "Buffer size is less than chunk size",
+      code: "ERR_BUFFER_AND_CHUNK_SIZE",
+      cause: "The buffer size is less than the chunk size",
+      solution:
+        "Make sure the buffer size is greater than the chunk size in config",
+    } as ErrorParams,
+    ERR_BUFFER_AND_MIN_DATA_SIZE: {
+      message: "Min data size is greater than buffer size",
+      code: "ERR_BUFFER_AND_MIN_DATA_SIZE",
+      cause: "The min data size is greater than the buffer size",
+      solution:
+        "Make sure the minimum data size is less than the buffer size in config",
+    } as ErrorParams,
   },
 };

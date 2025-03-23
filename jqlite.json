@@ -1,8 +1,4 @@
 {
   "allowOverwrite": true,
-  "createIfMissing": false,
-  "dataStreaming": {
-    "enabled": true,
-    "bufferSize": 1000000
-  }
+  "createIfMissing": false
 }
