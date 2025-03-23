@@ -14,6 +14,7 @@ export function overrideConfig(
   oldConfig: ConfigType,
   newConfig: ConfigType
 ): ConfigType {
+  // TODO: fix cannot deep override keys, like data streaming ones
   return { ...oldConfig, ...newConfig };
 }
 
@@ -33,7 +34,14 @@ export function validateConfig(config: ConfigType): boolean {
       extraKeys,
     });
 
-  // Validate the values if required
+  //------------------------------------//
+  // Data Streaming Validation
+  //------------------------------------//
+  // if (config.dataStreaming) {
+  //   const streaming = config.dataStreaming;
+  //   console.log(streaming.bufferSize);
+  // }
+
 
   return true;
 }
