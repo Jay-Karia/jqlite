@@ -301,6 +301,21 @@ export class DataManager {
   public getActiveData(): object | null {
     return dataStore.getActiveData();
   }
+
+  /**
+   * Print the data in memory
+   * @description This method will print the data stored in memory. If no data is found, it will print "No data in memory."
+   * @example
+   * ```ts
+   * dataManger.printData();
+   * ```
+   * @author Jay-Karia
+   */
+  public printData() {
+    const data = dataStore.get();
+    if (data) console.log(JSON.stringify(data, null, 2));
+    else console.log("No data in memory.");
+  }
 }
 
 export const dataManager = new DataManager();

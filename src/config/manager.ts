@@ -82,6 +82,20 @@ export class ConfigManager {
     // Set the config object
     return this.set(config);
   }
+
+  /**
+   * Print the config
+   * @description This method will print the config object to the console.
+   * @example
+   * ```ts
+   * configManager.printConfig();
+   * ```
+   * @author Jay-Karia
+   */
+  public printConfig() {
+    console.log(this.get());
+  }
+
 }
 
 export const configManager = new ConfigManager();
