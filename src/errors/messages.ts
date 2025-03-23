@@ -111,7 +111,7 @@ export const ERROR_MESSAGES = {
       message: "Invalid buffer size",
       code: "INVALID_BUFFER_SIZE",
       cause: "The buffer size value is negative or floating",
-      solution: "Make the value of buffer size a natural number"
-    } as ErrorParams
+      solution: "Make the value of buffer size a natural number",
+    } as ErrorParams,
   },
 };

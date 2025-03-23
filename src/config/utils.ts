@@ -4,18 +4,50 @@ import { ConfigType } from "./types";
 import { ERROR_MESSAGES } from "errors/messages";
 
 /**
- * Override the given config with the new one
- * @param {ConfigType} oldConfig The old config
- * @param {ConfigType} newConfig The new config to override
- * @description This method will override the config object. It will only update the values that are passed in the new config object.
- * @returns {ConfigType} The new overridden config
+ * Check if a value is an object
+ * @param {any} item The item to check
+ * @returns {boolean} Whether the item is an object
  */
-export function overrideConfig(
-  oldConfig: ConfigType,
-  newConfig: ConfigType
-): ConfigType {
-  // TODO: fix cannot deep override keys, like data streaming ones
-  return { ...oldConfig, ...newConfig };
+function isObject(item: any): boolean {
+  return item && typeof item === "object" && !Array.isArray(item);
+}
+
+/**
+ * Override the given config with the new one
+ * @param currentConfig The old config
+ * @param newConfig The new config to override
+ * @description Deep merges the new config into the old one
+ * @returns The new overridden config
+ */
+export function overrideConfig<T extends Record<string, any>>(
+  currentConfig: T,
+  newConfig: T
+): T {
+  // Create a shallow copy of the current config to avoid modifying the original
+  const output = { ...currentConfig };
+
+  // Iterate through each key in the new config
+  for (const key in newConfig) {
+    // Skip undefined values to allow partial config updates
+    if (newConfig[key] === undefined) continue;
+
+    // Check if the current property is an object (not null, not an array)
+    if (isObject(newConfig[key])) {
+      // If the value is an object in the new config
+      if (!(key in currentConfig) || !isObject(currentConfig[key])) {
+        // Directly replace/add the value
+        output[key] = newConfig[key];
+      } else {
+        // If both values are objects, recursively merge them.
+        output[key] = overrideConfig(currentConfig[key], newConfig[key]);
+      }
+    } else {
+      // For primitive values (strings, numbers, booleans) or arrays, directly override the value.
+      output[key] = newConfig[key];
+    }
+  }
+
+  return output;
 }
 
 /**
@@ -41,7 +73,6 @@ export function validateConfig(config: ConfigType): boolean {
   //   const streaming = config.dataStreaming;
   //   console.log(streaming.bufferSize);
   // }
-
 
   return true;
 }

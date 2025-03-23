@@ -95,7 +95,6 @@ export class ConfigManager {
   public printConfig() {
     console.log(this.get());
   }
-
 }
 
 export const configManager = new ConfigManager();

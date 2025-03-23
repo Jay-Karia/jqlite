@@ -2,7 +2,7 @@
   "allowOverwrite": true,
   "createIfMissing": false,
   "dataStreaming": {
-    "chunkSize": 32768,
-    "minDataSize": 1048576
+    "enabled": true,
+    "bufferSize": 1000000
   }
 }

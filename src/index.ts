@@ -2,10 +2,7 @@ import { queryRunner } from "./core/runner";
 import { dataManager } from "./data/manager";
 import { configManager } from "./config/manager";
 
-configManager.printConfig();
-
-// TODO: Data Streaming
-// TODO: Add config validation for new keys
-// TODO: fix cannot deep override keys, like data streaming ones
+// TODO: Add config validation for new keys (dataStreaming)
+// TODO: fix config type validation for json configs.
 
 export { queryRunner, dataManager, configManager };
