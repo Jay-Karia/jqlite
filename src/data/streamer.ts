@@ -1,8 +1,8 @@
-import {loadDefaultConfig} from "config/loader";
-import {configStore} from "config/store";
-import {DataError} from "errors/factory";
-import {ERROR_MESSAGES} from "errors/messages";
-import {existsSync, statfsSync} from "fs";
+import { loadDefaultConfig } from "config/loader";
+import { configStore } from "config/store";
+import { DataError } from "errors/factory";
+import { ERROR_MESSAGES } from "errors/messages";
+import { existsSync, statfsSync } from "fs";
 
 /**
  * DataStreamer Class
@@ -36,20 +36,20 @@ export class DataStreamer {
    */
   public canStreamFile(filePath: string): boolean {
     // Get the minimum data size from the config
-    this._minDataSize = configStore.get().dataStreaming?.minDataSize || this._defaultConfig.dataStreaming.minDataSize;
+    this._minDataSize = configStore.get().dataStreaming.minDataSize;
 
     // Check if the file exists
     const isFile = existsSync(filePath);
-    if (!isFile) throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
-      filePath,
-      isFile
-    });
+    if (!isFile)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
+        filePath,
+        isFile,
+      });
 
     // Get the file size
     const fileSize = statfsSync(filePath).bsize;
     return fileSize > this._minDataSize;
   }
-
 }
 
 export const dataStreamer = new DataStreamer();

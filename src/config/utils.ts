@@ -20,10 +20,10 @@ function isObject(item: any): boolean {
  * @description Deep merges the new config into the old one
  * @returns The new overridden config
  */
-export function overrideConfig<T extends Record<string, any>>(
-  currentConfig: T,
-  newConfig: T
-): T {
+export function overrideConfig<ConfigType>(
+  currentConfig: ConfigType,
+  newConfig: Partial<ConfigType>
+): ConfigType {
   // Create a shallow copy of the current config to avoid modifying the original
   const output = { ...currentConfig };
 
@@ -35,7 +35,7 @@ export function overrideConfig<T extends Record<string, any>>(
     // Check if the current property is an object (not null, not an array)
     if (isObject(newConfig[key])) {
       // If the value is an object in the new config
-      if (!(key in currentConfig) || !isObject(currentConfig[key])) {
+      if (currentConfig[key] === undefined || !isObject(currentConfig[key])) {
         // Directly replace/add the value
         output[key] = newConfig[key];
       } else {
@@ -47,7 +47,6 @@ export function overrideConfig<T extends Record<string, any>>(
       output[key] = newConfig[key];
     }
   }
-
   return output;
 }
 

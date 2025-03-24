@@ -1,8 +1,8 @@
-import { DefaultConfigType } from "./types";
+import { ConfigType } from "./types";
 
 export const DEFAULT_CONFIG_FILE_NAME = "jqlite.json";
 
-export const DEFAULT_CONFIG: DefaultConfigType = {
+export const DEFAULT_CONFIG: ConfigType = {
   saveFile: null,
   loadFile: null,
   loadUrl: null,

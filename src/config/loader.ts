@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "fs";
 import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILE_NAME } from "./defaults";
-import { ConfigType, DefaultConfigType } from "./types";
+import { ConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { validateConfig } from "./utils";
@@ -9,7 +9,7 @@ import { validateConfig } from "./utils";
  * Load the default config
  * @returns The default config
  */
-export function loadDefaultConfig(): DefaultConfigType {
+export function loadDefaultConfig(): ConfigType {
   return DEFAULT_CONFIG;
 }
 

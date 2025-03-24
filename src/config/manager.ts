@@ -1,6 +1,6 @@
 import { existsSync } from "fs";
 import { configStore } from "./store";
-import { ConfigType } from "./types";
+import { ConfigType, OverrideConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { loadConfigFile } from "./loader";
@@ -39,7 +39,7 @@ export class ConfigManager {
    * ```
    * @author Jay-Karia
    */
-  public set(newConfig: ConfigType): ConfigType {
+  public set(newConfig: OverrideConfigType): ConfigType {
     configStore.set(newConfig);
     return configStore.get();
   }
