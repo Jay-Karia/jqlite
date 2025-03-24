@@ -2,7 +2,8 @@ import { loadDefaultConfig } from "config/loader";
 import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
-import { existsSync, statfsSync } from "fs";
+import { existsSync, statSync } from "fs";
+import { isValidUrl } from "./utils";
 
 /**
  * DataStreamer Class
@@ -35,6 +36,10 @@ export class DataStreamer {
    * @returns {boolean} True if the file can be streamed, false otherwise
    */
   public canStreamFile(filePath: string): boolean {
+    // Check if data streaming is enabled
+    const isDataStreamingEnabled = configStore.get().dataStreaming.enabled;
+    if (!isDataStreamingEnabled) return false;
+
     // Get the minimum data size from the config
     this._minDataSize = configStore.get().dataStreaming.minDataSize;
 
@@ -47,8 +52,40 @@ export class DataStreamer {
       });
 
     // Get the file size
-    const fileSize = statfsSync(filePath).bsize;
-    return fileSize > this._minDataSize;
+    try {
+      const fileStats = statSync(filePath);
+      return fileStats.size > this._minDataSize;
+    } catch (error) {
+      throw new DataError(ERROR_MESSAGES.DATA.ERR_EVALUATING_FILE_STATS, {
+        error,
+      });
+    }
+  }
+
+  /**
+   * Check whether the url can be streamed
+   * @param {string} url The url to check
+   * @description This method checks if the url can be streamed based on its size.
+   * @returns {boolean} True if the url can be streamed, false otherwise
+   */
+  public async canStreamUrl(url: string): Promise<boolean> {
+    // Check if data streaming is enabled
+    const isDataStreamingEnabled = configStore.get().dataStreaming.enabled;
+    if (!isDataStreamingEnabled) return false;
+
+    // Get the minimum data size from the config
+    this._minDataSize = configStore.get().dataStreaming.minDataSize;
+
+    // Check if the url is valid
+    const isUrl = isValidUrl(url);
+    if (!isUrl)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, { url });
+
+    // Get the url size
+    const response = await fetch(url);
+    console.log(response);
+
+    return false;
   }
 }
 
