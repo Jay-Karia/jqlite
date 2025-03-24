@@ -83,9 +83,17 @@ export const ERROR_MESSAGES = {
     ERR_EVALUATING_FILE_STATS: {
       message: "Could not evaluate file stats",
       code: "ERR_EVALUATING_FILE_STATS",
-      cause: "Unexpected error occurred while calculating file stats for data stream",
+      cause:
+        "Unexpected error occurred while calculating file stats for data stream",
       solution: "Check whether the file exists and is accessible",
-    }
+    } as ErrorParams,
+    ERR_EVALUATING_URL_STATS: {
+      message: "Could not evaluate url stats",
+      code: "ERR_EVALUATING_URL_STATS",
+      cause:
+        "Unexpected error occurred while calculating url stats for data stream",
+      solution: "Check whether the url exists and is accessible",
+    } as ErrorParams,
   },
   CONFIG: {
     CONFIG_FILE_NOT_FOUND: {

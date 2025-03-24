@@ -82,10 +82,19 @@ export class DataStreamer {
       throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, { url });
 
     // Get the url size
-    const response = await fetch(url);
-    console.log(response);
+    try {
+      const response = await fetch(url);
+      const contentLength = response.headers.get("content-length");
 
-    return false;
+      // If the content length is not present, we cannot determine the size
+      if (!contentLength) return false;
+
+      return parseInt(contentLength) > this._minDataSize;
+    } catch (error) {
+      throw new DataError(ERROR_MESSAGES.DATA.ERR_EVALUATING_URL_STATS, {
+        error,
+      });
+    }
   }
 }
 
