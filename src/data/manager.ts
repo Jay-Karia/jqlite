@@ -86,47 +86,6 @@ export class DataManager {
   }
 
   /**
-   * Save data from a URL to a file
-   * @async
-   * @param {string} url The URL to fetch data from
-   * @param {string} [filePath] The file path to save the fetched data
-   * @description This method will fetch the JSON data from the URL and save it to a file. If no file path is provided, it will use the default file path from the config.
-   * @example
-   * ```ts
-   * const url = "https://jsonplaceholder.typicode.com/posts";
-   * const filePath = "./data.json";
-   * dataManager.saveFromUrl(url, filePath);
-   * ```
-   * @throws {DataError} If the URL is invalid.
-   * @throws {DataError} If no data is found in the URL.
-   * @author Jay-Karia
-   */
-  public async saveFromUrl(url: string, filePath?: string): Promise<void> {
-    // Check if URL is valid
-    const isUrl = isValidUrl(url);
-    if (!isUrl)
-      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, {
-        url,
-        filePath: filePath,
-        isUrl,
-      });
-
-    // Check if the data is in URL
-    const urlData = await loadFromUrl(url);
-    if (!urlData)
-      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA, {
-        url,
-        filePath: filePath,
-      });
-
-    // Check config for default file path
-    if (!filePath) filePath = getDefaultFile("save");
-
-    // Save data to file
-    saveToFile(filePath, urlData);
-  }
-
-  /**
    * Load data from a file to memory
    * @param {string} filePath The file path to load data from
    * @description This method will load the JSON data from the file and store it in memory. If no file path is provided, it will use the default file path from the config.
