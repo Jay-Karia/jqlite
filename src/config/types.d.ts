@@ -1,8 +1,6 @@
 export type DataStreamingType = {
-  autoStream: boolean;
   bufferSize: number;
   chunkSize: number;
-  dataSize: number;
 };
 
 export type ConfigType = {
