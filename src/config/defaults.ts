@@ -9,9 +9,9 @@ export const DEFAULT_CONFIG: ConfigType = {
   allowOverwrite: false,
   createIfMissing: true,
   dataStreaming: {
-    enabled: true,
+    autoStream: true,
     bufferSize: 262144, // 256KB
     chunkSize: 32768, // 32KB
-    minDataSize: 1048576, // 1MB
+    dataSize: 1048576, // 1MB
   },
 };

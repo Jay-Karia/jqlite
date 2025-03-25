@@ -8,21 +8,20 @@ import { isValidUrl } from "./utils";
  * DataStreamer Class
  */
 export class DataStreamer {
-  private _buffer: Buffer;
-  private readonly _chunk: Buffer | null = null;
 
   private readonly _chunkSize: number;
-  private _bufferSize: number;
-  private _minDataSize: number;
+  private readonly _bufferSize: number;
+  private _dataSize: number;
 
+  /**
+   * Initialize the DataStreamer class
+   * @description This class is responsible for streaming data from a file or a URL. It checks if the file or URL can be streamed based on its size and manages the buffer for streaming.
+   */
   constructor() {
     // Initialize the default chunk size, buffer size and min data size
     this._chunkSize = configStore.get().dataStreaming.chunkSize;
     this._bufferSize = configStore.get().dataStreaming.bufferSize;
-    this._minDataSize = configStore.get().dataStreaming.minDataSize;
-
-    // Initialize the buffer and chunk
-    this._buffer = Buffer.alloc(0);
+    this._dataSize = configStore.get().dataStreaming.dataSize;
   }
 
   /**
@@ -39,11 +38,11 @@ export class DataStreamer {
    */
   public canStreamFile(filePath: string): boolean {
     // Check if data streaming is enabled
-    const isDataStreamingEnabled = configStore.get().dataStreaming.enabled;
-    if (!isDataStreamingEnabled) return false;
+    const isAutoStreamingEnabled = configStore.get().dataStreaming.autoStream;
+    if (!isAutoStreamingEnabled) return false;
 
     // Get the minimum data size from the config
-    this._minDataSize = configStore.get().dataStreaming.minDataSize;
+    this._dataSize = configStore.get().dataStreaming.dataSize;
 
     // Check if the file exists
     const isFile = existsSync(filePath);
@@ -56,7 +55,7 @@ export class DataStreamer {
     // Get the file size
     try {
       const fileStats = statSync(filePath);
-      return fileStats.size > this._minDataSize;
+      return fileStats.size > this._dataSize;
     } catch (error) {
       throw new DataError(ERROR_MESSAGES.DATA.ERR_EVALUATING_FILE_STATS, {
         error,
@@ -72,11 +71,11 @@ export class DataStreamer {
    */
   public async canStreamUrl(url: string): Promise<boolean> {
     // Check if data streaming is enabled
-    const isDataStreamingEnabled = configStore.get().dataStreaming.enabled;
-    if (!isDataStreamingEnabled) return false;
+    const canAutoStream = configStore.get().dataStreaming.autoStream;
+    if (!canAutoStream) return false;
 
     // Get the minimum data size from the config
-    this._minDataSize = configStore.get().dataStreaming.minDataSize;
+    this._dataSize = configStore.get().dataStreaming.dataSize;
 
     // Check if the url is valid
     const isUrl = isValidUrl(url);
@@ -91,7 +90,7 @@ export class DataStreamer {
       // If the content length is not present, we cannot determine the size
       if (!contentLength) return false;
 
-      return parseInt(contentLength) > this._minDataSize;
+      return parseInt(contentLength) > this._dataSize;
     } catch (error) {
       throw new DataError(ERROR_MESSAGES.DATA.ERR_EVALUATING_URL_STATS, {
         error,
@@ -99,35 +98,6 @@ export class DataStreamer {
     }
   }
 
-  /**
-   * Check whether the buffer is empty
-   * @description This method checks if the buffer is full.
-   * @returns {boolean} Whether the buffer is full or not
-   */
-  public isBufferFull(): boolean {
-    // Get the value of the buffer size from the config
-    this._bufferSize = configStore.get().dataStreaming.bufferSize;
-
-    // Check if the buffer is full
-    const currentBufferSize = this._buffer.byteLength;
-    return currentBufferSize >= this._bufferSize;
-  }
-
-  /**
-   * Add chunk data to the buffer
-   * @description This method adds the current chunk data to the buffer. If the buffer is full, it will throw an error.
-   */
-  public addToBuffer(): void {
-    // Check if the chunk is null
-    if (!this._chunk) return;
-
-    // Check if the chunk is larger than remaining space
-    const remainingSpace = this._bufferSize - this._buffer.byteLength;
-    if (this._chunk && this._chunk.byteLength > remainingSpace) this.flush();
-
-    // Add the chunk to the buffer
-    this._buffer = Buffer.concat([this._buffer, this._chunk]);
-  }
 }
 
 export const dataStreamer = new DataStreamer();
