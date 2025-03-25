@@ -29,7 +29,7 @@ export default tseslint.config(
       camelcase: "warn",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": "warn",
-      "no-console": "warn",
+      // "no-console": "warn",
       "no-debugger": "error",
 
       "@typescript-eslint/explicit-function-return-type": "error", // Force return types

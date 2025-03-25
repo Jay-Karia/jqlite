@@ -1,7 +1,4 @@
 {
   "allowOverwrite": true,
-  "createIfMissing": false,
-  "dataStreaming": {
-    "minDataSize": 1024
-  }
+  "createIfMissing": false
 }

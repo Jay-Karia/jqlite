@@ -1,16 +1,18 @@
 import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
-import { existsSync, statSync } from "fs";
+import { createReadStream, existsSync, statSync } from "fs";
 import { isValidUrl } from "./utils";
+import {dataManager} from "./manager";
 
 /**
  * DataStreamer Class
  */
 export class DataStreamer {
+  private _buffer: Buffer;
 
   private readonly _chunkSize: number;
-  private readonly _bufferSize: number;
+  private _bufferSize: number;
   private _dataSize: number;
 
   /**
@@ -18,17 +20,50 @@ export class DataStreamer {
    * @description This class is responsible for streaming data from a file or a URL. It checks if the file or URL can be streamed based on its size and manages the buffer for streaming.
    */
   constructor() {
-    // Initialize the default chunk size, buffer size and min data size
+    // Initialize the default values
     this._chunkSize = configStore.get().dataStreaming.chunkSize;
-    this._bufferSize = configStore.get().dataStreaming.bufferSize;
     this._dataSize = configStore.get().dataStreaming.dataSize;
+    this._bufferSize = configStore.get().dataStreaming.bufferSize;
+
+    // Initialize the buffer and memory stream
+    this._buffer = Buffer.alloc(0);
   }
 
   /**
-   * Flush the buffer to destination
-   * @description This method flushes the buffer to the destination. It is called when the buffer is full or when the chunk is larger than the remaining space in the buffer.
+   * Stream the data from a file
+   * @param {string} filePath The path to the file
+   * @description This method reads the file data in stream and writes the data into memory stream, and at the end of the stream, it will update the data in data store
    */
-  public flush(): void {}
+  public streamFile(filePath: string): void {
+    // Check for file validity
+    const isFile = existsSync(filePath);
+    if (!isFile)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
+        filePath,
+        isFile,
+      });
+
+    // Create a read stream from the file
+    const fileStream = createReadStream(filePath, {
+      highWaterMark: this._chunkSize,
+    });
+
+    // Add the chunk to the buffer
+    fileStream.on("data", (chunk: string | Buffer) => {
+      this.addToBuffer(chunk);
+    });
+
+    // On end of the stream, flush the buffer
+    fileStream.on("end", () => {
+      this.flush();
+    });
+
+    // Check the memory data
+    fileStream.on("end", () => {
+      dataManager.printData();
+    });
+
+  }
 
   /**
    * Check whether the file can be streamed
@@ -98,6 +133,29 @@ export class DataStreamer {
     }
   }
 
+  /**
+   * Add data to the buffer
+   * @description This method adds data to the buffer. If the buffer is full, it will throw an error.
+   */
+  public addToBuffer(chunk: string | Buffer): void {
+    // Convert string to buffer
+    if (typeof chunk === "string") chunk = Buffer.from(chunk);
+
+    // Update buffer size from config
+    this._bufferSize = configStore.get().dataStreaming.bufferSize;
+
+    // Check if the chunk is larger than remaining space
+    const remainingSpace = this._bufferSize - this._buffer.byteLength;
+    if (chunk.byteLength > remainingSpace) this.flush();
+
+    // Add the chunk to the buffer
+    this._buffer = Buffer.concat([this._buffer, chunk]);
+  }
+
+  public flush(): void {
+    console.log("Flushing buffer...");
+    this._buffer = Buffer.alloc(0);
+  }
 }
 
 export const dataStreamer = new DataStreamer();
