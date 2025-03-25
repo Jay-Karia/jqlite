@@ -18,7 +18,6 @@ export class DataStore {
    */
   public set(parsedData: object | null): void {
     this._memoryData = parsedData;
-    this.setActiveData("memory");
   }
 
   /**
@@ -52,7 +51,6 @@ export class DataStore {
    */
   public setStream(stream: Readable): void {
     this._dataStream = stream;
-    this.setActiveData("stream");
   }
 
   /**
