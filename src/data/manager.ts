@@ -119,10 +119,7 @@ export class DataManager {
    * @param {string} filePath The file path to load data from
    * @description This method will load the JSON data from the file and store it in memory. If no file path is provided, it will use the default file path from the config.
    */
-  public loadFileStream(filePath?: string): Readable {
-    // Use the default file path from config
-    if (!filePath) filePath = getDefaultFile("load");
-
+  public setFileStream(filePath: string): Readable {
     // Check if file path is valid
     const isFile = existsSync(filePath);
     if (!isFile)

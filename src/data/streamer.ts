@@ -3,6 +3,7 @@ import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { createReadStream } from "fs";
 import type {Readable} from "stream";
+import {dataStore} from "./store";
 
 /**
  * DataStreamer Class
@@ -13,7 +14,7 @@ export class DataStreamer {
 
   /**
    * Initialize the DataStreamer class
-   * @description This class is responsible for streaming data from a file or a URL. It checks if the file or URL can be streamed based on its size and manages the buffer for streaming.
+   * @description This class is responsible for streaming data from a file or a URL..
    */
   constructor() {
     // Initialize the default values
