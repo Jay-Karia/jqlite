@@ -7,20 +7,22 @@ import { existsSync } from "fs";
 import { configStore } from "config/store";
 import { dataStreamer } from "./streamer";
 import type { Readable } from "stream";
-import type {ActiveData} from "./types";
+import type { ActiveData } from "./types";
 
 /**
  * DataManager class
  */
 export class DataManager {
+
   /**
-   * Get JSON data from memory
-   * @description This method returns the JSON data stored in memory. If no data is found, it will return null.
+   * Get JSON data from memory or stream
+   * @description This method returns the JSON data stored in memory by default. Add the type to get the data from the stream.
+   * @param {ActiveData} type The type of data to be retrieved
    * @returns {object | null} The JSON data stored in memory
    * @author Jay-Karia
    */
-  public get(): object | null {
-    return dataStore.get();
+  public get(type?: ActiveData): object | null {
+    return dataStore.get(type);
   }
 
   /**
@@ -35,12 +37,24 @@ export class DataManager {
   }
 
   /**
-   * Clear JSON data from memory
-   * @description This method will clear the JSON data stored in memory. It will remove all the values from the memory.
+   * Clear JSON data from memory or session
+   * @description This method will clear the JSON data stored in memory by default. Add the type to clear the data from the stream.
+   * @param {ActiveData} type The type of data to be cleared
    * @author Jay-Karia
    */
-  public clear(): void {
-    dataStore.clear();
+  public clear(type?: ActiveData): void {
+    dataStore.clear(type);
+  }
+
+  /**
+   * Print the data of memory or stream
+   * @description This method will print the data stored in memory by default. Add the type to print the data from the stream.
+   * @param {ActiveData} type The type of data to be printed
+   * @author Jay-Karia
+   */
+  public print(type?: ActiveData): void {
+    const data = dataStore.get(type);
+    if (data) console.log(JSON.stringify(data, null, 2));
   }
 
   /**
@@ -184,40 +198,21 @@ export class DataManager {
   }
 
   /**
-   * Get the active data
-   * @description This method will return the active data stored in memory. First it will check the session data, if not found then it will check the memory data. If no data is found, it will return null.
-   * @returns {object | null} The active data
-   */
-  public getActiveData(): object | null {
-    return dataStore.getActiveData();
-  }
-
-  /**
-   * Print the data in memory
-   * @description This method will print the data stored in memory. If no data is found, it will print "No data in memory."
-   * @author Jay-Karia
-   */
-  public printActiveData(): void {
-    const data = dataStore.getActiveData();
-    if (data) console.log(JSON.stringify(data, null, 2));
-    else console.log("No data in memory.");
-  }
-
-  /**
-   * Clear the stream data
-   * @description This method will clear the stream data stored in memory. It will remove all the values from the stream.
-   */
-  public clearStream(): void {
-    dataStore.clearStream();
-  }
-
-  /**
-   * Set the data stream
+   * Set the active data to use
    * @param {ActiveData} type The type of data to be set
    * @description This method will change the data to use.
    */
   public setActiveData(type: ActiveData): void {
     dataStore.setActiveData(type);
+  }
+
+  /**
+   * Get the active data type
+   * @description This method will return the active data type. It can be either "memory" or "stream".
+   * @returns {ActiveData} The active data type
+  */
+  public getActiveData(): ActiveData {
+    return dataStore.getActiveData();
   }
 }
 

@@ -26,7 +26,8 @@ export class DataStore {
    * @description This method returns the JSON data stored in memory. If no data is found, it will return null.
    * @returns {object | null} The JSON data stored in memory
    */
-  public get(): object | null {
+  public get(type?: ActiveData): object | null {
+    if (type === "stream") return this._dataStream;
     return this._memoryData;
   }
 
@@ -34,24 +35,12 @@ export class DataStore {
    * Clear JSON data from memory
    * @description This method will clear the JSON data stored in memory. It will remove all the values from the memory.
    */
-  public clear(): void {
-    this._memoryData = null;
-  }
-
-  /**
-   * Get the active data
-   * @description This method returns the active data. If session data is available, it will return that. Otherwise, it will return the memory data.
-   * @returns {object | null} The active data
-   */
-  public getActiveData(): object | Readable | null {
-    switch (this.activeDataType) {
-      case "memory":
-        return this._memoryData;
-      case "stream":
-        return this._dataStream;
-      default:
-        return null;
+  public clear(type?: ActiveData): void {
+    if (type === "stream") {
+      this._dataStream = null;
+      return;
     }
+    this._memoryData = null;
   }
 
   /**
@@ -65,30 +54,21 @@ export class DataStore {
   }
 
   /**
-   * Get the data stream
-   * @description This method returns the data stream. If no stream is found, it will return null.
-   * @returns {Readable | null} The data stream
-   */
-  public getStream(): Readable | null {
-    return this._dataStream;
-  }
-
-  /**
-   * Clear the data stream
-   * @description This method will clear the data stream. It will remove all the values from the stream.
-   */
-  public clearStream(): void {
-    this._dataStream = null;
-    this.setActiveData("memory");
-  }
-
-  /**
    * Set the active data type
    * @param {ActiveData} type The type of data to be set
    * @description This method will change the data to use. It can be either "memory" or "stream".
    */
   public setActiveData(type: ActiveData): void {
     this.activeDataType = type;
+  }
+
+  /**
+   * Get the active data type
+   * @description This method returns the active data type. It can be either "memory" or "stream".
+   * @returns {ActiveData} The active data type
+   */
+  public getActiveData(): ActiveData {
+    return this.activeDataType;
   }
 }
 
