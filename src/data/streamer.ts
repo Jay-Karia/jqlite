@@ -3,7 +3,6 @@ import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { createReadStream } from "fs";
 import type {Readable} from "stream";
-import {dataStore} from "./store";
 
 /**
  * DataStreamer Class

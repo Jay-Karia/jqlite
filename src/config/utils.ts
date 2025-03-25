@@ -114,13 +114,6 @@ export function validateDataStreamConfig(
     dataStreaming.chunkSize
   );
 
-  // Check the min data size if it's defined
-  validateNumericConfig(
-    ERROR_MESSAGES.CONFIG.INVALID_MIN_DATA_SIZE,
-    "config.dataStreaming.minDataSize",
-    dataStreaming.minDataSize
-  );
-
   // Check if the chunk size is greater than the buffer size
   if (dataStreaming.chunkSize && dataStreaming.bufferSize) {
     if (dataStreaming.chunkSize > dataStreaming.bufferSize) {
@@ -128,19 +121,6 @@ export function validateDataStreamConfig(
         "config.dataStreaming.chunkSize": dataStreaming.chunkSize,
         "config.dataStreaming.bufferSize": dataStreaming.bufferSize,
       });
-    }
-  }
-
-  // Check if the min data size is lesser than the buffer size
-  if (dataStreaming.minDataSize && dataStreaming.bufferSize) {
-    if (dataStreaming.minDataSize < dataStreaming.bufferSize) {
-      throw new ConfigError(
-        ERROR_MESSAGES.CONFIG.ERR_BUFFER_AND_MIN_DATA_SIZE,
-        {
-          "config.dataStreaming.minDataSize": dataStreaming.minDataSize,
-          "config.dataStreaming.bufferSize": dataStreaming.bufferSize,
-        }
-      );
     }
   }
 }

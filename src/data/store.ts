@@ -6,7 +6,6 @@ import type {Readable} from "stream";
  */
 export class DataStore {
   private _memoryData: object | null = null;
-  private _sessionData: object | null = null;
   private _dataStream: Readable | null = null;
 
   private activeData: object | Readable | null = this._memoryData;
@@ -37,25 +36,6 @@ export class DataStore {
   public clear(): void {
     this._memoryData = null;
     this.activeData = null;
-  }
-
-  /**
-   * Store data in session
-   * @param {object} data The data to be stored in session
-   * @description This method will store the data in session. If the data is already an object, it will be stored as is.
-   */
-  public use(data: object): void {
-    this._sessionData = data;
-    this.activeData = this._sessionData;
-  }
-
-  /**
-   * Reset session data
-   * @description This method will clear the session data. It will remove all the values from the session.
-   */
-  public resetSession(): void {
-    this._sessionData = null;
-    this.activeData = this._memoryData;
   }
 
   /**
