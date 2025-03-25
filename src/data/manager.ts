@@ -5,6 +5,7 @@ import { getDefaultFile, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
 import { configStore } from "config/store";
+import { dataStreamer } from "./streamer";
 
 /**
  * DataManager class
@@ -111,6 +112,20 @@ export class DataManager {
         filePath,
         isFile,
       });
+
+    // Check for data streaming
+    const canStream = dataStreamer.canStreamFile(filePath);
+    if (canStream) {
+      const streamedData = dataStreamer.streamFile(filePath);
+      // Throw error if no data is found
+      if (!streamedData)
+        throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_AFTER_STREAM, {
+          filePath,
+          streamedData,
+        });
+
+      return streamedData;
+    }
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);

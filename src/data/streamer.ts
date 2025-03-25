@@ -3,13 +3,14 @@ import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { createReadStream, existsSync, statSync } from "fs";
 import { isValidUrl } from "./utils";
-import {dataManager} from "./manager";
+import { dataManager } from "./manager";
 
 /**
  * DataStreamer Class
  */
 export class DataStreamer {
   private _buffer: Buffer;
+  private _memoryStream: Buffer;
 
   private readonly _chunkSize: number;
   private _bufferSize: number;
@@ -27,6 +28,7 @@ export class DataStreamer {
 
     // Initialize the buffer and memory stream
     this._buffer = Buffer.alloc(0);
+    this._memoryStream = Buffer.alloc(0);
   }
 
   /**
@@ -34,7 +36,7 @@ export class DataStreamer {
    * @param {string} filePath The path to the file
    * @description This method reads the file data in stream and writes the data into memory stream, and at the end of the stream, it will update the data in data store
    */
-  public streamFile(filePath: string): void {
+  public streamFile(filePath: string): object | null {
     // Check for file validity
     const isFile = existsSync(filePath);
     if (!isFile)
@@ -53,16 +55,18 @@ export class DataStreamer {
       this.addToBuffer(chunk);
     });
 
-    // On end of the stream, flush the buffer
+    // On end of the stream, flush the buffer and update the data store
     fileStream.on("end", () => {
       this.flush();
+
+      // Get the streamed data and update the data store
+      const streamedData = this._memoryStream.toString("utf-8");
+      dataManager.set(streamedData);
+
+      return streamedData;
     });
 
-    // Check the memory data
-    fileStream.on("end", () => {
-      dataManager.printData();
-    });
-
+    return null;
   }
 
   /**
@@ -136,6 +140,7 @@ export class DataStreamer {
   /**
    * Add data to the buffer
    * @description This method adds data to the buffer. If the buffer is full, it will throw an error.
+   * @param {string | Buffer} chunk The data to add to the buffer
    */
   public addToBuffer(chunk: string | Buffer): void {
     // Convert string to buffer
@@ -152,8 +157,12 @@ export class DataStreamer {
     this._buffer = Buffer.concat([this._buffer, chunk]);
   }
 
+  /**
+   * Flush the buffer
+   * @description This method flushes the buffer and writes the data to memory stream.
+   */
   public flush(): void {
-    console.log("Flushing buffer...");
+    this._memoryStream = Buffer.concat([this._memoryStream, this._buffer]);
     this._buffer = Buffer.alloc(0);
   }
 }

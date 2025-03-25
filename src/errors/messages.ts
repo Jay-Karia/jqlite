@@ -94,6 +94,13 @@ export const ERROR_MESSAGES = {
         "Unexpected error occurred while calculating url stats for data stream",
       solution: "Check whether the url exists and is accessible",
     } as ErrorParams,
+    NO_DATA_AFTER_STREAM: {
+      message: "No data after streaming",
+      code: "NO_DATA_AFTER_STREAM",
+      cause: "The data is empty after streaming",
+      solution:
+        "Make sure the data is valid and the stream is working correctly",
+    } as ErrorParams,
   },
   CONFIG: {
     CONFIG_FILE_NOT_FOUND: {
