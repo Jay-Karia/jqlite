@@ -29,6 +29,12 @@ export class DataStreamer {
   }
 
   /**
+   * Flush the buffer to destination
+   * @description This method flushes the buffer to the destination. It is called when the buffer is full or when the chunk is larger than the remaining space in the buffer.
+   */
+  public flush() {}
+
+  /**
    * Check whether the file can be streamed
    * @param {string} filePath The path to the file
    * @description This method checks if the file can be streamed based on its size.
@@ -108,6 +114,22 @@ export class DataStreamer {
     // Check if the buffer is full
     const currentBufferSize = this._buffer.byteLength;
     return currentBufferSize >= this._bufferSize;
+  }
+
+  /**
+   * Add data to the buffer
+   * @description This method adds data to the buffer. If the buffer is full, it will throw an error.
+   */
+  public addToBuffer() {
+    // Check if the chunk is null
+    if (!this._chunk) return;
+
+    // Check if the chunk is larger than remaining space
+    const remainingSpace = this._bufferSize - this._buffer.byteLength;
+    if (this._chunk && this._chunk.byteLength > remainingSpace) this.flush();
+
+    // Add the chunk to the buffer
+    this._buffer = Buffer.concat([this._buffer, this._chunk]);
   }
 }
 

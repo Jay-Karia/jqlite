@@ -21,7 +21,7 @@ export default tseslint.config(
     ],
     rules: {
       semi: "warn",
-      "camelcase": "warn",
+      camelcase: "warn",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": "warn",
     },
