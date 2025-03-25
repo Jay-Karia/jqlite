@@ -1,5 +1,5 @@
-import type {Readable} from "stream";
-import type {ActiveData} from "./types";
+import type { Readable } from "stream";
+import type { ActiveData } from "./types";
 
 /**
  * DataStore class to manage JSON data in memory and session
@@ -26,9 +26,9 @@ export class DataStore {
    * @description This method returns the JSON data stored in memory. If no data is found, it will return null.
    * @returns {object | null} The JSON data stored in memory
    */
-  public get(type?: ActiveData): object | null {
-    if (type === "stream") return this._dataStream;
-    return this._memoryData;
+  public get(type?: ActiveData): object | Readable | null {
+    if (!type) return this.getActiveData();
+    return type === "stream" ? this._dataStream : this._memoryData;
   }
 
   /**
@@ -36,11 +36,13 @@ export class DataStore {
    * @description This method will clear the JSON data stored in memory. It will remove all the values from the memory.
    */
   public clear(type?: ActiveData): void {
-    if (type === "stream") {
-      this._dataStream = null;
-      return;
+    if (!type) {
+      const activeDataType = this.getActiveDataType();
+      if (activeDataType === "memory") this._memoryData = null;
+      else if (activeDataType === "stream") this._dataStream = null;
     }
-    this._memoryData = null;
+    if (type === "memory") this._memoryData = null;
+    else if (type === "stream") this._dataStream = null;
   }
 
   /**
@@ -67,8 +69,17 @@ export class DataStore {
    * @description This method returns the active data type. It can be either "memory" or "stream".
    * @returns {ActiveData} The active data type
    */
-  public getActiveData(): ActiveData {
+  public getActiveDataType(): ActiveData {
     return this.activeDataType;
+  }
+
+  public getActiveData(): object | Readable | null {
+    if (this.activeDataType === "memory") {
+      return this._memoryData;
+    } else if (this.activeDataType === "stream") {
+      return this._dataStream;
+    }
+    return null;
   }
 }
 

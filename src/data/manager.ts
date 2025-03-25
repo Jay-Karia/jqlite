@@ -16,7 +16,7 @@ export class DataManager {
 
   /**
    * Get JSON data from memory or stream
-   * @description This method returns the JSON data stored in memory by default. Add the type to get the data from the stream.
+   * @description This method returns the JSON data stored in memory or session. Default will be the active data type.
    * @param {ActiveData} type The type of data to be retrieved
    * @returns {object | null} The JSON data stored in memory
    * @author Jay-Karia
@@ -38,7 +38,7 @@ export class DataManager {
 
   /**
    * Clear JSON data from memory or session
-   * @description This method will clear the JSON data stored in memory by default. Add the type to clear the data from the stream.
+   * @description This method will clear the JSON data stored in memory. Default will be the active data type.
    * @param {ActiveData} type The type of data to be cleared
    * @author Jay-Karia
    */
@@ -48,7 +48,7 @@ export class DataManager {
 
   /**
    * Print the data of memory or stream
-   * @description This method will print the data stored in memory by default. Add the type to print the data from the stream.
+   * @description This method will print the data stored in memory. Default will be the active data type.
    * @param {ActiveData} type The type of data to be printed
    * @author Jay-Karia
    */
@@ -198,22 +198,14 @@ export class DataManager {
   }
 
   /**
-   * Set the active data to use
-   * @param {ActiveData} type The type of data to be set
-   * @description This method will change the data to use.
-   */
-  public setActiveData(type: ActiveData): void {
-    dataStore.setActiveData(type);
-  }
-
-  /**
    * Get the active data type
    * @description This method will return the active data type. It can be either "memory" or "stream".
    * @returns {ActiveData} The active data type
   */
-  public getActiveData(): ActiveData {
-    return dataStore.getActiveData();
+  public getActiveDataType(): ActiveData {
+    return dataStore.getActiveDataType();
   }
+
 }
 
 export const dataManager = new DataManager();
