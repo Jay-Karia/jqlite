@@ -1,4 +1,4 @@
-import { ErrorParams } from "./types";
+import type { ErrorParams } from "./types";
 
 /**
  * All the error messages

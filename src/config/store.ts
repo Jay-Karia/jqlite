@@ -1,5 +1,5 @@
 import { loadDefaultConfig, loadDefaultConfigFile } from "./loader";
-import { ConfigType, OverrideConfigType } from "./types";
+import type { ConfigType, OverrideConfigType } from "./types";
 import { overrideConfig } from "./utils";
 
 /**
@@ -9,7 +9,7 @@ import { overrideConfig } from "./utils";
  */
 export class ConfigStore {
   private _config: ConfigType;
-  private _defaultConfig: ConfigType;
+  private readonly _defaultConfig: ConfigType;
 
   /**
    * Initialize the config store
@@ -36,7 +36,7 @@ export class ConfigStore {
    * @param {ConfigType} newConfig The new config to override
    * @description This method will override the config object. It will only update the values that are passed in the new config object.
    */
-  public set(newConfig: OverrideConfigType) {
+  public set(newConfig: OverrideConfigType): void {
     this._config = overrideConfig(this._config, newConfig);
   }
 
@@ -44,7 +44,7 @@ export class ConfigStore {
    * Clear the config object
    * @description This method will clear the config object. It will remove all the values from the config object and reset it to the default config object.
    */
-  public clear() {
+  public clear(): void {
     this._config = loadDefaultConfig();
   }
 }

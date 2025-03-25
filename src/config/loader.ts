@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from "fs";
-import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILE_NAME } from "./defaults";
-import { ConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
+import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILE_NAME } from "./defaults";
+import type { ConfigType } from "./types";
 import { validateConfig } from "./utils";
 
 /**

@@ -1,9 +1,9 @@
 import { existsSync } from "fs";
+import { loadConfigFile } from "./loader";
 import { configStore } from "./store";
-import { ConfigType, OverrideConfigType } from "./types";
+import type { ConfigType, OverrideConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
-import { loadConfigFile } from "./loader";
 
 /**
  * ConfigManager class
@@ -50,8 +50,9 @@ export class ConfigManager {
    * @returns The config object
    * @author Jay-Karia
    */
-  public clear() {
+  public clear(): ConfigType {
     configStore.clear();
+    return configStore.get();
   }
 
   /**
@@ -92,7 +93,7 @@ export class ConfigManager {
    * ```
    * @author Jay-Karia
    */
-  public printConfig() {
+  public printConfig(): void {
     console.log(this.get());
   }
 }

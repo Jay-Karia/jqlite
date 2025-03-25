@@ -1,4 +1,3 @@
-import { loadDefaultConfig } from "config/loader";
 import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
@@ -10,13 +9,11 @@ import { isValidUrl } from "./utils";
  */
 export class DataStreamer {
   private _buffer: Buffer;
-  private _chunk: Buffer | null = null;
+  private readonly _chunk: Buffer | null = null;
 
-  private _chunkSize: number;
+  private readonly _chunkSize: number;
   private _bufferSize: number;
   private _minDataSize: number;
-
-  private _defaultConfig = loadDefaultConfig();
 
   constructor() {
     // Initialize the default chunk size, buffer size and min data size
@@ -32,7 +29,7 @@ export class DataStreamer {
    * Flush the buffer to destination
    * @description This method flushes the buffer to the destination. It is called when the buffer is full or when the chunk is larger than the remaining space in the buffer.
    */
-  public flush() {}
+  public flush(): void {}
 
   /**
    * Check whether the file can be streamed
@@ -117,10 +114,10 @@ export class DataStreamer {
   }
 
   /**
-   * Add data to the buffer
-   * @description This method adds data to the buffer. If the buffer is full, it will throw an error.
+   * Add chunk data to the buffer
+   * @description This method adds the current chunk data to the buffer. If the buffer is full, it will throw an error.
    */
-  public addToBuffer() {
+  public addToBuffer(): void {
     // Check if the chunk is null
     if (!this._chunk) return;
 

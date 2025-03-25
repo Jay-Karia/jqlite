@@ -1,8 +1,8 @@
 import { ConfigError } from "errors/factory";
 import { loadDefaultConfig } from "./loader";
-import { ConfigType, DataStreamingType } from "./types";
+import type { ConfigType, DataStreamingType } from "./types";
 import { ERROR_MESSAGES } from "errors/messages";
-import { ErrorParams } from "errors/types";
+import type { ErrorParams } from "errors/types";
 
 /**
  * Check if a value is an object

@@ -14,7 +14,7 @@ export function parseJson(data: string): object | null {
     return JSON.parse(data);
   } catch {
     throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON, {
-      jsonData: data.substring(0, 20) + "...",
+      jsonData: `${data.substring(0, 20)}...`,
     });
   }
 }
@@ -111,7 +111,7 @@ export function trimData(data?: string): string {
   // Check if the data is too long
   const maxLength = 50;
   if (data.length > maxLength) {
-    return data.substring(0, maxLength) + " ...";
+    return `${data.substring(0, maxLength)}...`;
   }
 
   // Return the data as is

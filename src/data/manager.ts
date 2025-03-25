@@ -38,7 +38,7 @@ export class DataManager {
    * ```
    * @author Jay-Karia
    */
-  public set(data: string | object) {
+  public set(data: string | object): void {
     const parsedData = typeof data === "string" ? parseJson(data) : data;
     dataStore.set(parsedData);
   }
@@ -48,7 +48,7 @@ export class DataManager {
    * @description This method will clear the JSON data stored in memory. It will remove all the values from the memory.
    * @author Jay-Karia
    */
-  public clear() {
+  public clear(): void {
     dataStore.clear();
   }
 
@@ -70,7 +70,7 @@ export class DataManager {
    * @throws {DataError} If the file path is invalid.
    * @author Jay-Karia
    */
-  public save(filePath?: string) {
+  public save(filePath?: string): void {
     // Check if data is in memory
     const memoryData = dataStore.get();
     if (!memoryData)
@@ -101,7 +101,7 @@ export class DataManager {
    * @throws {DataError} If no data is found in the URL.
    * @author Jay-Karia
    */
-  public async saveFromUrl(url: string, filePath?: string) {
+  public async saveFromUrl(url: string, filePath?: string): Promise<void> {
     // Check if URL is valid
     const isUrl = isValidUrl(url);
     if (!isUrl)
@@ -289,7 +289,7 @@ export class DataManager {
    * @description This method will reset the session data stored in memory. It will remove all the values from the session.
    * @author Jay-Karia
    */
-  public resetSession() {
+  public resetSession(): void {
     dataStore.resetSession();
   }
 
@@ -311,7 +311,7 @@ export class DataManager {
    * ```
    * @author Jay-Karia
    */
-  public printData() {
+  public printData(): void {
     const data = dataStore.get();
     if (data) console.log(JSON.stringify(data, null, 2));
     else console.log("No data in memory.");

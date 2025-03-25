@@ -11,7 +11,7 @@ export class DataStore {
    * @param {object | null} parsedData The JSON data to be stored in memory
    * @description This method will parse the JSON data and store it in memory. If the data is already an object, it will be stored as is.
    */
-  public set(parsedData: object | null) {
+  public set(parsedData: object | null): void {
     this._memoryData = parsedData;
   }
 
@@ -28,7 +28,7 @@ export class DataStore {
    * Clear JSON data from memory
    * @description This method will clear the JSON data stored in memory. It will remove all the values from the memory.
    */
-  public clear() {
+  public clear(): void {
     this._memoryData = null;
   }
 
@@ -37,7 +37,7 @@ export class DataStore {
    * @param {object} data The data to be stored in session
    * @description This method will store the data in session. If the data is already an object, it will be stored as is.
    */
-  public use(data: object) {
+  public use(data: object): void {
     this._sessionData = data;
   }
 
@@ -45,7 +45,7 @@ export class DataStore {
    * Reset session data
    * @description This method will clear the session data. It will remove all the values from the session.
    */
-  public resetSession() {
+  public resetSession(): void {
     this._sessionData = null;
   }
 

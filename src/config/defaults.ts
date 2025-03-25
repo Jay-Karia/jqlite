@@ -1,4 +1,4 @@
-import { ConfigType } from "./types";
+import type { ConfigType } from "./types";
 
 export const DEFAULT_CONFIG_FILE_NAME = "jqlite.json";
 

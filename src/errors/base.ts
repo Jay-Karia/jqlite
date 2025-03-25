@@ -1,4 +1,4 @@
-import { ErrorParams } from "./types";
+import type { ErrorParams } from "./types";
 
 /**
  * Base error class
@@ -31,7 +31,7 @@ export class BaseError extends Error {
    * Get the error as a JSON object
    * @returns The error as a JSON object
    */
-  public toJSON() {
+  public toJSON(): Record<string, any> {
     return {
       name: this.name,
       message: this.message,
