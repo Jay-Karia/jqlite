@@ -1,4 +1,5 @@
 import type {Readable} from "stream";
+import type {ActiveData} from "./types";
 
 /**
  * DataStore class to manage JSON data in memory and session
@@ -8,7 +9,7 @@ export class DataStore {
   private _memoryData: object | null = null;
   private _dataStream: Readable | null = null;
 
-  private activeData: object | Readable | null = this._memoryData;
+  private activeDataType: ActiveData = "memory";
 
   /**
    * Set JSON data in memory
@@ -17,7 +18,7 @@ export class DataStore {
    */
   public set(parsedData: object | null): void {
     this._memoryData = parsedData;
-    this.activeData = this._memoryData;
+    this.setActiveData("memory");
   }
 
   /**
@@ -35,7 +36,6 @@ export class DataStore {
    */
   public clear(): void {
     this._memoryData = null;
-    this.activeData = null;
   }
 
   /**
@@ -44,7 +44,14 @@ export class DataStore {
    * @returns {object | null} The active data
    */
   public getActiveData(): object | Readable | null {
-    return this.activeData;
+    switch (this.activeDataType) {
+      case "memory":
+        return this._memoryData;
+      case "stream":
+        return this._dataStream;
+      default:
+        return null;
+    }
   }
 
   /**
@@ -54,7 +61,7 @@ export class DataStore {
    */
   public setStream(stream: Readable): void {
     this._dataStream = stream;
-    this.activeData = this._dataStream;
+    this.setActiveData("stream");
   }
 
   /**
@@ -72,7 +79,16 @@ export class DataStore {
    */
   public clearStream(): void {
     this._dataStream = null;
-    this.activeData = this._memoryData;
+    this.setActiveData("memory");
+  }
+
+  /**
+   * Set the active data type
+   * @param {ActiveData} type The type of data to be set
+   * @description This method will change the data to use. It can be either "memory" or "stream".
+   */
+  public setActiveData(type: ActiveData): void {
+    this.activeDataType = type;
   }
 }
 

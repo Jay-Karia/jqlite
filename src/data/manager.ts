@@ -7,6 +7,7 @@ import { existsSync } from "fs";
 import { configStore } from "config/store";
 import { dataStreamer } from "./streamer";
 import type { Readable } from "stream";
+import type {ActiveData} from "./types";
 
 /**
  * DataManager class
@@ -208,6 +209,15 @@ export class DataManager {
    */
   public clearStream(): void {
     dataStore.clearStream();
+  }
+
+  /**
+   * Set the data stream
+   * @param {ActiveData} type The type of data to be set
+   * @description This method will change the data to use.
+   */
+  public setActiveData(type: ActiveData): void {
+    dataStore.setActiveData(type);
   }
 }
 
