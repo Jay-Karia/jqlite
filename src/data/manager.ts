@@ -1,7 +1,7 @@
 import { DataError } from "errors/factory";
 import { loadFromFile, loadFromUrl } from "./loader";
 import { dataStore } from "./store";
-import { getDefaultFile, isValidUrl, parseJson, saveToFile } from "./utils";
+import { getDefaultFile, handleFileStream, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
 import { configStore } from "config/store";
@@ -101,7 +101,7 @@ export class DataManager {
    * @throws {DataError} If the file path is invalid.
    * @author Jay-Karia
    */
-  public load(filePath?: string): object {
+  public async load(filePath?: string): Promise<object> {
     // Use the default file path from config
     if (!filePath) filePath = getDefaultFile("load");
 
@@ -113,19 +113,8 @@ export class DataManager {
         isFile,
       });
 
-    // Check for data streaming
-    const canStream = dataStreamer.canStreamFile(filePath);
-    if (canStream) {
-      const streamedData = dataStreamer.streamFile(filePath);
-      // Throw error if no data is found
-      if (!streamedData)
-        throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_AFTER_STREAM, {
-          filePath,
-          streamedData,
-        });
-
-      return streamedData;
-    }
+    // Handle data streaming
+    if (dataStreamer.canStreamFile(filePath)) await handleFileStream(filePath);
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);
@@ -200,7 +189,7 @@ export class DataManager {
    * @throws {DataError} If the file path is invalid.
    * @author Jay-Karia
    */
-  public use(filePath: string): object | void {
+  public async use(filePath: string): Promise<object | void> {
     // Check if file path is valid
     const isFile = existsSync(filePath);
     if (!isFile)
@@ -208,6 +197,9 @@ export class DataManager {
         filePath,
         isFile,
       });
+
+    // Handle data streaming
+    if (dataStreamer.canStreamFile(filePath)) await handleFileStream(filePath);
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);
@@ -285,8 +277,8 @@ export class DataManager {
    * ```
    * @author Jay-Karia
    */
-  public printData(): void {
-    const data = dataStore.get();
+  public printActiveData(): void {
+    const data = dataStore.getActiveData();
     if (data) console.log(JSON.stringify(data, null, 2));
     else console.log("No data in memory.");
   }

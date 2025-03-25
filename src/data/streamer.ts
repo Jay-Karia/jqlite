@@ -36,37 +36,39 @@ export class DataStreamer {
    * @param {string} filePath The path to the file
    * @description This method reads the file data in stream and writes the data into memory stream, and at the end of the stream, it will update the data in data store
    */
-  public streamFile(filePath: string): object | null {
-    // Check for file validity
-    const isFile = existsSync(filePath);
-    if (!isFile)
-      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
-        filePath,
-        isFile,
+  public streamFile(filePath: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      // Check for file validity
+      if (!existsSync(filePath)) {
+        return reject(
+          new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, { filePath })
+        );
+      }
+
+      // Create a read stream
+      const fileStream = createReadStream(filePath, {
+        highWaterMark: this._chunkSize,
       });
 
-    // Create a read stream from the file
-    const fileStream = createReadStream(filePath, {
-      highWaterMark: this._chunkSize,
+      // Read in chunks and add to buffer
+      fileStream.on("data", (chunk: string | Buffer) => {
+        this.addToBuffer(chunk);
+      });
+
+      // On stream end, flush buffer and update data store
+      fileStream.on("end", () => {
+        this.flush();
+
+        // Convert buffer to string and update data store
+        const streamedData = this._memoryStream.toString("utf-8");
+        dataManager.set(streamedData);
+
+        resolve(streamedData);
+      });
+
+      // Handle errors
+      fileStream.on("error", (err) => reject(err));
     });
-
-    // Add the chunk to the buffer
-    fileStream.on("data", (chunk: string | Buffer) => {
-      this.addToBuffer(chunk);
-    });
-
-    // On end of the stream, flush the buffer and update the data store
-    fileStream.on("end", () => {
-      this.flush();
-
-      // Get the streamed data and update the data store
-      const streamedData = this._memoryStream.toString("utf-8");
-      dataManager.set(streamedData);
-
-      return streamedData;
-    });
-
-    return null;
   }
 
   /**
