@@ -80,26 +80,11 @@ export const ERROR_MESSAGES = {
       cause: "Tried to overwrite file without permission",
       solution: "Set `allowOverwrite` to true in config or remove the file",
     } as ErrorParams,
-    ERR_EVALUATING_FILE_STATS: {
-      message: "Could not evaluate file stats",
-      code: "ERR_EVALUATING_FILE_STATS",
-      cause:
-        "Unexpected error occurred while calculating file stats for data stream",
-      solution: "Check whether the file exists and is accessible",
-    } as ErrorParams,
-    ERR_EVALUATING_URL_STATS: {
-      message: "Could not evaluate url stats",
-      code: "ERR_EVALUATING_URL_STATS",
-      cause:
-        "Unexpected error occurred while calculating url stats for data stream",
-      solution: "Check whether the url exists and is accessible",
-    } as ErrorParams,
-    NO_DATA_AFTER_STREAM: {
-      message: "No data after streaming",
-      code: "NO_DATA_AFTER_STREAM",
-      cause: "The data is empty after streaming",
-      solution:
-        "Make sure the data is valid and the stream is working correctly",
+    ERR_FILE_STREAM: {
+      message: "Error creating file stream",
+      code: "ERR_FILE_STREAM",
+      cause: "Error creating file stream",
+      solution: "Make sure the file exists and is accessible",
     } as ErrorParams,
   },
   CONFIG: {

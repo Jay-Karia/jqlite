@@ -2,7 +2,6 @@ import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync, writeFileSync } from "fs";
-import { dataStreamer } from "./streamer";
 
 /**
  * Parse JSON data

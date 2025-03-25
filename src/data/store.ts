@@ -1,3 +1,5 @@
+import type {Readable} from "stream";
+
 /**
  * DataStore class to manage JSON data in memory and session
  * @class DataStore
@@ -5,6 +7,9 @@
 export class DataStore {
   private _memoryData: object | null = null;
   private _sessionData: object | null = null;
+  private _dataStream: Readable | null = null;
+
+  private activeData: object | Readable | null = this._memoryData;
 
   /**
    * Set JSON data in memory
@@ -13,6 +18,7 @@ export class DataStore {
    */
   public set(parsedData: object | null): void {
     this._memoryData = parsedData;
+    this.activeData = this._memoryData;
   }
 
   /**
@@ -30,6 +36,7 @@ export class DataStore {
    */
   public clear(): void {
     this._memoryData = null;
+    this.activeData = null;
   }
 
   /**
@@ -39,6 +46,7 @@ export class DataStore {
    */
   public use(data: object): void {
     this._sessionData = data;
+    this.activeData = this._sessionData;
   }
 
   /**
@@ -47,6 +55,7 @@ export class DataStore {
    */
   public resetSession(): void {
     this._sessionData = null;
+    this.activeData = this._memoryData;
   }
 
   /**
@@ -54,8 +63,36 @@ export class DataStore {
    * @description This method returns the active data. If session data is available, it will return that. Otherwise, it will return the memory data.
    * @returns {object | null} The active data
    */
-  public getActiveData(): object | null {
-    return this._sessionData || this._memoryData;
+  public getActiveData(): object | Readable | null {
+    return this.activeData;
+  }
+
+  /**
+   * Set the data stream
+   * @param {Readable} stream The stream to be set
+   * @description This method will set the data stream. If the stream is already set, it will be replaced with the new stream.
+   */
+  public setStream(stream: Readable): void {
+    this._dataStream = stream;
+    this.activeData = this._dataStream;
+  }
+
+  /**
+   * Get the data stream
+   * @description This method returns the data stream. If no stream is found, it will return null.
+   * @returns {Readable | null} The data stream
+   */
+  public getStream(): Readable | null {
+    return this._dataStream;
+  }
+
+  /**
+   * Clear the data stream
+   * @description This method will clear the data stream. It will remove all the values from the stream.
+   */
+  public clearStream(): void {
+    this._dataStream = null;
+    this.activeData = this._memoryData;
   }
 }
 

@@ -5,6 +5,8 @@ import { getDefaultFile, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
 import { configStore } from "config/store";
+import { dataStreamer } from "./streamer";
+import type { Readable } from "stream";
 
 /**
  * DataManager class
@@ -14,10 +16,6 @@ export class DataManager {
    * Get JSON data from memory
    * @description This method returns the JSON data stored in memory. If no data is found, it will return null.
    * @returns {object | null} The JSON data stored in memory
-   * @example
-   * ```ts
-   * const data = dataManager.get();
-   * ```
    * @author Jay-Karia
    */
   public get(): object | null {
@@ -28,14 +26,6 @@ export class DataManager {
    * Set JSON data in memory
    * @param {string | data} data The JSON data to be stored in memory
    * @description This method will parse the JSON data and store it in memory. If the data is already an object, it will be stored as is.
-   * @example
-   * ```ts
-   * const data = {
-   *   name: "John Doe",
-   *   age: 30,
-   * }
-   * dataManager.set(data);
-   * ```
    * @author Jay-Karia
    */
   public set(data: string | object): void {
@@ -122,6 +112,31 @@ export class DataManager {
     // Set data to memory
     this.set(fileData);
     return fileData;
+  }
+
+  /**
+   * Load data from a file and save it to memory stream
+   * @param {string} filePath The file path to load data from
+   * @description This method will load the JSON data from the file and store it in memory. If no file path is provided, it will use the default file path from the config.
+   */
+  public loadFileStream(filePath?: string): Readable {
+    // Use the default file path from config
+    if (!filePath) filePath = getDefaultFile("load");
+
+    // Check if file path is valid
+    const isFile = existsSync(filePath);
+    if (!isFile)
+      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
+        filePath,
+        isFile,
+      });
+
+    // Create a readable stream from the file
+    const fileStream = dataStreamer.createFileStream(filePath);
+
+    // Set the stream to memory
+    dataStore.setStream(fileStream);
+    return fileStream;
   }
 
   /**
@@ -264,16 +279,20 @@ export class DataManager {
   /**
    * Print the data in memory
    * @description This method will print the data stored in memory. If no data is found, it will print "No data in memory."
-   * @example
-   * ```ts
-   * dataManger.printData();
-   * ```
    * @author Jay-Karia
    */
   public printActiveData(): void {
     const data = dataStore.getActiveData();
     if (data) console.log(JSON.stringify(data, null, 2));
     else console.log("No data in memory.");
+  }
+
+  /**
+   * Clear the stream data
+   * @description This method will clear the stream data stored in memory. It will remove all the values from the stream.
+   */
+  public clearStream(): void {
+    dataStore.clearStream();
   }
 }
 
