@@ -1,11 +1,10 @@
 import { DataError } from "errors/factory";
 import { loadFromFile, loadFromUrl } from "./loader";
 import { dataStore } from "./store";
-import { getDefaultFile, handleFileStream, isValidUrl, parseJson, saveToFile } from "./utils";
+import { getDefaultFile, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
 import { configStore } from "config/store";
-import { dataStreamer } from "./streamer";
 
 /**
  * DataManager class
@@ -101,7 +100,7 @@ export class DataManager {
    * @throws {DataError} If the file path is invalid.
    * @author Jay-Karia
    */
-  public async load(filePath?: string): Promise<object> {
+  public load(filePath?: string): object {
     // Use the default file path from config
     if (!filePath) filePath = getDefaultFile("load");
 
@@ -112,9 +111,6 @@ export class DataManager {
         filePath,
         isFile,
       });
-
-    // Handle data streaming
-    if (dataStreamer.canStreamFile(filePath)) await handleFileStream(filePath);
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);
@@ -189,7 +185,7 @@ export class DataManager {
    * @throws {DataError} If the file path is invalid.
    * @author Jay-Karia
    */
-  public async use(filePath: string): Promise<object | void> {
+  public use(filePath: string): object | void {
     // Check if file path is valid
     const isFile = existsSync(filePath);
     if (!isFile)
@@ -197,9 +193,6 @@ export class DataManager {
         filePath,
         isFile,
       });
-
-    // Handle data streaming
-    if (dataStreamer.canStreamFile(filePath)) await handleFileStream(filePath);
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);

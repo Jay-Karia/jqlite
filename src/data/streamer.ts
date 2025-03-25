@@ -105,41 +105,6 @@ export class DataStreamer {
   }
 
   /**
-   * Check whether the url can be streamed
-   * @param {string} url The url to check
-   * @description This method checks if the url can be streamed based on its size.
-   * @returns {boolean} True if the url can be streamed, false otherwise
-   */
-  public async canStreamUrl(url: string): Promise<boolean> {
-    // Check if data streaming is enabled
-    const canAutoStream = configStore.get().dataStreaming.autoStream;
-    if (!canAutoStream) return false;
-
-    // Get the minimum data size from the config
-    this._dataSize = configStore.get().dataStreaming.dataSize;
-
-    // Check if the url is valid
-    const isUrl = isValidUrl(url);
-    if (!isUrl)
-      throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON_URL, { url });
-
-    // Get the url size
-    try {
-      const response = await fetch(url);
-      const contentLength = response.headers.get("content-length");
-
-      // If the content length is not present, we cannot determine the size
-      if (!contentLength) return false;
-
-      return parseInt(contentLength) > this._dataSize;
-    } catch (error) {
-      throw new DataError(ERROR_MESSAGES.DATA.ERR_EVALUATING_URL_STATS, {
-        error,
-      });
-    }
-  }
-
-  /**
    * Add data to the buffer
    * @description This method adds data to the buffer. If the buffer is full, it will throw an error.
    * @param {string | Buffer} chunk The data to add to the buffer

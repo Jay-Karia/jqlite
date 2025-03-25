@@ -118,22 +118,3 @@ export function trimData(data?: string): string {
   // Return the data as is
   return data;
 }
-
-/**
- * Handle file stream
- * @param {string} filePath The file path to stream data from
- * @description This method will stream the data from the file path and return it as an object.
- * @returns {object} The streamed data
- */
-export async function handleFileStream(filePath: string): Promise<object> {
-  const streamedData = parseJson(await dataStreamer.streamFile(filePath));
-
-  // Throw error if no data is found
-  if (!streamedData)
-    throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_AFTER_STREAM, {
-      filePath,
-      streamedData,
-    });
-
-  return streamedData;
-}
