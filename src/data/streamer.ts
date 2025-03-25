@@ -10,7 +10,7 @@ import { isValidUrl } from "./utils";
  */
 export class DataStreamer {
   private _buffer: Buffer;
-  private _chunk: Buffer;
+  private _chunk: Buffer | null = null;
 
   private _chunkSize: number;
   private _bufferSize: number;
@@ -19,14 +19,13 @@ export class DataStreamer {
   private _defaultConfig = loadDefaultConfig();
 
   constructor() {
+    // Initialize the default chunk size, buffer size and min data size
+    this._chunkSize = configStore.get().dataStreaming.chunkSize;
+    this._bufferSize = configStore.get().dataStreaming.bufferSize;
+    this._minDataSize = configStore.get().dataStreaming.minDataSize;
+
     // Initialize the buffer and chunk
     this._buffer = Buffer.alloc(0);
-    this._chunk = Buffer.alloc(0);
-
-    // Initialize the default chunk size, buffer size and min data size
-    this._chunkSize = this._defaultConfig.dataStreaming.chunkSize;
-    this._bufferSize = this._defaultConfig.dataStreaming.bufferSize;
-    this._minDataSize = this._defaultConfig.dataStreaming.minDataSize;
   }
 
   /**
@@ -95,6 +94,20 @@ export class DataStreamer {
         error,
       });
     }
+  }
+
+  /**
+   * Check whether the buffer is empty
+   * @description This method checks if the buffer is full.
+   * @returns {boolean} Whether the buffer is full or not
+   */
+  public isBufferFull(): boolean {
+    // Get the value of the buffer size from the config
+    this._bufferSize = configStore.get().dataStreaming.bufferSize;
+
+    // Check if the buffer is full
+    const currentBufferSize = this._buffer.byteLength;
+    return currentBufferSize >= this._bufferSize;
   }
 }
 
