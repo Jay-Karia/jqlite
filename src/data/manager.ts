@@ -5,8 +5,6 @@ import { getDefaultFile, isValidUrl, parseJson, saveToFile } from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
 import { configStore } from "config/store";
-import { dataStreamer } from "./streamer";
-import type { Readable } from "stream";
 import type { ActiveData } from "./types";
 
 /**
@@ -127,28 +125,6 @@ export class DataManager {
     // Set data to memory
     this.set(fileData);
     return fileData;
-  }
-
-  /**
-   * Load data from a file and save it to memory stream
-   * @param {string} filePath The file path to load data from
-   * @description This method will load the JSON data from the file and store it in memory. If no file path is provided, it will use the default file path from the config.
-   */
-  public setFileStream(filePath: string): Readable {
-    // Check if file path is valid
-    const isFile = existsSync(filePath);
-    if (!isFile)
-      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
-        filePath,
-        isFile,
-      });
-
-    // Create a readable stream from the file
-    const fileStream = dataStreamer.createFileStream(filePath);
-
-    // Set the stream to memory
-    dataStore.setStream(fileStream);
-    return fileStream;
   }
 
   /**

@@ -1,4 +1,3 @@
-import type { Readable } from "stream";
 import type { ActiveData } from "./types";
 
 /**
@@ -7,7 +6,6 @@ import type { ActiveData } from "./types";
  */
 export class DataStore {
   private _memoryData: object | null = null;
-  private _dataStream: Readable | null = null;
 
   private activeDataType: ActiveData = "memory";
 
@@ -25,9 +23,8 @@ export class DataStore {
    * @description This method returns the JSON data stored in memory. If no data is found, it will return null.
    * @returns {object | null} The JSON data stored in memory
    */
-  public get(type?: ActiveData): object | Readable | null {
-    if (!type) return this.getActiveData();
-    return type === "stream" ? this._dataStream : this._memoryData;
+  public get(type?: ActiveData): object | null {
+    return this._memoryData;
   }
 
   /**
@@ -35,22 +32,7 @@ export class DataStore {
    * @description This method will clear the JSON data stored in memory. It will remove all the values from the memory.
    */
   public clear(type?: ActiveData): void {
-    if (!type) {
-      const activeDataType = this.getActiveDataType();
-      if (activeDataType === "memory") this._memoryData = null;
-      else if (activeDataType === "stream") this._dataStream = null;
-    }
-    if (type === "memory") this._memoryData = null;
-    else if (type === "stream") this._dataStream = null;
-  }
-
-  /**
-   * Set the data stream
-   * @param {Readable} stream The stream to be set
-   * @description This method will set the data stream. If the stream is already set, it will be replaced with the new stream.
-   */
-  public setStream(stream: Readable): void {
-    this._dataStream = stream;
+    this._memoryData = null;
   }
 
   /**
@@ -71,13 +53,8 @@ export class DataStore {
     return this.activeDataType;
   }
 
-  public getActiveData(): object | Readable | null {
-    if (this.activeDataType === "memory") {
-      return this._memoryData;
-    } else if (this.activeDataType === "stream") {
-      return this._dataStream;
-    }
-    return null;
+  public getActiveData(): object | null {
+    return this._memoryData;
   }
 }
 

@@ -86,6 +86,12 @@ export const ERROR_MESSAGES = {
       cause: "Error creating file stream",
       solution: "Make sure the file exists and is accessible",
     } as ErrorParams,
+    ERR_STREAM_NOT_FOUND: {
+      message: "Stream not found",
+      code: "ERR_STREAM_NOT_FOUND",
+      cause: "The stream is not found",
+      solution: "Make sure the stream is set in data store",
+    } as ErrorParams,
   },
   CONFIG: {
     CONFIG_FILE_NOT_FOUND: {
