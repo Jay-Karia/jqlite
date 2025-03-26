@@ -1,3 +1,3 @@
 export class QueryRunner {}
 
-export const queryRunner = new QueryRunner();
+export const query = new QueryRunner();

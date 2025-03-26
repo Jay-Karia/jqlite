@@ -18,6 +18,7 @@ export class ConfigStore {
   constructor() {
     this._defaultConfig = loadDefaultConfig();
 
+    // Load the config file if it exists, otherwise use the default config
     const configFile = loadDefaultConfigFile();
     if (!configFile) this._config = this._defaultConfig;
     else this._config = overrideConfig(this._defaultConfig, configFile);

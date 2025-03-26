@@ -1,7 +1,6 @@
 import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
-import { existsSync, writeFileSync } from "fs";
 
 /**
  * Parse JSON data
@@ -17,42 +16,6 @@ export function parseJson(data: string): object | null {
       jsonData: `${data.substring(0, 20)}...`,
     });
   }
-}
-
-/**
- * Save JSON data to a file
- * @param {string} filePath The file path to save the JSON data
- * @param {object} data The JSON data to save
- * @description This method will save the JSON data to a file. If the file already exists, it will overwrite the existing data.
- * If the file does not exist, it will create a new file with the provided data.
- */
-export function saveToFile(filePath: string, data: object): void {
-  // Check if the file path is valid
-  const isFile = existsSync(filePath);
-  if (!isFile) {
-    // Check if the file should be created if missing
-    const createIfMissing = configStore.get().createIfMissing;
-    if (!createIfMissing)
-      throw new DataError(ERROR_MESSAGES.DATA.INVALID_FILE_PATH, {
-        filePath,
-        "config.createIfMissing": createIfMissing,
-      });
-
-    // Create the file
-    writeFileSync(filePath, JSON.stringify(data, null, 2));
-    return;
-  }
-
-  // Check if the file can be overwritten
-  const canOverwrite = configStore.get().allowOverwrite;
-  if (!canOverwrite)
-    throw new DataError(ERROR_MESSAGES.DATA.NO_OVERWRITE, {
-      filePath,
-      "config.allowOverwrite": canOverwrite,
-    });
-
-  // Save the data to the file
-  writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
 /**
@@ -86,6 +49,7 @@ export function getDefaultFile(type: "save" | "load"): string {
         });
       return savePath;
     }
+    
     // Get the default load file
     case "load": {
       const loadPath = configStore.get().loadFile;

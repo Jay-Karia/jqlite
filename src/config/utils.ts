@@ -1,8 +1,7 @@
 import { ConfigError } from "errors/factory";
 import { loadDefaultConfig } from "./loader";
-import type { ConfigType, DataStreamingType } from "./types";
+import type { ConfigType } from "./types";
 import { ERROR_MESSAGES } from "errors/messages";
-import type { ErrorParams } from "errors/types";
 
 /**
  * Check if a value is an object
@@ -27,23 +26,20 @@ export function overrideConfig<ConfigType>(
   // Create a shallow copy of the current config to avoid modifying the original
   const output = { ...currentConfig };
 
-  // Iterate through each key in the new config
   for (const key in newConfig) {
-    // Skip undefined values to allow partial config updates
     if (newConfig[key] === undefined) continue;
 
-    // Check if the current property is an object (not null, not an array)
+    // Check if the current property is an object.
     if (isObject(newConfig[key])) {
-      // If the value is an object in the new config
+      // If the key is not an object. Then replace it with the new value.
       if (currentConfig[key] === undefined || !isObject(currentConfig[key])) {
-        // Directly replace/add the value
         output[key] = newConfig[key];
       } else {
-        // If both values are objects, recursively merge them.
+        // If value is object, recursively merge them.
         output[key] = overrideConfig(currentConfig[key], newConfig[key]);
       }
     } else {
-      // For primitive values (strings, numbers, booleans) or arrays, directly override the value.
+      // For primitives , directly override the value.
       output[key] = newConfig[key];
     }
   }
@@ -56,71 +52,18 @@ export function overrideConfig<ConfigType>(
  * @returns {boolean} Whether the config is valid or not
  */
 export function validateConfig(config: ConfigType): boolean {
-  // Check for any extra keys
+  // Get the config keys
   const configKeys = Object.keys(config);
   const validKeys = Object.keys(loadDefaultConfig());
 
+  // Check for any extra keys
   const extraKeys = configKeys.filter(key => !validKeys.includes(key));
   if (extraKeys.length > 0)
     throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_KEYS, {
       extraKeys,
     });
 
-  // Data Streaming validation
-  if (config.dataStreaming) validateDataStreamConfig(config.dataStreaming);
+  // Validate config values
 
   return true;
-}
-
-/**
- * Validate if the config value is natural number
- * @param {ErrorParams} errorMessage The error message to throw
- * @param {string} name THe name of the config key
- * @param {any} [value] The value of the config key
- * @description Validates if the value is a number and greater than 0
- */
-export function validateNumericConfig(
-  errorMessage: ErrorParams,
-  name: string,
-  value?: any
-): void {
-  // Check if the value is a number and greater than 0
-  if (value !== undefined && (typeof value !== "number" || value <= 0)) {
-    throw new ConfigError(errorMessage, {
-      [name]: value,
-    });
-  }
-}
-
-/**
- * Validate the data streaming config
- * @param {DataStreamingType} dataStreaming The data streaming config to validate
- * @description Validates the data streaming config
- */
-export function validateDataStreamConfig(
-  dataStreaming: DataStreamingType
-): void {
-  // Check buffer size if it's defined
-  validateNumericConfig(
-    ERROR_MESSAGES.CONFIG.INVALID_BUFFER_SIZE,
-    "config.dataStreaming.bufferSize",
-    dataStreaming.bufferSize
-  );
-
-  // Check the chunk size if it's defined
-  validateNumericConfig(
-    ERROR_MESSAGES.CONFIG.INVALID_CHUNK_SIZE,
-    "config.dataStreaming.chunkSize",
-    dataStreaming.chunkSize
-  );
-
-  // Check if the chunk size is greater than the buffer size
-  if (dataStreaming.chunkSize && dataStreaming.bufferSize) {
-    if (dataStreaming.chunkSize > dataStreaming.bufferSize) {
-      throw new ConfigError(ERROR_MESSAGES.CONFIG.ERR_BUFFER_AND_CHUNK_SIZE, {
-        "config.dataStreaming.chunkSize": dataStreaming.chunkSize,
-        "config.dataStreaming.bufferSize": dataStreaming.bufferSize,
-      });
-    }
-  }
 }

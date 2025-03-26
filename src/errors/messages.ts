@@ -80,18 +80,6 @@ export const ERROR_MESSAGES = {
       cause: "Tried to overwrite file without permission",
       solution: "Set `allowOverwrite` to true in config or remove the file",
     } as ErrorParams,
-    ERR_FILE_STREAM: {
-      message: "Error creating file stream",
-      code: "ERR_FILE_STREAM",
-      cause: "Error creating file stream",
-      solution: "Make sure the file exists and is accessible",
-    } as ErrorParams,
-    ERR_STREAM_NOT_FOUND: {
-      message: "Stream not found",
-      code: "ERR_STREAM_NOT_FOUND",
-      cause: "The stream is not found",
-      solution: "Make sure the stream is set in data store",
-    } as ErrorParams,
   },
   CONFIG: {
     CONFIG_FILE_NOT_FOUND: {
@@ -118,38 +106,6 @@ export const ERROR_MESSAGES = {
       code: "INVALID_CONFIG_KEYS",
       cause: "The config file has invalid keys",
       solution: "Make sure the config file has valid keys",
-    } as ErrorParams,
-    INVALID_BUFFER_SIZE: {
-      message: "Invalid buffer size",
-      code: "INVALID_BUFFER_SIZE",
-      cause: "The buffer size value is negative or floating",
-      solution: "Make the value of buffer size a natural number",
-    } as ErrorParams,
-    INVALID_CHUNK_SIZE: {
-      message: "Invalid chunk size",
-      code: "INVALID_CHUNK_SIZE",
-      cause: "The chunk size value is negative or floating",
-      solution: "Make the value of chunk size a natural number",
-    } as ErrorParams,
-    INVALID_MIN_DATA_SIZE: {
-      message: "Invalid min data size",
-      code: "INVALID_MIN_DATA_SIZE",
-      cause: "The min data size value is negative or floating",
-      solution: "Make the value of min data size a natural number",
-    } as ErrorParams,
-    ERR_BUFFER_AND_CHUNK_SIZE: {
-      message: "Buffer size is less than chunk size",
-      code: "ERR_BUFFER_AND_CHUNK_SIZE",
-      cause: "The buffer size is less than the chunk size",
-      solution:
-        "Make sure the buffer size is greater than the chunk size in config",
-    } as ErrorParams,
-    ERR_BUFFER_AND_MIN_DATA_SIZE: {
-      message: "Min data size is greater than buffer size",
-      code: "ERR_BUFFER_AND_MIN_DATA_SIZE",
-      cause: "The min data size is greater than the buffer size",
-      solution:
-        "Make sure the minimum data size is less than the buffer size in config",
     } as ErrorParams,
   },
 };

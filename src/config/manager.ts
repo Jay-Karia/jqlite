@@ -19,7 +19,6 @@ export class ConfigManager {
    * ```ts
    * const config = configManager.get();
    * ```
-   * @author Jay-Karia
    */
   public get(): ConfigType {
     return configStore.get();
@@ -37,7 +36,6 @@ export class ConfigManager {
    * }
    * configManager.set(newConfig);
    * ```
-   * @author Jay-Karia
    */
   public set(newConfig: OverrideConfigType): ConfigType {
     configStore.set(newConfig);
@@ -48,7 +46,6 @@ export class ConfigManager {
    * Clear the config object
    * @description This method will clear the config object. It will remove all the values from the config object and reset it to the default config object.
    * @returns The config object
-   * @author Jay-Karia
    */
   public clear(): ConfigType {
     configStore.clear();
@@ -67,7 +64,6 @@ export class ConfigManager {
    * @throws {ConfigError} If the config file.
    * @throws {ConfigError} If the config file is not found
    * @throws {ConfigError} If the config file is not valid
-   * @author Jay-Karia
    */
   public use(configFilePath: string): ConfigType {
     // Check if the config file exists
@@ -91,11 +87,10 @@ export class ConfigManager {
    * ```ts
    * configManager.printConfig();
    * ```
-   * @author Jay-Karia
    */
   public printConfig(): void {
     console.log(this.get());
   }
 }
 
-export const configManager = new ConfigManager();
+export const config = new ConfigManager();
