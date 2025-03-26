@@ -59,7 +59,7 @@ export class DataManager {
    * @example
    * ```ts
    * const filePath = "./data.json";
-   * dataManager.load(filePath);
+   * data.load(filePath);
    * ```
    * @throws {DataError} If no data is found in the file.
    * @throws {DataError} If no default file path is found in the config.
@@ -98,7 +98,7 @@ export class DataManager {
    * @example
    * ```ts
    * const url = "https://jsonplaceholder.typicode.com/posts";
-   * dataManager.fetch(url);
+   * data.fetch(url);
    * ```
    * @throws {DataError} If the URL is invalid.
    * @throws {DataError} If no data is found in the URL.

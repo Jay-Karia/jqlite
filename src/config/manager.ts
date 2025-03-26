@@ -17,7 +17,7 @@ export class ConfigManager {
    * @returns {ConfigType} The config object
    * @example
    * ```ts
-   * const config = configManager.get();
+   * const config = config.get();
    * ```
    */
   public get(): ConfigType {
@@ -34,7 +34,7 @@ export class ConfigManager {
    * const newConfig = {
    *   createIfMissing = false,
    * }
-   * configManager.set(newConfig);
+   * config.set(newConfig);
    * ```
    */
   public set(newConfig: OverrideConfigType): ConfigType {
@@ -59,7 +59,7 @@ export class ConfigManager {
    * @returns {ConfigType} The config object
    * @example
    * ```ts
-   * configManager.use("./config.json");
+   * config.use("./config.json");
    * ```
    * @throws {ConfigError} If the config file.
    * @throws {ConfigError} If the config file is not found
@@ -85,7 +85,7 @@ export class ConfigManager {
    * @description This method will print the config object to the console.
    * @example
    * ```ts
-   * configManager.print();
+   * config.print();
    * ```
    */
   public print(): void {
