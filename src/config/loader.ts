@@ -7,7 +7,7 @@ import { validateConfig } from "./utils";
 
 /**
  * Load the default config
- * @returns The default config
+ * @returns {ConfigType} The default config
  */
 export function loadDefaultConfig(): ConfigType {
   return DEFAULT_CONFIG;
@@ -16,7 +16,6 @@ export function loadDefaultConfig(): ConfigType {
 /**
  * Load a config file
  * @param {string} configFilePath The path to the config file
- * @description Reads the config file and parses it to a JSON object
  * @returns {ConfigType} The config object
  */
 export function loadConfigFile(configFilePath: string): ConfigType {
@@ -44,8 +43,7 @@ export function loadConfigFile(configFilePath: string): ConfigType {
 
 /**
  * Load the default config file
- * @description Searches the root folder for a config file and loads it
- * @returns {ConfigType} The default config object or void if not found
+ * @returns {ConfigType | void} The default config object or void if not found
  */
 export function loadDefaultConfigFile(): ConfigType | void {
   // Search the root folder for a config file

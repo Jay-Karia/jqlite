@@ -14,10 +14,9 @@ function isObject(item: any): boolean {
 
 /**
  * Override the given config with the new one
- * @param currentConfig The old config
- * @param newConfig The new config to override
- * @description Deep merges the new config into the old one
- * @returns The new overridden config
+ * @param {ConfigType} currentConfig The old config
+ * @param {Partial<ConfigType>} newConfig The new config to override
+ * @returns {ConfigType} The new overridden config
  */
 export function overrideConfig<ConfigType>(
   currentConfig: ConfigType,
@@ -63,7 +62,7 @@ export function validateConfig(config: ConfigType): boolean {
       extraKeys,
     });
 
-  // Validate config values
+  // Validate config values (if needed)
 
   return true;
 }

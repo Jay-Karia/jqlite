@@ -5,7 +5,6 @@ import { ERROR_MESSAGES } from "errors/messages";
 /**
  * Parse JSON data
  * @param {string} data The JSON data to parse
- * @description This method will parse the JSON data and return it as an object. If the data is already an object, it will be returned as is.
  * @returns {object | null} The parsed JSON data
  */
 export function parseJson(data: string): object | null {
@@ -21,7 +20,6 @@ export function parseJson(data: string): object | null {
 /**
  * Check if a URL is valid
  * @param {string} url The URL to validate
- * @description This method will check if the URL is valid. If the URL is valid, it will return true. Otherwise, it will return false.
  * @returns {boolean | URL} Whether the URL is valid
  */
 export function isValidUrl(url: string): boolean | URL {
@@ -34,38 +32,25 @@ export function isValidUrl(url: string): boolean | URL {
 }
 
 /**
- * Get the default path to save data
- * @description This method will return the default path to save data. If no default path is found, it will throw an error.
- * @returns {string} The default path to save data
+ * Get the default load file path
+ * @returns {string} The default file path to load data from
  */
-export function getDefaultFile(type: "save" | "load"): string {
-  switch (type) {
-    // Get the default save file
-    case "save": {
-      const savePath = configStore.get().saveFile;
-      if (!savePath)
-        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_SAVE_FILE, {
-          "config.saveFile": savePath,
-        });
-      return savePath;
-    }
-    
-    // Get the default load file
-    case "load": {
-      const loadPath = configStore.get().loadFile;
-      if (!loadPath)
-        throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_FILE, {
-          "config.loadFile": loadPath,
-        });
-      return loadPath;
-    }
-  }
+export function getDefaultLoadFile(): string {
+  // Get the default path from the config
+  const loadPath = configStore.get().loadFile;
+
+  // Check if the path is valid
+  if (!loadPath)
+    throw new DataError(ERROR_MESSAGES.DATA.NO_DEFAULT_LOAD_FILE, {
+      "config.loadFile": loadPath,
+    });
+
+  return loadPath;
 }
 
 /**
  * Trim the data
  * @param {string} data The data to trim
- * @description This method will trim the data to a certain length and add "..." at the end if required. This is required to print the data in the error message.
  * @returns {string} The trimmed data
  */
 export function trimData(data?: string): string {

@@ -5,8 +5,8 @@ import { ERROR_MESSAGES } from "errors/messages";
 
 /**
  * Load data from a URL
- * @param url The URL to fetch data from
- * @returns The fetched data
+ * @param {string} url The URL to fetch data from
+ * @returns {Promise<object | null>} The fetched data
  */
 export async function loadFromUrl(url: string): Promise<object | null> {
   let urlData;
@@ -24,8 +24,8 @@ export async function loadFromUrl(url: string): Promise<object | null> {
 
 /**
  * Load data from a file
- * @param path The file path to load data from
- * @returns The loaded data
+ * @param {string} path The file path to load data from
+ * @returns {object | null} The loaded data
  */
 export function loadFromFile(path: string): object | null {
   let data;

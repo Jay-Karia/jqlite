@@ -1,7 +1,11 @@
 import { DataError } from "errors/factory";
 import { loadFromFile, loadFromUrl } from "./loader";
 import { dataStore } from "./store";
-import { getDefaultFile, isValidUrl, parseJson } from "./utils";
+import {
+  getDefaultLoadFile,
+  isValidUrl,
+  parseJson,
+} from "./utils";
 import { ERROR_MESSAGES } from "errors/messages";
 import { existsSync } from "fs";
 import { configStore } from "config/store";
@@ -10,7 +14,6 @@ import { configStore } from "config/store";
  * DataManager class
  */
 export class DataManager {
-
   /**
    * Get JSON data from memory
    * @description This method returns the JSON data stored in memory.
@@ -64,7 +67,7 @@ export class DataManager {
    */
   public load(filePath?: string): object {
     // Use the default file path from config
-    if (!filePath) filePath = getDefaultFile("load");
+    if (!filePath) filePath = getDefaultLoadFile();
 
     // Check if file path is valid
     const isFile = existsSync(filePath);
@@ -130,7 +133,6 @@ export class DataManager {
     this.set(urlData);
     return urlData;
   }
-
 }
 
 export const data = new DataManager();

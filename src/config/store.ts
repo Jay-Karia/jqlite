@@ -43,7 +43,6 @@ export class ConfigStore {
 
   /**
    * Clear the config object
-   * @description This method will clear the config object. It will remove all the values from the config object and reset it to the default config object.
    */
   public clear(): void {
     this._config = loadDefaultConfig();
