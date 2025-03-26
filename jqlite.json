@@ -1,8 +1,4 @@
 {
   "allowOverwrite": true,
-  "createIfMissing": false,
-  "dataStreaming": {
-    "chunkSize": 983040,
-    "bufferSize": 7864320
-  }
+  "createIfMissing": false
 }

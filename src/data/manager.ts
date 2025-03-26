@@ -98,7 +98,7 @@ export class DataManager {
    * @example
    * ```ts
    * const url = "https://jsonplaceholder.typicode.com/posts";
-   * dataManager.loadFromUrl(url);
+   * dataManager.fetch(url);
    * ```
    * @throws {DataError} If the URL is invalid.
    * @throws {DataError} If no data is found in the URL.

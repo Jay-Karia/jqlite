@@ -85,10 +85,10 @@ export class ConfigManager {
    * @description This method will print the config object to the console.
    * @example
    * ```ts
-   * configManager.printConfig();
+   * configManager.print();
    * ```
    */
-  public printConfig(): void {
+  public print(): void {
     console.log(this.get());
   }
 }
