@@ -1,18 +1,22 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
   name: "JQLite"
   text: "The query language for JSON"
-  tagline: My great project tagline
+  tagline: A simple and powerful query language for JSON data
+  image:
+    src: /logo.svg
+    alt: JQLite Logo
+    width: 150
+    height: 150
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get Started
+      link: /get-started
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: GitHub
+      link: https://github.com/Jay-Karia/jqlite
 
 features:
   - title: Feature A
@@ -22,4 +26,3 @@ features:
   - title: Feature C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-
