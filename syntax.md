@@ -1,5 +1,3 @@
-## 1. Basic Navigation
-
 ### Root Selector
 ```
 $ or $.  // Root of the JSON document
@@ -22,8 +20,6 @@ $.users[:3]               // From start to index 3
 $.users[-2:]              // Last two elements
 ```
 
-## 2. Selection and Filtering
-
 ### Condition Filters
 ```javascript
 // Single condition
@@ -40,21 +36,19 @@ $.users[?(@.age > 18 || @.isAdmin == true)]
 - `!` (NOT)
 - Comparison: `==`, `!=`, `>`, `<`, `>=`, `<=`
 
-## 3. Multiple Key Selection
+### Multiple Key Selection
 
 ```javascript
 $.user.name               // Single key
 $.user.(name, age, email) // Multiple keys (returns array)
 ```
 
-## 4. Fallback Mechanism
+### Fallback Mechanism
 
 ```javascript
 $.user.middleName ?? "N/A"                // Null coalescing
 $.user.profile.bio ?? $.user.name ?? "Anonymous"  // Chained fallback
 ```
-
-## 5. Omit Keys
 
 ### Single Key Omission
 ```javascript
@@ -65,8 +59,6 @@ $.me.about.!gender       // Returns object without gender
 ```javascript
 $.me.about.!(age, gender)  // Returns object without specified keys
 ```
-
-## 6. Functions
 
 ### Numeric Functions
 ```javascript
@@ -119,7 +111,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #getDay()    // Get day
 ```
 
-## 7. Regex Matching
+### Regex Matching
 
 ```javascript
 // Match names starting with 'J'
