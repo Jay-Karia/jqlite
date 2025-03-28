@@ -12,7 +12,6 @@ $.user.address.city       // Nested property access
 **Array Access**
 ```javascript
 $.users[0]                // First element
-$.users[0,2,4]            // Multiple specific indices
 $.users[*]                // Wildcard (all elements)
 $.users[1:4]              // Slice from index 1 to 4
 $.users[1:]               // From index 1 to end
