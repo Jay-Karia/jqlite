@@ -22,9 +22,56 @@ export function hasNextToken(input: string, position: number): boolean {
 }
 
 /**
+ * Check if the current character is a letter.
+ * @param {string} char The current character in the input string.
+ * @returns {boolean} Whether the current character is a letter.
+ */
+export function isAlpha(char: string): boolean {
+  return /^[a-zA-Z]+$/.test(char);
+}
+
+/**
+ * Check if the current character is a letter or a digit.
+ * @param {string} char The current character in the input string.
+ * @returns {boolean} Whether the current character is a digit.
+ */
+export function isDigit(char: string): boolean {
+  return /^\d+$/.test(char);
+}
+
+/**
+ * Read the whole word from the input string.
+ * @param {string} input The input string.
+ * @param {number} position The current position in the input string.
+ * @returns {string} The whole word.
+ */
+export function readWord(input: string, position: number): string {
+  let word = "";
+  while (hasNextToken(input, position) && isAlpha(input[position])) {
+    word += input[position];
+    position++;
+  }
+  return word;
+}
+
+/**
+ * Read the whole number from the input string.
+ * @param {string} input The input string.
+ * @param {number} position The current position in the input string.
+ * @returns {string} The whole number.
+ */
+export function readNumber(input: string, position: number): string {
+  let number = "";
+  while (hasNextToken(input, position) && isDigit(input[position])) {
+    number += input[position];
+    position++;
+  }
+  return number;
+}
+
+/**
  * Get the type of the token based on the character.
  * @param {string} char The current character in the input string.
- * @description This function returns the type of the token based on the character.
  * @returns {TokenType} The type of the token.
  */
 export function getTokenType(char: string): string {
@@ -38,10 +85,8 @@ export function getTokenType(char: string): string {
     case "]":
       return TokenType.RIGHT_BRACKET;
     default:
-      if (isNaN(Number(char))) {
-        return TokenType.PROPERTY;
-      } else {
-        return TokenType.NUMBER;
-      }
+      if (isAlpha(char)) return TokenType.PROPERTY;
+      else if (isDigit(char)) return TokenType.NUMBER;
+      else return TokenType.UNKNOWN;
   }
 }

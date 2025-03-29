@@ -18,9 +18,10 @@ export const TokenType = {
   UNKNOWN: "Unknown",            // Unknown token
 };
 export interface Token {
-  type: string;
   value: string;
+  type: string;
   position: number;
+  length: number;
 }
 
 //=================================================================================

@@ -8,7 +8,14 @@
 //======================================IMPORTS====================================
 
 import { TokenType, type Token } from "./tokens";
-import { getTokenType, hasNextToken } from "./helpers";
+import {
+  getTokenType,
+  hasNextToken,
+  isAlpha,
+  isDigit,
+  readNumber,
+  readWord,
+} from "./helpers";
 
 //=================================================================================
 
@@ -91,7 +98,25 @@ export class Lexer {
   public getToken(): Token {
     // Check for end of query.
     if (!hasNextToken(this.input, this.position))
-      return { type: TokenType.EOQ, value: "", position: this.position };
+      return {
+        type: TokenType.EOQ,
+        value: "",
+        position: this.position,
+        length: 0,
+      };
+
+    // Read the whole word
+    if (isAlpha(this.character)) {
+      const word = readWord(this.input, this.position);
+      this.character = word;
+      this.position += word.length - 1;
+    }
+    // Read the whole
+    if (isDigit(this.character)) {
+      const number = readNumber(this.input, this.position);
+      this.character = number;
+      this.position += number.length - 1;
+    }
 
     const tokenType = getTokenType(this.character);
 
@@ -99,6 +124,7 @@ export class Lexer {
       type: tokenType,
       value: this.character,
       position: this.position,
+      length: this.character.length,
     };
     return token;
   }
