@@ -6,7 +6,8 @@
 "use strict";
 
 /**
- * DataStore class.
+ * Data store class.
+ * @description This class is used to store the JSON data in memory.
  */
 export class DataStore {
   private _memoryData: object | null = null;

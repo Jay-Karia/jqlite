@@ -17,9 +17,8 @@ import { ERROR_MESSAGES } from "errors/messages";
 //=================================================================================
 
 /**
- * ConfigManager class
+ * Config manager class
  * @description This class is used to manage the config object.
- * @class
  */
 export class ConfigManager {
   /**

@@ -14,9 +14,8 @@ import { overrideConfig } from "./utils";
 //=================================================================================
 
 /**
- * ConfigStore class
+ * Config store class
  * @description This class is used to store the config object
- * @class ConfigStore
  */
 export class ConfigStore {
   private _config: ConfigType;
