@@ -21,6 +21,21 @@ export function hasNextToken(input: string, position: number): boolean {
   return position < input.length;
 }
 
+/**
+ * Check if the current character is a valid token.
+ * @param {string} char The current character in the input string.
+ * @returns {number} Whether the current character is a valid token.
+ */
+export function countSkippable(char: string, position: number): number {
+  let count = 0;
+  while (hasNextToken(char, position) && isSkippable(char[position])) {
+    count++;
+    position++;
+  }
+
+  return count;
+}
+
 //=====================================CHECKERS===================================
 
 /**
@@ -46,7 +61,7 @@ export function isDigit(char: string): boolean {
  * @param {string} char The current character in the input string.
  * @returns {boolean} Whether the current character is a letter or a digit.
  */
-export function isWhiteSpace(char: string): boolean {
+export function isSkippable(char: string): boolean {
   return /\s/.test(char);
 }
 
