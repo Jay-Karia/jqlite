@@ -22,7 +22,8 @@
     "format": "npx prettier . --write",
     "format:src": "npx prettier src --write",
     "test:src": "vitest",
-    "coverage:src": "vitest run --coverage"
+    "coverage:src": "vitest run --coverage",
+    "play": "nodemon -e ts -w . -x tsx playground.ts"
   },
   "keywords": [
     "query-language",
@@ -45,6 +46,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.14.0",
+    "nodemon": "^3.1.9",
     "prettier": "3.4.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
