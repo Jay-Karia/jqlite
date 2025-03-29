@@ -1,9 +1,20 @@
+/**
+ * @fileoverview Configuration manager for jqlite.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
+import type { ConfigType, OverrideConfigType } from "./types";
 import { existsSync } from "fs";
 import { loadConfigFile } from "./loader";
 import { configStore } from "./store";
-import type { ConfigType, OverrideConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
+
+//=================================================================================
 
 /**
  * ConfigManager class

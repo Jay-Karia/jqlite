@@ -1,9 +1,20 @@
+/**
+ * @fileoverview Loader for jqlite configuration.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//====================================IMPORTS=====================================
+
+import type { ConfigType } from "./types";
 import { existsSync, readFileSync } from "fs";
 import { ConfigError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
 import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILE_NAME } from "./defaults";
-import type { ConfigType } from "./types";
 import { validateConfig } from "./utils";
+
+//================================================================================
 
 /**
  * Load the default config
@@ -19,6 +30,7 @@ export function loadDefaultConfig(): ConfigType {
  * @returns {ConfigType} The config object
  */
 export function loadConfigFile(configFilePath: string): ConfigType {
+  // Read the config file
   const config = readFileSync(configFilePath, "utf-8");
 
   // Check if the config has valid JSON

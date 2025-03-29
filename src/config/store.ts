@@ -1,6 +1,17 @@
-import { loadDefaultConfig, loadDefaultConfigFile } from "./loader";
+/**
+ * @fileoverview Configuration store for jqlite.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
 import type { ConfigType, OverrideConfigType } from "./types";
+import { loadDefaultConfig, loadDefaultConfigFile } from "./loader";
 import { overrideConfig } from "./utils";
+
+//=================================================================================
 
 /**
  * ConfigStore class

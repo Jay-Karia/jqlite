@@ -1,7 +1,18 @@
+/**
+ * @fileoverview Configuration utilities for jqlite.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
+import type { ConfigType } from "./types";
 import { ConfigError } from "errors/factory";
 import { loadDefaultConfig } from "./loader";
-import type { ConfigType } from "./types";
 import { ERROR_MESSAGES } from "errors/messages";
+
+//=================================================================================
 
 /**
  * Check if a value is an object
