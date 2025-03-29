@@ -18,7 +18,7 @@ import { TokenType } from "./tokens";
  * @returns Whether the current character is a letter.
  */
 export function hasNextToken(input: string, position: number): boolean {
-  return position < input.length;
+  return position < input.length + 1;
 }
 
 /**

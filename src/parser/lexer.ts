@@ -60,7 +60,12 @@ export class Lexer {
       this.position++;
     }
 
-    console.log(tokens);
+    tokens.push({
+      type: TokenType.EOQ,
+      value: "",
+      position: this.position,
+      length: 0,
+    });
 
     return tokens;
   }
