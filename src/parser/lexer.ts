@@ -8,7 +8,7 @@
 //======================================IMPORTS====================================
 
 import { TokenType, type Token } from "./tokens";
-import { hasNextToken } from "./helpers";
+import { getTokenType, hasNextToken } from "./helpers";
 
 //=================================================================================
 
@@ -70,7 +70,7 @@ export class Lexer {
   }
 
   /**
-   * Get the current character in the input string.
+   * Get the next character in the input string.
    * @description Moves the position to the next character in the input string.
    * @returns {string} The next character in the input string
    */
@@ -93,8 +93,10 @@ export class Lexer {
     if (!hasNextToken(this.input, this.position))
       return { type: TokenType.EOQ, value: "", position: this.position };
 
+    const tokenType = getTokenType(this.character);
+
     const token: Token = {
-      type: TokenType.ROOT,
+      type: tokenType,
       value: this.character,
       position: this.position,
     };
@@ -102,7 +104,6 @@ export class Lexer {
   }
 
   // skipWhitespace -> skip whitespace characters
-  // nextToken -> get the next token and push to tokens
   // isLetter, isDigit -> helpers
 }
 

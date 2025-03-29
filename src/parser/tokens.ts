@@ -7,17 +7,18 @@
 
 //=======================================TYPES====================================
 
-export enum TokenType {
-  ROOT,               // $
-  DOT,                // .
-  PROPERTY,           // name
-  LEFT_BRACKET,       // [
-  RIGHT_BRACKET,      // ]
-  NUMBER,             // 0
-  EOQ,                // End Of Query
-}
+export const TokenType = {
+  ROOT: "Root",               // $
+  DOT: "Dot",                // .
+  PROPERTY: "Property",           // name
+  LEFT_BRACKET: "LeftBracket",       // [
+  RIGHT_BRACKET: "RightBracket",      // ]
+  NUMBER: "Number",             // 0
+  EOQ: "EndOfQuery",                // End Of Query
+  UNKNOWN: "Unknown",            // Unknown token
+};
 export interface Token {
-  type: TokenType;
+  type: string;
   value: string;
   position: number;
 }
