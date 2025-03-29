@@ -91,6 +91,15 @@ export class Lexer {
   }
 
   /**
+   * Shift the position to the next character in the input string.
+   */
+  public shift(): void {
+    if (!hasNextToken(this.input, this.position)) return;
+
+    this.position++;
+  }
+
+  /**
    * Get the current token in the input string.
    * @description Returns the token of the current character.
    * @returns {Token} The token of the current character
@@ -104,6 +113,8 @@ export class Lexer {
         position: this.position,
         length: 0,
       };
+
+    // TODO: Skip Whitespace
 
     // Read the whole word
     if (isAlpha(this.character)) {
@@ -130,7 +141,6 @@ export class Lexer {
   }
 
   // skipWhitespace -> skip whitespace characters
-  // isLetter, isDigit -> helpers
 }
 
 export const lexer = new Lexer();

@@ -21,6 +21,8 @@ export function hasNextToken(input: string, position: number): boolean {
   return position < input.length;
 }
 
+//=====================================CHECKERS===================================
+
 /**
  * Check if the current character is a letter.
  * @param {string} char The current character in the input string.
@@ -38,6 +40,17 @@ export function isAlpha(char: string): boolean {
 export function isDigit(char: string): boolean {
   return /^\d+$/.test(char);
 }
+
+/**
+ * Check whether the current character is a whitespace.
+ * @param {string} char The current character in the input string.
+ * @returns {boolean} Whether the current character is a letter or a digit.
+ */
+export function isWhiteSpace(char: string): boolean {
+  return /\s/.test(char);
+}
+
+//====================================READERS=====================================
 
 /**
  * Read the whole word from the input string.
@@ -68,6 +81,8 @@ export function readNumber(input: string, position: number): string {
   }
   return number;
 }
+
+//=================================================================================
 
 /**
  * Get the type of the token based on the character.
