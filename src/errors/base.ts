@@ -1,4 +1,15 @@
+/**
+ * @fileoverview Base error class
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
 import type { ErrorParams } from "./types";
+
+//=================================================================================
 
 /**
  * Base error class

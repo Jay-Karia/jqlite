@@ -1,6 +1,12 @@
 /**
- * DataStore class to manage JSON data in memory and session
- * @class DataStore
+ * @fileoverview Data store for jqlite.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+/**
+ * DataStore class.
  */
 export class DataStore {
   private _memoryData: object | null = null;

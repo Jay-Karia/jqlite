@@ -1,15 +1,18 @@
 **Root Selector**
+
 ```
 $ or $.  // Root of the JSON document
 ```
 
 **Object Property Access**
+
 ```javascript
-$.user.name               // Direct property access
-$.user.address.city       // Nested property access
+$.user.name; // Direct property access
+$.user.address.city; // Nested property access
 ```
 
 **Array Access**
+
 ```javascript
 $.users[0]                // First element
 $.users[*]                // Wildcard (all elements)
@@ -20,6 +23,7 @@ $.users[-2:]              // Last two elements
 ```
 
 **Condition Filters**
+
 ```javascript
 // Single condition
 $.users[?(@.age > 18)]
@@ -39,17 +43,19 @@ $.user.(name, age, email) // Multiple keys (returns array)
 **Fallback Mechanism**
 
 ```javascript
-$.user.middleName ?? "N/A"                // Null coalescing
-$.user.profile.bio ?? $.user.name ?? "Anonymous"  // Chained fallback
+$.user.middleName ?? "N/A"; // Null coalescing
+$.user.profile.bio ?? $.user.name ?? "Anonymous"; // Chained fallback
 ```
 
 **Omission**
+
 ```javascript
 $.me.about.!gender       // Returns object without gender
 $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
 **Numeric Functions**
+
 ```javascript
 #max()    // Maximum value
 #min()    // Minimum value
@@ -59,6 +65,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
 **String Functions**
+
 ```javascript
 #contains()       // Check substring
 #toUpperCase()    // Convert to uppercase
@@ -69,6 +76,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
 **Array Functions**
+
 ```javascript
 #sort(@.field, "asc"/"dsc")  // Sort array of objects
 #sort()                      // Sort array of primitives
@@ -77,6 +85,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
 **Math Functions**
+
 ```javascript
 #add()   // Addition
 #sub()   // Subtraction
@@ -86,6 +95,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
 **Date Functions**
+
 ```javascript
 #format()    // Format date
 #getYear()   // Get year

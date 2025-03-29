@@ -1,14 +1,19 @@
-import { DataError } from "errors/factory";
+/**
+ * @fileoverview Data manager for jqlite.
+ * @author Jay-Karia
+ */
+
+//======================================IMPORTS====================================
+
+import { existsSync } from "fs";
 import { loadFromFile, loadFromUrl } from "./loader";
 import { dataStore } from "./store";
-import {
-  getDefaultLoadFile,
-  isValidUrl,
-  parseJson,
-} from "./utils";
-import { ERROR_MESSAGES } from "errors/messages";
-import { existsSync } from "fs";
 import { configStore } from "config/store";
+import { getDefaultLoadFile, isValidUrl, parseJson } from "./utils";
+import { DataError } from "errors/factory";
+import { ERROR_MESSAGES } from "errors/messages";
+
+//=================================================================================
 
 /**
  * DataManager class

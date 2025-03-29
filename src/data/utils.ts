@@ -1,6 +1,17 @@
+/**
+ * @fileoverview Utility functions for jqlite data management.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
 import { configStore } from "config/store";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
+
+//=================================================================================
 
 /**
  * Parse JSON data

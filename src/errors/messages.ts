@@ -1,9 +1,21 @@
+/**
+ * @fileoverview Error messages for jqlite.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
 import type { ErrorParams } from "./types";
+
+//=================================================================================
 
 /**
  * All the error messages
  */
 export const ERROR_MESSAGES = {
+  //====================================DATA=========================================
   DATA: {
     INVALID_JSON: {
       message: "Invalid JSON",
@@ -81,6 +93,7 @@ export const ERROR_MESSAGES = {
       solution: "Set `allowOverwrite` to true in config or remove the file",
     } as ErrorParams,
   },
+  //====================================CONFIG=======================================
   CONFIG: {
     CONFIG_FILE_NOT_FOUND: {
       message: "Config file not found",

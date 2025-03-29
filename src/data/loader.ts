@@ -1,7 +1,18 @@
+/**
+ * @fileoverview Loader for jqlite data.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
 import { readFileSync } from "fs";
 import { parseJson, trimData } from "./utils";
 import { DataError } from "errors/factory";
 import { ERROR_MESSAGES } from "errors/messages";
+
+//=================================================================================
 
 /**
  * Load data from a URL

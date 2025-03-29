@@ -1,5 +1,5 @@
 import { lexer } from "parser/lexer";
-import type {Token} from "parser/tokens";
+import type { Token } from "parser/tokens";
 
 export class QueryRunner {
   /**

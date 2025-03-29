@@ -1,5 +1,16 @@
-import { BaseError } from "./base";
+/**
+ * @fileoverview Error factory for jqlite.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//======================================IMPORTS====================================
+
 import type { ErrorParams } from "./types";
+import { BaseError } from "./base";
+
+//=================================================================================
 
 /**
  * Create an error class for a specific category
@@ -19,5 +30,9 @@ export function createErrorClass(name: string): typeof BaseError {
   return errorClass;
 }
 
+//====================================ERROR CLASSES=================================
+
 export const DataError = createErrorClass("DataError");
 export const ConfigError = createErrorClass("ConfigError");
+
+//==================================================================================
