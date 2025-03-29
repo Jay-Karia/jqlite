@@ -13,6 +13,7 @@ export default tseslint.config(
   { languageOptions: { globals: globals.node } },
   {
     files: ["**/*.ts"],
+    ignores: ["**/*.js", "**/*.json", "**/*.md", "playground.ts"],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
@@ -55,5 +56,5 @@ export default tseslint.config(
     rules: {
       "no-console": "off",
     },
-  }
+  },
 );
