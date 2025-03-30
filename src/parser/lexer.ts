@@ -7,15 +7,15 @@
 
 //======================================IMPORTS====================================
 
-import { TokenType, type Token } from "./tokens";
+import type { Token } from "./tokens";
 import {
   countSkippable,
+  getEoqToken,
   getTokenType,
   hasNextToken,
   isAlpha,
   isDigit,
-  readNumber,
-  readWord,
+  readAlphanumeric,
 } from "./helpers";
 
 //=================================================================================
@@ -28,7 +28,7 @@ export class Lexer {
   private input: string;
   private position: number;
   private character: string;
-  private isEOQ: boolean;
+  private isEoq: boolean;
 
   /**
    * Lexer constructor
@@ -37,7 +37,7 @@ export class Lexer {
     this.input = "";
     this.position = 0;
     this.character = "";
-    this.isEOQ = false;
+    this.isEoq = false;
   }
 
   /**
@@ -46,29 +46,26 @@ export class Lexer {
    * @returns {Token[]} The tokens
    */
   public tokenize(input: string): Token[] {
+    // Get the input string
     this.input = input;
-
     const tokens = new Array<Token>();
 
+    // Iterate through the input string
     while (hasNextToken(this.input, this.position)) {
-      // Update the current character
       this.character = this.input[this.position];
 
-      // Get the token of current character
+      // Get the token and it's type
       const token: Token = this.getToken();
       tokens.push(token);
 
-      // Change the position
+      // Update the position
       this.position++;
     }
 
-    if (!this.isEOQ) {
-      tokens.push({
-        type: TokenType.EOQ,
-        value: "",
-        position: this.position,
-        length: 0,
-      });
+    // Check for EOQ
+    if (!this.isEoq) {
+      tokens.push(getEoqToken(this.position));
+      this.isEoq = true;
     }
 
     return tokens;
@@ -105,7 +102,6 @@ export class Lexer {
    */
   public shift(): void {
     if (!hasNextToken(this.input, this.position)) return;
-
     this.position++;
   }
 
@@ -121,36 +117,26 @@ export class Lexer {
 
     // Check for end of query.
     if (!hasNextToken(this.input, this.position)) {
-      this.isEOQ = true;
-      return {
-        type: TokenType.EOQ,
-        value: "",
-        position: this.position,
-        length: 0,
-      };
+      this.isEoq = true;
+      return getEoqToken(this.position);
     }
 
-    // Read the whole word
-    if (isAlpha(this.character)) {
-      const word = readWord(this.input, this.position);
+    // Read the whole word or number
+    if (isAlpha(this.character) || isDigit(this.character)) {
+      const word = readAlphanumeric(this.character, this.input, this.position);
       this.character = word;
       this.position += word.length - 1;
     }
-    // Read the whole
-    if (isDigit(this.character)) {
-      const number = readNumber(this.input, this.position);
-      this.character = number;
-      this.position += number.length - 1;
-    }
 
+    // Get the token type and return the token.
     const tokenType = getTokenType(this.character);
-
     const token: Token = {
       type: tokenType,
       value: this.character,
       position: this.position,
       length: this.character.length,
     };
+    
     return token;
   }
 }

@@ -7,7 +7,7 @@
 
 //======================================IMPORTS====================================
 
-import { TokenType } from "./tokens";
+import { type Token, TokenType } from "./tokens";
 
 //=================================================================================
 
@@ -97,7 +97,39 @@ export function readNumber(input: string, position: number): string {
   return number;
 }
 
-//=================================================================================
+/**
+ * Read the whole word or number.
+ * @param {string} character The current character to read.
+ * @param {string} input The input query.
+ * @param {string} position The current position of the character
+ * @returns {string} The whole word.
+ */
+export function readAlphanumeric(
+  character: string,
+  input: string,
+  position: number
+): string {
+  let word = "";
+
+  // Read the whole word
+  if (isAlpha(character)) {
+    while (hasNextToken(input, position) && isAlpha(input[position])) {
+      word += input[position];
+      position++;
+    }
+  }
+
+  // Read the whole number
+  if (isDigit(character)) {
+    while (hasNextToken(input, position) && isDigit(input[position])) {
+      word += input[position];
+      position++;
+    }
+  }
+  return word;
+}
+
+//====================================TOKENS=====================================
 
 /**
  * Get the type of the token based on the character.
@@ -120,3 +152,21 @@ export function getTokenType(char: string): string {
       else return TokenType.UNKNOWN;
   }
 }
+
+/**
+ * Get the end of query token.
+ * @param {string} position The current position in the input string.
+ * @returns {Token} The end of query token.
+ */
+export function getEoqToken(position: number): Token {
+  const token: Token = {
+    type: TokenType.EOQ,
+    value: "",
+    position: position,
+    length: 0,
+  };
+
+  return token;
+}
+
+//===============================================================================
