@@ -86,12 +86,6 @@ export const ERROR_MESSAGES = {
       solution:
         "Add default url in config or add url while using `loadFromUrl()`",
     } as ErrorParams,
-    NO_OVERWRITE: {
-      message: "Cannot overwrite file",
-      code: "NO_OVERWRITE",
-      cause: "Tried to overwrite file without permission",
-      solution: "Set `allowOverwrite` to true in config or remove the file",
-    } as ErrorParams,
   },
   //====================================CONFIG=======================================
   CONFIG: {

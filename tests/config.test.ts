@@ -18,13 +18,6 @@ describe("ConfigManager", () => {
       {
         fetchUrl: "https://example.com/test.json",
       },
-      {
-        allowOverwrite: true,
-      },
-      {
-        createIfMissing: false,
-        allowOverwrite: false,
-      },
     ];
 
     newConfigs.forEach(newConfig => {
@@ -44,7 +37,6 @@ describe("ConfigManager", () => {
     const newConfig = {
       loadFile: "./test.json",
       fetchUrl: "https://example.com/test.json",
-      allowOverwrite: true,
       createIfMissing: false,
     };
 
@@ -58,7 +50,6 @@ describe("ConfigManager", () => {
     const newConfig = {
       loadFile: "./test.json",
       fetchUrl: "https://example.com/test.json",
-      allowOverwrite: true,
       createIfMissing: false,
     };
 
@@ -74,7 +65,6 @@ describe("ConfigManager", () => {
     const newConfig = {
       loadFile: "./test.json",
       fetchUrl: "https://example.com/test.json",
-      allowOverwrite: true,
       createIfMissing: false,
     };
 
@@ -94,7 +84,7 @@ describe("ConfigManager", () => {
   test("load()", () => {
     // Creating a new config file
     const newConfigData = {
-      allowOverwrite: true,
+      fetchUrl: "https://example.com/test.json",
     };
     const configFilePath = "./tests/test2.json";
     writeFileSync(configFilePath, JSON.stringify(newConfigData, null, 2));

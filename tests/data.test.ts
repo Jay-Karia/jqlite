@@ -1,5 +1,5 @@
 import { expect, test, describe, vi } from "vitest";
-import { data } from "../src/index";
+import { config, data } from "../src/index";
 import { unlinkSync, writeFileSync } from "fs";
 
 describe("DataManager", () => {
@@ -96,4 +96,44 @@ describe("DataManager", () => {
       await data.fetch();
     }).rejects.toThrowError();
   });
+
+  test("config.loadFile", () => {
+    // Create a load file
+    const fileData = JSON.stringify({
+      name: "load test",
+    });
+    const loadFile = "./tests/load.json";
+    writeFileSync(loadFile, fileData);
+
+    // Set the config
+    config.set({
+      loadFile: loadFile
+    })
+
+    // Load the file
+    data.load();
+
+    // Check if data is set in memory
+    expect(data.get()).toEqual(JSON.parse(fileData));
+
+    // Clean up
+    unlinkSync(loadFile);
+  })
+
+  test("config.fetchUrl", async () => {
+    // Mock fetch
+    const url = "https://jsonplaceholder.typicode.com/posts/1";
+    const response = await data.fetch(url);
+
+    // Set the config
+    config.set({
+      fetchUrl: url
+    })
+
+    // Load the file
+    data.fetch();
+
+    // Check if data is set in memory
+    expect(data.get()).toEqual(response);
+  })
 });
