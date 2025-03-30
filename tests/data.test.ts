@@ -1,6 +1,17 @@
+/**
+ * @fileoverview Data tests.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//===================================IMPORTS===================================
+
 import { expect, test, describe, vi } from "vitest";
 import { config, data } from "../src/index";
 import { unlinkSync, writeFileSync } from "fs";
+
+//=============================================================================
 
 describe("DataManager", () => {
   test("get()", () => {

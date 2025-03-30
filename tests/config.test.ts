@@ -1,8 +1,19 @@
+/**
+ * @fileoverview Config tests.
+ * @author Jay-Karia
+ */
+
+"use strict";
+
+//===================================IMPORTS===================================
+
 import { expect, test, describe, vi } from "vitest";
 import { config } from "../src";
 import { DEFAULT_CONFIG } from "../src/config/defaults";
 import { unlinkSync, writeFileSync } from "fs";
 import { overrideConfig } from "../src/config/utils";
+
+//=============================================================================
 
 describe("ConfigManager", () => {
   test("default config", () => {
