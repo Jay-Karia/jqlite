@@ -1,196 +1,99 @@
-// import { expect, test, describe } from "vitest";
-// import { JQLite } from "../src/index";
+import { expect, test, describe, vi } from "vitest";
+import { data } from "../src/index";
+import { unlinkSync, writeFileSync } from "fs";
 
-// /**
-//  * Data Validation while initialization
-//  */
-// describe("Data Validation", () => {
-//   test("should expect data to be empty object if not provided", () => {
-//     const jqlite = new JQLite();
-//     expect(jqlite.data).toEqual("{}");
-//   });
+describe("DataManager", () => {
+  test("get", () => {
+    // Initialize
+    expect(data.get()).toBeNull();
+  });
 
-//   test("should not accept invalid JSON data", () => {
-//     let jqlite: JQLite;
+  test("set", () => {
+    // Valid JSON Data
+    const newData = {
+      name: "test",
+      age: 30,
+    };
 
-//     expect(() => {
-//       jqlite = new JQLite({}, "invalid-json");
-//       expect(jqlite.data).toEqual("{}");
-//     }).toThrowError();
-//   });
+    data.set(newData);
+    expect(data.get()).toEqual(newData);
 
-//   test("should not accept invalid JSON file path", () => {
-//     let jqlite: JQLite;
+    // Invalid JSON Data
+    const invalidData = "{ name: test, age: 30 }";
+    expect(() => {
+      data.set(invalidData);
+    }).toThrowError();
+  });
 
-//     expect(() => {
-//       jqlite = new JQLite({}, "invalid-path");
-//       expect(jqlite.data).toEqual("{}");
-//     }).toThrowError();
+  test("clear", () => {
+    // Initialize
+    const newData = {
+      name: "test",
+      age: 30,
+    };
 
-//     expect(() => {
-//       jqlite = new JQLite({}, "./src/index.ts");
-//       expect(jqlite.data).toEqual("{}");
-//     }).toThrowError();
-//   });
+    data.set(newData);
+    expect(data.get()).toEqual(newData);
 
-//   test("should accept valid JSON data", () => {
-//     const jqlite = new JQLite(
-//       {},
-//       JSON.stringify({
-//         key: "value",
-//       })
-//     );
-//     expect(jqlite.data).toEqual(
-//       JSON.stringify({
-//         key: "value",
-//       })
-//     );
-//   });
+    data.clear();
+    expect(data.get()).toBeNull();
+  });
 
-//   test("should accept valid JSON file path", () => {
-//     const jqlite = new JQLite({}, "./data.json");
-//     expect(jqlite.data).toEqual(
-//       JSON.stringify({
-//         hello: "world",
-//       })
-//     );
-//   });
-// });
+  test("print", () => {
+    // Initialize
+    const newData = {
+      name: "test",
+      age: 30,
+    };
 
-// /**
-//  * Set Data
-//  */
-// describe("Set Data", () => {
-//   test("should set the data", () => {
-//     const jqlite = new JQLite();
-//     jqlite.setData(JSON.stringify({ key: "value" }));
-//     expect(jqlite.data).toEqual(
-//       JSON.stringify({
-//         key: "value",
-//       })
-//     );
-//   });
+    data.set(newData);
+    expect(data.get()).toEqual(newData);
 
-//   test("should not accept invalid JSON data", () => {
-//     const jqlite = new JQLite();
-//     expect(() => {
-//       jqlite.setData("invalid-json");
-//       expect(jqlite.data).toEqual("{}");
-//     }).toThrowError();
-//   });
+    // Mock console.log
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
-//   test("should not accept invalid JSON file path", () => {
-//     const jqlite = new JQLite();
-//     expect(() => {
-//       jqlite.setData("invalid-path");
-//       expect(jqlite.data).toEqual("{}");
-//     }).toThrowError();
+    data.print();
+    expect(logSpy).toHaveBeenCalledWith(JSON.stringify(newData, null, 2));
 
-//     expect(() => {
-//       jqlite.setData("./src/index.ts");
-//       expect(jqlite.data).toEqual("{}");
-//     }).toThrowError();
-//   });
+    logSpy.mockRestore();
+  });
 
-//   test("should accept valid JSON data", () => {
-//     const jqlite = new JQLite();
-//     jqlite.setData(
-//       JSON.stringify({
-//         key: "value",
-//       })
-//     );
-//     expect(jqlite.data).toEqual(
-//       JSON.stringify({
-//         key: "value",
-//       })
-//     );
-//   });
+  // Problems in formatting
+  test("load", () => {
+    const fileData = JSON.stringify({
+      name: "test",
+      age: 30,
+    });
 
-//   test("should overwrite the existing data", () => {
-//     const jqlite = new JQLite({}, JSON.stringify({ key: "value" }));
-//     jqlite.setData(
-//       JSON.stringify({
-//         hello: "world",
-//       })
-//     );
-//     expect(jqlite.data).toEqual(
-//       JSON.stringify({
-//         hello: "world",
-//       })
-//     );
-//   });
+    // Create a mock file
+    const filePath = "./tests/test.json";
+    writeFileSync(filePath, fileData);
 
-//   test("should accept valid JSON file path", () => {
-//     const jqlite = new JQLite();
-//     jqlite.setData("./data.json");
+    // Load data from that file
+    data.load(filePath);
+    expect(data.get()).toEqual(JSON.parse(fileData));
 
-//     expect(jqlite.data).toEqual(
-//       JSON.stringify({
-//         hello: "world",
-//       })
-//     );
-//   });
+    // Clean up
+    unlinkSync(filePath);
+  });
 
-//   test("should not accept invalid json url", async () => {
-//     await expect(async () => {
-//       const jqlite = new JQLite();
-//       await jqlite.setData("https://invalid-url.com").resolve();
-//     }).rejects.toThrowError();
+  test("fetch", async () => {
+    // Mock fetch
+    const url = "https://jsonplaceholder.typicode.com/posts/1";
+    const response = await data.fetch(url);
 
-//     await expect(async () => {
-//       const jqlite = new JQLite();
-//       await jqlite
-//         .setData(
-//           "https://github.com/Jay-Karia/jqlite/raw/refs/heads/main/eslint.config.mjs"
-//         )
-//         .resolve();
-//     }).rejects.toThrowError();
-//   });
+    // Check if data is set in memory
+    expect(data.get()).toEqual(response);
 
-//   test("should accept valid json url", async () => {
-//     const jqlite = new JQLite();
-//     await jqlite
-//       .setData(
-//         "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
-//       )
-//       .resolve();
+    // Invalid URL
+    const invalidUrl = "invalid-url";
+    await expect(async () => {
+      await data.fetch(invalidUrl);
+    }).rejects.toThrowError();
 
-//     expect(jqlite.data).toStrictEqual({
-//       hello: "world",
-//     });
-//   });
-
-//   test("should resolve data", async () => {
-//     const jqlite = new JQLite();
-//     jqlite.setData(
-//       "https://raw.githubusercontent.com/Jay-Karia/jqlite/refs/heads/main/data.json"
-//     );
-
-//     await jqlite.resolve();
-//     expect(jqlite.data).toStrictEqual({
-//       hello: "world",
-//     });
-//   });
-// });
-
-// /**
-//  * Clear Data
-//  */
-// describe("Clear Data", () => {
-//   test("should clear the data", () => {
-//     const jqlite = new JQLite();
-//     jqlite.setData(
-//       JSON.stringify({
-//         key: "value",
-//       })
-//     );
-//     jqlite.clearData();
-//     expect(jqlite.data).toEqual("{}");
-//   });
-
-//   test("should clear the data if not set", () => {
-//     const jqlite = new JQLite();
-//     jqlite.clearData();
-//     expect(jqlite.data).toEqual("{}");
-//   });
-// });
+    // No URL provided
+    await expect(async () => {
+      await data.fetch();
+    }).rejects.toThrowError();
+  });
+});

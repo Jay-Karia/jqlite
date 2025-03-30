@@ -21,8 +21,8 @@
     "lint:src": "npx eslint src",
     "format": "npx prettier . --write",
     "format:src": "npx prettier src --write",
-    "test:src": "vitest",
-    "coverage:src": "vitest run --coverage",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "play": "nodemon -e ts -w . -x tsx playground.ts"
   },
   "keywords": [
@@ -39,7 +39,7 @@
     "@types/node": "^22.13.1",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
-    "@vitest/coverage-v8": "3.0.5",
+    "@vitest/coverage-v8": "^3.0.9",
     "esbuild": "^0.25.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
@@ -55,7 +55,7 @@
     "typescript-eslint": "^8.23.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitepress": "^1.6.3",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.8"
   },
   "dependencies": {
     "@jqlite/core": "link:",

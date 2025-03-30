@@ -7,5 +7,6 @@ export default defineConfig({
     coverage: {
       exclude: [...coverageConfigDefaults.exclude, "**/scripts/**"],
     },
+    testTimeout: 10000
   },
 });
