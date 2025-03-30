@@ -75,7 +75,7 @@ export class ConfigManager {
    * @throws {ConfigError} If the config file is not found
    * @throws {ConfigError} If the config file is not valid
    */
-  public use(configFilePath: string): ConfigType {
+  public load(configFilePath: string): ConfigType {
     // Check if the config file exists
     const isFile = existsSync(configFilePath);
     if (!isFile)

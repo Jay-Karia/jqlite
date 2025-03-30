@@ -3,12 +3,12 @@ import { data } from "../src/index";
 import { unlinkSync, writeFileSync } from "fs";
 
 describe("DataManager", () => {
-  test("get", () => {
+  test("get()", () => {
     // Initialize
     expect(data.get()).toBeNull();
   });
 
-  test("set", () => {
+  test("set()", () => {
     // Valid JSON Data
     const newData = {
       name: "test",
@@ -25,7 +25,7 @@ describe("DataManager", () => {
     }).toThrowError();
   });
 
-  test("clear", () => {
+  test("clear()", () => {
     // Initialize
     const newData = {
       name: "test",
@@ -39,7 +39,7 @@ describe("DataManager", () => {
     expect(data.get()).toBeNull();
   });
 
-  test("print", () => {
+  test("print()", () => {
     // Initialize
     const newData = {
       name: "test",
@@ -59,7 +59,7 @@ describe("DataManager", () => {
   });
 
   // Problems in formatting
-  test("load", () => {
+  test("load()", () => {
     const fileData = JSON.stringify({
       name: "test",
       age: 30,
@@ -77,7 +77,7 @@ describe("DataManager", () => {
     unlinkSync(filePath);
   });
 
-  test("fetch", async () => {
+  test("fetch()", async () => {
     // Mock fetch
     const url = "https://jsonplaceholder.typicode.com/posts/1";
     const response = await data.fetch(url);
