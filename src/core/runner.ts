@@ -1,6 +1,21 @@
-import { lexer } from "parser/lexer";
-import type { Token } from "parser/tokens";
+/**
+ * @fileoverview The query runner for jqlite.
+ * @author Jay-Karia
+ */
 
+"use strict";
+
+//======================================IMPORTS====================================
+
+import type { Token } from "parser/tokens";
+import { lexer } from "parser/lexer";
+
+//=================================================================================
+
+/**
+ * Query runner class
+ * @description This class is responsible for running the query.
+ */
 export class QueryRunner {
   /**
    * Runs the query
@@ -14,6 +29,8 @@ export class QueryRunner {
    */
   public run(query: string): void {
     const tokens: Token[] = lexer.tokenize(query);
+
+    console.log(tokens);
   }
 }
 

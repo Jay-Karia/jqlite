@@ -28,6 +28,7 @@ export class Lexer {
   private input: string;
   private position: number;
   private character: string;
+  private isEOQ: boolean;
 
   /**
    * Lexer constructor
@@ -36,6 +37,7 @@ export class Lexer {
     this.input = "";
     this.position = 0;
     this.character = "";
+    this.isEOQ = false;
   }
 
   /**
@@ -60,12 +62,14 @@ export class Lexer {
       this.position++;
     }
 
-    tokens.push({
-      type: TokenType.EOQ,
-      value: "",
-      position: this.position,
-      length: 0,
-    });
+    if (!this.isEOQ) {
+      tokens.push({
+        type: TokenType.EOQ,
+        value: "",
+        position: this.position,
+        length: 0,
+      });
+    }
 
     return tokens;
   }
@@ -117,6 +121,7 @@ export class Lexer {
 
     // Check for end of query.
     if (!hasNextToken(this.input, this.position)) {
+      this.isEOQ = true;
       return {
         type: TokenType.EOQ,
         value: "",
@@ -148,8 +153,6 @@ export class Lexer {
     };
     return token;
   }
-
-  // skipWhitespace -> skip whitespace characters
 }
 
 export const lexer = new Lexer();
