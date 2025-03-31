@@ -11,16 +11,18 @@ import type { ASTNode } from "./types";
 
 //========================================NODES======================================
 
-interface RootNode extends ASTNode {
+export interface RootNode extends ASTNode {
   type: "Root";
 }
 
-interface PropertyNode extends ASTNode {
+export interface PropertyNode extends ASTNode {
   type: "Property";
+  propertyName: string;
 }
 
-interface ArrayAccessNode extends ASTNode {
+export interface ArrayAccessNode extends ASTNode {
   type: "ArrayAccess";
+  index: number;
 }
 
 //===================================================================================
