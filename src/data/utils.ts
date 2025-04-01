@@ -20,7 +20,7 @@ import { ERROR_MESSAGES } from "errors/messages";
  */
 export function parseJson(data: string): object | null {
   try {
-    return JSON.parse(data);
+    return JSON.parse(data) as object;
   } catch {
     throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON, {
       jsonData: `${data.substring(0, 20)}...`,

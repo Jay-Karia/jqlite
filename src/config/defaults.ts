@@ -9,13 +9,12 @@
 
 import type { ConfigType } from "./types";
 
-//=================================================================================
+//=====================================DEFAULTS====================================
 
-/* The default config file name */
 export const DEFAULT_CONFIG_FILE_NAME = "jqlite.json";
-
-/* The default config values */
 export const DEFAULT_CONFIG: ConfigType = {
   loadFile: null,
   fetchUrl: null,
 };
+
+//=================================================================================

@@ -7,19 +7,18 @@ import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
   pluginJs.configs.recommended,
-  tseslint.configs.recommended,
   eslintConfigPrettier,
+  tseslint.configs.recommended,
 
   { languageOptions: { globals: globals.node } },
   {
     files: ["**/*.ts"],
-    ignores: ["**/*.js", "**/*.json", "**/*.md", "playground.ts", "tests/**/*.ts", "vitest.config.ts"],
+    ignores: ["**/*.js", "**/*.json", "**/*.md", "playground.ts"],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
-        project: "./tsconfig.json",
-        tsconfigRootDir: "./",
-        sourceType: "module",
+        tsconfigRootDir: import.meta.dirname,
+        projectService: true,
       },
     },
     plugins: {
