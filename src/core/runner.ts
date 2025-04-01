@@ -9,6 +9,7 @@
 
 import type { Token } from "../parser/tokens";
 import { lexer } from "../parser/lexer";
+import { ast } from "../ast/ast";
 
 //=================================================================================
 
