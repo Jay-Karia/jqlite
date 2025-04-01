@@ -115,4 +115,13 @@ export const ERROR_MESSAGES = {
       solution: "Make sure the config file has valid keys",
     } as ErrorParams,
   },
+  //====================================AST==========================================
+  AST: {
+    EMPTY_AST: {
+      message: "Empty AST",
+      code: "EMPTY_AST",
+      cause: "The AST is empty",
+      solution: "Create the root node first",
+    } as ErrorParams,
+  }
 };

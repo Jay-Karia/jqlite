@@ -5,10 +5,12 @@
 
 "use strict";
 
+import { ParserError } from "src/errors/factory";
 //======================================IMPORTS====================================
 
 import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
+import { ERROR_MESSAGES } from "src/errors/messages";
 
 //=================================================================================
 
@@ -26,13 +28,7 @@ export class AST {
     this.root = null;
   }
 
-  /**
-   * Checks whether the root node is empty.
-   * @returns {boolean} - Returns true if the root node is empty, false otherwise.
-   */
-  public isEmpty(): boolean {
-    return this.root === null;
-  }
+  //======================================NODES====================================
 
   /**
    * Create a root node.
@@ -62,6 +58,12 @@ export class AST {
     child?: ASTNode | null,
     parent?: ASTNode | null
   ): PropertyNode {
+    // Check if the root node is empty
+    if (this.isEmpty())
+      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+        rootNode: this.root,
+      });
+
     const propertyNode: PropertyNode = {
       type: "Property",
       child: child,
@@ -69,8 +71,7 @@ export class AST {
       parent: parent,
     };
 
-    if (parent)
-      parent.child = propertyNode;
+    if (parent) parent.child = propertyNode;
 
     return propertyNode;
   }
@@ -87,6 +88,12 @@ export class AST {
     child?: ASTNode | null,
     parent?: ASTNode | null
   ): ArrayAccessNode {
+    // Check if the root node is empty
+    if (this.isEmpty())
+      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+        rootNode: this.root,
+      });
+
     const arrayAccessNode: ArrayAccessNode = {
       type: "ArrayAccess",
       child: child,
@@ -94,10 +101,19 @@ export class AST {
       parent: parent,
     };
 
-    if (parent)
-      parent.child = arrayAccessNode;
+    if (parent) parent.child = arrayAccessNode;
 
     return arrayAccessNode;
+  }
+
+  //=================================================================================
+
+  /**
+   * Checks whether the root node is empty.
+   * @returns {boolean} - Returns true if the root node is empty, false otherwise.
+   */
+  public isEmpty(): boolean {
+    return this.root === null;
   }
 
   /**
