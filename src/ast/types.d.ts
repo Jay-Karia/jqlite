@@ -11,9 +11,10 @@ export type NodeType = "Root" | "Property" | "ArrayAccess";
 
 export interface ASTNode {
   type: NodeType;
-  children: ASTNode[];
   parent?: ASTNode;
-  value?: string | number;
+  left?: ASTNode;
+  right?: ASTNode;
+  child?: ASTNode;
 }
 
 //=================================================================================
