@@ -16,7 +16,7 @@ import type { RootNode } from "./nodes";
  * @description This class is responsible for creating the AST nodes.
  */
 export class AST {
-  public readonly root: RootNode | null;
+  public root: RootNode | null;
 
   /**
    * Creates an instance of the AST class with a root node.

@@ -7,6 +7,7 @@ export default defineConfig({
     coverage: {
       exclude: [...coverageConfigDefaults.exclude, "**/scripts/**", "playground.ts", "testing-jqlite/index.js", "src/parser/**", "src/core/**"],
     },
-    testTimeout: 10000
+    testTimeout: 10000,
+    // ui: true,
   },
 });

@@ -9,8 +9,8 @@
 
 import { readFileSync } from "fs";
 import { parseJson, trimData } from "./utils";
-import { DataError } from "errors/factory";
-import { ERROR_MESSAGES } from "errors/messages";
+import { DataError } from "../errors/factory";
+import { ERROR_MESSAGES } from "../errors/messages";
 
 //=================================================================================
 

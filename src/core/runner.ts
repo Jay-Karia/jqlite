@@ -7,8 +7,8 @@
 
 //======================================IMPORTS====================================
 
-import type { Token } from "parser/tokens";
-import { lexer } from "parser/lexer";
+import type { Token } from "../parser/tokens";
+import { lexer } from "../parser/lexer";
 
 //=================================================================================
 

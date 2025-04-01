@@ -10,8 +10,9 @@
     "baseUrl": "./",
     "emitDeclarationOnly": true,
     "declaration": true,
-    "module": "ES2022"
+    "module": "ES2022",
   },
-  "include": ["./src/**/*.ts"],
+  // "include": ["./src/**/*.ts", "./tests/**/*.ts"],
+  "include": ["src"],
   "exclude": ["./dist/**/*", "eslint.config.mjs"]
 }

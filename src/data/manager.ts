@@ -8,10 +8,10 @@
 import { existsSync } from "fs";
 import { loadFromFile, loadFromUrl } from "./loader";
 import { dataStore } from "./store";
-import { configStore } from "config/store";
+import { configStore } from "../config/store";
 import { getDefaultLoadFile, isValidUrl, parseJson } from "./utils";
-import { DataError } from "errors/factory";
-import { ERROR_MESSAGES } from "errors/messages";
+import { DataError } from "../errors/factory";
+import { ERROR_MESSAGES } from "../errors/messages";
 
 //=================================================================================
 

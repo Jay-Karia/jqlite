@@ -9,8 +9,8 @@
 
 import type { ConfigType } from "./types";
 import { existsSync, readFileSync } from "fs";
-import { ConfigError } from "errors/factory";
-import { ERROR_MESSAGES } from "errors/messages";
+import { ConfigError } from "../errors/factory";
+import { ERROR_MESSAGES } from "../errors/messages";
 import { DEFAULT_CONFIG, DEFAULT_CONFIG_FILE_NAME } from "./defaults";
 import { validateConfig } from "./utils";
 

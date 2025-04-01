@@ -11,8 +11,8 @@ import type { ConfigType, OverrideConfigType } from "./types";
 import { existsSync } from "fs";
 import { loadConfigFile } from "./loader";
 import { configStore } from "./store";
-import { ConfigError } from "errors/factory";
-import { ERROR_MESSAGES } from "errors/messages";
+import { ConfigError } from "../errors/factory";
+import { ERROR_MESSAGES } from "../errors/messages";
 
 //=================================================================================
 

@@ -8,9 +8,9 @@
 //======================================IMPORTS====================================
 
 import type { ConfigType } from "./types";
-import { ConfigError } from "errors/factory";
+import { ConfigError } from "src/errors/factory";
 import { loadDefaultConfig } from "./loader";
-import { ERROR_MESSAGES } from "errors/messages";
+import { ERROR_MESSAGES } from "../errors/messages";
 
 //=================================================================================
 

@@ -119,7 +119,7 @@ describe("DataManager", () => {
     // Set the config
     config.set({
       loadFile: loadFile
-    })
+    });
 
     // Load the file
     data.load();
@@ -129,7 +129,7 @@ describe("DataManager", () => {
 
     // Clean up
     unlinkSync(loadFile);
-  })
+  });
 
   test("config.fetchUrl", async () => {
     // Mock fetch
@@ -139,12 +139,12 @@ describe("DataManager", () => {
     // Set the config
     config.set({
       fetchUrl: url
-    })
+    });
 
     // Load the file
     data.fetch();
 
     // Check if data is set in memory
     expect(data.get()).toEqual(response);
-  })
+  });
 });
