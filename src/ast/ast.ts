@@ -114,15 +114,69 @@ export class AST {
 
   //====================================DELETION=====================================
 
-  //=================================================================================
+  //===================================TRAVERSAL=====================================
 
   /**
+   *  Get the nodes in post-order traversal.
+   * @returns {ASTNode[]} - The nodes in post-order traversal.
+   */
+  public postOrder(): ASTNode[] {
+    // Check if the root node is empty
+    if (!this._root) {
+      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+        root: this._root,
+      });
+    }
+
+    const result = new Array<ASTNode>();
+
+    // Traverse the AST in post-order
+    const traverse = (node: ASTNode): void => {
+      if (node.children) {
+        node.children.forEach((child) => traverse(child));
+      }
+      result.push(node);
+    };
+    traverse(this._root);
+
+    return result;
+  }
+
+  /**
+   * Get the nodes in pre-order traversal.
+   * @returns {ASTNode[]} - The nodes in pre-order traversal.
+   */
+  public preOrder(): ASTNode[] {
+    // Check if the root node is empty
+    if (!this._root) {
+      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+        root: this._root,
+      });
+    }
+
+    const result = new Array<ASTNode>();
+
+    // Traverse the AST in pre-order
+    const traverse = (node: ASTNode): void => {
+      result.push(node);
+      if (node.children) {
+        node.children.forEach((child) => traverse(child));
+      }
+    };
+    traverse(this._root);
+
+    return result;
+  }
+
+  //=================================================================================
+
+   /**
    * Add a child node to a parent node.
    * @param {ASTNode} node - The node to which the child will be added.
    * @param {ASTNode} child - The child node to be added.
    * @returns {ASTNode} - The added child node.
    */
-  public addChild(node: ASTNode, child: ASTNode): ASTNode {
+   public addChild(node: ASTNode, child: ASTNode): ASTNode {
     node.children?.push(child);
     child.parent = node;
     return child;
