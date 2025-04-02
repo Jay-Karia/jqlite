@@ -13,7 +13,6 @@ import type { ASTNode } from "./types";
 
 export interface RootNode extends ASTNode {
   type: "Root";
-  parent: null;
 }
 export interface PropertyNode extends ASTNode {
   type: "Property";
