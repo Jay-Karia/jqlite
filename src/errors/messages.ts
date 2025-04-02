@@ -123,5 +123,11 @@ export const ERROR_MESSAGES = {
       cause: "The AST is empty",
       solution: "Create the root node first",
     } as ErrorParams,
+    CHILD_NOT_FOUND: {
+      message: "Child not found",
+      code: "CHILD_NOT_FOUND",
+      cause: "The child node is not present in the parent node",
+      solution: "Make sure the child node is present in the parent node",
+    } as ErrorParams,
   }
 };

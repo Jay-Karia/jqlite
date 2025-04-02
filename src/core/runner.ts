@@ -32,10 +32,9 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
 
     const root = ast.createRootNode();
-    ast.createPropertyNode("friends", null, root);
 
     console.log(tokens);
-    console.log(ast);
+    console.log(root);
   }
 }
 

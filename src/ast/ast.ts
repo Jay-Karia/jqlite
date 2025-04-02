@@ -19,16 +19,16 @@ import { ERROR_MESSAGES } from "src/errors/messages";
  * @description This class is responsible for creating the AST nodes.
  */
 export class AST {
-  public root: RootNode | null;
+  private _root: RootNode | null;
 
   /**
    * Creates an instance of the AST class with a root node.
    */
   constructor() {
-    this.root = null;
+    this._root = null;
   }
 
-  //======================================NODES====================================
+  //====================================INSERTION==================================
 
   /**
    * Create a root node.
@@ -39,10 +39,10 @@ export class AST {
     const rootNode: RootNode = {
       type: "Root",
       parent: null,
-      child: child,
     };
+    if (child) rootNode.children?.push(child);
 
-    this.root = rootNode;
+    this._root = rootNode;
     return rootNode;
   }
 
@@ -58,20 +58,23 @@ export class AST {
     child?: ASTNode | null,
     parent?: ASTNode | null
   ): PropertyNode {
-    // Check if the root node is empty
-    if (this.isEmpty())
+    if (!this._root) {
       throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
-        rootNode: this.root,
+        root: this._root,
       });
+    }
 
     const propertyNode: PropertyNode = {
       type: "Property",
-      child: child,
-      propertyName: propertyName,
-      parent: parent,
+      parent: parent ?? this._root,
+      children: child ? [child] : [],
+      propertyName,
     };
 
-    if (parent) parent.child = propertyNode;
+    // Update the parent
+    if (parent) parent.children?.push(propertyNode);
+    else if (this._root.children) this._root.children.push(propertyNode);
+    else this._root.children = [propertyNode];
 
     return propertyNode;
   }
@@ -89,32 +92,29 @@ export class AST {
     parent?: ASTNode | null
   ): ArrayAccessNode {
     // Check if the root node is empty
-    if (this.isEmpty())
+    if (!this._root)
       throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
-        rootNode: this.root,
+        rootNode: this._root,
       });
 
     const arrayAccessNode: ArrayAccessNode = {
       type: "ArrayAccess",
-      child: child,
       index: index,
-      parent: parent,
+      children: child ? [child] : [],
+      parent: parent ?? this._root,
     };
 
-    if (parent) parent.child = arrayAccessNode;
+    // Update the parent
+    if (parent) parent.children?.push(arrayAccessNode);
+    else if (this._root.children) this._root.children.push(arrayAccessNode);
+    else this._root.children = [arrayAccessNode];
 
     return arrayAccessNode;
   }
 
-  //=================================================================================
+  //====================================DELETION=====================================
 
-  /**
-   * Checks whether the root node is empty.
-   * @returns {boolean} - Returns true if the root node is empty, false otherwise.
-   */
-  public isEmpty(): boolean {
-    return this.root === null;
-  }
+  //=================================================================================
 
   /**
    * Add a child node to a parent node.
@@ -123,16 +123,17 @@ export class AST {
    * @returns {ASTNode} - The added child node.
    */
   public addChild(node: ASTNode, child: ASTNode): ASTNode {
-    node.child = child;
+    node.children?.push(child);
     child.parent = node;
     return child;
   }
 
   /**
-   * Print the full AST.
+   *  Get the root node of the AST.
+   * @returns {RootNode} - Returns the root node of the AST.
    */
-  public print(): void {
-    console.log("AST: ", JSON.stringify(this.root, null, 2));
+  public getRootNode(): RootNode | null {
+    return this._root;
   }
 }
 
