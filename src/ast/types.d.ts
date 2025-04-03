@@ -11,7 +11,7 @@ export type NodeType = "Root" | "Property" | "ArrayAccess";
 
 export interface ASTNode {
   type: NodeType;
-  parent?: ASTNode | null;
+  parent?: ASTNode;
   children?: ASTNode[] | null;
 }
 

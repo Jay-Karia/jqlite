@@ -38,7 +38,7 @@ export class AST {
   public createRootNode(child?: ASTNode | null): RootNode {
     const rootNode: RootNode = {
       type: "Root",
-      parent: null,
+      parent: undefined,
     };
     if (child) rootNode.children?.push(child);
 
@@ -114,6 +114,56 @@ export class AST {
 
   //====================================DELETION=====================================
 
+  /**
+   * Delete the given node along with children.
+   * @param {ASTNode} node - The node to be deleted.
+   * @return {ASTNode} - The deleted node.
+   */
+  public deleteNode(node: ASTNode): ASTNode {
+    const siblings = node.parent?.children;
+
+    // Get the index of node among it's siblings
+    const index = siblings?.indexOf(node);
+    if (index === -1 || index === undefined) return node;
+
+    // Remove node from siblings
+    siblings?.splice(index, 1);
+
+    // Remove children and parent
+    node.children = [];
+    node.parent = undefined;
+
+    return node;
+  }
+
+  /**
+   * Delete the node while preserving the children
+   * @param {ASTNode} node - The node to be deleted.
+   * @returns {ASTNode} The deleted node.
+   */
+  public deleteNodeWithPreserve(node: ASTNode): ASTNode {
+    const parent = node.parent;
+    const children = node.children;
+
+    // Get the index of node among it's siblings
+    let index = -1;
+    if (parent && parent.children) index = parent.children.indexOf(node);
+
+    // Remove node from siblings
+    node.parent?.children?.splice(index, 1);
+
+    // Add the children to siblings
+    if (children) {
+      children.map(child => {
+        node.parent?.children?.push(child);
+        child.parent = undefined;
+      });
+    }
+
+    return this.deleteNode(node);
+
+  }
+
   //===================================TRAVERSAL=====================================
 
   /**
@@ -133,7 +183,7 @@ export class AST {
     // Traverse the AST in post-order
     const traverse = (node: ASTNode): void => {
       if (node.children) {
-        node.children.forEach((child) => traverse(child));
+        node.children.forEach(child => traverse(child));
       }
       result.push(node);
     };
@@ -160,7 +210,7 @@ export class AST {
     const traverse = (node: ASTNode): void => {
       result.push(node);
       if (node.children) {
-        node.children.forEach((child) => traverse(child));
+        node.children.forEach(child => traverse(child));
       }
     };
     traverse(this._root);
@@ -170,17 +220,31 @@ export class AST {
 
   //=================================================================================
 
-   /**
+  /**
    * Add a child node to a parent node.
    * @param {ASTNode} node - The node to which the child will be added.
    * @param {ASTNode} child - The child node to be added.
    * @returns {ASTNode} - The added child node.
    */
-   public addChild(node: ASTNode, child: ASTNode): ASTNode {
-    node.children?.push(child);
+  public addChild(node: ASTNode, child: ASTNode): ASTNode {
+    const originalParent = child.parent;
+
+    // Add child to the node
+    if (node.children) node.children.push(child);
+    else node.children = [child];
+
+    // Update the parent of the child
     child.parent = node;
+
+    // Remove child from the original parent
+    const index = originalParent?.children?.indexOf(child);
+    if (index === -1 || index === undefined) return child;
+    originalParent?.children?.splice(index, 1);
+
     return child;
   }
+
+  // addParent()
 
   /**
    *  Get the root node of the AST.
