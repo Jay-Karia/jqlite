@@ -5,12 +5,12 @@
 
 "use strict";
 
-import { ParserError } from "src/errors/factory";
 //======================================IMPORTS====================================
 
 import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
 import { ERROR_MESSAGES } from "src/errors/messages";
+import { ParserError } from "src/errors/factory";
 
 //=================================================================================
 
