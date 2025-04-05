@@ -9,7 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
-import { expect } from "./helpers";
+import { expect, incrementIndex } from "./helpers";
 import {ParserError} from "src/errors/factory";
 import {ERROR_MESSAGES} from "src/errors/messages";
 
@@ -36,7 +36,7 @@ export class Parser {
 
       if (token.type === TokenType.DOT) {
         // Expect the next token to be a property
-        expect(tokens, index, TokenType.PROPERTY);
+        expect(tokens, index + 1, TokenType.PROPERTY);
 
         // Get the property token
         const propertyToken = tokens[index + 1];
@@ -45,13 +45,13 @@ export class Parser {
         ast.createPropertyNode(propertyToken.value);
 
         // Update the index
-        index = index + 2;
+        index += incrementIndex(TokenType.PROPERTY);
       }
 
 
       if (token.type === TokenType.PROPERTY) {
         // Expect the previous token to be a dot
-        expect(tokens, index - 2, TokenType.DOT);
+        expect(tokens, index - 1, TokenType.DOT);
 
         // Check if the previous node is property node
         const previousNode = ast.getRecentNode();
@@ -64,13 +64,13 @@ export class Parser {
 
       if (token.type === TokenType.LEFT_BRACKET) {
         // Expect the next token to be a number
-        expect(tokens, index, TokenType.NUMBER);
+        expect(tokens, index + 1, TokenType.NUMBER);
 
-        // Expect the next token to be a right bracket
-        expect(tokens, index + 1, TokenType.RIGHT_BRACKET);
+        // Expect the second next token to be a right bracket
+        expect(tokens, index + 2, TokenType.RIGHT_BRACKET);
 
         // Expect the previous token to be a property
-        expect(tokens, index - 2, TokenType.PROPERTY);
+        expect(tokens, index - 1, TokenType.PROPERTY);
 
         // Get the number token
         const numberToken = tokens[index + 1];
@@ -90,7 +90,7 @@ export class Parser {
         ast.createArrayAccessNode(Number(numberToken.value), null, previousNode);
 
         // Update the index
-        index++;
+        index += incrementIndex(TokenType.LEFT_BRACKET);
       }
 
       //===================================================================================
