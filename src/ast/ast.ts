@@ -244,7 +244,27 @@ export class AST {
     return child;
   }
 
-  // addParent()
+  /**
+   * Add a parent node to a child node.
+   * @param {ASTNode} node - The node to which the parent will be added.
+   * @param {ASTNode} parent - The parent node to be added.
+   * @returns {ASTNode} - The added parent node.
+   */
+  public addParent(node: ASTNode, parent: ASTNode): ASTNode {
+    // Update the siblings
+    const index = node.parent?.children?.indexOf(node);
+    if (index === -1 || index === undefined) return node;
+    node.parent?.children?.splice(index, 1);
+
+    // Add parent to the node
+    if (parent.children) parent.children.push(node);
+    else parent.children = [node];
+
+    // Update the parent of the node
+    node.parent = parent;
+
+    return node;
+  }
 
   /**
    *  Get the root node of the AST.
