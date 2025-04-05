@@ -26,7 +26,8 @@ export class Parser {
    */
   public parse(tokens: Token[]): void {
     // Iterating over tokens
-    tokens.forEach((token, index) => {
+    for (let index = 0; index < tokens.length; index++) {
+      const token = tokens[index];
 
       //=======================================ROOT========================================
 
@@ -34,7 +35,7 @@ export class Parser {
 
       //=====================================PROPERTY=====================================
 
-      if (token.type === TokenType.DOT) {
+      else if (token.type === TokenType.DOT) {
         // Expect the next token to be a property
         expect(tokens, index + 1, TokenType.PROPERTY);
 
@@ -45,11 +46,11 @@ export class Parser {
         ast.createPropertyNode(propertyToken.value);
 
         // Update the index
-        index += incrementIndex(TokenType.PROPERTY);
+        index += incrementIndex(TokenType.DOT);
       }
 
 
-      if (token.type === TokenType.PROPERTY) {
+      else if (token.type === TokenType.PROPERTY) {
         // Expect the previous token to be a dot
         expect(tokens, index - 1, TokenType.DOT);
 
@@ -62,7 +63,7 @@ export class Parser {
 
       //===================================ARRAY ACCESS===================================
 
-      if (token.type === TokenType.LEFT_BRACKET) {
+      else if (token.type === TokenType.LEFT_BRACKET) {
         // Expect the next token to be a number
         expect(tokens, index + 1, TokenType.NUMBER);
 
@@ -93,9 +94,59 @@ export class Parser {
         index += incrementIndex(TokenType.LEFT_BRACKET);
       }
 
+      else if (token.type === TokenType.NUMBER) {
+        // Expect the previous token to be a left bracket
+        expect(tokens, index - 1, TokenType.LEFT_BRACKET);
+
+        // Expect the next token to be right bracket
+        expect(tokens, index + 1, TokenType.RIGHT_BRACKET);
+
+        // Check if the previous node is property node
+        const previousNode = ast.getRecentNode();
+        if (!previousNode || previousNode.type !== "Property") {
+          throw new ParserError(ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED, {
+            previousNode,
+            currentNode: token,
+            expectedNode: "Property",
+            index: index + 1,
+          });
+        }
+
+        // Add the token to the AST with parent as the last property node;
+        ast.createArrayAccessNode(Number(token.value), null, previousNode);
+
+        // Update the index
+        index += incrementIndex(TokenType.NUMBER);
+      }
+
+      else if (token.type === TokenType.RIGHT_BRACKET) {
+        // Expect the previous token to be a number
+        expect(tokens, index - 1, TokenType.NUMBER);
+
+        // Expect the second previous token to be a left bracket
+        expect(tokens, index - 2, TokenType.LEFT_BRACKET);
+
+        // Check if the previous node is property node
+        const previousNode = ast.getRecentNode();
+        if (!previousNode || previousNode.type !== "Property") {
+          throw new ParserError(ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED, {
+            previousNode,
+            currentNode: token,
+            expectedNode: "Property",
+            index: index + 1,
+          });
+        }
+
+        // Add the token to the AST with parent as the last property node;
+        ast.createArrayAccessNode(Number(token.value), null, previousNode);
+
+        // Update the index
+        index += incrementIndex(TokenType.RIGHT_BRACKET);
+      }
+
       //===================================================================================
 
-    });
+    };
   }
 }
 

@@ -49,13 +49,16 @@ export function incrementIndex(token: string): number {
   let index = 0;
 
   switch (token) {
-    case "DOT":
-      index = 2;
+    case "Dot":
+      index = 1;
       break;
-    case "LEFT_BRACKET":
+    case "LeftBracket":
       index = 3;
       break;
-    case "ARRAY_ACCESS":
+    case "Number":
+      index = 2;
+      break;
+    case "RightBracket":
       index = 1;
       break;
     default:
