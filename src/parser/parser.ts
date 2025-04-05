@@ -133,9 +133,6 @@ export class Parser {
 
         // Add the token to the AST with parent as the last property node;
         ast.createArrayAccessNode(Number(token.value), null, previousNode);
-
-        // Update the index
-        index += incrementIndex(TokenType.RIGHT_BRACKET);
       }
 
       //===================================================================================

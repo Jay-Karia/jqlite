@@ -36,8 +36,7 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
-    // console.log(ast.postOrder());
-    console.log(ast.toJSON());
+    console.log(ast.preOrder());
   }
 }
 

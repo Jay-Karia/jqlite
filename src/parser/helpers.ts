@@ -53,13 +53,10 @@ export function incrementIndex(token: string): number {
       index = 1;
       break;
     case "LeftBracket":
-      index = 3;
+      index = 2;
       break;
     case "Number":
       index = 2;
-      break;
-    case "RightBracket":
-      index = 1;
       break;
     default:
       index = 0;
