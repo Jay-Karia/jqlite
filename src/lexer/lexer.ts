@@ -144,6 +144,23 @@ export class Lexer {
     this.position++;
   }
 
+  /**
+   * Checks the token against the given types
+   * @param {Token} token - The token to be checked
+   * @param {string[]} types - The types to be checked against
+   * @returns {boolean} True if the token is of the given type, false otherwise
+   */
+  public match(token: Token, types: string[]): boolean {
+    let valid = false;
+
+    // Check if the token is of the given type
+    types.forEach(type => {
+      if (token.type === type) valid = true;
+    });
+
+    return valid;
+  }
+
   //=================================================================================
 }
 

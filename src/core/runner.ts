@@ -10,6 +10,7 @@
 import type { Token } from "../lexer/tokens";
 import { lexer } from "../lexer/lexer";
 import { ast } from "../ast/ast";
+import {parser} from "src/parser/parser";
 
 //=================================================================================
 
@@ -30,23 +31,9 @@ export class QueryRunner {
    */
   public run(query: string): void {
     const tokens: Token[] = lexer.tokenize(query);
+    parser.parse(tokens);
 
-    const root = ast.createRootNode();
-
-    const access = ast.createArrayAccessNode(0);
-    const access2 = ast.createArrayAccessNode(1);
-    const property = ast.createPropertyNode("name");
-
-
-    ast.addChild(property, access);
-    ast.addChild(property, access2);
-
-    ast.deleteNode(access);
-    ast.addParent(access2, root);
-
-    console.log(tokens);
-    // console.log(ast.postOrder());
-    console.log(ast.toJSON());
+    console.log(ast.postOrder());
   }
 }
 
