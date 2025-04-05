@@ -45,7 +45,8 @@ export class QueryRunner {
     ast.addParent(access2, root);
 
     console.log(tokens);
-    console.log(ast.postOrder());
+    // console.log(ast.postOrder());
+    console.log(ast.toJSON());
   }
 }
 

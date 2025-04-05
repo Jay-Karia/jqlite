@@ -215,6 +215,33 @@ export class AST {
     return result;
   }
 
+  /**
+   * Convert the AST to JSON format.
+   * @returns {string} - The AST in JSON format.
+   */
+  public toJSON(): string {
+    // Check if the root node is empty
+    if (!this._root) {
+      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+        root: this._root,
+      });
+    }
+
+    // Convert the AST to JSON
+    const traverse = (node: ASTNode): any => {
+      const obj: any = {
+        type: node.type,
+      };
+
+      if (node.children && node.children.length > 0) {
+        obj.children = node.children.map(child => traverse(child));
+      }
+
+      return obj;
+    };
+    return JSON.stringify(traverse(this._root), null, 2);
+  }
+
   //=================================================================================
 
   /**

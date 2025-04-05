@@ -40,6 +40,8 @@ export class Lexer {
     this.isEoq = false;
   }
 
+  //====================================TOKENIZATION==================================
+
   /**
    * Tokenizes the input string
    * @param {string} input The input string to tokenize
