@@ -7,8 +7,8 @@
 
 //======================================IMPORTS====================================
 
-import type { Token } from "../parser/tokens";
-import { lexer } from "../parser/lexer";
+import type { Token } from "../lexer/tokens";
+import { lexer } from "../lexer/lexer";
 import { ast } from "../ast/ast";
 
 //=================================================================================
@@ -32,7 +32,7 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
 
     const root = ast.createRootNode();
-    
+
     const access = ast.createArrayAccessNode(0);
     const access2 = ast.createArrayAccessNode(1);
     const property = ast.createPropertyNode("name");
