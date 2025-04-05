@@ -30,6 +30,9 @@ export class QueryRunner {
    * ```
    */
   public run(query: string): void {
+    // Remove leading and trailing white spaces
+    query = query.trim();
+
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 

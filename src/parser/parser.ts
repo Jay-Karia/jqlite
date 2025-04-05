@@ -69,6 +69,9 @@ export class Parser {
         // Expect the next token to be a right bracket
         expect(tokens, index + 1, TokenType.RIGHT_BRACKET);
 
+        // Expect the previous token to be a property
+        expect(tokens, index - 2, TokenType.PROPERTY);
+
         // Get the number token
         const numberToken = tokens[index + 1];
 

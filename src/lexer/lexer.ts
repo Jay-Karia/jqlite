@@ -9,7 +9,6 @@
 
 import type { Token } from "./tokens";
 import {
-  countSkippable,
   getEoqToken,
   getTokenType,
   hasNextToken,
@@ -79,10 +78,6 @@ export class Lexer {
    * @returns {Token} The token of the current character
    */
   public getToken(): Token {
-    // Skip characters
-    this.position += countSkippable(this.input, this.position);
-    this.character = this.input[this.position];
-
     // Check for end of query.
     if (!hasNextToken(this.input, this.position)) {
       this.isEoq = true;
