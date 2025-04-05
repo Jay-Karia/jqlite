@@ -142,5 +142,5 @@ export const ERROR_MESSAGES = {
       solution:
         "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
-  }
+  },
 };

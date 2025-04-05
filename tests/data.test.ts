@@ -118,7 +118,7 @@ describe("DataManager", () => {
 
     // Set the config
     config.set({
-      loadFile: loadFile
+      loadFile: loadFile,
     });
 
     // Load the file
@@ -138,7 +138,7 @@ describe("DataManager", () => {
 
     // Set the config
     config.set({
-      fetchUrl: url
+      fetchUrl: url,
     });
 
     // Load the file

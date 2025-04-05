@@ -5,7 +5,12 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
     coverage: {
-      exclude: [...coverageConfigDefaults.exclude, "**/scripts/**", "playground.ts", "testing-jqlite/index.js"],
+      exclude: [
+        ...coverageConfigDefaults.exclude,
+        "**/scripts/**",
+        "playground.ts",
+        "testing-jqlite/index.js",
+      ],
     },
     testTimeout: 10000,
   },

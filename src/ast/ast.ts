@@ -11,7 +11,7 @@ import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ParserError } from "src/errors/factory";
-import {updateParent} from "./helpers";
+import { updateParent } from "./helpers";
 
 //=================================================================================
 
@@ -168,7 +168,6 @@ export class AST {
     }
 
     return this.deleteNode(node);
-
   }
 
   //===================================TRAVERSAL=====================================

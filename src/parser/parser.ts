@@ -10,8 +10,8 @@
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
 import { expect, incrementIndex } from "./helpers";
-import {ParserError} from "src/errors/factory";
-import {ERROR_MESSAGES} from "src/errors/messages";
+import { ParserError } from "src/errors/factory";
+import { ERROR_MESSAGES } from "src/errors/messages";
 
 //=================================================================================
 
@@ -32,9 +32,7 @@ export class Parser {
       //=======================================ROOT========================================
 
       if (token.type === TokenType.ROOT) ast.createRootNode();
-
       //=====================================PROPERTY=====================================
-
       else if (token.type === TokenType.DOT) {
         // Expect the next token to be a property
         expect(tokens, index + 1, TokenType.PROPERTY);
@@ -47,10 +45,7 @@ export class Parser {
 
         // Update the index
         index += incrementIndex(TokenType.DOT);
-      }
-
-
-      else if (token.type === TokenType.PROPERTY) {
+      } else if (token.type === TokenType.PROPERTY) {
         // Expect the previous token to be a dot
         expect(tokens, index - 1, TokenType.DOT);
 
@@ -62,7 +57,6 @@ export class Parser {
       }
 
       //===================================ARRAY ACCESS===================================
-
       else if (token.type === TokenType.LEFT_BRACKET) {
         // Expect the next token to be a number
         expect(tokens, index + 1, TokenType.NUMBER);
@@ -88,13 +82,15 @@ export class Parser {
         }
 
         // Add the token to the AST with parent as the last property node;
-        ast.createArrayAccessNode(Number(numberToken.value), null, previousNode);
+        ast.createArrayAccessNode(
+          Number(numberToken.value),
+          null,
+          previousNode
+        );
 
         // Update the index
         index += incrementIndex(TokenType.LEFT_BRACKET);
-      }
-
-      else if (token.type === TokenType.NUMBER) {
+      } else if (token.type === TokenType.NUMBER) {
         // Expect the previous token to be a left bracket
         expect(tokens, index - 1, TokenType.LEFT_BRACKET);
 
@@ -117,9 +113,7 @@ export class Parser {
 
         // Update the index
         index += incrementIndex(TokenType.NUMBER);
-      }
-
-      else if (token.type === TokenType.RIGHT_BRACKET) {
+      } else if (token.type === TokenType.RIGHT_BRACKET) {
         // Expect the previous token to be a number
         expect(tokens, index - 1, TokenType.NUMBER);
 
@@ -145,8 +139,7 @@ export class Parser {
       }
 
       //===================================================================================
-
-    };
+    }
   }
 }
 

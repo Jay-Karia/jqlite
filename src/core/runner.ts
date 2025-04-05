@@ -10,7 +10,7 @@
 import type { Token } from "../lexer/tokens";
 import { lexer } from "../lexer/lexer";
 import { ast } from "../ast/ast";
-import {parser} from "src/parser/parser";
+import { parser } from "src/parser/parser";
 
 //=================================================================================
 
