@@ -11,7 +11,7 @@ import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ParserError } from "src/errors/factory";
-import {updateParent} from "./helper";
+import {updateParent} from "./helpers";
 
 //=================================================================================
 
@@ -21,12 +21,14 @@ import {updateParent} from "./helper";
  */
 export class AST {
   private _root: RootNode | null;
+  private _recentNode: ASTNode | null;
 
   /**
    * Creates an instance of the AST class with a root node.
    */
   constructor() {
     this._root = null;
+    this._recentNode = null;
   }
 
   //====================================INSERTION==================================
@@ -44,6 +46,8 @@ export class AST {
     if (child) rootNode.children?.push(child);
 
     this._root = rootNode;
+    this._recentNode = rootNode;
+
     return rootNode;
   }
 
@@ -60,7 +64,7 @@ export class AST {
     parent?: ASTNode | null
   ): PropertyNode {
     if (!this._root) {
-      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
         root: this._root,
       });
     }
@@ -74,6 +78,9 @@ export class AST {
 
     // Update the parent
     updateParent(propertyNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = propertyNode;
 
     return propertyNode;
   }
@@ -92,7 +99,7 @@ export class AST {
   ): ArrayAccessNode {
     // Check if the root node is empty
     if (!this._root)
-      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
         rootNode: this._root,
       });
 
@@ -105,6 +112,9 @@ export class AST {
 
     // Update the parent
     updateParent(arrayAccessNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = arrayAccessNode;
 
     return arrayAccessNode;
   }
@@ -170,7 +180,7 @@ export class AST {
   public postOrder(): ASTNode[] {
     // Check if the root node is empty
     if (!this._root) {
-      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
         root: this._root,
       });
     }
@@ -196,7 +206,7 @@ export class AST {
   public preOrder(): ASTNode[] {
     // Check if the root node is empty
     if (!this._root) {
-      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
         root: this._root,
       });
     }
@@ -222,7 +232,7 @@ export class AST {
   public toJSON(): string {
     // Check if the root node is empty
     if (!this._root) {
-      throw new ParserError(ERROR_MESSAGES.AST.EMPTY_AST, {
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
         root: this._root,
       });
     }
@@ -296,6 +306,14 @@ export class AST {
    */
   public getRootNode(): RootNode | null {
     return this._root;
+  }
+
+  /**
+   * Get the most recent node created.
+   * @returns {ASTNode | null} - Returns the most recent node created.
+   */
+  public getRecentNode(): ASTNode | null {
+    return this._recentNode;
   }
 }
 

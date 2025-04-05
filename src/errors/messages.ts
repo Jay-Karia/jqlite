@@ -115,19 +115,32 @@ export const ERROR_MESSAGES = {
       solution: "Make sure the config file has valid keys",
     } as ErrorParams,
   },
-  //====================================AST==========================================
-  AST: {
-    EMPTY_AST: {
-      message: "Empty AST",
-      code: "EMPTY_AST",
+  //===================================PARSER========================================
+  PARSER: {
+    ROOT_REQUIRED: {
+      message: "Root selector required",
+      code: "ROOT_REQUIRED",
       cause: "The AST is empty",
-      solution: "Create the root node first",
+      solution: "Add the '$' character to the query",
     } as ErrorParams,
     CHILD_NOT_FOUND: {
       message: "Child not found",
       code: "CHILD_NOT_FOUND",
       cause: "The child node is not present in the parent node",
       solution: "Make sure the child node is present in the parent node",
+    } as ErrorParams,
+    UNEXPECTED_TOKEN: {
+      message: "Unexpected token",
+      code: "UNEXPECTED_TOKEN",
+      cause: "The token is not valid",
+      solution: "Make sure the token is valid",
+    } as ErrorParams,
+    PROPERTY_NODE_REQUIRED: {
+      message: "Property node required",
+      code: "PROPERTY_NODE_REQUIRED",
+      cause: "The previous node is not a property node",
+      solution:
+        "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
   }
 };
