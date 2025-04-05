@@ -32,7 +32,7 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
 
     const root = ast.createRootNode();
-    // ast.createPropertyNode("friends");
+    
     const access = ast.createArrayAccessNode(0);
     const access2 = ast.createArrayAccessNode(1);
     const property = ast.createPropertyNode("name");
@@ -41,10 +41,10 @@ export class QueryRunner {
     ast.addChild(property, access);
     ast.addChild(property, access2);
 
-    // ast.deleteNode(access);
+    ast.deleteNode(access);
     ast.addParent(access2, root);
 
-    // console.log(tokens);
+    console.log(tokens);
     console.log(ast.postOrder());
   }
 }

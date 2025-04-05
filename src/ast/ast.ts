@@ -11,6 +11,7 @@ import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ParserError } from "src/errors/factory";
+import {updateParent} from "./helper";
 
 //=================================================================================
 
@@ -72,9 +73,7 @@ export class AST {
     };
 
     // Update the parent
-    if (parent) parent.children?.push(propertyNode);
-    else if (this._root.children) this._root.children.push(propertyNode);
-    else this._root.children = [propertyNode];
+    updateParent(propertyNode, this._root, parent);
 
     return propertyNode;
   }
@@ -105,9 +104,7 @@ export class AST {
     };
 
     // Update the parent
-    if (parent) parent.children?.push(arrayAccessNode);
-    else if (this._root.children) this._root.children.push(arrayAccessNode);
-    else this._root.children = [arrayAccessNode];
+    updateParent(arrayAccessNode, this._root, parent);
 
     return arrayAccessNode;
   }
