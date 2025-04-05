@@ -32,7 +32,7 @@ export class Parser {
 
       if (token.type === TokenType.ROOT) ast.createRootNode();
 
-      //=====================================PROPERTY======================================
+      //=====================================PROPERTY=====================================
 
       if (token.type === TokenType.DOT) {
         // Expect the next token to be a property
@@ -45,7 +45,19 @@ export class Parser {
         ast.createPropertyNode(propertyToken.value);
 
         // Update the index
-        index++;
+        index = index + 2;
+      }
+
+
+      if (token.type === TokenType.PROPERTY) {
+        // Expect the previous token to be a dot
+        expect(tokens, index - 2, TokenType.DOT);
+
+        // Check if the previous node is property node
+        const previousNode = ast.getRecentNode();
+
+        // Add the token to the AST with parent as the last property node;
+        ast.createPropertyNode(token.value, null, previousNode);
       }
 
       //===================================ARRAY ACCESS===================================

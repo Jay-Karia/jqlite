@@ -243,6 +243,8 @@ export class AST {
         type: node.type,
       };
 
+      // TODO: Add specific node properties to the object
+
       if (node.children && node.children.length > 0) {
         obj.children = node.children.map(child => traverse(child));
       }
