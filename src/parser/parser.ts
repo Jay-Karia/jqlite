@@ -9,8 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
-import { expect, incrementIndex } from "./helpers";
-import { ParserError } from "src/errors/factory";
+import { checkPreviousNode, expect, incrementIndex } from "./helpers";
 import { ERROR_MESSAGES } from "src/errors/messages";
 
 //=================================================================================
@@ -32,7 +31,9 @@ export class Parser {
       //=======================================ROOT========================================
 
       if (token.type === TokenType.ROOT) ast.createRootNode();
+
       //=====================================PROPERTY=====================================
+
       else if (token.type === TokenType.DOT) {
         // Expect the next token to be a property
         expect(tokens, index + 1, TokenType.PROPERTY);
@@ -57,6 +58,7 @@ export class Parser {
       }
 
       //===================================ARRAY ACCESS===================================
+
       else if (token.type === TokenType.LEFT_BRACKET) {
         // Expect the next token to be a number
         expect(tokens, index + 1, TokenType.NUMBER);
@@ -71,15 +73,7 @@ export class Parser {
         const numberToken = tokens[index + 1];
 
         // Check if the previous node is property node
-        const previousNode = ast.getRecentNode();
-        if (!previousNode || previousNode.type !== "Property") {
-          throw new ParserError(ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED, {
-            previousNode,
-            currentNode: numberToken,
-            expectedNode: "Property",
-            index: index - 1,
-          });
-        }
+        const previousNode = checkPreviousNode(tokens, index, TokenType.PROPERTY, ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED);
 
         // Add the token to the AST with parent as the last property node;
         ast.createArrayAccessNode(
@@ -98,15 +92,7 @@ export class Parser {
         expect(tokens, index + 1, TokenType.RIGHT_BRACKET);
 
         // Check if the previous node is property node
-        const previousNode = ast.getRecentNode();
-        if (!previousNode || previousNode.type !== "Property") {
-          throw new ParserError(ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED, {
-            previousNode,
-            currentNode: token,
-            expectedNode: "Property",
-            index: index - 1,
-          });
-        }
+        const previousNode = checkPreviousNode(tokens, index, TokenType.PROPERTY, ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED);
 
         // Add the token to the AST with parent as the last property node;
         ast.createArrayAccessNode(Number(token.value), null, previousNode);
@@ -121,21 +107,14 @@ export class Parser {
         expect(tokens, index - 2, TokenType.LEFT_BRACKET);
 
         // Check if the previous node is property node
-        const previousNode = ast.getRecentNode();
-        if (!previousNode || previousNode.type !== "Property") {
-          throw new ParserError(ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED, {
-            previousNode,
-            currentNode: token,
-            expectedNode: "Property",
-            index: index - 1,
-          });
-        }
+        const previousNode = checkPreviousNode(tokens, index, TokenType.PROPERTY, ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED);
 
         // Add the token to the AST with parent as the last property node;
         ast.createArrayAccessNode(Number(token.value), null, previousNode);
       }
 
       //===================================================================================
+
     }
   }
 }

@@ -8,8 +8,11 @@
 //======================================IMPORTS====================================
 
 import type { Token } from "src/lexer/tokens";
+import type { ErrorParams } from "src/errors/types";
+import type { ASTNode } from "src/ast/types";
 import { ParserError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
+import { ast } from "src/ast/ast";
 
 //=================================================================================
 
@@ -64,4 +67,31 @@ export function incrementIndex(token: string): number {
   }
 
   return index;
+}
+
+/**
+ * Checks if the previous node is of a certain type
+ * @param {Token[]} tokens - The tokens array
+ * @param {number} index - The current index
+ * @param {string} type - The expected type of the previous node
+ * @param {ErrorParams} error - The error parameters for handling errors
+ * @returns {ASTNode} The previous ASTNode if valid
+ */
+export function checkPreviousNode(
+  tokens: Token[],
+  index: number,
+  type: string,
+  error: ErrorParams
+): ASTNode {
+  const previousNode = ast.getRecentNode();
+  if (!previousNode || previousNode.type !== type) {
+    throw new ParserError(error, {
+      previousNode,
+      currentNode: tokens[index],
+      expectedNode: type,
+      index: index - 1,
+    });
+  }
+
+  return previousNode;
 }
