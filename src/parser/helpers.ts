@@ -23,16 +23,16 @@ import { ERROR_MESSAGES } from "src/errors/messages";
 export function expect(tokens: Token[], index: number, type: string): boolean {
   let valid = false;
 
-  const nextToken = tokens[index];
-  if (nextToken) {
-    if (nextToken.type === type) {
+  const token = tokens[index];
+  if (token) {
+    if (token.type === type) {
       valid = true;
     } else {
       throw new ParserError(ERROR_MESSAGES.PARSER.UNEXPECTED_TOKEN, {
         expected: type,
-        actual: nextToken.type,
-        token: nextToken,
-        index: index + 1,
+        actual: token.type,
+        token,
+        index,
       });
     }
   }

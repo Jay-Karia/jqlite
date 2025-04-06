@@ -77,7 +77,7 @@ export class Parser {
             previousNode,
             currentNode: numberToken,
             expectedNode: "Property",
-            index: index + 1,
+            index: index - 1,
           });
         }
 
@@ -104,7 +104,7 @@ export class Parser {
             previousNode,
             currentNode: token,
             expectedNode: "Property",
-            index: index + 1,
+            index: index - 1,
           });
         }
 
@@ -127,7 +127,7 @@ export class Parser {
             previousNode,
             currentNode: token,
             expectedNode: "Property",
-            index: index + 1,
+            index: index - 1,
           });
         }
 
