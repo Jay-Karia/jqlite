@@ -9,8 +9,8 @@
 
 import type { Token } from "../lexer/tokens";
 import { lexer } from "../lexer/lexer";
-import { ast } from "../ast/ast";
 import { parser } from "src/parser/parser";
+import { evaluator } from "./evaluator";
 
 //=================================================================================
 
@@ -24,19 +24,21 @@ export class QueryRunner {
    * @description Runs the query and returns the result
    * @param {string} query The query to run
    * @return {void}
-   * @example
-   * ```ts
-   * query.run("$.friends[0].name");
-   * ```
    */
   public run(query: string): void {
     // Remove leading and trailing white spaces
     query = query.trim();
 
+    // Parse the tokens
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
-    console.log(ast.preOrder());
+    // Evaluate the query
+    evaluator.evaluate();
+
+    // Get the result
+    const result: unknown = evaluator.getResult();
+    console.log(`Result: ${result}`);
   }
 }
 

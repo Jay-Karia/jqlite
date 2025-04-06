@@ -35,5 +35,6 @@ export function createErrorClass(name: string): typeof BaseError {
 export const DataError = createErrorClass("DataError");
 export const ConfigError = createErrorClass("ConfigError");
 export const ParserError = createErrorClass("ParserError");
+export const EvaluatorError = createErrorClass("EvaluatorError");
 
 //==================================================================================

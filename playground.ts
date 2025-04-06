@@ -2,4 +2,5 @@
 
 import { config, data, query } from "./src/index";
 
-query.run("$.name[0].name");
+data.load("./data/sample.json");
+query.run("$.friends[1].name");

@@ -143,4 +143,19 @@ export const ERROR_MESSAGES = {
         "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
   },
+  //===================================EVALUATOR======================================
+  EVALUATOR: {
+    EMPTY_ROOT_NODE: {
+      message: "Empty root node",
+      code: "EMPTY_ROOT_NODE",
+      cause: "The root node is empty",
+      solution: "Make sure the query is valid and has a root selector: '$'",
+    } as ErrorParams,
+    EMPTY_DATA: {
+      message: "Empty data",
+      code: "EMPTY_DATA",
+      cause: "The data is empty",
+      solution: "Make sure you set the data in memory",
+    } as ErrorParams,
+  },
 };
