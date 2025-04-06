@@ -21,14 +21,13 @@ import { ERROR_MESSAGES } from "../errors/messages";
  * @description This class is used to manage the config object.
  */
 export class ConfigManager {
+
+  //======================================GETTER / SETTER====================================
+
   /**
    * Get the config object
    * @description This method returns the config object from the config store. If the config object is not found, it will return the default config object.
    * @returns {ConfigType} The config object
-   * @example
-   * ```ts
-   * const config = config.get();
-   * ```
    */
   public get(): ConfigType {
     return configStore.get();
@@ -39,41 +38,19 @@ export class ConfigManager {
    * @param {ConfigType} newConfig The new config to override
    * @description This method will override the config object. It will only update the values that are passed in the new config object.
    * @returns {ConfigType} The config object
-   * @example
-   * ```ts
-   * const newConfig = {
-   *   createIfMissing = false,
-   * }
-   * config.set(newConfig);
-   * ```
    */
   public set(newConfig: OverrideConfigType): ConfigType {
     configStore.set(newConfig);
     return configStore.get();
   }
 
-  /**
-   * Clear the config object
-   * @description This method will clear the config object. It will remove all the values from the config object and reset it to the default config object.
-   * @returns The config object
-   */
-  public clear(): ConfigType {
-    configStore.clear();
-    return configStore.get();
-  }
+  //======================================LOADER====================================
 
   /**
    * Load a config file
    * @param {string} configFilePath The path to the config file
    * @description This method will load a config file and override the config object with the values from the config file. It will only update the values that are passed in the config file.
    * @returns {ConfigType} The config object
-   * @example
-   * ```ts
-   * config.use("./config.json");
-   * ```
-   * @throws {ConfigError} If the config file.
-   * @throws {ConfigError} If the config file is not found
-   * @throws {ConfigError} If the config file is not valid
    */
   public load(configFilePath: string): ConfigType {
     // Check if the config file exists
@@ -90,17 +67,31 @@ export class ConfigManager {
     return this.set(config);
   }
 
+
+  //=======================================PRINT======================================
+
   /**
    * Print the config
    * @description This method will print the config object to the console.
-   * @example
-   * ```ts
-   * config.print();
-   * ```
    */
   public print(): void {
     console.log(this.get());
   }
+
+  //=======================================CLEAR======================================
+
+  /**
+   * Clear the config object
+   * @description This method will clear the config object. It will remove all the values from the config object and reset it to the default config object.
+   * @returns {ConfigType} The config object
+   */
+  public clear(): ConfigType {
+    configStore.clear();
+    return configStore.get();
+  }
+
+  //====================================================================================
+
 }
 
 export const config = new ConfigManager();

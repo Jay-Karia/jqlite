@@ -37,7 +37,6 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
   // Array access
   if (node.type === "ArrayAccess" && node.index !== undefined)
     obj["index"] = node.index;
-
   // Property
   else if (node.type === "Property" && node.propertyName)
     obj["propertyName"] = node.propertyName;

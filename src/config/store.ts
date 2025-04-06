@@ -5,26 +5,31 @@
 
 "use strict";
 
-//======================================IMPORTS====================================
+//======================================IMPORTS==========================================
 
 import type { ConfigType, OverrideConfigType } from "./types";
 import { loadDefaultConfig, loadDefaultConfigFile } from "./loader";
 import { overrideConfig } from "./utils";
 
-//=================================================================================
+//========================================================================================
 
 /**
  * Config store class
  * @description This class is used to store the config object
  */
 export class ConfigStore {
+
+  //======================================PROPERTIES=======================================
+
   private _config: ConfigType;
   private readonly _defaultConfig: ConfigType;
+
+  //=====================================CONSTRUCTOR=======================================
 
   /**
    * Initialize the config store
    * @constructor
-   */
+  */
   constructor() {
     this._defaultConfig = loadDefaultConfig();
 
@@ -33,6 +38,8 @@ export class ConfigStore {
     if (!configFile) this._config = this._defaultConfig;
     else this._config = overrideConfig(this._defaultConfig, configFile);
   }
+
+  //======================================GETTER / SETTER====================================
 
   /**
    * Get the config object
@@ -51,12 +58,16 @@ export class ConfigStore {
     this._config = overrideConfig(this._config, newConfig);
   }
 
+  //===========================================CLEAR=============================================
+
   /**
    * Clear the config object
    */
   public clear(): void {
     this._config = loadDefaultConfig();
   }
+
+  //==============================================================================================
 }
 
 export const configStore = new ConfigStore();

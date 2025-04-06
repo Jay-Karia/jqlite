@@ -10,7 +10,12 @@
  * @description This class is used to store the JSON data in memory.
  */
 export class DataStore {
+
+  //==========================================PROPERTIES=====================================
+
   private _memoryData: object | null = null;
+
+  //======================================GETTER / SETTER====================================
 
   /**
    * Set JSON data in memory
@@ -28,12 +33,16 @@ export class DataStore {
     return this._memoryData;
   }
 
+  //===========================================CLEAR==========================================
+
   /**
    * Clear JSON data from memory
    */
   public clear(): void {
     this._memoryData = null;
   }
+
+  //============================================================================================
 
 }
 
