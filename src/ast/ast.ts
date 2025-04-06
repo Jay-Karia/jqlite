@@ -11,7 +11,7 @@ import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ParserError } from "src/errors/factory";
-import { updateParent } from "./helpers";
+import { addSpecificKeys, updateParent } from "./helpers";
 
 //=================================================================================
 
@@ -242,7 +242,8 @@ export class AST {
         type: node.type,
       };
 
-      // TODO: Add specific node properties to the object
+      // Add specific node properties to the object
+      addSpecificKeys(node, obj);
 
       if (node.children && node.children.length > 0) {
         obj.children = node.children.map(child => traverse(child));
