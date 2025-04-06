@@ -7,7 +7,7 @@
 
 //======================================IMPORTS====================================
 
-import type { Token } from "src/lexer/tokens";
+import type { Token, TokenType } from "src/lexer/tokens";
 import type { ErrorParams } from "src/errors/types";
 import type { ASTNode } from "src/ast/types";
 import { ParserError } from "src/errors/factory";
@@ -23,7 +23,7 @@ import { ast } from "src/ast/ast";
  * @param {string} type The type of the token to check
  * @returns {boolean} Whether the token is valid or not
  */
-export function expect(tokens: Token[], index: number, type: string): boolean {
+export function expect(tokens: Token[], index: number, type: TokenType): boolean {
   let valid = false;
 
   const token = tokens[index];
@@ -80,7 +80,7 @@ export function incrementIndex(token: string): number {
 export function checkPreviousNode(
   tokens: Token[],
   index: number,
-  type: string,
+  type: TokenType,
   error: ErrorParams
 ): ASTNode {
   const previousNode = ast.getRecentNode();

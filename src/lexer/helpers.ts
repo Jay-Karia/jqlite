@@ -136,7 +136,7 @@ export function readAlphanumeric(
  * @param {string} char The current character in the input string.
  * @returns {TokenType} The type of the token.
  */
-export function getTokenType(char: string): string {
+export function getTokenType(char: string): TokenType {
   switch (char) {
     case "$":
       return TokenType.ROOT;
