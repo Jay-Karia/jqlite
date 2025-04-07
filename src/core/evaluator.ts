@@ -8,7 +8,6 @@
 //======================================IMPORTS======================================
 
 import type { ASTNode } from "src/ast/types";
-import { dataStore } from "src/data/store";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 
@@ -21,7 +20,7 @@ import { ERROR_MESSAGES } from "src/errors/messages";
 export class Evaluator {
   //===================================PROPERTIES===================================
 
-  private _current: Record<string, unknown> | object | null;
+  private _current: Record<string, unknown> | null;
   private _data: Record<string, unknown> | null;
 
   //===================================CONSTRUCTOR==================================
@@ -97,7 +96,7 @@ export class Evaluator {
     }
 
     // Get the value
-    const value = this._current[propertyName];
+    const value = this._current[propertyName] as Record<string, unknown>;
     if (value === undefined) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
         propertyName,
@@ -106,6 +105,7 @@ export class Evaluator {
       });
     }
 
+    // Update the current value
     this._current = value;
   }
 }
