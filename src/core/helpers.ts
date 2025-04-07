@@ -63,8 +63,8 @@ export function checkValue(
   fallback: string | null,
   errorParam: ErrorParams,
   metadata: object,
-): Record<string, unknown> {
-  if (value === null || value === undefined) {
+): Record<string, unknown> | null {
+  if (value === undefined) {
     // Check for fallback
     if (fallback) return { "__fallback__": fallback };
 

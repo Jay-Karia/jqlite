@@ -107,7 +107,7 @@ export class Evaluator {
     const fallback = context.get("fallback") as string;
 
     // Get the value
-    let value = this._current[propertyName] as Record<string, unknown>;
+    let value = this._current[propertyName] as Record<string, unknown> | null;
 
     // Check if the value is not null or undefined
     value = checkValue(
@@ -152,7 +152,7 @@ export class Evaluator {
     const fallback = context.get("fallback") as string;
 
     // Get the value
-    let value = this._current[index] as Record<string, unknown>;
+    let value = this._current[index] as Record<string, unknown> | null;
 
     // Check if the value is not null or undefined
     value = checkValue(

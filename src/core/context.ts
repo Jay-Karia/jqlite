@@ -5,10 +5,10 @@
 
 "use strict";
 
-import {configStore} from "src/config/store";
 //=======================================IMPORTS===================================
 
 import type { Keys } from "./types";
+import { configStore } from "src/config/store";
 
 //===================================================================================
 
@@ -33,7 +33,10 @@ export class Context {
   public get(key: Keys): unknown {
     if (key === "fallback") {
       // Check if the value is null or undefined
-      if (this._context.fallback === null || this._context.fallback === undefined) {
+      if (
+        this._context.fallback === null ||
+        this._context.fallback === undefined
+      ) {
         return configStore.get().fallback;
       }
 
@@ -43,8 +46,7 @@ export class Context {
       }
 
       return null;
-    }
-    else if (key in this._context) return this._context[key] as string;
+    } else if (key in this._context) return this._context[key] as string;
   }
 
   /**
