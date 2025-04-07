@@ -1,28 +1,38 @@
-**Root Selector**
+- [ ] **Root Selector**
 
 ```
 $ or $.  // Root of the JSON document
 ```
 
-**Object Property Access**
+- [ ] **Object Property Access**
 
 ```javascript
 $.user.name; // Direct property access
 $.user.address.city; // Nested property access
 ```
 
-**Array Access**
+- [ ] **Basic Array Access**
 
 ```javascript
-$.users[0]                // First element
+$.users[0]; // First element
+```
+
+- [ ] **Wildcard Array Access**
+
+```javascript
 $.users[*]                // Wildcard (all elements)
+```
+
+- [ ] **Array Slices**
+
+```javascript
 $.users[1:4]              // Slice from index 1 to 4
 $.users[1:]               // From index 1 to end
 $.users[:3]               // From start to index 3
 $.users[-2:]              // Last two elements
 ```
 
-**Condition Filters**
+- [ ] **Condition Filters**
 
 ```javascript
 // Single condition
@@ -33,28 +43,28 @@ $.users[?(@.age > 18 && @.country == "USA")]
 $.users[?(@.age > 18 || @.isAdmin == true)]
 ```
 
-**Multiple Key Selection**
+- [ ] **Multiple Key Selection**
 
 ```javascript
 $.user.name               // Single key
 $.user.(name, age, email) // Multiple keys (returns array)
 ```
 
-**Fallback Mechanism**
+- [ ] **Fallback Mechanism**
 
 ```javascript
 $.user.middleName ?? "N/A"; // Null coalescing
 $.user.profile.bio ?? $.user.name ?? "Anonymous"; // Chained fallback
 ```
 
-**Omission**
+- [ ] **Omission**
 
 ```javascript
 $.me.about.!gender       // Returns object without gender
 $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
-**Numeric Functions**
+- [ ] **Numeric Functions**
 
 ```javascript
 #max()    // Maximum value
@@ -64,7 +74,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #count()  // Count of elements
 ```
 
-**String Functions**
+- [ ] **String Functions**
 
 ```javascript
 #contains()       // Check substring
@@ -75,7 +85,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #matches()        // Regex matching
 ```
 
-**Array Functions**
+- [ ] **Array Functions**
 
 ```javascript
 #sort(@.field, "asc"/"dsc")  // Sort array of objects
@@ -84,7 +94,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #last()                      // Last element
 ```
 
-**Math Functions**
+- [ ] **Math Functions**
 
 ```javascript
 #add()   // Addition
@@ -94,7 +104,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #mod()   // Modulus
 ```
 
-**Date Functions**
+- [ ] **Date Functions**
 
 ```javascript
 #format()    // Format date
