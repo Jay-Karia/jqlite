@@ -81,6 +81,9 @@ export function incrementIndex(token: string): number {
     case "Number":
       index = 2;
       break;
+    case "WILDCARD":
+      index = 2;
+      break;
     default:
       index = 0;
       break;

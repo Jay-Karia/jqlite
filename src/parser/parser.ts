@@ -37,7 +37,9 @@ export class Parser {
       //=======================================ROOT========================================
 
       if (token.type === TokenType.ROOT) ast.createRootNode();
+
       //=====================================PROPERTY=====================================
+
       else if (token.type === TokenType.DOT) {
         // Expect the next token to be a property
         expect(tokens, index + 1, TokenType.PROPERTY);
@@ -61,7 +63,8 @@ export class Parser {
         ast.createPropertyNode(token.value, null, previousNode);
       }
 
-      //===================================ARRAY ACCESS===================================
+      //===================================LEFT BRACKET===================================
+
       else if (token.type === TokenType.LEFT_BRACKET) {
         // Expect the next token to be a number or wildcard
         expectAny(tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD]);
@@ -74,6 +77,9 @@ export class Parser {
 
         // Check for the next token type
         const nextTokenType = tokens[index + 1].type;
+
+
+        //------------------------------------NUMBER---------------------------------------
 
         if (nextTokenType === TokenType.NUMBER) {
           // Get the number token
@@ -93,7 +99,11 @@ export class Parser {
             null,
             previousNode
           );
-        } else if (nextTokenType === TokenType.WILDCARD) {
+        }
+
+        //------------------------------------WILDCARD---------------------------------------
+
+        else if (nextTokenType === TokenType.WILDCARD) {
           // Check if the previous node is property node
           const previousNode = checkPreviousNode(
             tokens,
@@ -109,9 +119,15 @@ export class Parser {
           );
         }
 
+        //------------------------------------------------------------------------------------
+
         // Update the index
         index += incrementIndex(TokenType.LEFT_BRACKET);
-      } else if (token.type === TokenType.NUMBER) {
+      }
+
+      //===================================NUMBER========================================
+
+       else if (token.type === TokenType.NUMBER) {
         // Expect the previous token to be a left bracket
         expect(tokens, index - 1, TokenType.LEFT_BRACKET);
 
@@ -131,7 +147,11 @@ export class Parser {
 
         // Update the index
         index += incrementIndex(TokenType.NUMBER);
-      } else if (token.type === TokenType.RIGHT_BRACKET) {
+      }
+
+      //===================================RIGHT BRACKET==================================
+
+      else if (token.type === TokenType.RIGHT_BRACKET) {
         // Expect the previous token to be a number or wildcard
         expectAny(tokens, index - 1, [TokenType.NUMBER, TokenType.WILDCARD]);
 
@@ -150,7 +170,32 @@ export class Parser {
         ast.createArrayAccessNode(Number(token.value), null, previousNode);
       }
 
+      //===================================WILDCARD======================================
+
+      else if (token.type === TokenType.WILDCARD) {
+        // Expect the previous token to be a left bracket
+        expect(tokens, index - 1, TokenType.LEFT_BRACKET);
+
+        // Expect the next token to be right bracket
+        expect(tokens, index + 1, TokenType.RIGHT_BRACKET);
+
+        // Check if the previous node is property node
+        const previousNode = checkPreviousNode(
+          tokens,
+          index,
+          TokenType.PROPERTY,
+          ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED
+        );
+
+        // Add the token to the AST with parent as the last property node;
+        ast.createWildcardNode(null, previousNode);
+
+        // Update the index
+        index += incrementIndex(TokenType.WILDCARD);
+      }
+
       //===================================FALLBACK========================================
+
       else if (token.type === TokenType.FALL_MARK) {
         // Expect the second next token to be a fallback
         expect(tokens, index + 1, TokenType.FALLBACK);
