@@ -7,7 +7,7 @@
 
 //=======================================TYPES=====================================
 
-export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard";
+export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard" | "ArraySlice";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;
@@ -15,6 +15,10 @@ export interface ASTNode {
   index?: number;
   propertyName?: string;
   fallbackValue?: string;
+  sliceRange?: {
+    start: number;
+    end: number;
+  };
 }
 
 //=================================================================================

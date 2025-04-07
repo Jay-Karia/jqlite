@@ -60,9 +60,6 @@ export class Parser {
         // Expect the next token to be a number or wildcard
         expectAny(tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD]);
 
-        // Expect the second next token to be a right bracket
-        expect(tokens, index + 2, TokenType.RIGHT_BRACKET);
-
         // Check for the next token type
         const nextTokenType = tokens[index + 1].type;
 
@@ -72,19 +69,49 @@ export class Parser {
           // Get the number token
           const numberToken = tokens[index + 1];
 
-          // Get the previous node
-          const previousNode = ast.getRecentNode();
+          // Check for array slice
+          const isArraySlice = tokens[index + 2].type === TokenType.SLICE;
 
-          // Add the token to the AST with parent as the last property node;
-          ast.createArrayAccessNode(
-            Number(numberToken.value),
-            null,
-            previousNode
-          );
+          //--------------------------------ARRAY SLICE------------------------------------
+
+          if (isArraySlice) {
+            // Expect the third next token to be number
+            expect(tokens, index + 3, TokenType.NUMBER);
+
+            // Expect the fourth next token to be right bracket
+            expect(tokens, index + 4, TokenType.RIGHT_BRACKET);
+
+            // Get the slice token
+            const startRange = tokens[index + 1].value;
+            const endRange = tokens[index + 3].value;
+
+            // Add the token to the AST
+            ast.createArraySliceNode(
+              Number(startRange),
+              Number(endRange),
+              null,
+              ast.getRecentNode()
+            );
+
+            //--------------------------------------------------------------------------------
+          } else {
+            // Get the previous node
+            const previousNode = ast.getRecentNode();
+
+            // Add the token to the AST with parent as the last property node;
+            ast.createArrayAccessNode(
+              Number(numberToken.value),
+              null,
+              previousNode
+            );
+          }
         }
 
         //------------------------------------WILDCARD---------------------------------------
         else if (nextTokenType === TokenType.WILDCARD) {
+          // Expect the next token to be a right bracket
+          expect(tokens, index + 1, TokenType.RIGHT_BRACKET);
+
           // Get the previous node
           const previousNode = ast.getRecentNode();
 
@@ -96,39 +123,6 @@ export class Parser {
 
         // Update the index
         index += incrementIndex(TokenType.LEFT_BRACKET);
-      }
-
-      //===================================NUMBER========================================
-      else if (token.type === TokenType.NUMBER) {
-        // Expect the previous token to be a left bracket
-        expect(tokens, index - 1, TokenType.LEFT_BRACKET);
-
-        // Expect the next token to be right bracket
-        expect(tokens, index + 1, TokenType.RIGHT_BRACKET);
-
-        // Get the previous node
-        const previousNode = ast.getRecentNode();
-
-        // Add the token to the AST with parent as the last property node;
-        ast.createArrayAccessNode(Number(token.value), null, previousNode);
-
-        // Update the index
-        index += incrementIndex(TokenType.NUMBER);
-      }
-
-      //===================================RIGHT BRACKET==================================
-      else if (token.type === TokenType.RIGHT_BRACKET) {
-        // Expect the previous token to be a number or wildcard
-        expectAny(tokens, index - 1, [TokenType.NUMBER, TokenType.WILDCARD]);
-
-        // Expect the second previous token to be a left bracket
-        expect(tokens, index - 2, TokenType.LEFT_BRACKET);
-
-        // Get the previous node
-        const previousNode = ast.getRecentNode();
-
-        // Add the token to the AST with parent as the last property node;
-        ast.createArrayAccessNode(Number(token.value), null, previousNode);
       }
 
       //===================================WILDCARD======================================

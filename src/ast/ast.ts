@@ -184,6 +184,37 @@ export class AST {
     return wildcardNode;
   }
 
+  public createArraySliceNode(
+    start?: number,
+    end?: number,
+    child?: ASTNode | null,
+    parent?: ASTNode | null
+  ): ASTNode {
+    // Check if the root node is empty
+    if (!this._root)
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
+        rootNode: this._root,
+      });
+
+    const arraySliceNode: ASTNode = {
+      type: "ArraySlice",
+      children: child ? [child] : [],
+      parent: parent ?? this._root,
+      sliceRange: {
+        start: start ?? 0,
+        end: end ?? 0,
+      }
+    };
+
+    // Update the parent
+    updateParent(arraySliceNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = arraySliceNode;
+
+    return arraySliceNode;
+  }
+
   //====================================DELETION=====================================
 
   /**

@@ -29,5 +29,11 @@ export interface FallbackNode extends ASTNode {
 export interface WildcardNode extends ASTNode {
   type: "Wildcard";
 }
+export interface ArraySliceNode extends ASTNode {
+  sliceRange: {
+    start: number;
+    end: number;
+  }
+}
 
 //===================================================================================

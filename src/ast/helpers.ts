@@ -43,4 +43,6 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
   // Fallback
   else if (node.type === "Fallback" && node.fallbackValue)
     obj["fallbackValue"] = node.fallbackValue;
+  else if (node.type === "ArraySlice" && node.sliceRange)
+    obj["sliceRange"] = node.sliceRange;
 }

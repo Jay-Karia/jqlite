@@ -17,6 +17,7 @@ export enum TokenType {
   FALL_MARK = "FallMark", // ??
   FALLBACK = "Fallback", // ''
   WILDCARD = "Wildcard", // *
+  SLICE = "Slice", // :
   WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token

@@ -166,6 +166,8 @@ export function getTokenType(char: string): TokenType {
       return TokenType.FALL_MARK;
     case "*":
       return TokenType.WILDCARD;
+    case ":":
+      return TokenType.SLICE;
     case " ":
     case "\t":
     case "\n":
