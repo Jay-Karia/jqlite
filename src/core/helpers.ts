@@ -66,7 +66,7 @@ export function checkValue(
 ): Record<string, unknown> {
   if (value === null || value === undefined) {
     // Check for fallback
-    if (fallback) return { fallback };
+    if (fallback) return { "__fallback__": fallback };
 
     throw new EvaluatorError(errorParam, metadata);
   }

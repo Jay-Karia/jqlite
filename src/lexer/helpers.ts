@@ -65,6 +65,10 @@ export function isSkippable(char: string): boolean {
   return /\s/.test(char);
 }
 
+export function isFallbackValue(char: string): boolean {
+  return char.includes("'");
+}
+
 //====================================READERS=====================================
 
 /**
@@ -129,6 +133,21 @@ export function readAlphanumeric(
   return word;
 }
 
+export function readFallbackValue(
+  char: string,
+  input: string,
+  position: number
+): string {
+  // Reads the input string from first ' to last '
+  let word = "";
+
+  while (hasNextToken(input, position)) {
+    word += input[position];
+    position++;
+  }
+  return word;
+}
+
 //====================================TOKENS=====================================
 
 /**
@@ -146,9 +165,16 @@ export function getTokenType(char: string): TokenType {
       return TokenType.LEFT_BRACKET;
     case "]":
       return TokenType.RIGHT_BRACKET;
+    case "??":
+      return TokenType.FALL_MARK;
+    case " ":
+    case "\t":
+    case "\n":
+      return TokenType.WHITESPACE;
     default:
       if (isAlpha(char)) return TokenType.PROPERTY;
       else if (isDigit(char)) return TokenType.NUMBER;
+      else if (isFallbackValue(char)) return TokenType.FALLBACK;
       else return TokenType.UNKNOWN;
   }
 }

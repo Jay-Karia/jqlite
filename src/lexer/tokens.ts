@@ -14,6 +14,9 @@ export enum TokenType {
   LEFT_BRACKET = "LeftBracket", // [
   RIGHT_BRACKET = "RightBracket", // ]
   NUMBER = "Number", // 0
+  FALL_MARK = "FallMark", // ??
+  FALLBACK = "Fallback", // ''
+  WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token
 }

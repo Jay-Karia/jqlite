@@ -103,12 +103,13 @@ export class Evaluator {
     // Check if the property exists in the node
     const propertyName = checkProperty(node.propertyName, node.type);
 
-    // Get the value
-    let value = this._current[propertyName] as Record<string, unknown>;
-
     // Get the fallback value
     const fallback = configStore.get().fallback;
 
+    // Get the value
+    let value = this._current[propertyName] as Record<string, unknown>;
+
+    // Check if the value is not null or undefined
     value = checkValue(
       value,
       fallback,
@@ -152,6 +153,8 @@ export class Evaluator {
 
     // Get the value
     let value = this._current[index] as Record<string, unknown>;
+
+    // Check if the value is not null or undefined
     value = checkValue(
       value,
       fallback,

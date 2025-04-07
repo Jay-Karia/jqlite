@@ -15,6 +15,7 @@ import {
   isAlpha,
   isDigit,
   readAlphanumeric,
+  readFallbackValue,
 } from "./helpers";
 
 //=================================================================================
@@ -87,6 +88,21 @@ export class Lexer {
     // Read the whole word or number
     if (isAlpha(this.character) || isDigit(this.character)) {
       const word = readAlphanumeric(this.character, this.input, this.position);
+      this.character = word;
+      this.position += word.length - 1;
+    }
+
+    // Check for fallback
+    if (this.character === "?" && this.peek() === "?") {
+      this.shift();
+      this.character = "??";
+      this.shift();
+    }
+
+
+    // Read the fallback value
+    if (this.character === "'") {
+      const word = readFallbackValue(this.character, this.input, this.position);
       this.character = word;
       this.position += word.length - 1;
     }
