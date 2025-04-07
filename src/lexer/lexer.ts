@@ -7,7 +7,7 @@
 
 //======================================IMPORTS====================================
 
-import type { Token } from "./tokens";
+import { type Token, TokenType } from "./tokens";
 import {
   getEoqToken,
   getTokenType,
@@ -29,6 +29,7 @@ export class Lexer {
   private position: number;
   private character: string;
   private isEoq: boolean;
+  private isFallback: boolean;
 
   /**
    * Lexer constructor
@@ -38,6 +39,7 @@ export class Lexer {
     this.position = 0;
     this.character = "";
     this.isEoq = false;
+    this.isFallback = false;
   }
 
   //====================================TOKENIZATION==================================
@@ -79,11 +81,14 @@ export class Lexer {
    * @returns {Token} The token of the current character
    */
   public getToken(): Token {
+    let tokenType: TokenType = TokenType.UNKNOWN;
+
     // Check for end of query.
     if (!hasNextToken(this.input, this.position)) {
       this.isEoq = true;
       return getEoqToken(this.position);
     }
+
 
     // Read the whole word or number
     if (isAlpha(this.character) || isDigit(this.character)) {
@@ -92,22 +97,25 @@ export class Lexer {
       this.position += word.length - 1;
     }
 
+    // Read the fallback value
+    if (this.isFallback) {
+      this.shift();
+      const word = readFallbackValue(this.input, this.position);
+      this.character = word;
+      this.position += word.length - 1;
+      tokenType = TokenType.FALLBACK;
+      this.isFallback = false;
+    }
+
     // Check for fallback
     if (this.character === "?" && this.peek() === "?") {
       this.shift();
       this.character = "??";
-      this.shift();
-    }
-
-    // Read the fallback value
-    if (this.character === "'") {
-      const word = readFallbackValue(this.character, this.input, this.position);
-      this.character = word;
-      this.position += word.length - 1;
+      this.isFallback = true;
     }
 
     // Get the token type and return the token.
-    const tokenType = getTokenType(this.character);
+    if (tokenType === TokenType.UNKNOWN) tokenType = getTokenType(this.character);
     const token: Token = {
       type: tokenType,
       value: this.character,

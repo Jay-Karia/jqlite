@@ -65,10 +65,6 @@ export function isSkippable(char: string): boolean {
   return /\s/.test(char);
 }
 
-export function isFallbackValue(char: string): boolean {
-  return char.includes("'");
-}
-
 //====================================READERS=====================================
 
 /**
@@ -134,7 +130,6 @@ export function readAlphanumeric(
 }
 
 export function readFallbackValue(
-  char: string,
   input: string,
   position: number
 ): string {
@@ -174,7 +169,6 @@ export function getTokenType(char: string): TokenType {
     default:
       if (isAlpha(char)) return TokenType.PROPERTY;
       else if (isDigit(char)) return TokenType.NUMBER;
-      else if (isFallbackValue(char)) return TokenType.FALLBACK;
       else return TokenType.UNKNOWN;
   }
 }
