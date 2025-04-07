@@ -1,17 +1,17 @@
-- [ ] **Root Selector**
+- [x] **Root Selector**
 
 ```
 $ or $.  // Root of the JSON document
 ```
 
-- [ ] **Object Property Access**
+- [x] **Object Property Access**
 
 ```javascript
 $.user.name; // Direct property access
 $.user.address.city; // Nested property access
 ```
 
-- [ ] **Basic Array Access**
+- [x] **Basic Array Access**
 
 ```javascript
 $.users[0]; // First element
