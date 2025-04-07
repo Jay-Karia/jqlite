@@ -54,7 +54,6 @@ $.user.(name, age, email) // Multiple keys (returns array)
 
 ```javascript
 $.user.middleName ?? "N/A"; // Null coalescing
-$.user.profile.bio ?? $.user.name ?? "Anonymous"; // Chained fallback
 ```
 
 - [ ] **Omission**
