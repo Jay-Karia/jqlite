@@ -22,5 +22,9 @@ export interface ArrayAccessNode extends ASTNode {
   type: "ArrayAccess";
   index: number;
 }
+export interface FallbackNode extends ASTNode {
+  type: "Fallback";
+  fallbackValue: string;
+}
 
 //===================================================================================

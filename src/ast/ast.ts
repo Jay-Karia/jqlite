@@ -119,6 +119,40 @@ export class AST {
     return arrayAccessNode;
   }
 
+  /**
+   * Create a fallback node.
+   * @param {string} fallbackValue - The fallback value.
+   * @param {ASTNode} child - The child node to set.
+   * @param {ASTNode} parent - The parent node to set.
+   * @returns {FallbackNode} - The created fallback node.
+   */
+  public createFallbackNode(
+    fallbackValue: string,
+    child?: ASTNode | null,
+    parent?: ASTNode | null
+  ): ASTNode {
+    // Check if the root node is empty
+    if (!this._root)
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
+        rootNode: this._root,
+      });
+
+    const fallbackNode: ASTNode = {
+      type: "Fallback",
+      fallbackValue,
+      children: child ? [child] : [],
+      parent: parent ?? this._root,
+    };
+
+    // Update the parent
+    updateParent(fallbackNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = fallbackNode;
+
+    return fallbackNode;
+  }
+
   //====================================DELETION=====================================
 
   /**

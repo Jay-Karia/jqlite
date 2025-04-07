@@ -99,7 +99,6 @@ export class Lexer {
       this.shift();
     }
 
-
     // Read the fallback value
     if (this.character === "'") {
       const word = readFallbackValue(this.character, this.input, this.position);

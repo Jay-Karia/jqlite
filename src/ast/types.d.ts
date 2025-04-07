@@ -7,13 +7,14 @@
 
 //=======================================TYPES=====================================
 
-export type NodeType = "Root" | "Property" | "ArrayAccess";
+export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;
   children?: ASTNode[] | null;
   index?: number;
   propertyName?: string;
+  fallbackValue?: string;
 }
 
 //=================================================================================

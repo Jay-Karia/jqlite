@@ -113,6 +113,22 @@ export class Parser {
         ast.createArrayAccessNode(Number(token.value), null, previousNode);
       }
 
+      //===================================FALLBACK========================================
+
+      else if (token.type === TokenType.FALL_MARK) {
+        // Expect the next token to be a fallback
+        expect(tokens, index + 1, TokenType.FALLBACK);
+
+        // Get the fallback token
+        const fallbackToken = tokens[index + 1];
+
+        // Check if the previous node is property node
+        const previousNode = checkPreviousNode(tokens, index, TokenType.PROPERTY, ERROR_MESSAGES.PARSER.PROPERTY_NODE_REQUIRED);
+
+        // Add the token to the AST with parent as the last property node;
+        ast.createFallbackNode(fallbackToken.value, null, previousNode);
+      }
+
       //===================================================================================
 
     }

@@ -40,4 +40,7 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
   // Property
   else if (node.type === "Property" && node.propertyName)
     obj["propertyName"] = node.propertyName;
+  // Fallback
+  else if (node.type === "Fallback" && node.fallbackValue)
+    obj["fallbackValue"] = node.fallbackValue;
 }
