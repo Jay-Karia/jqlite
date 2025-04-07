@@ -17,30 +17,17 @@ $.user.address.city; // Nested property access
 $.users[0]; // First element
 ```
 
+
+- [x] **Fallback Mechanism**
+
+```javascript
+$.user.middleName ?? "N/A";
+```
+
 - [x] **Wildcard Array Access**
 
 ```javascript
 $.users[*]                // Wildcard (all elements)
-```
-
-- [ ] **Array Slices**
-
-```javascript
-$.users[1:4]              // Slice from index 1 to 4
-$.users[1:]               // From index 1 to end
-$.users[:3]               // From start to index 3
-$.users[-2:]              // Last two elements
-```
-
-- [ ] **Condition Filters**
-
-```javascript
-// Single condition
-$.users[?(@.age > 18)]
-
-// Multiple conditions
-$.users[?(@.age > 18 && @.country == "USA")]
-$.users[?(@.age > 18 || @.isAdmin == true)]
 ```
 
 - [ ] **Multiple Key Selection**
@@ -50,18 +37,21 @@ $.user.name               // Single key
 $.user.(name, age, email) // Multiple keys (returns array)
 ```
 
-- [x] **Fallback Mechanism**
-
-```javascript
-$.user.middleName ?? "N/A"; // Null coalescing
-```
-
 - [ ] **Omission**
 
 ```javascript
 $.me.about.!gender       // Returns object without gender
 $.me.about.!(age, gender)  // Returns object without specified keys
 ```
+
+- [ ] **Array Slices**
+
+```javascript
+$.users[1:4]              // Slice from index 1 to 4
+$.users[1:]               // From index 1 to end
+$.users[:3]               // From start to index 3
+```
+
 
 - [ ] **Numeric Functions**
 
@@ -110,6 +100,18 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #getYear()   // Get year
 #getMonth()  // Get month
 #getDay()    // Get day
+```
+
+
+- [ ] **Condition Filters**
+
+```javascript
+// Single condition
+$.users[?(@.age > 18)]
+
+// Multiple conditions
+$.users[?(@.age > 18 && @.country == "USA")]
+$.users[?(@.age > 18 || @.isAdmin == true)]
 ```
 
 ---
