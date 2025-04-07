@@ -10,6 +10,7 @@
 export type ConfigType = {
   loadFile: string | null;
   fetchUrl: string | null;
+  fallback: string | null;
 };
 export type OverrideConfigType = Partial<ConfigType>;
 

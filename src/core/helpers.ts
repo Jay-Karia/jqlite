@@ -54,17 +54,24 @@ export function checkProperty(
 /**
  * Check if the value is not null or undefined
  * @param {Record<string, unknown>} value The value to be checked
+ * @param {string | null} fallback The fallback value to be used if the value is null or undefined
  * @param {ErrorParams} errorParam The error parameters
  * @param {object} metadata The metadata to be passed to the error
  */
 export function checkValue(
   value: Record<string, unknown> | null,
+  fallback: string | null,
   errorParam: ErrorParams,
-  metadata: object
-): void {
+  metadata: object,
+): Record<string, unknown> {
   if (value === null || value === undefined) {
+    // Check for fallback
+    if (fallback) return { fallback };
+
     throw new EvaluatorError(errorParam, metadata);
   }
+
+  return value;
 }
 
 /**

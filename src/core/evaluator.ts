@@ -11,6 +11,7 @@ import type { ASTNode } from "src/ast/types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { checkData, checkIndex, checkProperty, checkValue } from "./helpers";
+import { configStore } from "src/config/store";
 
 //===================================================================================
 
@@ -103,10 +104,19 @@ export class Evaluator {
     const propertyName = checkProperty(node.propertyName, node.type);
 
     // Get the value
-    const value = this._current[propertyName] as Record<string, unknown>;
-    checkValue(value, ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
-      propertyName,
-    });
+    let value = this._current[propertyName] as Record<string, unknown>;
+
+    // Get the fallback value
+    const fallback = configStore.get().fallback;
+
+    value = checkValue(
+      value,
+      fallback,
+      ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND,
+      {
+        propertyName,
+      }
+    );
 
     // Update the current value
     this._current = value;
@@ -137,13 +147,21 @@ export class Evaluator {
       this._current.length
     );
 
+    // Get the fallback value
+    const fallback = configStore.get().fallback;
+
     // Get the value
-    const value = this._current[index] as Record<string, unknown>;
-    checkValue(value, ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND, {
-      propertyName: parentProperty,
-      type: node.type,
-      index,
-    });
+    let value = this._current[index] as Record<string, unknown>;
+    value = checkValue(
+      value,
+      fallback,
+      ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND,
+      {
+        propertyName: parentProperty,
+        type: node.type,
+        index,
+      }
+    );
 
     // Update the current value
     this._current = value;

@@ -15,6 +15,7 @@ export const DEFAULT_CONFIG_FILE_NAME = "jqlite.json";
 export const DEFAULT_CONFIG: ConfigType = {
   loadFile: null,
   fetchUrl: null,
+  fallback: null,
 };
 
 //=================================================================================
