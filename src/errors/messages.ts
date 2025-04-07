@@ -169,5 +169,29 @@ export const ERROR_MESSAGES = {
       cause: "The property is not present in the data",
       solution: "Make sure the property is present in the data",
     } as ErrorParams,
+    NOT_AN_ARRAY: {
+      message: "Not an array",
+      code: "NOT_AN_ARRAY",
+      cause: "The property you are trying to index is not an array",
+      solution: "Make sure the property is an array",
+    } as ErrorParams,
+    ERR_ARRAY_INDEX_NOT_DEFINED: {
+      message: "Array index not defined",
+      code: "ERR_ARRAY_INDEX_NOT_DEFINED",
+      cause: "The array index is not defined",
+      solution: "Make sure the array index is defined",
+    } as ErrorParams,
+    ARRAY_INDEX_OUT_OF_BOUNDS: {
+      message: "Array index out of bounds",
+      code: "ARRAY_INDEX_OUT_OF_BOUNDS",
+      cause: "The array index is out of bounds",
+      solution: "Make sure the array index is within the bounds of the array",
+    } as ErrorParams,
+    ARRAY_VALUE_NOT_FOUND: {
+      message: "Array value not found",
+      code: "ARRAY_VALUE_NOT_FOUND",
+      cause: "The value is not present in the array",
+      solution: "Make sure the value is present in the array",
+    } as ErrorParams,
   },
 };
