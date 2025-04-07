@@ -50,7 +50,7 @@ $.user.name               // Single key
 $.user.(name, age, email) // Multiple keys (returns array)
 ```
 
-- [ ] **Fallback Mechanism**
+- [x] **Fallback Mechanism**
 
 ```javascript
 $.user.middleName ?? "N/A"; // Null coalescing
