@@ -35,7 +35,6 @@ export function expect(tokens: Token[], index: number, type: TokenType): boolean
         expected: type,
         actual: token.type,
         token,
-        index,
       });
     }
   }
@@ -55,7 +54,6 @@ export function expectAny(tokens: Token[], index: number, types: TokenType[]): b
         expected: types,
         actual: token.type,
         token,
-        index,
       });
     }
   }
@@ -112,7 +110,6 @@ export function checkPreviousNode(
       previousNode,
       currentNode: tokens[index],
       expectedNode: type,
-      index: index - 1,
     });
   }
 
