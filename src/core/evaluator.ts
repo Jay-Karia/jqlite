@@ -20,6 +20,7 @@ import {
   fillArray,
 } from "./helpers";
 import { context } from "./context";
+import {ast} from "src/ast/ast";
 
 //===================================================================================
 
@@ -147,10 +148,15 @@ export class Evaluator {
     // Check if the data is not null
     this._current = checkData(this._current);
 
+    // Get the property node
+    const propertyNode = ast.getHighestParent(node);
+    const propertyName = checkProperty(propertyNode?.propertyName, "Property");
+
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         type: node.type,
+        property: propertyName
       });
     }
 
@@ -171,6 +177,7 @@ export class Evaluator {
       {
         type: node.type,
         index,
+        property: propertyName,
       }
     );
 
@@ -186,10 +193,15 @@ export class Evaluator {
     // Check if the data is not null
     this._current = checkData(this._current);
 
+    // Get the property node
+    const propertyNode = ast.getHighestParent(node);
+    const propertyName = checkProperty(propertyNode?.propertyName, "Property");
+
     // Get the parent property is array
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         type: node.type,
+        property: propertyName
       });
     }
 
@@ -200,6 +212,7 @@ export class Evaluator {
     if (!containsObjects(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_OBJECTS, {
         type: node.type,
+        property: propertyName
       });
     }
 
@@ -210,6 +223,7 @@ export class Evaluator {
     // Check if the value is not undefined
     value = checkValue(value, fallback, ERROR_MESSAGES.EVALUATOR.ERR_WILDCARD, {
       type: node.type,
+      property: propertyName
     });
 
     // Update the current value

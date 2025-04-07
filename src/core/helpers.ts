@@ -165,6 +165,7 @@ export function checkIndex(
       ERROR_MESSAGES.EVALUATOR.ERR_ARRAY_INDEX_NOT_DEFINED,
       {
         type,
+        index,
       }
     );
   }

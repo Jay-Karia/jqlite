@@ -368,6 +368,33 @@ export class AST {
   }
 
   /**
+   * Get the highest-level parent node after root
+   * @param {ASTNode} node - The node to find the highest parent for
+   * @returns {ASTNode | null} - The highest parent after root, or null if not found
+   */
+  public getHighestParent(node: ASTNode): ASTNode | null {
+    // If node is null or undefined, return null
+    if (!node) return null;
+
+    // If node is the root or has no parent, return null
+    if (!node.parent || node.parent.type === "Root") return node;
+
+    // Traverse up the tree until we find a node whose parent is the root
+    let current = node;
+
+    while (
+      current.parent &&
+      current.parent.parent &&
+      current.parent.type !== "Root"
+    ) {
+      current = current.parent;
+    }
+
+    // Return the highest parent after root
+    return current;
+  }
+
+  /**
    *  Get the root node of the AST.
    * @returns {RootNode} - Returns the root node of the AST.
    */
