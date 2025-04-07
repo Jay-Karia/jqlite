@@ -67,17 +67,24 @@ export class Evaluator {
         // Check if the node has children
         if (node.children && node.children.length > 0) {
           // Iterate over the children
-          for (const child of node.children) {
-            // Evaluate the child node
-            this.evaluate(child);
-          }
+          for (const child of node.children) this.evaluate(child);
         }
         break;
       case "ArrayAccess":
         this.evaluateArrayAccess(node);
+        // Check if the node has children
+        if (node.children && node.children.length > 0) {
+          // Iterate over the children
+          for (const child of node.children) this.evaluate(child);
+        }
         break;
       case "Wildcard":
         this.evaluateWildCard(node);
+        // Check if the node has children
+        if (node.children && node.children.length > 0) {
+          // Iterate over the children
+          for (const child of node.children) this.evaluate(child);
+        }
         break;
     }
   }
@@ -141,21 +148,14 @@ export class Evaluator {
     this._current = checkData(this._current);
 
     // Check if the current value is an array
-    const parentProperty = checkProperty(node.parent?.propertyName, node.type);
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
-        propertyName: parentProperty,
         type: node.type,
       });
     }
 
     // Check if the index is valid
-    const index = checkIndex(
-      node.index,
-      parentProperty,
-      node.type,
-      this._current.length
-    );
+    const index = checkIndex(node.index, node.type, this._current.length);
 
     // Get the fallback value
     const fallback = context.get("fallback") as string;
@@ -169,7 +169,6 @@ export class Evaluator {
       fallback,
       ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND,
       {
-        propertyName: parentProperty,
         type: node.type,
         index,
       }
@@ -188,10 +187,8 @@ export class Evaluator {
     this._current = checkData(this._current);
 
     // Get the parent property is array
-    const property = checkProperty(node.parent?.propertyName, node.type);
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
-        propertyName: property,
         type: node.type,
       });
     }
@@ -202,7 +199,6 @@ export class Evaluator {
     // Check if the property is an array of objects
     if (!containsObjects(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_OBJECTS, {
-        propertyName: property,
         type: node.type,
       });
     }
@@ -213,7 +209,6 @@ export class Evaluator {
 
     // Check if the value is not undefined
     value = checkValue(value, fallback, ERROR_MESSAGES.EVALUATOR.ERR_WILDCARD, {
-      propertyName: property,
       type: node.type,
     });
 
