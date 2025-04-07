@@ -1,61 +1,66 @@
 - [x] **Root Selector**
 
-```
-$ or $.  // Root of the JSON document
+```js
+$ // Root of the JSON document
 ```
 
 - [x] **Object Property Access**
 
-```javascript
+```js
 $.user.name; // Direct property access
 $.user.address.city; // Nested property access
 ```
 
 - [x] **Basic Array Access**
 
-```javascript
+```js
 $.users[0]; // First element
 ```
 
 
 - [x] **Fallback Mechanism**
 
-```javascript
-$.user.middleName ?? "N/A";
+```js
+$.user.middleName ?? N/A;
 ```
 
 - [x] **Wildcard Array Access**
 
-```javascript
+```js
 $.users[*]                // Wildcard (all elements)
-```
-
-- [ ] **Multiple Key Selection**
-
-```javascript
-$.user.name               // Single key
-$.user.(name, age, email) // Multiple keys (returns array)
-```
-
-- [ ] **Omission**
-
-```javascript
-$.me.about.!gender       // Returns object without gender
-$.me.about.!(age, gender)  // Returns object without specified keys
+$.friends[*].name         // All names in friends array
 ```
 
 - [ ] **Array Slices**
 
-```javascript
+```js
 $.users[1:4]              // Slice from index 1 to 4
 $.users[1:]               // From index 1 to end
 $.users[:3]               // From start to index 3
 ```
 
+- [ ] **Multiple Key Selection**
+
+```js
+$.user.(name, age, email) // Multiple keys (returns array)
+```
+
+- [ ] **Single Key Omission**
+
+```js
+$.me.about.!gender       // Returns object without gender
+```
+
+- [ ] **Multiple Key Omission**
+
+```js
+$.me.about.!(age, gender)  // Returns object without specified keys
+```
+
 
 - [ ] **Numeric Functions**
 
-```javascript
+```js
 #max()    // Maximum value
 #min()    // Minimum value
 #sum()    // Sum of values
@@ -65,7 +70,7 @@ $.users[:3]               // From start to index 3
 
 - [ ] **String Functions**
 
-```javascript
+```js
 #contains()       // Check substring
 #toUpperCase()    // Convert to uppercase
 #toLowerCase()    // Convert to lowercase
@@ -76,7 +81,7 @@ $.users[:3]               // From start to index 3
 
 - [ ] **Array Functions**
 
-```javascript
+```js
 #sort(@.field, "asc"/"dsc")  // Sort array of objects
 #sort()                      // Sort array of primitives
 #first()                     // First element
@@ -85,7 +90,7 @@ $.users[:3]               // From start to index 3
 
 - [ ] **Math Functions**
 
-```javascript
+```js
 #add()   // Addition
 #sub()   // Subtraction
 #mul()   // Multiplication
@@ -95,7 +100,7 @@ $.users[:3]               // From start to index 3
 
 - [ ] **Date Functions**
 
-```javascript
+```js
 #format()    // Format date
 #getYear()   // Get year
 #getMonth()  // Get month
@@ -105,7 +110,7 @@ $.users[:3]               // From start to index 3
 
 - [ ] **Condition Filters**
 
-```javascript
+```js
 // Single condition
 $.users[?(@.age > 18)]
 
