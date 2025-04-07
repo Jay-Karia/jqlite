@@ -30,22 +30,22 @@ export class Context {
 
   //===================================METHODS=====================================
 
+  /**
+   * Get the context with a specific key
+   * @param {Keys} key The key to get
+   * @returns {unknown} The value of the key
+   */
   public get(key: Keys): unknown {
     if (key === "fallback") {
+      const _fallback = this._context.fallback;
       // Check if the value is null or undefined
-      if (
-        this._context.fallback === null ||
-        this._context.fallback === undefined
-      ) {
+      if (_fallback === null || _fallback === undefined) {
+        // Use from config
         return configStore.get().fallback;
       }
 
       // Check if the value is a string
-      if (typeof this._context.fallback === "string") {
-        return this._context.fallback;
-      }
-
-      return null;
+      return this._context.fallback;
     } else if (key in this._context) return this._context[key] as string;
   }
 
@@ -56,18 +56,6 @@ export class Context {
    */
   public set(key: Keys, value: unknown | null): void {
     this._context[key] = value;
-  }
-
-  public setFallback(value: string | null | undefined): void {
-    // Check if the value is null or undefined
-    if (value === null || value === undefined) {
-      this._context.fallback = null;
-      return;
-    }
-
-    // Check if the value is a string
-    this._context.fallback = value;
-    return;
   }
 
   //==================================================================================

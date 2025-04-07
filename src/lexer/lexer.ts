@@ -25,11 +25,16 @@ import {
  * @description This class is responsible for tokenizing the input string.
  */
 export class Lexer {
+
+  //====================================PROPERTIES===================================
+
   private input: string;
   private position: number;
   private character: string;
   private isEoq: boolean;
   private isFallback: boolean;
+
+  //====================================CONSTRUCTOR==================================
 
   /**
    * Lexer constructor

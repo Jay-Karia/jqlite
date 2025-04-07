@@ -129,11 +129,13 @@ export function readAlphanumeric(
   return word;
 }
 
+/**
+ * Reads the remaining characters after fallback mark
+ */
 export function readFallbackValue(
   input: string,
   position: number
 ): string {
-  // Reads the input string from first ' to last '
   let word = "";
 
   while (hasNextToken(input, position)) {
