@@ -193,5 +193,17 @@ export const ERROR_MESSAGES = {
       cause: "The value is not present in the array",
       solution: "Make sure the value is present in the array",
     } as ErrorParams,
+    ERR_WILDCARD: {
+      message: "Error occurred while evaluating wildcard",
+      code: "ERR_WILDCARD",
+      cause: "Undefined value of the array",
+      solution: "Check whether the array exists or not"
+    } as ErrorParams,
+    NO_OBJECTS: {
+      message: "No objects",
+      code: "NO_OBJECTS",
+      cause: "The array does not have objects",
+      solution: "Make sure that the value is an array of objects"
+    } as ErrorParams
   },
 };

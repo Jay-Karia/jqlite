@@ -10,8 +10,16 @@
 import type { ASTNode } from "src/ast/types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
-import { checkData, checkIndex, checkProperty, checkValue } from "./helpers";
-import {context} from "./context";
+import {
+  checkData,
+  checkIndex,
+  checkProperty,
+  checkValue,
+  containsObjects,
+  extractUniqueKeys,
+  fillArray,
+} from "./helpers";
+import { context } from "./context";
 
 //===================================================================================
 
@@ -54,7 +62,6 @@ export class Evaluator {
         }
         break;
       case "Property":
-        // Evaluate the property node
         this.evaluateProperty(node);
 
         // Check if the node has children
@@ -67,8 +74,10 @@ export class Evaluator {
         }
         break;
       case "ArrayAccess":
-        // Evaluate the array access node
         this.evaluateArrayAccess(node);
+        break;
+      case "Wildcard":
+        this.evaluateWildCard(node);
         break;
     }
   }
@@ -109,7 +118,7 @@ export class Evaluator {
     // Get the value
     let value = this._current[propertyName] as Record<string, unknown> | null;
 
-    // Check if the value is not null or undefined
+    // Check if the value is not undefined
     value = checkValue(
       value,
       fallback,
@@ -127,7 +136,7 @@ export class Evaluator {
    * Evaluates the array access node
    * @param {ASTNode} node The AST node to evaluate
    */
-  public evaluateArrayAccess(node: ASTNode): void {
+  private evaluateArrayAccess(node: ASTNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -154,7 +163,7 @@ export class Evaluator {
     // Get the value
     let value = this._current[index] as Record<string, unknown> | null;
 
-    // Check if the value is not null or undefined
+    // Check if the value is not  undefined
     value = checkValue(
       value,
       fallback,
@@ -165,6 +174,48 @@ export class Evaluator {
         index,
       }
     );
+
+    // Update the current value
+    this._current = value;
+  }
+
+  /**
+   * Evaluates the wildcard node
+   * @param node The AST Node to evaluate
+   */
+  private evaluateWildCard(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Get the parent property is array
+    const property = checkProperty(node.parent?.propertyName, node.type);
+    if (!Array.isArray(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
+        propertyName: property,
+        type: node.type,
+      });
+    }
+
+    // Get the fallback value
+    const fallback = context.get("fallback") as string;
+
+    // Check if the property is an array of objects
+    if (!containsObjects(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_OBJECTS, {
+        propertyName: property,
+        type: node.type,
+      });
+    }
+
+    // Get all the unique keys and fill the values
+    const keys: string[] = extractUniqueKeys(this._current);
+    let value: Record<string, unknown> | null = fillArray(this._current, keys);
+
+    // Check if the value is not undefined
+    value = checkValue(value, fallback, ERROR_MESSAGES.EVALUATOR.ERR_WILDCARD, {
+      propertyName: property,
+      type: node.type,
+    });
 
     // Update the current value
     this._current = value;

@@ -17,7 +17,7 @@ $.user.address.city; // Nested property access
 $.users[0]; // First element
 ```
 
-- [ ] **Wildcard Array Access**
+- [x] **Wildcard Array Access**
 
 ```javascript
 $.users[*]                // Wildcard (all elements)
