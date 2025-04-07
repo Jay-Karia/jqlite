@@ -11,6 +11,7 @@ import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
 import { checkPreviousNode, expect, incrementIndex } from "./helpers";
 import { ERROR_MESSAGES } from "src/errors/messages";
+import {context} from "src/core/context";
 
 //=================================================================================
 
@@ -121,6 +122,10 @@ export class Parser {
 
         // Get the fallback token
         const fallbackToken = tokens[index + 1];
+
+        // Update the context of query
+        const fallback = fallbackToken.value;
+        context.set("fallback", fallback);
 
         // Add the token to the AST with parent as the last property node;
         ast.createFallbackNode(fallbackToken.value);

@@ -11,7 +11,7 @@ import type { ASTNode } from "src/ast/types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { checkData, checkIndex, checkProperty, checkValue } from "./helpers";
-import { configStore } from "src/config/store";
+import {context} from "./context";
 
 //===================================================================================
 
@@ -104,7 +104,7 @@ export class Evaluator {
     const propertyName = checkProperty(node.propertyName, node.type);
 
     // Get the fallback value
-    const fallback = configStore.get().fallback;
+    const fallback = context.get("fallback") as string;
 
     // Get the value
     let value = this._current[propertyName] as Record<string, unknown>;
@@ -149,7 +149,7 @@ export class Evaluator {
     );
 
     // Get the fallback value
-    const fallback = configStore.get().fallback;
+    const fallback = context.get("fallback") as string;
 
     // Get the value
     let value = this._current[index] as Record<string, unknown>;

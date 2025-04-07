@@ -1,4 +1,3 @@
 {
-  "fallback": "Not found"
+  "fallback": "Hello from config"
 }
-
