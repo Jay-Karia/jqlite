@@ -10,6 +10,7 @@
 import type { ASTNode } from "src/ast/types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
+import { checkData, checkIndex, checkProperty, checkValue } from "./helpers";
 
 //===================================================================================
 
@@ -20,7 +21,7 @@ import { ERROR_MESSAGES } from "src/errors/messages";
 export class Evaluator {
   //===================================PROPERTIES===================================
 
-  private _current: Record<string, unknown> | null;
+  public _current: Record<string, unknown> | null;
   private _data: Record<string, unknown> | null;
 
   //===================================CONSTRUCTOR==================================
@@ -96,29 +97,16 @@ export class Evaluator {
    */
   private evaluateProperty(node: ASTNode): void {
     // Check if the data is not null
-    if (!this._data || !this._current) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_DATA, {
-        memoryData: this._data,
-      });
-    }
+    this._current = checkData(this._current);
 
     // Check if the property exists in the node
-    const propertyName = node.propertyName;
-    if (!propertyName) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
-        propertyName,
-        type: node.type,
-      });
-    }
+    const propertyName = checkProperty(node.propertyName, node.type);
 
     // Get the value
     const value = this._current[propertyName] as Record<string, unknown>;
-    if (value === undefined) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
-        propertyName,
-        type: node.type,
-      });
-    }
+    checkValue(value, ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
+      propertyName,
+    });
 
     // Update the current value
     this._current = value;
@@ -130,20 +118,10 @@ export class Evaluator {
    */
   public evaluateArrayAccess(node: ASTNode): void {
     // Check if the data is not null
-    if (!this._data || !this._current) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_DATA, {
-        memoryData: this._data,
-      });
-    }
+    this._current = checkData(this._current);
 
     // Check if the current value is an array
-    const parentProperty = node.parent?.propertyName;
-    if (!parentProperty) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
-        propertyName: parentProperty,
-        type: node.type,
-      });
-    }
+    const parentProperty = checkProperty(node.parent?.propertyName, node.type);
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         propertyName: parentProperty,
@@ -152,34 +130,23 @@ export class Evaluator {
     }
 
     // Check if the index is valid
-    const index = node.index;
-    if (index === undefined) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_ARRAY_INDEX_NOT_DEFINED, {
-        propertyName: parentProperty,
-        type: node.type,
-      });
-    }
-    if (index < 0 || index >= this._current.length) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ARRAY_INDEX_OUT_OF_BOUNDS, {
-        propertyName: parentProperty,
-        index,
-        type: node.type,
-      });
-    }
+    const index = checkIndex(
+      node.index,
+      parentProperty,
+      node.type,
+      this._current.length
+    );
 
     // Get the value
     const value = this._current[index] as Record<string, unknown>;
-    if (value === undefined) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND, {
-        propertyName: parentProperty,
-        type: node.type,
-        index,
-      });
-    }
+    checkValue(value, ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND, {
+      propertyName: parentProperty,
+      type: node.type,
+      index,
+    });
 
     // Update the current value
     this._current = value;
-
   }
 }
 
