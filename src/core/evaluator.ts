@@ -161,7 +161,7 @@ export class Evaluator {
     }
 
     // Check if the index is valid
-    const index = checkIndex(node.index, node.type, this._current.length);
+    const index = checkIndex(node.index, propertyName, node.type, this._current.length);
 
     // Get the fallback value
     const fallback = context.get("fallback") as string;

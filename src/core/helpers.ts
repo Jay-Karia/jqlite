@@ -156,6 +156,7 @@ export function checkValue(
  */
 export function checkIndex(
   index: number | undefined,
+  property: string,
   type: NodeType,
   expectedLength: number
 ): number {
@@ -165,6 +166,7 @@ export function checkIndex(
       ERROR_MESSAGES.EVALUATOR.ERR_ARRAY_INDEX_NOT_DEFINED,
       {
         type,
+        property,
         index,
       }
     );
@@ -176,6 +178,7 @@ export function checkIndex(
       ERROR_MESSAGES.EVALUATOR.ARRAY_INDEX_OUT_OF_BOUNDS,
       {
         index,
+        property,
         type,
       }
     );
