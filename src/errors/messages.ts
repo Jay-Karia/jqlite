@@ -157,5 +157,17 @@ export const ERROR_MESSAGES = {
       cause: "The data is empty",
       solution: "Make sure you set the data in memory",
     } as ErrorParams,
+    UNKNOWN_NODE_TYPE: {
+      message: "Unknown node type",
+      code: "UNKNOWN_NODE_TYPE",
+      cause: "The node type is not valid",
+      solution: "Make sure the node type is valid",
+    } as ErrorParams,
+    PROPERTY_NOT_FOUND: {
+      message: "Property not found",
+      code: "PROPERTY_NOT_FOUND",
+      cause: "The property is not present in the data",
+      solution: "Make sure the property is present in the data",
+    } as ErrorParams,
   },
 };

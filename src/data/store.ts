@@ -10,26 +10,25 @@
  * @description This class is used to store the JSON data in memory.
  */
 export class DataStore {
-
   //==========================================PROPERTIES=====================================
 
-  private _memoryData: object | null = null;
+  private _memoryData: Record<string, unknown> | null = null;
 
   //======================================GETTER / SETTER====================================
 
   /**
    * Set JSON data in memory
-   * @param {object | null} parsedData The JSON data to be stored in memory
+   * @param {Record<string, unknown> | null} parsedData The JSON data to be stored in memory
    */
-  public set(parsedData: object | null): void {
+  public set(parsedData: Record<string, unknown> | null): void {
     this._memoryData = parsedData;
   }
 
   /**
    * Get JSON data from memory
-   * @returns {object | null} The JSON data stored in memory
+   * @returns {Record<string, unknown> | null} The JSON data stored in memory
    */
-  public get(): object | null {
+  public get(): Record<string, unknown> | null {
     return this._memoryData;
   }
 
@@ -43,7 +42,6 @@ export class DataStore {
   }
 
   //============================================================================================
-
 }
 
 export const dataStore = new DataStore();
