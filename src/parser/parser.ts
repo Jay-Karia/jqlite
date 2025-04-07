@@ -69,32 +69,14 @@ export class Parser {
           // Get the number token
           const numberToken = tokens[index + 1];
 
+          //--------------------------------ARRAY SLICE------------------------------------
+
           // Check for array slice
           const isArraySlice = tokens[index + 2].type === TokenType.SLICE;
 
-          //--------------------------------ARRAY SLICE------------------------------------
-
-          if (isArraySlice) {
-            // Expect the third next token to be number
-            expect(tokens, index + 3, TokenType.NUMBER);
-
-            // Expect the fourth next token to be right bracket
-            expect(tokens, index + 4, TokenType.RIGHT_BRACKET);
-
-            // Get the slice token
-            const startRange = tokens[index + 1].value;
-            const endRange = tokens[index + 3].value;
-
-            // Add the token to the AST
-            ast.createArraySliceNode(
-              Number(startRange),
-              Number(endRange),
-              null,
-              ast.getRecentNode()
-            );
-
-            //--------------------------------------------------------------------------------
-          } else {
+          if (isArraySlice) this.parseArraySlice(tokens, index);
+          //-------------------------------------------------------------------------------
+          else {
             // Get the previous node
             const previousNode = ast.getRecentNode();
 
@@ -162,6 +144,30 @@ export class Parser {
       //===================================================================================
     }
   }
+
+  //========================================INTERNALS========================================
+
+  private parseArraySlice(tokens: Token[], index: number): void {
+    // Expect the third next token to be number
+    expect(tokens, index + 3, TokenType.NUMBER);
+
+    // Expect the fourth next token to be right bracket
+    expect(tokens, index + 4, TokenType.RIGHT_BRACKET);
+
+    // Get the slice token
+    const startRange = tokens[index + 1].value;
+    const endRange = tokens[index + 3].value;
+
+    // Add the token to the AST
+    ast.createArraySliceNode(
+      Number(startRange),
+      Number(endRange),
+      null,
+      ast.getRecentNode()
+    );
+  }
+
+  //=========================================================================================
 }
 
 export const parser = new Parser();
