@@ -164,6 +164,8 @@ export function getTokenType(char: string): TokenType {
       return TokenType.RIGHT_BRACKET;
     case "??":
       return TokenType.FALL_MARK;
+    case "*":
+      return TokenType.WILDCARD;
     case " ":
     case "\t":
     case "\n":

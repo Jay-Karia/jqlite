@@ -26,5 +26,8 @@ export interface FallbackNode extends ASTNode {
   type: "Fallback";
   fallbackValue: string;
 }
+export interface WildcardNode extends ASTNode {
+  type: "Wildcard";
+}
 
 //===================================================================================

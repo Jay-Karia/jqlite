@@ -43,6 +43,26 @@ export function expect(tokens: Token[], index: number, type: TokenType): boolean
   return valid;
 }
 
+export function expectAny(tokens: Token[], index: number, types: TokenType[]): boolean {
+  let valid = false;
+
+  const token = tokens[index];
+  if (token) {
+    if (types.includes(token.type)) {
+      valid = true;
+    } else {
+      throw new ParserError(ERROR_MESSAGES.PARSER.UNEXPECTED_TOKEN, {
+        expected: types,
+        actual: token.type,
+        token,
+        index,
+      });
+    }
+  }
+
+  return valid;
+}
+
 /**
  * Increments the index based on the token type
  * @param token The token to check

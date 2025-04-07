@@ -153,6 +153,37 @@ export class AST {
     return fallbackNode;
   }
 
+  /**
+   * Create a wildcard node.
+   * @param {ASTNode} child The child node to set.
+   * @param {ASTNode} parent The parent node to set.
+   * @returns {ASTNode} The created wildcard node.
+   */
+  public createWildcardNode(
+    child?: ASTNode | null,
+    parent?: ASTNode | null
+  ): ASTNode {
+    // Check if the root node is empty
+    if (!this._root)
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
+        rootNode: this._root,
+      });
+
+    const wildcardNode: ASTNode = {
+      type: "Wildcard",
+      children: child ? [child] : [],
+      parent: parent ?? this._root,
+    };
+
+    // Update the parent
+    updateParent(wildcardNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = wildcardNode;
+
+    return wildcardNode;
+  }
+
   //====================================DELETION=====================================
 
   /**

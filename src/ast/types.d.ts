@@ -7,7 +7,7 @@
 
 //=======================================TYPES=====================================
 
-export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback";
+export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;
