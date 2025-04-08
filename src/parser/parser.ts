@@ -61,7 +61,10 @@ export class Parser {
         // Expectations for the token
         expectations.not(index);
 
+        // Add the token to the AST
         ast.createNotNode();
+
+        index += incrementIndex(TokenType.NOT);
       }
 
       //===================================LEFT BRACKET=======================================

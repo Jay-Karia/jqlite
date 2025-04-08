@@ -23,7 +23,11 @@ import { ast } from "src/ast/ast";
  * @param {string} type The type of the token to check
  * @returns {boolean} Whether the token is valid or not
  */
-export function expect(tokens: Token[], index: number, type: TokenType): boolean {
+export function expect(
+  tokens: Token[],
+  index: number,
+  type: TokenType
+): boolean {
   let valid = false;
 
   const token = tokens[index];
@@ -42,7 +46,11 @@ export function expect(tokens: Token[], index: number, type: TokenType): boolean
   return valid;
 }
 
-export function expectAny(tokens: Token[], index: number, types: TokenType[]): boolean {
+export function expectAny(
+  tokens: Token[],
+  index: number,
+  types: TokenType[]
+): boolean {
   let valid = false;
 
   const token = tokens[index];
@@ -71,22 +79,15 @@ export function incrementIndex(token: TokenType): number {
 
   switch (token) {
     case "Dot":
-      index = 1;
-      break;
     case "LeftBracket":
+    case "Property":
+    case "Not":
       index = 1;
       break;
     case "Number":
-      index = 2;
-      break;
     case "Wildcard":
-      index = 2;
-      break;
     case "Slice":
       index = 2;
-      break;
-    case "Property":
-      index = 1;
       break;
     default:
       index = 0;
@@ -128,9 +129,18 @@ export function checkPreviousNode(
  * @param {number} index The index of the slice token
  * @returns {"left" | "right" | null} The type of slice
  */
-export function getSliceType(tokens: Token[], index: number): "left" | "right" | null {
-  const isLeftSlice = tokens[index - 1].type === TokenType.NUMBER && tokens[index - 2].type === TokenType.LEFT_BRACKET && tokens[index + 1].type === TokenType.RIGHT_BRACKET;
-  const isRightSlice = tokens[index + 1].type === TokenType.NUMBER && tokens[index + 2].type === TokenType.RIGHT_BRACKET && tokens[index - 1].type === TokenType.LEFT_BRACKET;
+export function getSliceType(
+  tokens: Token[],
+  index: number
+): "left" | "right" | null {
+  const isLeftSlice =
+    tokens[index - 1].type === TokenType.NUMBER &&
+    tokens[index - 2].type === TokenType.LEFT_BRACKET &&
+    tokens[index + 1].type === TokenType.RIGHT_BRACKET;
+  const isRightSlice =
+    tokens[index + 1].type === TokenType.NUMBER &&
+    tokens[index + 2].type === TokenType.RIGHT_BRACKET &&
+    tokens[index - 1].type === TokenType.LEFT_BRACKET;
 
   if (isLeftSlice) return "left";
   if (isRightSlice) return "right";

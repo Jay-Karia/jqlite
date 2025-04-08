@@ -234,8 +234,6 @@ export class AST {
       parent: parent ?? this._root,
     };
 
-    console.log(notNode);
-
     // Update the parent
     updateParent(notNode, this._root, parent);
 
