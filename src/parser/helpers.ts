@@ -85,6 +85,9 @@ export function incrementIndex(token: TokenType): number {
     case "Slice":
       index = 2;
       break;
+    case "Property":
+      index = 1;
+      break;
     default:
       index = 0;
       break;

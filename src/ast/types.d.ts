@@ -17,7 +17,8 @@ export type NodeType =
   | "ArrayAccess"
   | "Fallback"
   | "Wildcard"
-  | "ArraySlice";
+  | "ArraySlice"
+  | "Not";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;

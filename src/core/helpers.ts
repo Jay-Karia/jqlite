@@ -244,6 +244,10 @@ export function checkArray(
   return value;
 }
 
+/**
+ * Evaluates the children nodes
+ * @param {ASTNode} node The AST node to be evaluated
+ */
 export function evaluateChildren(node: ASTNode): void {
   // Evaluate children if any
   if (node.children) {

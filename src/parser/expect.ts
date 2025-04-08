@@ -32,8 +32,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public dot(index: number): void {
-    // Expect the next token to be a property
-    expect(this._tokens, index + 1, TokenType.PROPERTY);
+    // Expect the next token to be a property or not
+    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.NOT]);
   }
 
   /**
@@ -41,8 +41,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public property(index: number): void {
-    // Expect the previous token to be a dot
-    expect(this._tokens, index - 1, TokenType.DOT);
+    // Expect the previous token to be a dot or not
+    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT]);
   }
 
   /**
@@ -136,8 +136,24 @@ export class Expectations {
     ]);
   }
 
+  /**
+   * Expectations for the fall mark token
+   * @param index The index of the token
+   */
   public fallMark(index: number): void {
     // Expect the second next token to be a fallback
     expect(this._tokens, index + 1, TokenType.FALLBACK);
+  }
+
+  /**
+   * Expectations for the not token
+   * @param index The index of the token
+   */
+  public not(index: number): void {
+    // Expect the next token to be property
+    expect(this._tokens, index + 1, TokenType.PROPERTY);
+
+    // Expect the previous token to be dot
+    expect(this._tokens, index - 1, TokenType.DOT);
   }
 }

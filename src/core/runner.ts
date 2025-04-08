@@ -37,6 +37,8 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
+    console.log(ast.preOrder());
+
     // Get the root node
     const root = ast.getRootNode();
     if (!root) {
@@ -60,8 +62,8 @@ export class QueryRunner {
     evaluator.evaluate(root);
 
     // Get the result
-    const result = evaluator.getResult();
-    console.log(JSON.stringify(result, null, 2));
+    // const result = evaluator.getResult();
+    // console.log(JSON.stringify(result, null, 2));
   }
 }
 

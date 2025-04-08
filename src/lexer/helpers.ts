@@ -168,6 +168,8 @@ export function getTokenType(char: string): TokenType {
       return TokenType.WILDCARD;
     case ":":
       return TokenType.SLICE;
+    case "!":
+      return TokenType.NOT;
     case " ":
     case "\t":
     case "\n":

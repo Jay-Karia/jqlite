@@ -39,15 +39,6 @@ export class Parser {
       else if (token.type === TokenType.DOT) {
         // Expectations for the token
         expectations.dot(index);
-
-        // Get the property token
-        const propertyToken = tokens[index + 1];
-
-        // Add the token to the AST
-        ast.createPropertyNode(propertyToken.value);
-
-        // Update the index
-        index += incrementIndex(TokenType.DOT);
       }
 
       //===================================PROPERTY==========================================
@@ -60,6 +51,17 @@ export class Parser {
 
         // Add the token to the AST with parent as the last property node;
         ast.createPropertyNode(token.value, null, previousNode);
+
+        // Update the index
+        index += incrementIndex(TokenType.PROPERTY);
+      }
+
+      //=========================================NOT============================================
+      else if (token.type === TokenType.NOT) {
+        // Expectations for the token
+        expectations.not(index);
+
+        ast.createNotNode();
       }
 
       //===================================LEFT BRACKET=======================================

@@ -203,7 +203,7 @@ export class AST {
       sliceRange: {
         start: start ?? 0,
         end: end ?? 0,
-      }
+      },
     };
 
     // Update the parent
@@ -213,6 +213,36 @@ export class AST {
     this._recentNode = arraySliceNode;
 
     return arraySliceNode;
+  }
+
+  /**
+   * Create a not node.
+   * @param {ASTNode} child The child node to set.
+   * @param {ASTNode} parent The parent node to set.
+   * @returns {ASTNode} The created not node.
+   */
+  public createNotNode(child?: ASTNode | null, parent?: ASTNode | null): ASTNode {
+    // Check if the root node is empty
+    if (!this._root)
+      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
+        rootNode: this._root,
+      });
+
+    const notNode: ASTNode = {
+      type: "Not",
+      children: child ? [child] : [],
+      parent: parent ?? this._root,
+    };
+
+    console.log(notNode);
+
+    // Update the parent
+    updateParent(notNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = notNode;
+
+    return notNode;
   }
 
   //====================================DELETION=====================================

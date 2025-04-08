@@ -23,7 +23,8 @@ export function updateParent(
   root: RootNode,
   parent?: ASTNode | null
 ): void {
-  if (parent) parent.children?.push(newNode);
+  if (parent && parent.children) parent.children.push(newNode);
+  else if (parent && !parent.children) parent.children = [newNode];
   else if (root.children) root.children.push(newNode);
   else root.children = [newNode];
 }

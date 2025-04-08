@@ -35,5 +35,7 @@ export interface ArraySliceNode extends ASTNode {
     end: number;
   }
 }
-
+export interface NotNode extends ASTNode {
+  type: "Not";
+}
 //===================================================================================

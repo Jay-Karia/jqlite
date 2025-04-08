@@ -18,6 +18,7 @@ export enum TokenType {
   FALLBACK = "Fallback", // ''
   WILDCARD = "Wildcard", // *
   SLICE = "Slice", // :
+  NOT = "Not", // !
   WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token
