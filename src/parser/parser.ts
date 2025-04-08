@@ -51,9 +51,6 @@ export class Parser {
 
         // Add the token to the AST with parent as the last property node;
         ast.createPropertyNode(token.value, null, previousNode);
-
-        // Update the index
-        index += incrementIndex(TokenType.PROPERTY);
       }
 
       //=========================================NOT============================================
@@ -63,8 +60,6 @@ export class Parser {
 
         // Add the token to the AST
         ast.createNotNode();
-
-        index += incrementIndex(TokenType.NOT);
       }
 
       //===================================LEFT BRACKET=======================================
