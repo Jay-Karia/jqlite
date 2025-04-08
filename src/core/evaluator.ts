@@ -313,7 +313,7 @@ export class Evaluator {
 
     // Remove the key from the current data
     delete this._current[propertyName];
-    
+
     // Check if the value is not undefined
     const result = checkValue(
       this._current,

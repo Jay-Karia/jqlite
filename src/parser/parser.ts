@@ -49,8 +49,16 @@ export class Parser {
         // Get the previous node
         const previousNode = ast.getRecentNode();
 
-        // Add the token to the AST with parent as the last property node;
-        ast.createPropertyNode(token.value, null, previousNode);
+        // Check if the previous node is not the part of omit
+        if (
+          previousNode &&
+          ast.getHighestParent(previousNode)?.type === "Not"
+        ) {
+          ast.createPropertyNode(token.value);
+        } else {
+          // Add the token to the AST with parent as the last property node;
+          ast.createPropertyNode(token.value);
+        }
       }
 
       //=========================================NOT============================================
@@ -59,7 +67,16 @@ export class Parser {
         expectations.not(index);
 
         // Add the token to the AST
-        ast.createNotNode();
+        const not = ast.createNotNode();
+
+        // Get the next property token
+        const propertyToken = tokens[index + 1];
+
+        // Add the property token to the AST
+        ast.createPropertyNode(propertyToken.value, null, not);
+
+        // Increment the index
+        index += incrementIndex(TokenType.NOT);
       }
 
       //===================================LEFT BRACKET=======================================
@@ -84,7 +101,7 @@ export class Parser {
         if (isArraySlice) {
           index = this.parseArraySlice(tokens, index + 1, expectations);
           continue;
-        };
+        }
 
         // Get the previous node
         const previous = ast.getRecentNode();
@@ -94,7 +111,6 @@ export class Parser {
       }
 
       //=================================ARRAY SLICE===========================================
-
       else if (token.type === TokenType.SLICE) {
         index = this.parseArraySlice(tokens, index, expectations);
       }
