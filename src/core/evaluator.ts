@@ -79,7 +79,10 @@ export class Evaluator {
         this.evaluateArraySlice(node);
         break;
       case "Omit":
-        this.evaluateNot(node);
+        this.evaluateOmit(node);
+        break;
+      case "MultipleSelect":
+        this.evaluateMultipleSelect(node);
         break;
     }
   }
@@ -286,7 +289,7 @@ export class Evaluator {
    * Evaluates the not node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateNot(node: ASTNode): void {
+  private evaluateOmit(node: ASTNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -327,6 +330,54 @@ export class Evaluator {
 
     // Update the current value
     this._current = result;
+  }
+
+  /**
+   * Evaluates the multiple select node
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private evaluateMultipleSelect(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Check if the current value is an object
+    if (!isRecord(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_OBJECTS, {
+        type: node.type,
+      });
+    }
+
+    // Get the keys
+    const keys = node.selectedKeys;
+    if (!keys || keys.length === 0) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_NO_KEYS, {
+        type: node.type,
+      });
+    }
+
+    // Get the value
+    let value: unknown[] = [];
+    for (const key of keys) {
+      const propertyName = checkProperty(key, node.type);
+      if (propertyName in this._current) {
+        value.push(this._current[propertyName]);
+      }
+    }
+
+    // Get the fallback value
+    const fallback = context.get("fallback") as string;
+
+    // Check if the value is not undefined
+    value = checkArray(value, fallback, {
+      type: node.type,
+      keys,
+    }) as unknown[];
+
+    // Update the current value
+    this._current = value;
+
+    // Evaluate children if any
+    evaluateChildren(node);
   }
 }
 

@@ -243,5 +243,17 @@ export const ERROR_MESSAGES = {
       cause: "Undefined value of the not operator",
       solution: "Check whether the not operator is valid"
     } as ErrorParams,
+    ERR_NO_KEYS: {
+      message: "No keys found",
+      code: "ERR_NO_KEYS",
+      cause: "Undefined value of selected keys",
+      solution: "Check whether the selected keys are valid"
+    } as ErrorParams,
+    ERR_ARRAY: {
+      message: "Error occurred while evaluating array",
+      code: "ERR_ARRAY",
+      cause: "Undefined value of the array",
+      solution: "Check whether the array is valid"
+    }
   },
 };

@@ -228,15 +228,15 @@ export function checkSliceRange(
  * @returns The validated value
  */
 export function checkArray(
-  value: unknown,
+  value: unknown[] | unknown,
   fallback: string,
   metadata: Record<string, unknown>
 ): unknown {
-  if (value === undefined) {
+  if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
     // Check for fallback
     if (fallback) return { __fallback__: fallback };
     throw new EvaluatorError(
-      ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE,
+      ERROR_MESSAGES.EVALUATOR.ERR_ARRAY,
       metadata
     );
   }
