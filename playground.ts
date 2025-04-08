@@ -2,5 +2,5 @@
 
 import { config, data, query } from "./src/index";
 
-data.load("./data/sample.json");
-query.run("$.animals[:2]");
+data.load("./data/nest.json");
+query.run("$.users[*].favorites[0][1].game");

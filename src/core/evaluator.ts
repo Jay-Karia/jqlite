@@ -18,6 +18,7 @@ import {
   checkSliceRange,
   checkValue,
   containsObjects,
+  evaluateChildren,
   extractUniqueKeys,
   fillArray,
   isRecord,
@@ -67,36 +68,15 @@ export class Evaluator {
         break;
       case "Property":
         this.evaluateProperty(node);
-
-        // Check if the node has children
-        if (node.children && node.children.length > 0) {
-          // Iterate over the children
-          for (const child of node.children) this.evaluate(child);
-        }
         break;
       case "ArrayAccess":
         this.evaluateArrayAccess(node);
-        // Check if the node has children
-        if (node.children && node.children.length > 0) {
-          // Iterate over the children
-          for (const child of node.children) this.evaluate(child);
-        }
         break;
       case "Wildcard":
         this.evaluateWildCard(node);
-        // Check if the node has children
-        if (node.children && node.children.length > 0) {
-          // Iterate over the children
-          for (const child of node.children) this.evaluate(child);
-        }
         break;
       case "ArraySlice":
         this.evaluateArraySlice(node);
-        // Check if the node has children
-        if (node.children && node.children.length > 0) {
-          // Iterate over the children
-          for (const child of node.children) this.evaluate(child);
-        }
         break;
     }
   }
@@ -153,6 +133,9 @@ export class Evaluator {
 
     // Update the current value
     this._current = value;
+
+    // Evaluate children if any
+    evaluateChildren(node);
   }
 
   /**
@@ -203,6 +186,9 @@ export class Evaluator {
 
     // Update the current value
     this._current = value;
+
+    // Evaluate children if any
+    evaluateChildren(node);
   }
 
   /**
@@ -248,6 +234,9 @@ export class Evaluator {
 
     // Update the current value
     this._current = value;
+
+    // Evaluate children if any
+    evaluateChildren(node);
   }
 
   /**
@@ -278,13 +267,19 @@ export class Evaluator {
     const fallback = context.get("fallback") as string;
 
     // Get the sliced value
-    let value = this._current.slice(node.sliceRange.start, node.sliceRange.end) as unknown;
+    let value = this._current.slice(
+      node.sliceRange.start,
+      node.sliceRange.end
+    ) as unknown;
     value = checkArray(value, fallback, {
       sliceRange: node.sliceRange,
-      property: propertyName
+      property: propertyName,
     });
 
     this._current = value;
+
+    // Evaluate children if any
+    evaluateChildren(node);
   }
 }
 

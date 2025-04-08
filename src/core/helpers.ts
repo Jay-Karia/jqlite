@@ -7,11 +7,12 @@
 
 //======================================IMPORTS======================================
 
-import type { NodeType } from "src/ast/types";
+import type { ASTNode, NodeType } from "src/ast/types";
 import type { ErrorParams } from "src/errors/types";
 import type { SliceRange } from "./types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
+import { evaluator } from "./evaluator";
 
 //===================================================================================
 
@@ -169,7 +170,7 @@ export function checkIndex(
         type,
         property,
         index,
-        arrayLength
+        arrayLength,
       }
     );
   }
@@ -182,7 +183,7 @@ export function checkIndex(
         index,
         property,
         type,
-        arrayLength
+        arrayLength,
       }
     );
   }
@@ -202,7 +203,7 @@ export function checkSliceRange(
 ): SliceRange {
   if (sliceRange === undefined) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE, {
-      sliceRange
+      sliceRange,
     });
   }
 
@@ -212,7 +213,7 @@ export function checkSliceRange(
   if (sliceRange.start < 0 || sliceRange.end > arrayLength) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_SLICE_RANGE, {
       sliceRange,
-      arrayLength
+      arrayLength,
     });
   }
 
@@ -226,15 +227,31 @@ export function checkSliceRange(
  * @param metadata The error metadata
  * @returns The validated value
  */
-export function checkArray(value: unknown, fallback: string, metadata: Record<string, unknown>): unknown {
+export function checkArray(
+  value: unknown,
+  fallback: string,
+  metadata: Record<string, unknown>
+): unknown {
   if (value === undefined) {
     // Check for fallback
     if (fallback) return { __fallback__: fallback };
 
-    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE, metadata);
+    throw new EvaluatorError(
+      ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE,
+      metadata
+    );
   }
 
   return value;
+}
+
+export function evaluateChildren(node: ASTNode): void {
+  // Evaluate children if any
+  if (node.children) {
+    for (const child of node.children) {
+      evaluator.evaluate(child);
+    }
+  }
 }
 
 //===================================================================================
