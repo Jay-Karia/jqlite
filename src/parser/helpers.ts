@@ -66,7 +66,7 @@ export function expectAny(tokens: Token[], index: number, types: TokenType[]): b
  * @param token The token to check
  * @returns The index to increment
  */
-export function incrementIndex(token: string): number {
+export function incrementIndex(token: TokenType): number {
   let index = 0;
 
   switch (token) {
@@ -74,7 +74,7 @@ export function incrementIndex(token: string): number {
       index = 1;
       break;
     case "LeftBracket":
-      index = 2;
+      index = 1;
       break;
     case "Number":
       index = 2;
@@ -82,8 +82,8 @@ export function incrementIndex(token: string): number {
     case "Wildcard":
       index = 2;
       break;
-    case "ArraySlice":
-      index = 4;
+    case "Slice":
+      index = 2;
       break;
     default:
       index = 0;

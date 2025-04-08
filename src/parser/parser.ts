@@ -9,7 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
-import { expect, expectAny, incrementIndex } from "./helpers";
+import { incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 
@@ -32,10 +32,10 @@ export class Parser {
     for (let index = 0; index < tokens.length; index++) {
       const token = tokens[index];
 
-      //=======================================ROOT========================================
+      //=======================================ROOT=========================================
 
       if (token.type === TokenType.ROOT) ast.createRootNode();
-      //=======================================DOT=========================================
+      //=======================================DOT==========================================
       else if (token.type === TokenType.DOT) {
         // Expectations for the token
         expectations.dot(index);
@@ -50,7 +50,7 @@ export class Parser {
         index += incrementIndex(TokenType.DOT);
       }
 
-      //===================================PROPERTY=========================================
+      //===================================PROPERTY==========================================
       else if (token.type === TokenType.PROPERTY) {
         // Expectations for the token
         expectations.property(index);
@@ -62,69 +62,53 @@ export class Parser {
         ast.createPropertyNode(token.value, null, previousNode);
       }
 
-      //===================================LEFT BRACKET===================================
+      //===================================LEFT BRACKET=======================================
       else if (token.type === TokenType.LEFT_BRACKET) {
-        // Expect the next token to be a number or wildcard
-        expectAny(tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD]);
-
-        // Check for the next token type
-        const nextTokenType = tokens[index + 1].type;
-
-        // TODO: make separate parse and check functions to re use if the other token is encountered
-
-        //--------------------------------ARRAY SLICE------------------------------------
-
-        // Check for array slice
-        const isArraySlice = tokens[index + 2].type === TokenType.SLICE;
-
-        if (isArraySlice) {
-          this.parseArraySlice(tokens, index, expectations);
-          continue;
-        };
-
-        //-------------------------------------------------------------------------------
-
-        //------------------------------------NUMBER---------------------------------------
-
-        if (nextTokenType === TokenType.NUMBER) {
-          // Get the number token
-          const numberToken = tokens[index + 1];
-
-          // Get the previous node
-          const previousNode = ast.getRecentNode();
-
-          // Add the token to the AST with parent as the last property node;
-          ast.createArrayAccessNode(
-            Number(numberToken.value),
-            null,
-            previousNode
-          );
-        }
-
-        //------------------------------------WILDCARD---------------------------------------
-        else if (nextTokenType === TokenType.WILDCARD)
-          this.parseWildcard(index + 1, expectations);
-
-        //------------------------------------------------------------------------------------
-
-        // Update the index
-        index += incrementIndex(TokenType.LEFT_BRACKET);
+        // Expectations for the token
+        expectations.leftBracket(index);
       }
 
       //================================RIGHT BRACKET==========================================
+      else if (token.type === TokenType.RIGHT_BRACKET) {
+        // Expectations for the token
+        expectations.rightBracket(index);
+      }
 
       //====================================NUMBER=============================================
+      else if (token.type === TokenType.NUMBER) {
+        // Expectations for the token
+        expectations.number(index);
 
-      //===================================WILDCARD======================================
+        // Check for array slice
+        const isArraySlice = tokens[index + 1].type === TokenType.SLICE;
+        if (isArraySlice) {
+          index = this.parseArraySlice(tokens, index + 1, expectations);
+          continue;
+        };
+
+        // Get the previous node
+        const previous = ast.getRecentNode();
+
+        // Add the token to AST
+        ast.createArrayAccessNode(Number(token.value), null, previous);
+      }
+
+      //=================================ARRAY SLICE===========================================
+
+      else if (token.type === TokenType.SLICE) {
+        index = this.parseArraySlice(tokens, index, expectations);
+      }
+
+      //===================================WILDCARD============================================
       else if (token.type === TokenType.WILDCARD) {
         this.parseWildcard(index, expectations);
         index += incrementIndex(TokenType.WILDCARD);
       }
 
-      //===================================FALLBACK========================================
+      //===================================FALLBACK============================================
       else if (token.type === TokenType.FALL_MARK) {
-        // Expect the second next token to be a fallback
-        expect(tokens, index + 1, TokenType.FALLBACK);
+        // Expectations for the token
+        expectations.fallMark(index);
 
         // Get the fallback token
         const fallbackToken = tokens[index + 1];
@@ -137,11 +121,11 @@ export class Parser {
         ast.createFallbackNode(fallbackToken.value);
       }
 
-      //===================================================================================
+      //========================================================================================
     }
   }
 
-  //========================================INTERNALS========================================
+  //========================================INTERNALS============================================
 
   /**
    * Parse the array slice token
@@ -153,13 +137,13 @@ export class Parser {
     tokens: Token[],
     index: number,
     expectations: Expectations
-  ): void {
+  ): number {
     // Expectations for the token
     expectations.arraySlice(index);
 
     // Get the slice token
-    const startRange = tokens[index + 1].value;
-    const endRange = tokens[index + 3].value;
+    const startRange = tokens[index - 1].value;
+    const endRange = tokens[index + 1].value;
 
     // Add the token to the AST
     ast.createArraySliceNode(
@@ -168,8 +152,15 @@ export class Parser {
       null,
       ast.getRecentNode()
     );
+
+    return index + incrementIndex(TokenType.SLICE);
   }
 
+  /**
+   * Parse the wildcard token
+   * @param {number} index The index of the token
+   * @param {Expectations} expectations The expectations object
+   */
   private parseWildcard(index: number, expectations: Expectations): void {
     // Expect the previous token to be a left bracket
     expectations.wildcard(index);
@@ -181,7 +172,7 @@ export class Parser {
     ast.createWildcardNode(null, previousNode);
   }
 
-  //=========================================================================================
+  //==================================================================================================
 }
 
 export const parser = new Parser();
