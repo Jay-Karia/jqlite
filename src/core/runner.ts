@@ -60,10 +60,8 @@ export class QueryRunner {
     evaluator.evaluate(root);
 
     // Get the result
-    // const result = evaluator.getResult();
-    // console.log(JSON.stringify(result, null, 2));
-
-    console.log(ast.preOrder());
+    const result = evaluator.getResult();
+    console.log(JSON.stringify(result, null, 2));
   }
 }
 

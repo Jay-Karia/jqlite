@@ -204,6 +204,18 @@ export const ERROR_MESSAGES = {
       code: "NO_OBJECTS",
       cause: "The array does not have objects",
       solution: "Make sure that the value is an array of objects"
+    } as ErrorParams,
+    ERR_SLICE_RANGE: {
+      message: "Error in array slice",
+      code: "ERR_SLICE_RANGE",
+      cause: "Could not get slice range",
+      solution: "Make sure that the slice range value is valid"
+    } as ErrorParams,
+    INVALID_SLICE_RANGE: {
+      message: "Invalid slice range",
+      code: "INVALID_SLICE_RANGE",
+      cause: "Array slice range is out of bonds",
+      solution: "Make sure that the slice range is within the array length"
     } as ErrorParams
   },
 };

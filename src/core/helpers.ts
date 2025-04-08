@@ -9,6 +9,7 @@
 
 import type { NodeType } from "src/ast/types";
 import type { ErrorParams } from "src/errors/types";
+import type { SliceRange } from "./types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 
@@ -46,7 +47,7 @@ export function extractUniqueKeys(data: unknown[]): string[] {
  * @param {unknown} value The value to check
  * @returns True if the value is a plain object
  */
-function isRecord(value: unknown): value is Record<string, unknown> {
+export function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
@@ -92,8 +93,8 @@ export function fillArray(
  * @returns {Record<string, unknown>} The data if it is not null or undefined
  */
 export function checkData(
-  data: Record<string, unknown> | null
-): Record<string, unknown> {
+  data: Record<string, unknown> | unknown | null
+): Record<string, unknown> | unknown {
   if (data === null || data === undefined) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_DATA, {
       data: data,
@@ -124,7 +125,7 @@ export function checkProperty(
 }
 
 /**
- * Check if the value is not null or undefined
+ * Check if the value is not undefined
  * @param {Record<string, unknown>} value The value to be checked
  * @param {string | null} fallback The fallback value to be used if the value is null or undefined
  * @param {ErrorParams} errorParam The error parameters
@@ -151,14 +152,14 @@ export function checkValue(
  * @param {number} index The index to be checked
  * @param {string} property The property name
  * @param {NodeType} type The node type
- * @param {number} expectedLength The expected length of the array
+ * @param {number} arrayLength The expected length of the array
  * @returns {number} The index if it is valid
  */
 export function checkIndex(
   index: number | undefined,
   property: string,
   type: NodeType,
-  expectedLength: number
+  arrayLength: number
 ): number {
   // Check whether the index is defined
   if (index === undefined) {
@@ -168,23 +169,72 @@ export function checkIndex(
         type,
         property,
         index,
+        arrayLength
       }
     );
   }
 
   // Check the index bounds
-  if (index < 0 || index >= expectedLength) {
+  if (index < 0 || index >= arrayLength) {
     throw new EvaluatorError(
       ERROR_MESSAGES.EVALUATOR.ARRAY_INDEX_OUT_OF_BOUNDS,
       {
         index,
         property,
         type,
+        arrayLength
       }
     );
   }
 
   return index;
+}
+
+/**
+ * Checks the validity of slice range, with replacing null values with zero if required
+ * @param {SliceRange} sliceRange The slice range object from node
+ * @param {number} arrayLength The actual array length
+ * @returns {SliceRange} The valid slice range
+ */
+export function checkSliceRange(
+  sliceRange: SliceRange | undefined,
+  arrayLength: number
+): SliceRange {
+  if (sliceRange === undefined) {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE, {
+      sliceRange
+    });
+  }
+
+  if (!sliceRange.start) sliceRange.start = 0;
+  if (!sliceRange.end) sliceRange.end = arrayLength;
+
+  if (sliceRange.start < 0 || sliceRange.end > arrayLength) {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_SLICE_RANGE, {
+      sliceRange,
+      arrayLength
+    });
+  }
+
+  return sliceRange;
+}
+
+/**
+ * Check whether the given array is undefined
+ * @param value The value to be checked
+ * @param fallback The fallback value
+ * @param metadata The error metadata
+ * @returns The validated value
+ */
+export function checkArray(value: unknown, fallback: string, metadata: Record<string, unknown>): unknown {
+  if (value === undefined) {
+    // Check for fallback
+    if (fallback) return { __fallback__: fallback };
+
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE, metadata);
+  }
+
+  return value;
 }
 
 //===================================================================================
