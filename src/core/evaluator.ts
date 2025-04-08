@@ -78,6 +78,9 @@ export class Evaluator {
       case "ArraySlice":
         this.evaluateArraySlice(node);
         break;
+      case "Not":
+        this.evaluateNot(node);
+        break;
     }
   }
 
@@ -272,10 +275,58 @@ export class Evaluator {
       property: propertyName,
     });
 
+    // Update the current value
     this._current = value;
 
     // Evaluate children if any
     evaluateChildren(node);
+  }
+
+  /**
+   * Evaluates the not node
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private evaluateNot(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Check the children of the node
+    if (!node.children || node.children.length === 0 || node.children[0].type !== "Property") {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_EMIT_PROPERTY, {
+        type: node.type,
+      });
+    }
+
+    // Get the property name
+    const propertyName = checkProperty(node.children[0].propertyName, node.type);
+
+    // Check if the current value is an object
+    if (!isRecord(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_OBJECTS, {
+        type: node.type,
+        property: propertyName,
+      });
+    }
+
+    // Get the fallback value
+    const fallback = context.get("fallback") as string;
+
+    // Remove the key from the current data
+    delete this._current[propertyName];
+    
+    // Check if the value is not undefined
+    const result = checkValue(
+      this._current,
+      fallback,
+      ERROR_MESSAGES.EVALUATOR.ERR_NOT,
+      {
+        type: node.type,
+        property: propertyName,
+      }
+    );
+
+    // Update the current value
+    this._current = result;
   }
 }
 

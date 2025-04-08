@@ -216,6 +216,18 @@ export const ERROR_MESSAGES = {
       code: "INVALID_SLICE_RANGE",
       cause: "Array slice range is out of bonds",
       solution: "Make sure that the slice range is within the array length"
-    } as ErrorParams
+    } as ErrorParams,
+    ERR_EMIT_PROPERTY: {
+      message: "Error in emit property",
+      code: "ERR_EMIT_PROPERTY",
+      cause: "Could not get emit property",
+      solution: "Make sure that the emit property is valid"
+    } as ErrorParams,
+    ERR_NOT: {
+      message: "Error occurred while evaluating not",
+      code: "ERR_NOT",
+      cause: "Undefined value of the not operator",
+      solution: "Check whether the not operator is valid"
+    } as ErrorParams,
   },
 };
