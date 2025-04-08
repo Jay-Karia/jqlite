@@ -18,7 +18,8 @@ export type NodeType =
   | "Fallback"
   | "Wildcard"
   | "ArraySlice"
-  | "Omit";
+  | "Omit"
+  | "MultipleSelect";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;
@@ -27,6 +28,7 @@ export interface ASTNode {
   propertyName?: string;
   fallbackValue?: string;
   sliceRange?: SliceRange;
+  selectedKeys?: string[];
 }
 
 //=================================================================================

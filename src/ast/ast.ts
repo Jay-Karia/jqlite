@@ -206,7 +206,10 @@ export class AST {
    * @param {ASTNode} parent The parent node to set.
    * @returns {ASTNode} The created omit node.
    */
-  public createOmitNode(child?: ASTNode | null, parent?: ASTNode | null): ASTNode {
+  public createOmitNode(
+    child?: ASTNode | null,
+    parent?: ASTNode | null
+  ): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -223,6 +226,37 @@ export class AST {
     this._recentNode = notNode;
 
     return notNode;
+  }
+
+  /**
+   * Create a multiple select node.
+   * @param {string[]} selectedKeys The selected keys of the multiple select node.
+   * @param {ASTNode | null} child The child node to set.
+   * @param {ASTNode | null} parent The parent node to set.
+   * @returns {ASTNode} The created multiple select node.
+   */
+  public createMultipleSelectNode(
+    selectedKeys: string[],
+    child?: ASTNode | null,
+    parent?: ASTNode | null
+  ): ASTNode {
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
+
+    const multipleSelectNode: ASTNode = {
+      type: "MultipleSelect",
+      children: child ? [child] : [],
+      parent: parent ?? this._root,
+      selectedKeys,
+    };
+
+    // Update the parent
+    updateParent(multipleSelectNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = multipleSelectNode;
+
+    return multipleSelectNode;
   }
 
   //====================================DELETION=====================================

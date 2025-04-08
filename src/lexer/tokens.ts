@@ -19,6 +19,9 @@ export enum TokenType {
   WILDCARD = "Wildcard", // *
   SLICE = "Slice", // :
   NOT = "Not", // !
+  COMMA = "Comma", // ,
+  LEFT_PARENTHESIS = "LeftParenthesis", // (
+  RIGHT_PARENTHESIS = "RightParenthesis", // )
   WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token

@@ -9,6 +9,7 @@
 
 import { type Token, TokenType } from "./tokens";
 import {
+  countSkippable,
   getEoqToken,
   getTokenType,
   hasNextToken,
@@ -25,7 +26,6 @@ import {
  * @description This class is responsible for tokenizing the input string.
  */
 export class Lexer {
-
   //====================================PROPERTIES===================================
 
   private input: string;
@@ -33,6 +33,7 @@ export class Lexer {
   private character: string;
   private isEoq: boolean;
   private isFallback: boolean;
+  private ignoreWhitespace: boolean;
 
   //====================================CONSTRUCTOR==================================
 
@@ -45,6 +46,7 @@ export class Lexer {
     this.character = "";
     this.isEoq = false;
     this.isFallback = false;
+    this.ignoreWhitespace = false;
   }
 
   //====================================TOKENIZATION==================================
@@ -88,12 +90,17 @@ export class Lexer {
   public getToken(): Token {
     let tokenType: TokenType = TokenType.UNKNOWN;
 
+    // Ignore whitespace
+    if (this.ignoreWhitespace) {
+      this.position += countSkippable(this.input, this.position);
+      this.character = this.input[this.position];
+    }
+
     // Check for end of query.
     if (!hasNextToken(this.input, this.position)) {
       this.isEoq = true;
       return getEoqToken(this.position);
     }
-
 
     // Read the whole word or number
     if (isAlpha(this.character) || isDigit(this.character)) {
@@ -119,8 +126,19 @@ export class Lexer {
       this.isFallback = true;
     }
 
+    // Ignore whitespace if left parenthesis is found
+    if (this.character === "(") {
+      this.ignoreWhitespace = true;
+    }
+
+    // Stop ignoring whitespace if right parenthesis is found
+    if (this.character === ")") {
+      this.ignoreWhitespace = false;
+    }
+
     // Get the token type and return the token.
-    if (tokenType === TokenType.UNKNOWN) tokenType = getTokenType(this.character);
+    if (tokenType === TokenType.UNKNOWN)
+      tokenType = getTokenType(this.character);
     const token: Token = {
       type: tokenType,
       value: this.character,

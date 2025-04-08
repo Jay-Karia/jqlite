@@ -9,6 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { expect, expectAny } from "./helpers";
+import {context} from "src/core/context";
 
 //=============================================================================
 
@@ -32,8 +33,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public dot(index: number): void {
-    // Expect the next token to be a property or not
-    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.NOT]);
+    // Expect the next token to be a property or not or left parenthesis
+    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.NOT, TokenType.LEFT_PARENTHESIS]);
   }
 
   /**
@@ -41,8 +42,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public property(index: number): void {
-    // Expect the previous token to be a dot or not
-    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT]);
+    // Expect the previous token to be a dot or not or left parenthesis or comma
+    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
   }
 
   /**
@@ -138,7 +139,7 @@ export class Expectations {
 
   /**
    * Expectations for the fall mark token
-   * @param index The index of the token
+   * @param {number} index The index of the token
    */
   public fallMark(index: number): void {
     // Expect the second next token to be a fallback
@@ -147,7 +148,7 @@ export class Expectations {
 
   /**
    * Expectations for the not token
-   * @param index The index of the token
+   * @param {number} index The index of the token
    */
   public not(index: number): void {
     // Expect the next token to be property
@@ -155,5 +156,38 @@ export class Expectations {
 
     // Expect the previous token to be dot
     expect(this._tokens, index - 1, TokenType.DOT);
+  }
+
+  /**
+   * Expectations for the left parenthesis token
+   * @param {number} index The index of the token
+   */
+  public leftParenthesis(index: number): void {
+    // Expect the previous token to be dot
+    expect(this._tokens, index - 1, TokenType.DOT);
+
+    // Expect the next token to be property
+    expect(this._tokens, index + 1, TokenType.PROPERTY);
+  }
+
+  /**
+   * Expectations for the right parenthesis token
+   * @param {number} index The index of the token
+   */
+  public rightParenthesis(index: number): void {
+    // Expect the previous token to be property
+    expect(this._tokens, index - 1, TokenType.PROPERTY);
+  }
+
+  /**
+   * Expectations for the comma token
+   * @param {number} index The index of the token
+   */
+  public comma(index: number): void {
+    // Expect the previous token to be property
+    expect(this._tokens, index - 1, TokenType.PROPERTY);
+
+    // Expect the next token to be property
+    expect(this._tokens, index + 1, TokenType.PROPERTY);
   }
 }

@@ -142,6 +142,20 @@ export const ERROR_MESSAGES = {
       solution:
         "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
+    MULTIPLE_SELECT_TRUE: {
+      message: "Multiple select is true",
+      code: "MULTIPLE_SELECT_TRUE",
+      cause: "The multiple select is true",
+      solution:
+        "Make sure the multiple select is false before end of query",
+    } as ErrorParams,
+    MULTIPLE_SELECT_FALSE: {
+      message: "Multiple select is false",
+      code: "MULTIPLE_SELECT_FALSE",
+      cause: "The multiple select is false",
+      solution:
+        "Make sure the multiple select is true before using right parenthesis",
+    }
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {

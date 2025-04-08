@@ -12,6 +12,8 @@ import { ast } from "src/ast/ast";
 import { getSliceType, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
+import {ParserError} from "src/errors/factory";
+import {ERROR_MESSAGES} from "src/errors/messages";
 
 //=================================================================================
 
@@ -99,6 +101,40 @@ export class Parser {
         ast.createArrayAccessNode(Number(token.value), null, previous);
       }
 
+      //================================LEFT PARENTHESIS=======================================
+      else if (token.type === TokenType.LEFT_PARENTHESIS) {
+        // Expectations for the token
+        expectations.leftParenthesis(index);
+
+        // Update the context
+        context.set("multipleSelect", true);
+      }
+
+      //===============================RIGHT PARENTHESIS=======================================
+      else if (token.type === TokenType.RIGHT_PARENTHESIS) {
+        // Expectations for the token
+        expectations.rightParenthesis(index);
+
+        // Throw an error if multiple select is off
+        const isMultipleSelect = context.get("multipleSelect") ?? false;
+        if (!isMultipleSelect) {
+          throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
+            token: token.value,
+            index: index,
+            multipleSelect: isMultipleSelect
+          });
+        }
+
+        // Update the context
+        context.set("multipleSelect", false);
+      }
+
+      //======================================COMMA============================================
+      else if (token.type === TokenType.COMMA) {
+        // Expectations for the token
+        expectations.comma(index);
+      }
+
       //=================================ARRAY SLICE===========================================
       else if (token.type === TokenType.SLICE) {
         index = this.parseArraySlice(tokens, index, expectations);
@@ -124,6 +160,20 @@ export class Parser {
 
         // Add the token to the AST with parent as the last property node;
         ast.createFallbackNode(fallbackToken.value);
+      }
+
+      //========================================EOQ=============================================
+      else if (token.type === TokenType.EOQ) {
+        // Check if multiple select is still on
+        const isMultipleSelect = context.get("multipleSelect") ?? false;
+        if (isMultipleSelect) {
+          throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_TRUE, {
+            token: token.value,
+            index: index,
+            multipleSelect: isMultipleSelect,
+            expected: ")"
+          });
+        }
       }
 
       //========================================================================================

@@ -170,6 +170,12 @@ export function getTokenType(char: string): TokenType {
       return TokenType.SLICE;
     case "!":
       return TokenType.NOT;
+    case ",":
+      return TokenType.COMMA;
+    case "(":
+      return TokenType.LEFT_PARENTHESIS;
+    case ")":
+      return TokenType.RIGHT_PARENTHESIS;
     case " ":
     case "\t":
     case "\n":

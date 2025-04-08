@@ -38,4 +38,9 @@ export interface ArraySliceNode extends ASTNode {
 export interface OmitNode extends ASTNode {
   type: "Omit";
 }
+export interface MultipleSelectNode extends ASTNode {
+  type: "MultipleSelect";
+  selectedKeys: string[];
+}
+
 //===================================================================================

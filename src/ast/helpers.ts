@@ -48,6 +48,8 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
     obj["fallbackValue"] = node.fallbackValue;
   else if (node.type === "ArraySlice" && node.sliceRange)
     obj["sliceRange"] = node.sliceRange;
+  else if (node.type === "MultipleSelect" && node.selectedKeys)
+    obj["selectedKeys"] = node.selectedKeys;
 }
 
 /**

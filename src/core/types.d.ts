@@ -7,7 +7,7 @@
 
 //=======================================TYPES===================================
 
-export type Keys = "fallback";
+export type Keys = "fallback" | "multipleSelect";
 export interface SliceRange {
   start: number,
   end: number
