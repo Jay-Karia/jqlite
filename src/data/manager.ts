@@ -37,13 +37,13 @@ export class DataManager {
    * @param {string | data} data The JSON data to be stored in memory
    * @description This method will parse the JSON data and store it in memory. If the data is already an object, it will be stored as is.
    */
-  public set(data: string | object): void {
+  public set(data: string | Record<string, unknown>): void {
     const parsedData = typeof data === "string" ? parseJson(data) : data;
     dataStore.set(parsedData);
   }
 
   //======================================LOADER====================================
-  
+
   /**
    * Load data from a file to memory
    * @param {string} filePath The file path to load data from

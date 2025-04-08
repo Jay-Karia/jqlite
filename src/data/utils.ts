@@ -18,9 +18,9 @@ import { ERROR_MESSAGES } from "../errors/messages";
  * @param {string} data The JSON data to parse
  * @returns {object | null} The parsed JSON data
  */
-export function parseJson(data: string): object | null {
+export function parseJson(data: string): Record<string, unknown> | null {
   try {
-    return JSON.parse(data) as object;
+    return JSON.parse(data);
   } catch {
     throw new DataError(ERROR_MESSAGES.DATA.INVALID_JSON, {
       jsonData: `${data.substring(0, 20)}...`,

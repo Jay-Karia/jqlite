@@ -19,7 +19,7 @@ import { ERROR_MESSAGES } from "../errors/messages";
  * @param {string} url The URL to fetch data from
  * @returns {Promise<object | null>} The fetched data
  */
-export async function loadFromUrl(url: string): Promise<object | null> {
+export async function loadFromUrl(url: string): Promise<Record<string, unknown> | null> {
   let urlData;
   try {
     const response = await fetch(url);
@@ -38,7 +38,7 @@ export async function loadFromUrl(url: string): Promise<object | null> {
  * @param {string} path The file path to load data from
  * @returns {object | null} The loaded data
  */
-export function loadFromFile(path: string): object | null {
+export function loadFromFile(path: string): Record<string, unknown> | null {
   let data;
   try {
     data = readFileSync(path, "utf-8");
