@@ -116,20 +116,16 @@ export class Evaluator {
 
     // Get the value
     let value;
-    if (isRecord(this._current)) {
-      value = this._current[propertyName];
-    }
-    if (isRecord(value)) {
-      // Check if the value is not undefined
-      value = checkValue(
-        value,
-        fallback,
-        ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND,
-        {
-          propertyName,
-        }
-      );
-    }
+    if (isRecord(this._current)) value = this._current[propertyName];
+
+    value = checkValue(
+      value as Record<string, unknown> | null,
+      fallback,
+      ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND,
+      {
+        propertyName,
+      }
+    );
 
     // Update the current value
     this._current = value;

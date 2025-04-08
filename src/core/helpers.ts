@@ -235,7 +235,6 @@ export function checkArray(
   if (value === undefined) {
     // Check for fallback
     if (fallback) return { __fallback__: fallback };
-
     throw new EvaluatorError(
       ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE,
       metadata
