@@ -9,7 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
-import { getSliceType, incrementIndex } from "./helpers";
+import { checkMultipleSelectAndOmit, getSliceType, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -68,6 +68,15 @@ export class Parser {
         // Expectations for the token
         expectations.not(index);
 
+        // Check for multiple omit
+        const isMultipleOmit = tokens[index + 1].type === TokenType.LEFT_PARENTHESIS;
+
+        // Only update the context
+        if (isMultipleOmit) {
+          context.set("multipleOmit", true);
+          continue;
+        }
+
         // Add the token to the AST
         const not = ast.createOmitNode();
 
@@ -118,7 +127,8 @@ export class Parser {
         expectations.leftParenthesis(index);
 
         // Update the context
-        context.set("multipleSelect", true);
+        const isMultipleOmit = context.get("multipleOmit") ?? false;
+        if (!isMultipleOmit) context.set("multipleSelect", true);
       }
 
       //===============================RIGHT PARENTHESIS=======================================
@@ -126,15 +136,8 @@ export class Parser {
         // Expectations for the token
         expectations.rightParenthesis(index);
 
-        // Throw an error if multiple select is off
-        // const isMultipleSelect = context.get("multipleSelect") ?? false;
-        // if (!isMultipleSelect) {
-        //   throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
-        //     token: token.value,
-        //     index: index,
-        //     multipleSelect: isMultipleSelect,
-        //   });
-        // }
+        // Throw an error if multiple select/omit is off
+        checkMultipleSelectAndOmit(token, index);
 
         // Check for selected keys and add it to AST
         const selectedKeys = context.get("selectedKeys");
@@ -193,7 +196,7 @@ export class Parser {
         // Check if multiple select is still on
         const isMultipleSelect = context.get("multipleSelect") ?? false;
         if (isMultipleSelect) {
-          throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_TRUE, {
+          throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_TRUE, {
             token: token.value,
             index: index,
             multipleSelect: isMultipleSelect,

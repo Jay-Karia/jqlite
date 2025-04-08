@@ -26,7 +26,9 @@ export class Context {
     this._context = {
       fallback: null,
       multipleSelect: false,
-      selectedKeys: []
+      selectedKeys: [],
+      multipleOmit: false,
+      omittedKeys: []
     };
   }
 

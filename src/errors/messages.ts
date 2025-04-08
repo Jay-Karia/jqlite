@@ -142,20 +142,21 @@ export const ERROR_MESSAGES = {
       solution:
         "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
-    MULTIPLE_SELECT_TRUE: {
-      message: "Multiple select is on",
+    MULTIPLE_TRUE: {
+      message: "Multiple select/omit is on",
       code: "MULTIPLE_SELECT_TRUE",
-      cause: "The multiple select is on",
+      cause: "The multiple select/omit is on",
       solution:
-        "Make sure the multiple select is off before end of query. Use `)` to turn off multiple select",
+        "Make sure the multiple select/omit is off before end of query. Use `)` to turn off multiple select/omit",
     } as ErrorParams,
-    MULTIPLE_SELECT_FALSE: {
-      message: "Multiple select is off",
+    MULTIPLE_FALSE: {
+      message: "Multiple select/omit is off",
       code: "MULTIPLE_SELECT_FALSE",
-      cause: "The multiple select is off",
+      cause: "The multiple select/omit is off",
       solution:
-        "Make sure the multiple select is on before using right parenthesis. Use `(` to turn on multiple select",
-    }
+        "Make sure the multiple select/omit is on before using right parenthesis. Use `(` to turn on multiple select/omit",
+    } as ErrorParams,
+
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {

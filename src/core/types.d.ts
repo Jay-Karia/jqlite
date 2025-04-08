@@ -15,6 +15,8 @@ export interface TContext {
   fallback: string | null,
   multipleSelect: boolean,
   selectedKeys: string[]
+  multipleOmit: boolean;
+  omittedKeys: string[]
 }
 export type Keys = keyof TContext;
 

@@ -13,6 +13,7 @@ import type { ASTNode } from "src/ast/types";
 import { ParserError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ast } from "src/ast/ast";
+import {context} from "src/core/context";
 
 //=================================================================================
 
@@ -146,4 +147,25 @@ export function getSliceType(
   if (isRightSlice) return "right";
 
   return null;
+}
+
+/**
+ * Checks if the multiple select is enabled, and throws an error if not
+ * @param {Token} token The token to check
+ * @param {number} index The index of the token
+ * @throws {ParserError} If the multiple select is not enabled
+ */
+export function checkMultipleSelectAndOmit(token: Token, index: number): void {
+  // Get the value from context
+  const isMultipleSelect = context.get("multipleSelect") ?? false;
+  const isMultipleOmit = context.get("multipleOmit") ?? false;
+
+  // Check the values
+  if (!isMultipleSelect && !isMultipleOmit) {
+    throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_FALSE, {
+      token: token.value,
+      index,
+      multipleSelect: isMultipleSelect,
+    });
+  }
 }
