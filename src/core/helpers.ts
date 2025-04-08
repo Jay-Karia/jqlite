@@ -151,14 +151,14 @@ export function checkValue(
 /**
  * Check if the index is valid
  * @param {number} index The index to be checked
- * @param {string} property The property name
+ * @param {string | string[] | undefined} property The property name
  * @param {NodeType} type The node type
  * @param {number} arrayLength The expected length of the array
  * @returns {number} The index if it is valid
  */
 export function checkIndex(
   index: number | undefined,
-  property: string,
+  property: string | string[] | undefined,
   type: NodeType,
   arrayLength: number
 ): number {
@@ -255,6 +255,24 @@ export function evaluateChildren(node: ASTNode): void {
       evaluator.evaluate(child);
     }
   }
+}
+
+/**
+ * Get the property name from the highest parent node
+ * @param {ASTNode} node The AST node from which to get the property name
+ * @returns {string | string[] | undefined} The property name
+ */
+export function getPropertyName(node: ASTNode | null): string | string[] | undefined {
+  let property: string | string[] | undefined;
+
+  // Use a single property name
+  if (node?.type === "Property")
+    property = checkProperty(node?.propertyName, "Property");
+  // Use multiple property names
+  else if (node?.type === "MultipleSelect")
+    property = node?.selectedKeys;
+
+  return property;
 }
 
 //===================================================================================

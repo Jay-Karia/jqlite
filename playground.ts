@@ -3,4 +3,4 @@
 import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json");
-query.run("$.me.(not, name)");
+query.run("$.friends[*].!name.(age, gender)");

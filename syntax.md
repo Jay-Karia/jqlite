@@ -39,7 +39,7 @@ $.users[1:]               // From index 1 to end
 $.users[:3]               // From start to index 3
 ```
 
-- [ ] **Multiple Key Selection**
+- [x] **Multiple Key Selection**
 
 ```js
 $.user.(name, age, email) // Multiple keys (returns array)

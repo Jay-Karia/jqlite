@@ -21,6 +21,7 @@ import {
   evaluateChildren,
   extractUniqueKeys,
   fillArray,
+  getPropertyName,
   isRecord,
 } from "./helpers";
 import { context } from "./context";
@@ -150,20 +151,20 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const propertyName = checkProperty(propertyNode?.propertyName, "Property");
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
 
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         type: node.type,
-        property: propertyName,
+        property,
       });
     }
 
     // Check if the index is valid
     const index = checkIndex(
       node.index,
-      propertyName,
+      property,
       node.type,
       this._current.length
     );
@@ -182,7 +183,7 @@ export class Evaluator {
       {
         type: node.type,
         index,
-        property: propertyName,
+        property,
       }
     );
 
@@ -203,13 +204,13 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const propertyName = checkProperty(propertyNode?.propertyName, "Property");
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
 
     // Get the parent property is array
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         type: node.type,
-        property: propertyName,
+        property,
       });
     }
 
@@ -220,7 +221,7 @@ export class Evaluator {
     if (!containsObjects(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_OBJECTS, {
         type: node.type,
-        property: propertyName,
+        property,
       });
     }
 
@@ -231,7 +232,7 @@ export class Evaluator {
     // Check if the value is not undefined
     value = checkValue(value, fallback, ERROR_MESSAGES.EVALUATOR.ERR_WILDCARD, {
       type: node.type,
-      property: propertyName,
+      property,
     });
 
     // Update the current value
@@ -251,13 +252,13 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const propertyName = checkProperty(propertyNode?.propertyName, "Property");
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
 
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         type: node.type,
-        property: propertyName,
+        property,
         sliceRange: node.sliceRange,
       });
     }
@@ -275,7 +276,7 @@ export class Evaluator {
     ) as unknown;
     value = checkArray(value, fallback, {
       sliceRange: node.sliceRange,
-      property: propertyName,
+      property,
     });
 
     // Update the current value
