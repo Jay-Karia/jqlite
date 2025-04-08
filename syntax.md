@@ -79,15 +79,6 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #matches()        // Regex matching
 ```
 
-- [ ] **Array Functions**
-
-```js
-#sort(@.field, "asc"/"dsc")  // Sort array of objects
-#sort()                      // Sort array of primitives
-#first()                     // First element
-#last()                      // Last element
-```
-
 - [ ] **Math Functions**
 
 ```js
@@ -96,6 +87,15 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #mul()   // Multiplication
 #div()   // Division
 #mod()   // Modulus
+```
+
+- [ ] **Array Functions**
+
+```js
+#sort(@.field, "asc"/"dsc")  // Sort array of objects
+#sort()                      // Sort array of primitives
+#first()                     // First element
+#last()                      // Last element
 ```
 
 - [ ] **Date Functions**
