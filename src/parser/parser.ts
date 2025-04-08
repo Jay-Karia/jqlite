@@ -9,7 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
-import { incrementIndex } from "./helpers";
+import { getSliceType, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 
@@ -138,8 +138,11 @@ export class Parser {
     index: number,
     expectations: Expectations
   ): number {
+    // Check the slice type
+    const sliceType = getSliceType(tokens, index);
+
     // Expectations for the token
-    expectations.arraySlice(index);
+    expectations.arraySlice(index, sliceType);
 
     // Get the slice token
     const startRange = tokens[index - 1].value;

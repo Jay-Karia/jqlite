@@ -3,4 +3,4 @@
 import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json");
-query.run("$.animals[1:5]");
+query.run("$.animals[:2]");

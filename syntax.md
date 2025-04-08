@@ -31,7 +31,7 @@ $.users[*]                // Wildcard (all elements)
 $.friends[*].name         // All names in friends array
 ```
 
-- [ ] **Array Slices**
+- [x] **Array Slices**
 
 ```js
 $.users[1:4]              // Slice from index 1 to 4

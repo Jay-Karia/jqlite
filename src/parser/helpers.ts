@@ -7,7 +7,7 @@
 
 //======================================IMPORTS====================================
 
-import type { Token, TokenType } from "src/lexer/tokens";
+import { type Token, TokenType } from "src/lexer/tokens";
 import type { ErrorParams } from "src/errors/types";
 import type { ASTNode } from "src/ast/types";
 import { ParserError } from "src/errors/factory";
@@ -117,4 +117,20 @@ export function checkPreviousNode(
   }
 
   return previousNode;
+}
+
+/**
+ * Get the type of slice among three types
+ * @param {Token[]} tokens The tokens fro the query
+ * @param {number} index The index of the slice token
+ * @returns {"left" | "right" | null} The type of slice
+ */
+export function getSliceType(tokens: Token[], index: number): "left" | "right" | null {
+  const isLeftSlice = tokens[index - 1].type === TokenType.NUMBER && tokens[index - 2].type === TokenType.LEFT_BRACKET && tokens[index + 1].type === TokenType.RIGHT_BRACKET;
+  const isRightSlice = tokens[index + 1].type === TokenType.NUMBER && tokens[index + 2].type === TokenType.RIGHT_BRACKET && tokens[index - 1].type === TokenType.LEFT_BRACKET;
+
+  if (isLeftSlice) return "left";
+  if (isRightSlice) return "right";
+
+  return null;
 }

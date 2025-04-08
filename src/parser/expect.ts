@@ -61,18 +61,39 @@ export class Expectations {
    * Expectations for the slice token
    * @param {number} index The index of the token
    */
-  public arraySlice(index: number): void {
-    // Expect the next token to be number
-    expect(this._tokens, index + 1, TokenType.NUMBER);
+  public arraySlice(index: number, position: "left" | "right" | null): void {
+    // Left Slice
+    if (position === "left") {
+      // Expect the previous token to be number
+      expect(this._tokens, index - 1, TokenType.NUMBER);
 
-    // Expect the previous toke to be number
-    expect(this._tokens, index - 1, TokenType.NUMBER);
+      // Expect the second previous token to be left bracket
+      expect(this._tokens, index - 2, TokenType.LEFT_BRACKET);
 
-    // Expect the second previous token to be left bracket
-    expect(this._tokens, index - 2, TokenType.LEFT_BRACKET);
+      // Expect the next token to be right bracket
+      expect(this._tokens, index + 1, TokenType.RIGHT_BRACKET);
+    } else if (position === "right") {
+      // Expect the next token to be number
+      expect(this._tokens, index + 1, TokenType.NUMBER);
 
-    // Expect the second next token to be right bracket
-    expect(this._tokens, index + 2, TokenType.RIGHT_BRACKET);
+      // Expect the second next token to be right bracket
+      expect(this._tokens, index + 2, TokenType.RIGHT_BRACKET);
+
+      // Expect the previous token to be left bracket
+      expect(this._tokens, index - 1, TokenType.LEFT_BRACKET);
+    } else {
+      // Expect the next token to be number
+      expect(this._tokens, index + 1, TokenType.NUMBER);
+
+      // Expect the previous toke to be number
+      expect(this._tokens, index - 1, TokenType.NUMBER);
+
+      // Expect the second previous token to be left bracket
+      expect(this._tokens, index - 2, TokenType.LEFT_BRACKET);
+
+      // Expect the second next token to be right bracket
+      expect(this._tokens, index + 2, TokenType.RIGHT_BRACKET);
+    }
   }
 
   /**
@@ -80,12 +101,12 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public leftBracket(index: number): void {
-    // Expect the next token to be number or wildcard
-    expectAny(this._tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD]);
-
-    // Expectations for array slice
-    const isArraySlice = this._tokens[index + 2].type === TokenType.SLICE;
-    if (isArraySlice) this.arraySlice(index + 2);
+    // Expect the next token to be number or wildcard or slice
+    expectAny(this._tokens, index + 1, [
+      TokenType.NUMBER,
+      TokenType.WILDCARD,
+      TokenType.SLICE,
+    ]);
   }
 
   /**
@@ -95,10 +116,6 @@ export class Expectations {
   public rightBracket(index: number): void {
     // Expect the previous token to be number or wildcard
     expectAny(this._tokens, index - 1, [TokenType.NUMBER, TokenType.WILDCARD]);
-
-    // Expectations for array slice
-    const isArraySlice = this._tokens[index - 2].type === TokenType.SLICE;
-    if (isArraySlice) this.arraySlice(index - 2);
   }
 
   /**
