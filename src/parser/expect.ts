@@ -33,7 +33,11 @@ export class Expectations {
    */
   public dot(index: number): void {
     // Expect the next token to be a property or not or left parenthesis
-    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.NOT, TokenType.LEFT_PARENTHESIS]);
+    expectAny(this._tokens, index + 1, [
+      TokenType.PROPERTY,
+      TokenType.NOT,
+      TokenType.LEFT_PARENTHESIS,
+    ]);
   }
 
   /**
@@ -42,7 +46,12 @@ export class Expectations {
    */
   public property(index: number): void {
     // Expect the previous token to be a dot or not or left parenthesis or comma
-    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
+    expectAny(this._tokens, index - 1, [
+      TokenType.DOT,
+      TokenType.NOT,
+      TokenType.LEFT_PARENTHESIS,
+      TokenType.COMMA,
+    ]);
   }
 
   /**
@@ -150,8 +159,11 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public not(index: number): void {
-    // Expect the next token to be property
-    expect(this._tokens, index + 1, TokenType.PROPERTY);
+    // Expect the next token to be property or left parenthesis
+    expectAny(this._tokens, index + 1, [
+      TokenType.PROPERTY,
+      TokenType.LEFT_PARENTHESIS,
+    ]);
 
     // Expect the previous token to be dot
     expect(this._tokens, index - 1, TokenType.DOT);
@@ -162,8 +174,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public leftParenthesis(index: number): void {
-    // Expect the previous token to be dot
-    expect(this._tokens, index - 1, TokenType.DOT);
+    // Expect the previous token to be dot or not
+    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT]);
 
     // Expect the next token to be property
     expect(this._tokens, index + 1, TokenType.PROPERTY);

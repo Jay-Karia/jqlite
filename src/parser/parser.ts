@@ -127,14 +127,14 @@ export class Parser {
         expectations.rightParenthesis(index);
 
         // Throw an error if multiple select is off
-        const isMultipleSelect = context.get("multipleSelect") ?? false;
-        if (!isMultipleSelect) {
-          throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
-            token: token.value,
-            index: index,
-            multipleSelect: isMultipleSelect,
-          });
-        }
+        // const isMultipleSelect = context.get("multipleSelect") ?? false;
+        // if (!isMultipleSelect) {
+        //   throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
+        //     token: token.value,
+        //     index: index,
+        //     multipleSelect: isMultipleSelect,
+        //   });
+        // }
 
         // Check for selected keys and add it to AST
         const selectedKeys = context.get("selectedKeys");
@@ -151,14 +151,14 @@ export class Parser {
         expectations.comma(index);
 
         // THrow an error if multiple select is off
-        const isMultipleSelect = context.get("multipleSelect") ?? false;
-        if (!isMultipleSelect) {
-          throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
-            token: token.value,
-            index: index,
-            multipleSelect: isMultipleSelect,
-          });
-        }
+        // const isMultipleSelect = context.get("multipleSelect") ?? false;
+        // if (!isMultipleSelect) {
+        //   throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
+        //     token: token.value,
+        //     index: index,
+        //     multipleSelect: isMultipleSelect,
+        //   });
+        // }
       }
 
       //=================================ARRAY SLICE===========================================
