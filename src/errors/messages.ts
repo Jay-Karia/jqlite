@@ -143,18 +143,18 @@ export const ERROR_MESSAGES = {
         "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
     MULTIPLE_SELECT_TRUE: {
-      message: "Multiple select is true",
+      message: "Multiple select is on",
       code: "MULTIPLE_SELECT_TRUE",
-      cause: "The multiple select is true",
+      cause: "The multiple select is on",
       solution:
-        "Make sure the multiple select is false before end of query",
+        "Make sure the multiple select is off before end of query. Use `)` to turn off multiple select",
     } as ErrorParams,
     MULTIPLE_SELECT_FALSE: {
-      message: "Multiple select is false",
+      message: "Multiple select is off",
       code: "MULTIPLE_SELECT_FALSE",
-      cause: "The multiple select is false",
+      cause: "The multiple select is off",
       solution:
-        "Make sure the multiple select is true before using right parenthesis",
+        "Make sure the multiple select is on before using right parenthesis. Use `(` to turn on multiple select",
     }
   },
   //===================================EVALUATOR======================================

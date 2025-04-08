@@ -7,10 +7,15 @@
 
 //=======================================TYPES===================================
 
-export type Keys = "fallback" | "multipleSelect";
 export interface SliceRange {
   start: number,
   end: number
 }
+export interface TContext {
+  fallback: string | null,
+  multipleSelect: boolean,
+  selectedKeys: string[]
+}
+export type Keys = keyof TContext;
 
 //===============================================================================

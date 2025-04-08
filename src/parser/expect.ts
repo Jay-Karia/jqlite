@@ -9,7 +9,6 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { expect, expectAny } from "./helpers";
-import {context} from "src/core/context";
 
 //=============================================================================
 

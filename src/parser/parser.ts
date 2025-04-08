@@ -12,8 +12,8 @@ import { ast } from "src/ast/ast";
 import { getSliceType, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
-import {ParserError} from "src/errors/factory";
-import {ERROR_MESSAGES} from "src/errors/messages";
+import { ParserError } from "src/errors/factory";
+import { ERROR_MESSAGES } from "src/errors/messages";
 
 //=================================================================================
 
@@ -48,8 +48,19 @@ export class Parser {
         // Expectations for the token
         expectations.property(index);
 
+        // Check for multiple select
+        const isMultipleSelect = context.get("multipleSelect") ?? false;
+
+        // Add the selected keys to context
+        if (isMultipleSelect) {
+          // Add the token to the selected keys
+          const selectedKeys = context.get("selectedKeys") ?? [];
+          selectedKeys.push(token.value);
+          context.set("selectedKeys", selectedKeys);
+        }
+
         // Add the token to the AST
-        ast.createPropertyNode(token.value);
+        else ast.createPropertyNode(token.value);
       }
 
       //=========================================NOT============================================
@@ -121,18 +132,33 @@ export class Parser {
           throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
             token: token.value,
             index: index,
-            multipleSelect: isMultipleSelect
+            multipleSelect: isMultipleSelect,
           });
         }
 
+        // Check for selected keys and add it to AST
+        const selectedKeys = context.get("selectedKeys");
+        if (selectedKeys) ast.createMultipleSelectNode(selectedKeys);
+
         // Update the context
         context.set("multipleSelect", false);
+        context.set("selectedKeys", []);
       }
 
       //======================================COMMA============================================
       else if (token.type === TokenType.COMMA) {
         // Expectations for the token
         expectations.comma(index);
+
+        // THrow an error if multiple select is off
+        const isMultipleSelect = context.get("multipleSelect") ?? false;
+        if (!isMultipleSelect) {
+          throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
+            token: token.value,
+            index: index,
+            multipleSelect: isMultipleSelect,
+          });
+        }
       }
 
       //=================================ARRAY SLICE===========================================
@@ -171,7 +197,7 @@ export class Parser {
             token: token.value,
             index: index,
             multipleSelect: isMultipleSelect,
-            expected: ")"
+            expected: ")",
           });
         }
       }

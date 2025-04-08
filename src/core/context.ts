@@ -7,7 +7,7 @@
 
 //=======================================IMPORTS===================================
 
-import type { Keys } from "./types";
+import type { Keys, TContext } from "./types";
 import { configStore } from "src/config/store";
 
 //===================================================================================
@@ -17,7 +17,7 @@ import { configStore } from "src/config/store";
  * @description This class is responsible for managing the context of the query.
  */
 export class Context {
-  private readonly _context: Record<Keys, unknown>;
+  private readonly _context: TContext;
 
   /**
    * Initializes the context
@@ -25,6 +25,8 @@ export class Context {
   constructor() {
     this._context = {
       fallback: null,
+      multipleSelect: false,
+      selectedKeys: []
     };
   }
 
@@ -35,27 +37,30 @@ export class Context {
    * @param {Keys} key The key to get
    * @returns {unknown} The value of the key
    */
-  public get(key: Keys): unknown {
+  public get<K extends Keys>(key: K): TContext[K] {
+    // Check if the key is fallback
     if (key === "fallback") {
       const _fallback = this._context.fallback;
       // Check if the value is null or undefined
       if (_fallback === null || _fallback === undefined) {
         // Use from config
-        return configStore.get().fallback;
+        return configStore.get().fallback as TContext[K];
       }
 
       // Check if the value is a string
-      return this._context.fallback;
-    } else if (key in this._context) return this._context[key] as string;
+      return this._context.fallback as TContext[K];
+    }
+    return this._context[key];
   }
 
   /**
    * Sets the context
    * @param {string} key The key to set
-   * @param {unknown} value The value to set
+   * @param {TContext[K]} value The value to set
    */
-  public set(key: Keys, value: unknown | null): void {
-    this._context[key] = value;
+  public set<K extends Keys>(key: K, value: TContext[K]): void {
+    if (key in this._context)
+      this._context[key] = value;
   }
 
   //==================================================================================
