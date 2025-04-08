@@ -45,7 +45,7 @@ $.users[:3]               // From start to index 3
 $.user.(name, age, email) // Multiple keys (returns array)
 ```
 
-- [ ] **Single Key Omission**
+- [x] **Single Key Omission**
 
 ```js
 $.me.about.!gender       // Returns object without gender
