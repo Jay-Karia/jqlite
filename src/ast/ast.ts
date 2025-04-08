@@ -11,7 +11,7 @@ import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ParserError } from "src/errors/factory";
-import { addSpecificKeys, updateParent } from "./helpers";
+import { addSpecificKeys, checkRoot, updateParent } from "./helpers";
 
 //=================================================================================
 
@@ -63,11 +63,8 @@ export class AST {
     child?: ASTNode | null,
     parent?: ASTNode | null
   ): PropertyNode {
-    if (!this._root) {
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        root: this._root,
-      });
-    }
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
 
     const propertyNode: PropertyNode = {
       type: "Property",
@@ -98,10 +95,7 @@ export class AST {
     parent?: ASTNode | null
   ): ArrayAccessNode {
     // Check if the root node is empty
-    if (!this._root)
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        rootNode: this._root,
-      });
+    this._root = checkRoot(this._root);
 
     const arrayAccessNode: ArrayAccessNode = {
       type: "ArrayAccess",
@@ -132,10 +126,7 @@ export class AST {
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
-    if (!this._root)
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        rootNode: this._root,
-      });
+    this._root = checkRoot(this._root);
 
     const fallbackNode: ASTNode = {
       type: "Fallback",
@@ -164,10 +155,7 @@ export class AST {
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
-    if (!this._root)
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        rootNode: this._root,
-      });
+    this._root = checkRoot(this._root);
 
     const wildcardNode: ASTNode = {
       type: "Wildcard",
@@ -191,10 +179,7 @@ export class AST {
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
-    if (!this._root)
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        rootNode: this._root,
-      });
+    this._root = checkRoot(this._root);
 
     const arraySliceNode: ASTNode = {
       type: "ArraySlice",
@@ -216,20 +201,17 @@ export class AST {
   }
 
   /**
-   * Create a not node.
+   * Create a omit node.
    * @param {ASTNode} child The child node to set.
    * @param {ASTNode} parent The parent node to set.
-   * @returns {ASTNode} The created not node.
+   * @returns {ASTNode} The created omit node.
    */
-  public createNotNode(child?: ASTNode | null, parent?: ASTNode | null): ASTNode {
+  public createOmitNode(child?: ASTNode | null, parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
-    if (!this._root)
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        rootNode: this._root,
-      });
+    this._root = checkRoot(this._root);
 
     const notNode: ASTNode = {
-      type: "Not",
+      type: "Omit",
       children: child ? [child] : [],
       parent: parent ?? this._root,
     };
@@ -431,7 +413,7 @@ export class AST {
    * @param {ASTNode} node - The node to find the highest parent for
    * @returns {ASTNode | null} - The highest parent after root, or null if not found
    */
-  public getHighestParent(node: ASTNode): ASTNode | null {
+  public getHighestParent(node: ASTNode | null): ASTNode | null {
     // If node is null or undefined, return null
     if (!node) return null;
 

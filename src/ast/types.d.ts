@@ -18,7 +18,7 @@ export type NodeType =
   | "Fallback"
   | "Wildcard"
   | "ArraySlice"
-  | "Not";
+  | "Omit";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;

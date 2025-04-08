@@ -78,7 +78,7 @@ export class Evaluator {
       case "ArraySlice":
         this.evaluateArraySlice(node);
         break;
-      case "Not":
+      case "Omit":
         this.evaluateNot(node);
         break;
     }

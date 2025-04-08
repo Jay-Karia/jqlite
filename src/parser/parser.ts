@@ -46,19 +46,8 @@ export class Parser {
         // Expectations for the token
         expectations.property(index);
 
-        // Get the previous node
-        const previousNode = ast.getRecentNode();
-
-        // Check if the previous node is not the part of omit
-        if (
-          previousNode &&
-          ast.getHighestParent(previousNode)?.type === "Not"
-        ) {
-          ast.createPropertyNode(token.value);
-        } else {
-          // Add the token to the AST with parent as the last property node;
-          ast.createPropertyNode(token.value);
-        }
+        // Add the token to the AST
+        ast.createPropertyNode(token.value);
       }
 
       //=========================================NOT============================================
@@ -67,7 +56,7 @@ export class Parser {
         expectations.not(index);
 
         // Add the token to the AST
-        const not = ast.createNotNode();
+        const not = ast.createOmitNode();
 
         // Get the next property token
         const propertyToken = tokens[index + 1];

@@ -9,6 +9,8 @@
 
 import type { ASTNode } from "./types";
 import type { RootNode } from "./nodes";
+import { ParserError } from "src/errors/factory";
+import { ERROR_MESSAGES } from "src/errors/messages";
 
 //=================================================================================
 
@@ -46,4 +48,20 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
     obj["fallbackValue"] = node.fallbackValue;
   else if (node.type === "ArraySlice" && node.sliceRange)
     obj["sliceRange"] = node.sliceRange;
+}
+
+/**
+ * Checks whether the root node is not null
+ * @param {RootNode | null} root - The root node of the AST.
+ * @returns {RootNode} The root node if it is not null.
+ */
+export function checkRoot(root: RootNode | null): RootNode {
+  // Check if the root node is null
+  if (!root) {
+    throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
+      rootNode: root,
+    });
+  }
+
+  return root;
 }
