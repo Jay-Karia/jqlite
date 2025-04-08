@@ -8,4 +8,6 @@ export default defineConfig({
   skipNodeModulesBundle: true,
   clean: true,
   outDir: "./dist",
+  target: "esnext",
+  sourcemap: true,
 });

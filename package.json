@@ -2,7 +2,7 @@
   "name": "@jqlite/core",
   "version": "1.0.0",
   "description": "The core engine of the query language",
-  "packageManager": "pnpm@10.6.5",
+  "packageManager": "pnpm@10.8.0",
   "main": "dist/index.js",
   "type": "module",
   "files": [
