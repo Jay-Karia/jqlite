@@ -164,7 +164,7 @@ export class Parser {
         expectations.comma(index);
 
         // Throw an error if multiple select/omit is off
-        checkMultipleSelectAndOmit(token, index);
+        checkMultipleSelectAndOmit(token, index, ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_COMMA);
       }
 
       //=================================ARRAY SLICE===========================================
@@ -204,6 +204,7 @@ export class Parser {
             token: token.value,
             index: index,
             multipleSelect: isMultipleSelect,
+            multipleOmit: isMultipleOmit,
             expected: ")",
           });
         }

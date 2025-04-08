@@ -144,18 +144,24 @@ export const ERROR_MESSAGES = {
     } as ErrorParams,
     MULTIPLE_TRUE: {
       message: "Multiple select/omit is on",
-      code: "MULTIPLE_SELECT_TRUE",
+      code: "MULTIPLE_TRUE",
       cause: "The multiple select/omit is on",
       solution:
         "Make sure the multiple select/omit is off before end of query. Use `)` to turn off multiple select/omit",
     } as ErrorParams,
     MULTIPLE_FALSE: {
       message: "Multiple select/omit is off",
-      code: "MULTIPLE_SELECT_FALSE",
+      code: "MULTIPLE_TRUE",
       cause: "The multiple select/omit is off",
       solution:
         "Make sure the multiple select/omit is on before using right parenthesis. Use `(` to turn on multiple select/omit",
     } as ErrorParams,
+    MULTIPLE_SELECT_COMMA: {
+      message: "Cannot use comma without multiple select/omit",
+      code: "MULTIPLE_SELECT_COMMA",
+      cause: "Tried to use comma `,` when multiple select/emit is off",
+      solution: "Remove comma `,` or use multiple select/emit"
+    } as ErrorParams
 
   },
   //===================================EVALUATOR======================================

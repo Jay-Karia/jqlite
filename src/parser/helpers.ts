@@ -153,19 +153,21 @@ export function getSliceType(
  * Checks if the multiple select is enabled, and throws an error if not
  * @param {Token} token The token to check
  * @param {number} index The index of the token
+ * @param {ErrorParams} errorParam The error parameters
  * @throws {ParserError} If the multiple select is not enabled
  */
-export function checkMultipleSelectAndOmit(token: Token, index: number): void {
+export function checkMultipleSelectAndOmit(token: Token, index: number, errorParam?: ErrorParams): void {
   // Get the value from context
   const isMultipleSelect = context.get("multipleSelect") ?? false;
   const isMultipleOmit = context.get("multipleOmit") ?? false;
 
   // Check the values
   if (!isMultipleSelect && !isMultipleOmit) {
-    throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_FALSE, {
+    throw new ParserError(errorParam ? errorParam : ERROR_MESSAGES.PARSER.MULTIPLE_FALSE, {
       token: token.value,
       index,
       multipleSelect: isMultipleSelect,
+      multipleOmit: isMultipleOmit
     });
   }
 }
