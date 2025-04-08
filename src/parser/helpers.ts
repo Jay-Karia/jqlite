@@ -169,3 +169,25 @@ export function checkMultipleSelectAndOmit(token: Token, index: number): void {
     });
   }
 }
+
+/**
+ * Handles the multiple select
+ * @param {Token} token The token to handle
+ */
+export function handleMultipleSelect(token: Token): void {
+  // Add the values to the selected keys
+  const selectedKeys = context.get("selectedKeys") ?? [];
+  selectedKeys.push(token.value);
+  context.set("selectedKeys", selectedKeys);
+}
+
+/**
+ * Handles the multiple omit
+ * @param {Token} token The token to handle
+ */
+export function handleMultipleOmit(token: Token): void {
+  // Add the values to omitted keys
+  const omittedKeys = context.get("omittedKeys") ?? [];
+  omittedKeys.push(token.value);
+  context.set("omittedKeys", omittedKeys);
+}

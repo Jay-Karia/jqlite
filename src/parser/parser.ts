@@ -9,7 +9,13 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
-import { checkMultipleSelectAndOmit, getSliceType, incrementIndex } from "./helpers";
+import {
+  checkMultipleSelectAndOmit,
+  getSliceType,
+  handleMultipleOmit,
+  handleMultipleSelect,
+  incrementIndex,
+} from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -48,17 +54,14 @@ export class Parser {
         // Expectations for the token
         expectations.property(index);
 
-        // Check for multiple select
+        // Check for multiple select/omit
         const isMultipleSelect = context.get("multipleSelect") ?? false;
+        const isMultipleOmit = context.get("multipleOmit") ?? false;
 
         // Add the selected keys to context
-        if (isMultipleSelect) {
-          // Add the token to the selected keys
-          const selectedKeys = context.get("selectedKeys") ?? [];
-          selectedKeys.push(token.value);
-          context.set("selectedKeys", selectedKeys);
-        }
-
+        if (isMultipleSelect) handleMultipleSelect(token);
+        // Add the omitted keys to context
+        else if (isMultipleOmit) handleMultipleOmit(token);
         // Add the token to the AST
         else ast.createPropertyNode(token.value);
       }
@@ -69,7 +72,8 @@ export class Parser {
         expectations.not(index);
 
         // Check for multiple omit
-        const isMultipleOmit = tokens[index + 1].type === TokenType.LEFT_PARENTHESIS;
+        const isMultipleOmit =
+          tokens[index + 1].type === TokenType.LEFT_PARENTHESIS;
 
         // Only update the context
         if (isMultipleOmit) {
@@ -141,11 +145,17 @@ export class Parser {
 
         // Check for selected keys and add it to AST
         const selectedKeys = context.get("selectedKeys");
-        if (selectedKeys) ast.createMultipleSelectNode(selectedKeys);
+        if (selectedKeys.length > 0) ast.createMultipleSelectNode(selectedKeys);
+
+        // Check for omitted keys and add it to AST
+        const omittedKeys = context.get("omittedKeys");
+        if (omittedKeys.length > 0) ast.createMultipleOmitNode(omittedKeys);
 
         // Update the context
         context.set("multipleSelect", false);
         context.set("selectedKeys", []);
+        context.set("multipleOmit", false);
+        context.set("omittedKeys", []);
       }
 
       //======================================COMMA============================================
@@ -153,15 +163,8 @@ export class Parser {
         // Expectations for the token
         expectations.comma(index);
 
-        // THrow an error if multiple select is off
-        // const isMultipleSelect = context.get("multipleSelect") ?? false;
-        // if (!isMultipleSelect) {
-        //   throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_FALSE, {
-        //     token: token.value,
-        //     index: index,
-        //     multipleSelect: isMultipleSelect,
-        //   });
-        // }
+        // Throw an error if multiple select/omit is off
+        checkMultipleSelectAndOmit(token, index);
       }
 
       //=================================ARRAY SLICE===========================================
@@ -193,9 +196,10 @@ export class Parser {
 
       //========================================EOQ=============================================
       else if (token.type === TokenType.EOQ) {
-        // Check if multiple select is still on
+        // Check if multiple select/omit is still on
         const isMultipleSelect = context.get("multipleSelect") ?? false;
-        if (isMultipleSelect) {
+        const isMultipleOmit = context.get("multipleOmit") ?? false;
+        if (isMultipleSelect || isMultipleOmit) {
           throw new ParserError(ERROR_MESSAGES.PARSER.MULTIPLE_TRUE, {
             token: token.value,
             index: index,

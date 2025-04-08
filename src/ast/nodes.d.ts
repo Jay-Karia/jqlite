@@ -42,5 +42,9 @@ export interface MultipleSelectNode extends ASTNode {
   type: "MultipleSelect";
   selectedKeys: string[];
 }
+export interface MultipleOmitNode extends ASTNode {
+  type: "MultipleOmit";
+  omittedKeys: string[];
+}
 
 //===================================================================================

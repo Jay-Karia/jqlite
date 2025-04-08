@@ -51,7 +51,7 @@ $.user.(name, age, email) // Multiple keys (returns array)
 $.me.about.!gender       // Returns object without gender
 ```
 
-- [ ] **Multiple Key Omission**
+- [x] **Multiple Key Omission**
 
 ```js
 $.me.about.!(age, gender)  // Returns object without specified keys

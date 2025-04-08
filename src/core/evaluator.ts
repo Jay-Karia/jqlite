@@ -85,6 +85,9 @@ export class Evaluator {
       case "MultipleSelect":
         this.evaluateMultipleSelect(node);
         break;
+      case "MultipleOmit":
+        this.evaluateMultipleOmit(node);
+        break;
     }
   }
 
@@ -151,7 +154,8 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const property: string | string[] | undefined = getPropertyName(propertyNode);
+    const property: string | string[] | undefined =
+      getPropertyName(propertyNode);
 
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
@@ -204,7 +208,8 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const property: string | string[] | undefined = getPropertyName(propertyNode);
+    const property: string | string[] | undefined =
+      getPropertyName(propertyNode);
 
     // Get the parent property is array
     if (!Array.isArray(this._current)) {
@@ -252,7 +257,8 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const property: string | string[] | undefined = getPropertyName(propertyNode);
+    const property: string | string[] | undefined =
+      getPropertyName(propertyNode);
 
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
@@ -295,14 +301,21 @@ export class Evaluator {
     this._current = checkData(this._current);
 
     // Check the children of the node
-    if (!node.children || node.children.length === 0 || node.children[0].type !== "Property") {
+    if (
+      !node.children ||
+      node.children.length === 0 ||
+      node.children[0].type !== "Property"
+    ) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_EMIT_PROPERTY, {
         type: node.type,
       });
     }
 
     // Get the property name
-    const propertyName = checkProperty(node.children[0].propertyName, node.type);
+    const propertyName = checkProperty(
+      node.children[0].propertyName,
+      node.type
+    );
 
     // Check if the current value is an object
     if (!isRecord(this._current)) {
@@ -376,6 +389,55 @@ export class Evaluator {
 
     // Update the current value
     this._current = value;
+
+    // Evaluate children if any
+    evaluateChildren(node);
+  }
+
+  /**
+   * Evaluates the multiple omit node
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private evaluateMultipleOmit(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Check if the current value is an object
+    if (!isRecord(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_OBJECTS, {
+        type: node.type,
+      });
+    }
+
+    // Get the keys
+    const keys = node.omittedKeys;
+    if (!keys || keys.length === 0) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_NO_KEYS, {
+        type: node.type,
+      });
+    }
+
+    // Get the fallback value
+    const fallback = context.get("fallback") as string;
+
+    // Delete the keys from current data
+    keys.forEach(key => {
+      delete (this._current as Record<string, unknown>)[key];
+    });
+
+    // Check if the value is not undefined
+    const result = checkValue(
+      this._current,
+      fallback,
+      ERROR_MESSAGES.EVALUATOR.ERR_NOT,
+      {
+        type: node.type,
+        keys,
+      }
+    );
+
+    // Update the current value
+    this._current = result;
 
     // Evaluate children if any
     evaluateChildren(node);

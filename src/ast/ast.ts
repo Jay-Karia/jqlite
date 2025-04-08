@@ -259,6 +259,37 @@ export class AST {
     return multipleSelectNode;
   }
 
+  /**
+   * Create a multiple omit node.
+   * @param {string[]} omittedKeys The omitted keys of the multiple omit node.
+   * @param {ASTNode | null} child The child node to set.
+   * @param {ASTNode | null} parent The parent node to set.
+   * @returns {ASTNode} The created multiple omit node.
+   */
+  public createMultipleOmitNode(
+    omittedKeys: string[],
+    child?: ASTNode | null,
+    parent?: ASTNode | null
+  ): ASTNode {
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
+
+    const multipleOmitNode: ASTNode = {
+      type: "MultipleOmit",
+      children: child ? [child] : [],
+      parent: parent ?? this._root,
+      omittedKeys,
+    };
+
+    // Update the parent
+    updateParent(multipleOmitNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = multipleOmitNode;
+
+    return multipleOmitNode;
+  }
+
   //====================================DELETION=====================================
 
   /**

@@ -50,6 +50,8 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
     obj["sliceRange"] = node.sliceRange;
   else if (node.type === "MultipleSelect" && node.selectedKeys)
     obj["selectedKeys"] = node.selectedKeys;
+  else if (node.type === "MultipleOmit" && node.omittedKeys)
+    obj["omittedKeys"] = node.omittedKeys;
 }
 
 /**
