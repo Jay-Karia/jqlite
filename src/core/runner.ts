@@ -14,7 +14,7 @@ import { evaluator } from "./evaluator";
 import { ast } from "src/ast/ast";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
-import {dataStore} from "src/data/store";
+import { dataStore } from "src/data/store";
 
 //=================================================================================
 

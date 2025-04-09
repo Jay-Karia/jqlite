@@ -20,11 +20,7 @@ import { ERROR_MESSAGES } from "src/errors/messages";
  * @param {RootNode} root - The root node of the AST.
  * @param {ASTNode} parent - The parent node to which the new child node will be added.
  */
-export function updateParent(
-  newNode: ASTNode,
-  root: RootNode,
-  parent?: ASTNode | null
-): void {
+export function updateParent(newNode: ASTNode, root: RootNode, parent?: ASTNode | null): void {
   if (parent && parent.children) parent.children.push(newNode);
   else if (parent && !parent.children) parent.children = [newNode];
   else if (root.children) root.children.push(newNode);
@@ -38,20 +34,14 @@ export function updateParent(
  */
 export function addSpecificKeys(node: ASTNode, obj: any): void {
   // Array access
-  if (node.type === "ArrayAccess" && node.index !== undefined)
-    obj["index"] = node.index;
+  if (node.type === "ArrayAccess" && node.index !== undefined) obj["index"] = node.index;
   // Property
-  else if (node.type === "Property" && node.propertyName)
-    obj["propertyName"] = node.propertyName;
+  else if (node.type === "Property" && node.propertyName) obj["propertyName"] = node.propertyName;
   // Fallback
-  else if (node.type === "Fallback" && node.fallbackValue)
-    obj["fallbackValue"] = node.fallbackValue;
-  else if (node.type === "ArraySlice" && node.sliceRange)
-    obj["sliceRange"] = node.sliceRange;
-  else if (node.type === "MultipleSelect" && node.selectedKeys)
-    obj["selectedKeys"] = node.selectedKeys;
-  else if (node.type === "MultipleOmit" && node.omittedKeys)
-    obj["omittedKeys"] = node.omittedKeys;
+  else if (node.type === "Fallback" && node.fallbackValue) obj["fallbackValue"] = node.fallbackValue;
+  else if (node.type === "ArraySlice" && node.sliceRange) obj["sliceRange"] = node.sliceRange;
+  else if (node.type === "MultipleSelect" && node.selectedKeys) obj["selectedKeys"] = node.selectedKeys;
+  else if (node.type === "MultipleOmit" && node.omittedKeys) obj["omittedKeys"] = node.omittedKeys;
 }
 
 /**

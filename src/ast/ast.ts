@@ -58,11 +58,7 @@ export class AST {
    * @param {ASTNode} parent - The parent node to set.
    * @returns {PropertyNode} - The created property node.
    */
-  public createPropertyNode(
-    propertyName: string,
-    child?: ASTNode | null,
-    parent?: ASTNode | null
-  ): PropertyNode {
+  public createPropertyNode(propertyName: string, child?: ASTNode | null, parent?: ASTNode | null): PropertyNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -89,10 +85,7 @@ export class AST {
    * @param {ASTNode} parent - The parent node to set.
    * @returns {ArrayAccessNode} - The created array access node.
    */
-  public createArrayAccessNode(
-    index: number,
-    parent?: ASTNode | null
-  ): ArrayAccessNode {
+  public createArrayAccessNode(index: number, parent?: ASTNode | null): ArrayAccessNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -117,10 +110,7 @@ export class AST {
    * @param {ASTNode} parent - The parent node to set.
    * @returns {FallbackNode} - The created fallback node.
    */
-  public createFallbackNode(
-    fallbackValue: string,
-    parent?: ASTNode | null
-  ): ASTNode {
+  public createFallbackNode(fallbackValue: string, parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -144,9 +134,7 @@ export class AST {
    * @param {ASTNode} parent The parent node to set.
    * @returns {ASTNode} The created wildcard node.
    */
-  public createWildcardNode(
-    parent?: ASTNode | null
-  ): ASTNode {
+  public createWildcardNode(parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -171,11 +159,7 @@ export class AST {
    * @param {ASTNode} parent The parent node to set.
    * @returns {ASTNode} The created array slice node.
    */
-  public createArraySliceNode(
-    start?: number,
-    end?: number,
-    parent?: ASTNode | null
-  ): ASTNode {
+  public createArraySliceNode(start?: number, end?: number, parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -202,9 +186,7 @@ export class AST {
    * @param {ASTNode} parent The parent node to set.
    * @returns {ASTNode} The created omit node.
    */
-  public createOmitNode(
-    parent?: ASTNode | null
-  ): ASTNode {
+  public createOmitNode(parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -228,10 +210,7 @@ export class AST {
    * @param {ASTNode | null} parent The parent node to set.
    * @returns {ASTNode} The created multiple select node.
    */
-  public createMultipleSelectNode(
-    selectedKeys: string[],
-    parent?: ASTNode | null
-  ): ASTNode {
+  public createMultipleSelectNode(selectedKeys: string[], parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -256,10 +235,7 @@ export class AST {
    * @param {ASTNode | null} parent The parent node to set.
    * @returns {ASTNode} The created multiple omit node.
    */
-  public createMultipleOmitNode(
-    omittedKeys: string[],
-    parent?: ASTNode | null
-  ): ASTNode {
+  public createMultipleOmitNode(omittedKeys: string[], parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -401,11 +377,7 @@ export class AST {
     // Traverse up the tree until we find a node whose parent is the root
     let current = node;
 
-    while (
-      current.parent &&
-      current.parent.parent &&
-      current.parent.type !== "Root"
-    ) {
+    while (current.parent && current.parent.parent && current.parent.type !== "Root") {
       current = current.parent;
     }
 

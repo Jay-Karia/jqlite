@@ -18,7 +18,6 @@ import { overrideConfig } from "./utils";
  * @description This class is used to store the config object
  */
 export class ConfigStore {
-
   //======================================PROPERTIES=======================================
 
   private _config: ConfigType;
@@ -29,7 +28,7 @@ export class ConfigStore {
   /**
    * Initialize the config store
    * @constructor
-  */
+   */
   constructor() {
     this._defaultConfig = loadDefaultConfig();
 

@@ -69,22 +69,19 @@ export const ERROR_MESSAGES = {
       message: "No default path to save data",
       code: "NO_DEFAULT_SAVE_FILE",
       cause: "Empty default path in config",
-      solution:
-        "Add default path in config or add file path while using `save()`",
+      solution: "Add default path in config or add file path while using `save()`",
     } as ErrorParams,
     NO_DEFAULT_LOAD_FILE: {
       message: "No default file to load data",
       code: "NO_DEFAULT_LOAD_FILE",
       cause: "Empty load file path in config",
-      solution:
-        "Add default load file in config or add file path while using `load()`",
+      solution: "Add default load file in config or add file path while using `load()`",
     } as ErrorParams,
     NO_DEFAULT_LOAD_URL: {
       message: "No default url to load data",
       code: "NO_DEFAULT_PATH",
       cause: "Empty default url in config",
-      solution:
-        "Add default url in config or add url while using `loadFromUrl()`",
+      solution: "Add default url in config or add url while using `loadFromUrl()`",
     } as ErrorParams,
   },
   //====================================CONFIG=======================================
@@ -105,8 +102,7 @@ export const ERROR_MESSAGES = {
       message: "Invalid config file",
       code: "INVALID_CONFIG_FILE",
       cause: "The file is not a valid config file",
-      solution:
-        "Make sure all the required keys are present in the config file",
+      solution: "Make sure all the required keys are present in the config file",
     } as ErrorParams,
     INVALID_CONFIG_KEYS: {
       message: "Invalid config keys",
@@ -139,30 +135,26 @@ export const ERROR_MESSAGES = {
       message: "Property node required",
       code: "PROPERTY_NODE_REQUIRED",
       cause: "The previous node is not a property node",
-      solution:
-        "Make sure the previous node is a property node before using array access",
+      solution: "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
     MULTIPLE_TRUE: {
       message: "Multiple select/omit is on",
       code: "MULTIPLE_TRUE",
       cause: "The multiple select/omit is on",
-      solution:
-        "Make sure the multiple select/omit is off before end of query. Use `)` to turn off multiple select/omit",
+      solution: "Make sure the multiple select/omit is off before end of query. Use `)` to turn off multiple select/omit",
     } as ErrorParams,
     MULTIPLE_FALSE: {
       message: "Multiple select/omit is off",
       code: "MULTIPLE_TRUE",
       cause: "The multiple select/omit is off",
-      solution:
-        "Make sure the multiple select/omit is on before using right parenthesis. Use `(` to turn on multiple select/omit",
+      solution: "Make sure the multiple select/omit is on before using right parenthesis. Use `(` to turn on multiple select/omit",
     } as ErrorParams,
     MULTIPLE_SELECT_COMMA: {
       message: "Cannot use comma without multiple select/omit",
       code: "MULTIPLE_SELECT_COMMA",
       cause: "Tried to use comma `,` when multiple select/emit is off",
-      solution: "Remove comma `,` or use multiple select/emit"
-    } as ErrorParams
-
+      solution: "Remove comma `,` or use multiple select/emit",
+    } as ErrorParams,
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {
@@ -218,49 +210,49 @@ export const ERROR_MESSAGES = {
       message: "Error occurred while evaluating wildcard",
       code: "ERR_WILDCARD",
       cause: "Undefined value of the array",
-      solution: "Check whether the array exists or not"
+      solution: "Check whether the array exists or not",
     } as ErrorParams,
     NO_OBJECTS: {
       message: "No objects",
       code: "NO_OBJECTS",
       cause: "The array does not have objects",
-      solution: "Make sure that the value is an array of objects"
+      solution: "Make sure that the value is an array of objects",
     } as ErrorParams,
     ERR_SLICE_RANGE: {
       message: "Error in array slice",
       code: "ERR_SLICE_RANGE",
       cause: "Could not get slice range",
-      solution: "Make sure that the slice range value is valid"
+      solution: "Make sure that the slice range value is valid",
     } as ErrorParams,
     INVALID_SLICE_RANGE: {
       message: "Invalid slice range",
       code: "INVALID_SLICE_RANGE",
       cause: "Array slice range is out of bonds",
-      solution: "Make sure that the slice range is within the array length"
+      solution: "Make sure that the slice range is within the array length",
     } as ErrorParams,
     ERR_EMIT_PROPERTY: {
       message: "Error in emit property",
       code: "ERR_EMIT_PROPERTY",
       cause: "Could not get emit property",
-      solution: "Make sure that the emit property is valid"
+      solution: "Make sure that the emit property is valid",
     } as ErrorParams,
     ERR_NOT: {
       message: "Error occurred while evaluating not",
       code: "ERR_NOT",
       cause: "Undefined value of the not operator",
-      solution: "Check whether the not operator is valid"
+      solution: "Check whether the not operator is valid",
     } as ErrorParams,
     ERR_NO_KEYS: {
       message: "No keys found",
       code: "ERR_NO_KEYS",
       cause: "Undefined value of selected keys",
-      solution: "Check whether the selected keys are valid"
+      solution: "Check whether the selected keys are valid",
     } as ErrorParams,
     ERR_ARRAY: {
       message: "Error occurred while evaluating array",
       code: "ERR_ARRAY",
       cause: "Undefined value of the array",
-      solution: "Check whether the array is valid"
-    }
+      solution: "Check whether the array is valid",
+    },
   },
 };

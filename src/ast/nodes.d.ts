@@ -33,7 +33,7 @@ export interface ArraySliceNode extends ASTNode {
   sliceRange: {
     start: number;
     end: number;
-  }
+  };
 }
 export interface OmitNode extends ASTNode {
   type: "Omit";

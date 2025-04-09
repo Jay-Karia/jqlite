@@ -20,7 +20,6 @@ import { ERROR_MESSAGES } from "../errors/messages";
  * @description This class is used to manage the JSON data in memory.
  */
 export class DataManager {
-
   //======================================GETTER / SETTER====================================
 
   /**

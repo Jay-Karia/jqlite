@@ -62,8 +62,7 @@ export class Context {
    * @param {TContext[K]} value The value to set
    */
   public set<K extends Keys>(key: K, value: TContext[K]): void {
-    if (key in this._context)
-      this._context[key] = value;
+    if (key in this._context) this._context[key] = value;
   }
 
   //==================================================================================

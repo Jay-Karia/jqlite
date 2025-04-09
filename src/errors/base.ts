@@ -26,10 +26,7 @@ export class BaseError extends Error {
    * Initializes the error class
    * @param param0 The error parameters
    */
-  constructor(
-    { message, code, cause, solution }: ErrorParams,
-    metadata: Record<string, any>
-  ) {
+  constructor({ message, code, cause, solution }: ErrorParams, metadata: Record<string, any>) {
     super(message);
     this.name = this.constructor.name;
     this.code = code;

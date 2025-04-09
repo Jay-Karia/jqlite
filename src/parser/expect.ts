@@ -9,7 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { expect, expectAny } from "./helpers";
-import {context} from "src/core/context";
+import { context } from "src/core/context";
 
 //=============================================================================
 
@@ -34,11 +34,7 @@ export class Expectations {
    */
   public dot(index: number): void {
     // Expect the next token to be a property or not or left parenthesis
-    expectAny(this._tokens, index + 1, [
-      TokenType.PROPERTY,
-      TokenType.NOT,
-      TokenType.LEFT_PARENTHESIS,
-    ]);
+    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.NOT, TokenType.LEFT_PARENTHESIS]);
   }
 
   /**
@@ -47,12 +43,7 @@ export class Expectations {
    */
   public property(index: number): void {
     // Expect the previous token to be a dot or not or left parenthesis or comma
-    expectAny(this._tokens, index - 1, [
-      TokenType.DOT,
-      TokenType.NOT,
-      TokenType.LEFT_PARENTHESIS,
-      TokenType.COMMA,
-    ]);
+    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
   }
 
   /**
@@ -115,11 +106,7 @@ export class Expectations {
    */
   public leftBracket(index: number): void {
     // Expect the next token to be number or wildcard or slice
-    expectAny(this._tokens, index + 1, [
-      TokenType.NUMBER,
-      TokenType.WILDCARD,
-      TokenType.SLICE,
-    ]);
+    expectAny(this._tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD, TokenType.SLICE]);
   }
 
   /**
@@ -137,16 +124,10 @@ export class Expectations {
    */
   public number(index: number): void {
     // Expect the previous token to be left bracket or slice
-    expectAny(this._tokens, index - 1, [
-      TokenType.LEFT_BRACKET,
-      TokenType.SLICE,
-    ]);
+    expectAny(this._tokens, index - 1, [TokenType.LEFT_BRACKET, TokenType.SLICE]);
 
     // Expect the next token to be slice or right bracket
-    expectAny(this._tokens, index + 1, [
-      TokenType.RIGHT_BRACKET,
-      TokenType.SLICE,
-    ]);
+    expectAny(this._tokens, index + 1, [TokenType.RIGHT_BRACKET, TokenType.SLICE]);
   }
 
   /**
@@ -164,10 +145,7 @@ export class Expectations {
    */
   public not(index: number): void {
     // Expect the next token to be property or left parenthesis
-    expectAny(this._tokens, index + 1, [
-      TokenType.PROPERTY,
-      TokenType.LEFT_PARENTHESIS,
-    ]);
+    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.LEFT_PARENTHESIS]);
 
     // Expect the previous token to be dot
     expect(this._tokens, index - 1, TokenType.DOT);

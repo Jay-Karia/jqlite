@@ -137,8 +137,7 @@ export class Lexer {
     }
 
     // Get the token type and return the token.
-    if (tokenType === TokenType.UNKNOWN)
-      tokenType = getTokenType(this.character);
+    if (tokenType === TokenType.UNKNOWN) tokenType = getTokenType(this.character);
     const token: Token = {
       type: tokenType,
       value: this.character,

@@ -48,6 +48,13 @@ export function expect(
   return valid;
 }
 
+/**
+ * Expects the next token to be of any type in the given types array
+ * @param {Token[]} tokens The tokens to check
+ * @param {number} index The index of the token to check
+ * @param {string[]} types The types of the token to check
+ * @returns {boolean} Whether the token is valid or not
+ */
 export function expectAny(
   tokens: Token[],
   index: number,
@@ -73,8 +80,8 @@ export function expectAny(
 
 /**
  * Increments the index based on the token type
- * @param token The token to check
- * @returns The index to increment
+ * @param {TokenType} token The token to check
+ * @returns {number} The index to increment
  */
 export function incrementIndex(token: TokenType): number {
   let index = 0;
@@ -129,7 +136,7 @@ export function checkPreviousNode(
  * Get the type of slice among three types
  * @param {Token[]} tokens The tokens fro the query
  * @param {number} index The index of the slice token
- * @returns {"left" | "right" | null} The type of slice
+ * @returns {SliceType} The type of slice
  */
 export function getSliceType(tokens: Token[], index: number): SliceType {
   const isLeftSlice =
@@ -152,7 +159,6 @@ export function getSliceType(tokens: Token[], index: number): SliceType {
  * @param {Token} token The token to check
  * @param {number} index The index of the token
  * @param {ErrorParams} errorParam The error parameters
- * @throws {ParserError} If the multiple select is not enabled
  */
 export function checkMultipleSelectAndOmit(
   token: Token,

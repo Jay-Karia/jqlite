@@ -8,14 +8,14 @@
 //=======================================TYPES===================================
 
 export interface SliceRange {
-  start: number,
-  end: number
+  start: number;
+  end: number;
 }
 export type SliceType = "left" | "right" | null;
 export interface TContext {
-  fallback: string | null,
-  multipleSelect: boolean,
-  selectedKeys: string[]
+  fallback: string | null;
+  multipleSelect: boolean;
+  selectedKeys: string[];
   multipleOmit: boolean;
   omittedKeys: string[];
   sliceType: SliceType;

@@ -104,11 +104,7 @@ export function readNumber(input: string, position: number): string {
  * @param {string} position The current position of the character
  * @returns {string} The whole word.
  */
-export function readAlphanumeric(
-  character: string,
-  input: string,
-  position: number
-): string {
+export function readAlphanumeric(character: string, input: string, position: number): string {
   let word = "";
 
   // Read the whole word
@@ -132,10 +128,7 @@ export function readAlphanumeric(
 /**
  * Reads the remaining characters after fallback mark
  */
-export function readFallbackValue(
-  input: string,
-  position: number
-): string {
+export function readFallbackValue(input: string, position: number): string {
   let word = "";
 
   while (hasNextToken(input, position)) {
