@@ -122,7 +122,7 @@ export class Parser {
         const previous = ast.getRecentNode();
 
         // Add the token to AST
-        ast.createArrayAccessNode(Number(token.value), null, previous);
+        ast.createArrayAccessNode(Number(token.value), previous);
       }
 
       //================================LEFT PARENTHESIS=======================================
@@ -241,7 +241,6 @@ export class Parser {
     ast.createArraySliceNode(
       Number(startRange),
       Number(endRange),
-      null,
       ast.getRecentNode()
     );
 
@@ -261,7 +260,7 @@ export class Parser {
     const previousNode = ast.getRecentNode();
 
     // Add the token to the AST with parent as the last property node;
-    ast.createWildcardNode(null, previousNode);
+    ast.createWildcardNode(previousNode);
   }
 
   //==================================================================================================

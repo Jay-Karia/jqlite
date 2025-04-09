@@ -91,7 +91,6 @@ export class AST {
    */
   public createArrayAccessNode(
     index: number,
-    child?: ASTNode | null,
     parent?: ASTNode | null
   ): ArrayAccessNode {
     // Check if the root node is empty
@@ -100,7 +99,6 @@ export class AST {
     const arrayAccessNode: ArrayAccessNode = {
       type: "ArrayAccess",
       index: index,
-      children: child ? [child] : [],
       parent: parent ?? this._root,
     };
 
@@ -116,13 +114,11 @@ export class AST {
   /**
    * Create a fallback node.
    * @param {string} fallbackValue - The fallback value.
-   * @param {ASTNode} child - The child node to set.
    * @param {ASTNode} parent - The parent node to set.
    * @returns {FallbackNode} - The created fallback node.
    */
   public createFallbackNode(
     fallbackValue: string,
-    child?: ASTNode | null,
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
@@ -131,7 +127,6 @@ export class AST {
     const fallbackNode: ASTNode = {
       type: "Fallback",
       fallbackValue,
-      children: child ? [child] : [],
       parent: parent ?? this._root,
     };
 
@@ -146,12 +141,10 @@ export class AST {
 
   /**
    * Create a wildcard node.
-   * @param {ASTNode} child The child node to set.
    * @param {ASTNode} parent The parent node to set.
    * @returns {ASTNode} The created wildcard node.
    */
   public createWildcardNode(
-    child?: ASTNode | null,
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
@@ -159,7 +152,6 @@ export class AST {
 
     const wildcardNode: ASTNode = {
       type: "Wildcard",
-      children: child ? [child] : [],
       parent: parent ?? this._root,
     };
 
@@ -172,10 +164,16 @@ export class AST {
     return wildcardNode;
   }
 
+  /**
+   * Create a array slice node.
+   * @param {number} start The start index of the array slice node.
+   * @param {number} end The end index of the array slice node.
+   * @param {ASTNode} parent The parent node to set.
+   * @returns {ASTNode} The created array slice node.
+   */
   public createArraySliceNode(
     start?: number,
     end?: number,
-    child?: ASTNode | null,
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
@@ -183,7 +181,6 @@ export class AST {
 
     const arraySliceNode: ASTNode = {
       type: "ArraySlice",
-      children: child ? [child] : [],
       parent: parent ?? this._root,
       sliceRange: {
         start: start ?? 0,
@@ -202,12 +199,10 @@ export class AST {
 
   /**
    * Create a omit node.
-   * @param {ASTNode} child The child node to set.
    * @param {ASTNode} parent The parent node to set.
    * @returns {ASTNode} The created omit node.
    */
   public createOmitNode(
-    child?: ASTNode | null,
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
@@ -215,7 +210,6 @@ export class AST {
 
     const notNode: ASTNode = {
       type: "Omit",
-      children: child ? [child] : [],
       parent: parent ?? this._root,
     };
 
@@ -231,13 +225,11 @@ export class AST {
   /**
    * Create a multiple select node.
    * @param {string[]} selectedKeys The selected keys of the multiple select node.
-   * @param {ASTNode | null} child The child node to set.
    * @param {ASTNode | null} parent The parent node to set.
    * @returns {ASTNode} The created multiple select node.
    */
   public createMultipleSelectNode(
     selectedKeys: string[],
-    child?: ASTNode | null,
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
@@ -245,7 +237,6 @@ export class AST {
 
     const multipleSelectNode: ASTNode = {
       type: "MultipleSelect",
-      children: child ? [child] : [],
       parent: parent ?? this._root,
       selectedKeys,
     };
@@ -262,13 +253,11 @@ export class AST {
   /**
    * Create a multiple omit node.
    * @param {string[]} omittedKeys The omitted keys of the multiple omit node.
-   * @param {ASTNode | null} child The child node to set.
    * @param {ASTNode | null} parent The parent node to set.
    * @returns {ASTNode} The created multiple omit node.
    */
   public createMultipleOmitNode(
     omittedKeys: string[],
-    child?: ASTNode | null,
     parent?: ASTNode | null
   ): ASTNode {
     // Check if the root node is empty
@@ -276,7 +265,6 @@ export class AST {
 
     const multipleOmitNode: ASTNode = {
       type: "MultipleOmit",
-      children: child ? [child] : [],
       parent: parent ?? this._root,
       omittedKeys,
     };
@@ -314,60 +302,7 @@ export class AST {
     return node;
   }
 
-  /**
-   * Delete the node while preserving the children
-   * @param {ASTNode} node - The node to be deleted.
-   * @returns {ASTNode} The deleted node.
-   */
-  public deleteNodeWithPreserve(node: ASTNode): ASTNode {
-    const parent = node.parent;
-    const children = node.children;
-
-    // Get the index of node among it's siblings
-    let index = -1;
-    if (parent && parent.children) index = parent.children.indexOf(node);
-
-    // Remove node from siblings
-    node.parent?.children?.splice(index, 1);
-
-    // Add the children to siblings
-    if (children) {
-      children.map(child => {
-        node.parent?.children?.push(child);
-        child.parent = undefined;
-      });
-    }
-
-    return this.deleteNode(node);
-  }
-
   //===================================TRAVERSAL=====================================
-
-  /**
-   *  Get the nodes in post-order traversal.
-   * @returns {ASTNode[]} - The nodes in post-order traversal.
-   */
-  public postOrder(): ASTNode[] {
-    // Check if the root node is empty
-    if (!this._root) {
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        root: this._root,
-      });
-    }
-
-    const result = new Array<ASTNode>();
-
-    // Traverse the AST in post-order
-    const traverse = (node: ASTNode): void => {
-      if (node.children) {
-        node.children.forEach(child => traverse(child));
-      }
-      result.push(node);
-    };
-    traverse(this._root);
-
-    return result;
-  }
 
   /**
    * Get the nodes in pre-order traversal.
@@ -449,28 +384,6 @@ export class AST {
     originalParent?.children?.splice(index, 1);
 
     return child;
-  }
-
-  /**
-   * Add a parent node to a child node.
-   * @param {ASTNode} node - The node to which the parent will be added.
-   * @param {ASTNode} parent - The parent node to be added.
-   * @returns {ASTNode} - The added parent node.
-   */
-  public addParent(node: ASTNode, parent: ASTNode): ASTNode {
-    // Update the siblings
-    const index = node.parent?.children?.indexOf(node);
-    if (index === -1 || index === undefined) return node;
-    node.parent?.children?.splice(index, 1);
-
-    // Add parent to the node
-    if (parent.children) parent.children.push(node);
-    else parent.children = [node];
-
-    // Update the parent of the node
-    node.parent = parent;
-
-    return node;
   }
 
   /**
