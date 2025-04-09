@@ -36,8 +36,8 @@ import { ast } from "src/ast/ast";
 export class Evaluator {
   //===================================PROPERTIES===================================
 
-  public _current: Record<string, unknown> | unknown | null;
-  private _data: Record<string, unknown> | null;
+  public _current: unknown;
+  public _fallback: string | null;
 
   //===================================CONSTRUCTOR==================================
 
@@ -46,7 +46,7 @@ export class Evaluator {
    */
   constructor() {
     this._current = null;
-    this._data = null;
+    this._fallback = null;
   }
 
   //===================================METHODS=====================================
@@ -55,6 +55,9 @@ export class Evaluator {
    * Evaluates the query
    */
   public evaluate(node: ASTNode): void {
+    // Update the fallback property
+    this._fallback = context.get("fallback");
+
     // Check the node type
     switch (node.type) {
       case "Root":
@@ -95,20 +98,19 @@ export class Evaluator {
    * Get the result of the evaluation
    * @returns {unknown} The result of the evaluation
    */
-  public getResult(): Record<string, unknown> | unknown | null {
+  public getResult(): unknown | null {
     return this._current;
   }
 
   /**
    * Set the JSON data in memory
-   * @param {Record<string, unknown> | null} data The JSON data to be stored in memory
+   * @param {unknown | null} data The JSON data to be stored in memory
    */
-  public setData(data: Record<string, unknown> | null): void {
-    this._data = data;
+  public setData(data: unknown | null): void {
     this._current = data;
   }
 
-  //===================================INTERNALS===================================
+  //===================================EVALUATIONS===================================
 
   /**
    * Evaluates the property node
@@ -121,16 +123,13 @@ export class Evaluator {
     // Check if the property exists in the node
     const propertyName = checkProperty(node.propertyName, node.type);
 
-    // Get the fallback value
-    const fallback = context.get("fallback") as string;
-
     // Get the value
     let value;
     if (isRecord(this._current)) value = this._current[propertyName];
 
     value = checkValue(
       value as Record<string, unknown> | null,
-      fallback,
+      this._fallback,
       ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND,
       {
         propertyName,
@@ -154,8 +153,7 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const property: string | string[] | undefined =
-      getPropertyName(propertyNode);
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
 
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
@@ -166,30 +164,17 @@ export class Evaluator {
     }
 
     // Check if the index is valid
-    const index = checkIndex(
-      node.index,
-      property,
-      node.type,
-      this._current.length
-    );
-
-    // Get the fallback value
-    const fallback = context.get("fallback") as string;
+    const index = checkIndex(node.index, property, node.type, this._current.length);
 
     // Get the value
     let value = this._current[index] as Record<string, unknown> | null;
 
     // Check if the value is not  undefined
-    value = checkValue(
-      value,
-      fallback,
-      ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND,
-      {
-        type: node.type,
-        index,
-        property,
-      }
-    );
+    value = checkValue(value, this._fallback, ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND, {
+      type: node.type,
+      index,
+      property,
+    });
 
     // Update the current value
     this._current = value;
@@ -208,8 +193,7 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const property: string | string[] | undefined =
-      getPropertyName(propertyNode);
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
 
     // Get the parent property is array
     if (!Array.isArray(this._current)) {
@@ -218,9 +202,6 @@ export class Evaluator {
         property,
       });
     }
-
-    // Get the fallback value
-    const fallback = context.get("fallback") as string;
 
     // Check if the property is an array of objects
     if (!containsObjects(this._current)) {
@@ -235,7 +216,7 @@ export class Evaluator {
     let value: Record<string, unknown> | null = fillArray(this._current, keys);
 
     // Check if the value is not undefined
-    value = checkValue(value, fallback, ERROR_MESSAGES.EVALUATOR.ERR_WILDCARD, {
+    value = checkValue(value, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_WILDCARD, {
       type: node.type,
       property,
     });
@@ -257,8 +238,7 @@ export class Evaluator {
 
     // Get the property node
     const propertyNode = ast.getHighestParent(node);
-    const property: string | string[] | undefined =
-      getPropertyName(propertyNode);
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
 
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
@@ -272,15 +252,9 @@ export class Evaluator {
     // Check for valid slice range
     node.sliceRange = checkSliceRange(node.sliceRange, this._current.length);
 
-    // Get the fallback value
-    const fallback = context.get("fallback") as string;
-
     // Get the sliced value
-    let value = this._current.slice(
-      node.sliceRange.start,
-      node.sliceRange.end
-    ) as unknown;
-    value = checkArray(value, fallback, {
+    let value = this._current.slice(node.sliceRange.start, node.sliceRange.end) as unknown;
+    value = checkArray(value, this._fallback, {
       sliceRange: node.sliceRange,
       property,
     });
@@ -301,21 +275,14 @@ export class Evaluator {
     this._current = checkData(this._current);
 
     // Check the children of the node
-    if (
-      !node.children ||
-      node.children.length === 0 ||
-      node.children[0].type !== "Property"
-    ) {
+    if (!node.children || node.children.length === 0 || node.children[0].type !== "Property") {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_EMIT_PROPERTY, {
         type: node.type,
       });
     }
 
     // Get the property name
-    const propertyName = checkProperty(
-      node.children[0].propertyName,
-      node.type
-    );
+    const propertyName = checkProperty(node.children[0].propertyName, node.type);
 
     // Check if the current value is an object
     if (!isRecord(this._current)) {
@@ -325,22 +292,14 @@ export class Evaluator {
       });
     }
 
-    // Get the fallback value
-    const fallback = context.get("fallback") as string;
-
     // Remove the key from the current data
     delete this._current[propertyName];
 
     // Check if the value is not undefined
-    const result = checkValue(
-      this._current,
-      fallback,
-      ERROR_MESSAGES.EVALUATOR.ERR_NOT,
-      {
-        type: node.type,
-        property: propertyName,
-      }
-    );
+    const result = checkValue(this._current, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_NOT, {
+      type: node.type,
+      property: propertyName,
+    });
 
     // Update the current value
     this._current = result;
@@ -378,11 +337,8 @@ export class Evaluator {
       }
     }
 
-    // Get the fallback value
-    const fallback = context.get("fallback") as string;
-
     // Check if the value is not undefined
-    value = checkArray(value, fallback, {
+    value = checkArray(value, this._fallback, {
       type: node.type,
       keys,
     }) as unknown[];
@@ -417,24 +373,16 @@ export class Evaluator {
       });
     }
 
-    // Get the fallback value
-    const fallback = context.get("fallback") as string;
-
     // Delete the keys from current data
     keys.forEach(key => {
       delete (this._current as Record<string, unknown>)[key];
     });
 
     // Check if the value is not undefined
-    const result = checkValue(
-      this._current,
-      fallback,
-      ERROR_MESSAGES.EVALUATOR.ERR_NOT,
-      {
-        type: node.type,
-        keys,
-      }
-    );
+    const result = checkValue(this._current, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_NOT, {
+      type: node.type,
+      keys,
+    });
 
     // Update the current value
     this._current = result;

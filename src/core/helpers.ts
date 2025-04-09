@@ -229,7 +229,7 @@ export function checkSliceRange(
  */
 export function checkArray(
   value: unknown[] | unknown,
-  fallback: string,
+  fallback: string | null,
   metadata: Record<string, unknown>
 ): unknown {
   if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
@@ -273,6 +273,17 @@ export function getPropertyName(node: ASTNode | null): string | string[] | undef
     property = node?.selectedKeys;
 
   return property;
+}
+
+export function isArray(data: unknown, node: ASTNode, property?: string | string[]): any[] {
+  if (!Array.isArray(data)) {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
+      type: node.type,
+      property,
+    });
+  }
+
+  return data;
 }
 
 //===================================================================================
