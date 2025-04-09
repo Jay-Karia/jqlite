@@ -11,7 +11,7 @@ import { type Token, TokenType } from "src/lexer/tokens";
 import type { ErrorParams } from "src/errors/types";
 import type { ASTNode } from "src/ast/types";
 import type { SliceType } from "src/core/types";
-import { type functionCategories, functionCategoryMap, functionNames } from "./functions";
+import { type functionCategories, functionCategoryMap, functionNames } from "../functions/types";
 import { ParserError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ast } from "src/ast/ast";

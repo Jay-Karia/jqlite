@@ -37,38 +37,45 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
-    console.log(ast.preOrder());
+    // Get the root node
+    const root = ast.getRootNode();
+    if (!root) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
+        // root,
+      });
+    }
 
-    // // Get the root node
-    // const root = ast.getRootNode();
-    // if (!root) {
-    //   throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
-    //     root,
-    //   });
-    // }
+    // Get the data from memory
+    const data = dataStore.get();
+    if (!data) {
+      throw new EvaluatorError(ERROR_MESSAGES.DATA.NO_DATA, {
+        data,
+      });
+    }
 
-    // // Get the data from memory
-    // const data = dataStore.get();
-    // if (!data) {
-    //   throw new EvaluatorError(ERROR_MESSAGES.DATA.NO_DATA, {
-    //     data,
-    //   });
-    // }
+    // Set the data in evaluator
+    evaluator.setData(data);
 
-    // // Set the data in evaluator
-    // evaluator.setData(data);
+    // Evaluate the query
+    evaluator.evaluate(root);
 
-    // // Evaluate the query
-    // evaluator.evaluate(root);
+    // Get the result
+    const result = evaluator.getResult();
 
-    // // Get the result
-    // const result = evaluator.getResult();
+    // console.log("//====================TOKENS=======================//");
+    // console.log(tokens);
 
-    // // console.log(tokens);
-    // // console.log(ast.toJSON());
-    // // console.log(ast.preOrder());
+    // console.log("//====================AST==========================//");
+    // console.log(ast.toJSON());
 
-    // console.log(JSON.stringify(result, null, 2));
+    // console.log("//====================PRE ORDER====================//");
+    // console.log(ast.preOrder());
+
+    // console.log("//====================RESULT=======================//");
+
+    console.log(JSON.stringify(result, null, 2));
+
+    // console.log("//=================================================//");
   }
 }
 

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Functions for jqlite.
+ * @fileoverview Function types for jqlite.
  * @author Jay-Karia
  */
 

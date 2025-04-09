@@ -10,22 +10,10 @@
 import type { ASTNode } from "src/ast/types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
-import {
-  checkArray,
-  checkData,
-  checkIndex,
-  checkProperty,
-  checkSliceRange,
-  checkValue,
-  containsObjects,
-  evaluateChildren,
-  extractUniqueKeys,
-  fillArray,
-  getPropertyName,
-  isRecord,
-} from "./helpers";
+import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
 import { context } from "./context";
 import { ast } from "src/ast/ast";
+import {applyNumericArrayFunction} from "src/functions/apply";
 
 //===================================================================================
 
@@ -91,6 +79,18 @@ export class Evaluator {
       case "MultipleOmit":
         this.evaluateMultipleOmit(node);
         break;
+      case "Function": {
+        // Get function category
+        const category = checkFunction(node.functionName, node.functionCategory);
+
+        // Evaluate the functions based on the category
+        switch (category) {
+          case "numericArray":
+            this.numericArrayFunction(node);
+            break;
+        }
+        break;
+      }
     }
   }
 
@@ -127,14 +127,9 @@ export class Evaluator {
     let value;
     if (isRecord(this._current)) value = this._current[propertyName];
 
-    value = checkValue(
-      value as Record<string, unknown> | null,
-      this._fallback,
-      ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND,
-      {
-        propertyName,
-      }
-    );
+    value = checkValue(value as Record<string, unknown> | null, this._fallback, ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
+      propertyName,
+    });
 
     // Update the current value
     this._current = value;
@@ -390,6 +385,27 @@ export class Evaluator {
     // Evaluate children if any
     evaluateChildren(node);
   }
+
+  //==================================FUNCTIONS=====================================
+
+  private numericArrayFunction(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Get the property name
+    const propertyName = getPropertyName(ast.getHighestParent(node));
+
+    // Check if the data is a numeric array
+    const result: number[] = checkNumericArray(this._current, propertyName);
+
+    // Apply the function
+    this._current = applyNumericArrayFunction(node, result);
+
+    // Evaluate children if any
+    evaluateChildren(node);
+  }
+
+  //================================================================================
 }
 
 export const evaluator = new Evaluator();

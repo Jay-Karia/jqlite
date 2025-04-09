@@ -58,14 +58,13 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
 
-- [ ] **Numeric Functions**
+- [x] **Numeric Array Functions**
 
 ```js
 #max()    // Maximum value
 #min()    // Minimum value
 #sum()    // Sum of values
 #avg()    // Average of values
-#count()  // Count of elements
 ```
 
 - [ ] **String Functions**
@@ -79,7 +78,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #matches()        // Regex matching
 ```
 
-- [ ] **Math Functions**
+- [ ] **Numeric Functions**
 
 ```js
 #add()   // Addition
@@ -96,6 +95,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #sort()                      // Sort array of primitives
 #first()                     // First element
 #last()                      // Last element
+#count()  // Count of elements
 ```
 
 - [ ] **Date Functions**

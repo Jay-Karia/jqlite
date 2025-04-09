@@ -7,7 +7,7 @@
 
 //=====================================IMPORTS=====================================
 
-import type { functionCategories } from "src/parser/functions";
+import type { functionCategories, functionNames } from "src/functions/types";
 
 //=======================================TYPES=====================================
 
@@ -22,7 +22,7 @@ export interface ASTNode {
   sliceRange?: SliceRange;
   selectedKeys?: string[];
   omittedKeys?: string[];
-  functionName?: string;
+  functionName?: functionNames;
   functionCategory?: functionCategories;
 }
 

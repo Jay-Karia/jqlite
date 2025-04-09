@@ -260,5 +260,23 @@ export const ERROR_MESSAGES = {
       cause: "Undefined value of the array",
       solution: "Check whether the array is valid",
     },
+    ERR_FUNCTION_CATEGORY: {
+      message: "Error occurred while evaluating function category",
+      code: "ERR_FUNCTION_CATEGORY",
+      cause: "Undefined value of the function category",
+      solution: "Check whether the function category is valid",
+    } as ErrorParams,
+    ERR_NUMERIC_ARRAY: {
+      message: "Error occurred while evaluating numeric array",
+      code: "ERR_NUMERIC_ARRAY",
+      cause: "The data is not a numeric array",
+      solution: "Make sure the data is a numeric array",
+    } as ErrorParams,
+    ERR_FUNCTION_APPLY: {
+      message: "Error occurred while applying function",
+      code: "ERR_FUNCTION_APPLY",
+      cause: "Undefined value of the function name",
+      solution: "Check whether the function declaration is valid",
+    } as ErrorParams,
   },
 };

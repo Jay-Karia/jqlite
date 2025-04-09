@@ -5,6 +5,7 @@
 
 "use strict";
 
+import {functionCategories, functionNames} from "src/functions/types";
 //======================================IMPORTS====================================
 
 import type { ASTNode } from "./types";
@@ -48,7 +49,8 @@ export interface MultipleOmitNode extends ASTNode {
 }
 export interface FunctionNode extends ASTNode {
   type: "Function";
-  functionName: string;
+  functionName: functionNames;
+  functionCategory: functionCategories;
 }
 
 //===================================================================================

@@ -10,6 +10,7 @@
 import type { ASTNode, NodeType } from "src/ast/types";
 import type { ErrorParams } from "src/errors/types";
 import type { SliceRange } from "./types";
+import type { functionCategories, functionNames } from "src/functions/types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { evaluator } from "./evaluator";
@@ -58,10 +59,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
  * @param {string[]} keys The keys to be used for filling the array
  * @returns {Record<string, unknown>} The filled array
  */
-export function fillArray(
-  data: unknown[],
-  keys: string[]
-): Record<string, unknown> {
+export function fillArray(data: unknown[], keys: string[]): Record<string, unknown> {
   // Initialize result object with empty arrays
   const result: Record<string, any[]> = {};
   keys.forEach(key => {
@@ -93,9 +91,7 @@ export function fillArray(
  * @param {Record<string, unknown> | null} data The data to be checked
  * @returns {Record<string, unknown>} The data if it is not null or undefined
  */
-export function checkData(
-  data: Record<string, unknown> | unknown | null
-): Record<string, unknown> | unknown {
+export function checkData(data: Record<string, unknown> | unknown | null): Record<string, unknown> | unknown {
   if (data === null || data === undefined) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_DATA, {
       data: data,
@@ -111,10 +107,7 @@ export function checkData(
  * @param {NodeType} type The AST node to be checked
  * @returns {string} The property name if it is not null or undefined
  */
-export function checkProperty(
-  property: string | undefined,
-  type: NodeType
-): string {
+export function checkProperty(property: string | undefined, type: NodeType): string {
   if (!property) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
       property,
@@ -132,12 +125,7 @@ export function checkProperty(
  * @param {ErrorParams} errorParam The error parameters
  * @param {object} metadata The metadata to be passed to the error
  */
-export function checkValue(
-  value: Record<string, unknown> | null,
-  fallback: string | null,
-  errorParam: ErrorParams,
-  metadata: object
-): Record<string, unknown> | null {
+export function checkValue(value: Record<string, unknown> | null, fallback: string | null, errorParam: ErrorParams, metadata: object): Record<string, unknown> | null {
   if (value === undefined) {
     // Check for fallback
     if (fallback) return { __fallback__: fallback };
@@ -156,36 +144,25 @@ export function checkValue(
  * @param {number} arrayLength The expected length of the array
  * @returns {number} The index if it is valid
  */
-export function checkIndex(
-  index: number | undefined,
-  property: string | string[] | undefined,
-  type: NodeType,
-  arrayLength: number
-): number {
+export function checkIndex(index: number | undefined, property: string | string[] | undefined, type: NodeType, arrayLength: number): number {
   // Check whether the index is defined
   if (index === undefined) {
-    throw new EvaluatorError(
-      ERROR_MESSAGES.EVALUATOR.ERR_ARRAY_INDEX_NOT_DEFINED,
-      {
-        type,
-        property,
-        index,
-        arrayLength,
-      }
-    );
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_ARRAY_INDEX_NOT_DEFINED, {
+      type,
+      property,
+      index,
+      arrayLength,
+    });
   }
 
   // Check the index bounds
   if (index < 0 || index >= arrayLength) {
-    throw new EvaluatorError(
-      ERROR_MESSAGES.EVALUATOR.ARRAY_INDEX_OUT_OF_BOUNDS,
-      {
-        index,
-        property,
-        type,
-        arrayLength,
-      }
-    );
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ARRAY_INDEX_OUT_OF_BOUNDS, {
+      index,
+      property,
+      type,
+      arrayLength,
+    });
   }
 
   return index;
@@ -197,10 +174,7 @@ export function checkIndex(
  * @param {number} arrayLength The actual array length
  * @returns {SliceRange} The valid slice range
  */
-export function checkSliceRange(
-  sliceRange: SliceRange | undefined,
-  arrayLength: number
-): SliceRange {
+export function checkSliceRange(sliceRange: SliceRange | undefined, arrayLength: number): SliceRange {
   if (sliceRange === undefined) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE, {
       sliceRange,
@@ -227,21 +201,49 @@ export function checkSliceRange(
  * @param metadata The error metadata
  * @returns The validated value
  */
-export function checkArray(
-  value: unknown[] | unknown,
-  fallback: string | null,
-  metadata: Record<string, unknown>
-): unknown {
+export function checkArray(value: unknown[] | unknown, fallback: string | null, metadata: Record<string, unknown>): unknown {
   if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
     // Check for fallback
     if (fallback) return { __fallback__: fallback };
-    throw new EvaluatorError(
-      ERROR_MESSAGES.EVALUATOR.ERR_ARRAY,
-      metadata
-    );
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_ARRAY, metadata);
   }
 
   return value;
+}
+
+export function checkNumericArray(data: unknown, propertyName: string | string[] | undefined): number[] {
+  if (!Array.isArray(data)) {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
+      property: propertyName,
+    });
+  }
+
+  const numericData = data.filter(item => typeof item === "number");
+
+  if (numericData.length === 0) {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_NUMERIC_ARRAY, {
+      property: propertyName,
+    });
+  }
+
+  return numericData;
+}
+
+/**
+ * Check if the function name is valid
+ * @param {functionNames | undefined} functionName The function name to be checked
+ * @param {functionCategories | undefined} functionCategory The function category to be checked
+ * @returns {functionCategories} The function category if it is valid
+ */
+export function checkFunction(functionName: functionNames | undefined, functionCategory: functionCategories | undefined): functionCategories {
+  if (!functionCategory) {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_CATEGORY, {
+      functionName,
+      functionCategory,
+    });
+  }
+
+  return functionCategory;
 }
 
 /**
@@ -266,15 +268,20 @@ export function getPropertyName(node: ASTNode | null): string | string[] | undef
   let property: string | string[] | undefined;
 
   // Use a single property name
-  if (node?.type === "Property")
-    property = checkProperty(node?.propertyName, "Property");
+  if (node?.type === "Property") property = checkProperty(node?.propertyName, "Property");
   // Use multiple property names
-  else if (node?.type === "MultipleSelect")
-    property = node?.selectedKeys;
+  else if (node?.type === "MultipleSelect") property = node?.selectedKeys;
 
   return property;
 }
 
+/**
+ * Checks if the data is an array
+ * @param {unknown} data The data to be checked
+ * @param {ASTNode} node The AST node to be checked
+ * @param {string | string[]} property The property name
+ * @returns {any[]} The data if it is an array
+ */
 export function isArray(data: unknown, node: ASTNode, property?: string | string[]): any[] {
   if (!Array.isArray(data)) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {

@@ -8,7 +8,7 @@
 //======================================IMPORTS====================================
 
 import { TokenType, type Token } from "src/lexer/tokens";
-import type { functionNames } from "./functions";
+import type { functionNames } from "../functions/types";
 import { ast } from "src/ast/ast";
 import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
@@ -222,8 +222,11 @@ export class Parser {
         // Get function category
         const functionCategory = getFunctionCategory(validFunctionName);
 
+        // Get the property node
+        const propertyNode = ast.getRecentNode();
+
         // Add the token to the AST with parent as the last property node;
-        ast.createFunctionNode(functionName, functionCategory);
+        ast.createFunctionNode(functionName, functionCategory, propertyNode);
       }
 
       //========================================EOQ=============================================
