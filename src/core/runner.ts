@@ -27,9 +27,8 @@ export class QueryRunner {
    * Runs the query
    * @description Runs the query and returns the result
    * @param {string} query The query to run
-   * @return {void}
    */
-  public run(query: string, callback?: (result: unknown) => void): unknown {
+  public run(query: string, callback?: (result: unknown) => void): void {
     // Remove leading and trailing white spaces
     query = query.trim();
 
@@ -41,7 +40,7 @@ export class QueryRunner {
     const root = ast.getRootNode();
     if (!root) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
-        // root,
+        root,
       });
     }
 
@@ -64,9 +63,6 @@ export class QueryRunner {
 
     // Use the callback if given
     if (callback) callback(result);
-
-    // Return the result
-    return result;
   }
 }
 

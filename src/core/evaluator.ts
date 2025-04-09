@@ -327,6 +327,14 @@ export class Evaluator {
     let value: Record<string, unknown> = {};
     for (const key of keys) {
       value[key] = this._current[key];
+
+      // Check if the key is not found
+      if (value[key] === undefined) {
+        throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
+          type: node.type,
+          key,
+        });
+      }
     }
 
     // Check if the value is not undefined
