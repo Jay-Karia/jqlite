@@ -4,6 +4,6 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json");
 
-query.run("$.friends[*].age.#max()", (result => {
+query.run("$.me.!(name, age)", (result => {
   console.log(result);
 }));

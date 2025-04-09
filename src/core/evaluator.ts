@@ -324,19 +324,16 @@ export class Evaluator {
     }
 
     // Get the value
-    let value: unknown[] = [];
+    let value: Record<string, unknown> = {};
     for (const key of keys) {
-      const propertyName = checkProperty(key, node.type);
-      if (propertyName in this._current) {
-        value.push(this._current[propertyName]);
-      }
+      value[key] = this._current[key];
     }
 
     // Check if the value is not undefined
-    value = checkArray(value, this._fallback, {
+    value = checkValue(value, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_MULTIPLE_SELECT, {
       type: node.type,
       keys,
-    }) as unknown[];
+    }) as Record<string, unknown>;
 
     // Update the current value
     this._current = value;

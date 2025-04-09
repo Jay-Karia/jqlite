@@ -278,5 +278,11 @@ export const ERROR_MESSAGES = {
       cause: "Undefined value of the function name",
       solution: "Check whether the function declaration is valid",
     } as ErrorParams,
+    ERR_MULTIPLE_SELECT: {
+      message: "Error occurred while evaluating multiple select",
+      code: "ERR_MULTIPLE_SELECT",
+      cause: "Undefined value of the multiple select",
+      solution: "Check whether the multiple select is valid",
+    } as ErrorParams,
   },
 };
