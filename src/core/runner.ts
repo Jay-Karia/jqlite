@@ -29,7 +29,7 @@ export class QueryRunner {
    * @param {string} query The query to run
    * @return {void}
    */
-  public run(query: string): void {
+  public run(query: string, callback?: (result: unknown) => void): unknown {
     // Remove leading and trailing white spaces
     query = query.trim();
 
@@ -59,23 +59,14 @@ export class QueryRunner {
     // Evaluate the query
     evaluator.evaluate(root);
 
-    // Get the result
+    // Get the query result
     const result = evaluator.getResult();
 
-    // console.log("//====================TOKENS=======================//");
-    // console.log(tokens);
+    // Use the callback if given
+    if (callback) callback(result);
 
-    // console.log("//====================AST==========================//");
-    // console.log(ast.toJSON());
-
-    // console.log("//====================PRE ORDER====================//");
-    // console.log(ast.preOrder());
-
-    // console.log("//====================RESULT=======================//");
-
-    console.log(JSON.stringify(result, null, 2));
-
-    // console.log("//=================================================//");
+    // Return the result
+    return result;
   }
 }
 
