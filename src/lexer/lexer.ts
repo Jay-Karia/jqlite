@@ -79,6 +79,14 @@ export class Lexer {
       this.isEoq = true;
     }
 
+    // Reset the variables
+    this.input = "";
+    this.position = 0;
+    this.character = "";
+    this.isEoq = false;
+    this.isFallback = false;
+    this.ignoreWhitespace = false;
+
     return tokens;
   }
 
