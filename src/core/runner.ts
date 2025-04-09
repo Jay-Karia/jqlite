@@ -23,6 +23,8 @@ import { dataStore } from "src/data/store";
  * @description This class is responsible for running the query.
  */
 export class QueryRunner {
+  private _result: unknown = null;
+
   /**
    * Runs the query
    * @description Runs the query and returns the result
@@ -59,10 +61,29 @@ export class QueryRunner {
     evaluator.evaluate(root);
 
     // Get the query result
-    const result = evaluator.getResult();
+    this._result = evaluator.getResult();
 
     // Use the callback if given
-    if (callback) callback(result);
+    if (callback) callback(this._result);
+  }
+
+  /**
+   * Returns the result of the query
+   * @description Returns the result of the query
+   * @returns {unknown} The result of the query
+   */
+  public result(): unknown {
+    return this._result;
+  }
+
+  /**
+   * Returns the result of the query as a string
+   * @description Returns the result of the query as a string
+   * @returns {string} The result of the query as a string
+   */
+  public print(): void {
+    if (this._result) console.log(this._result);
+    else console.log("No result found. Please run the query first.");
   }
 }
 

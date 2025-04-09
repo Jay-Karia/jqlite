@@ -14,7 +14,6 @@ import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, ch
 import { context } from "./context";
 import { ast } from "src/ast/ast";
 import {applyNumericArrayFunction} from "src/functions/apply";
-import {dataStore} from "src/data/store";
 
 //===================================================================================
 
