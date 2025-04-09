@@ -9,6 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { expect, expectAny } from "./helpers";
+import {context} from "src/core/context";
 
 //=============================================================================
 
@@ -70,9 +71,12 @@ export class Expectations {
    * Expectations for the slice token
    * @param {number} index The index of the token
    */
-  public arraySlice(index: number, position: "left" | "right" | null): void {
+  public arraySlice(index: number): void {
+    // Get the slice type from context
+    const sliceType = context.get("sliceType");
+
     // Left Slice
-    if (position === "left") {
+    if (sliceType === "left") {
       // Expect the previous token to be number
       expect(this._tokens, index - 1, TokenType.NUMBER);
 
@@ -81,7 +85,7 @@ export class Expectations {
 
       // Expect the next token to be right bracket
       expect(this._tokens, index + 1, TokenType.RIGHT_BRACKET);
-    } else if (position === "right") {
+    } else if (sliceType === "right") {
       // Expect the next token to be number
       expect(this._tokens, index + 1, TokenType.NUMBER);
 

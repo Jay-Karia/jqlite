@@ -28,7 +28,8 @@ export class Context {
       multipleSelect: false,
       selectedKeys: [],
       multipleOmit: false,
-      omittedKeys: []
+      omittedKeys: [],
+      sliceType: null,
     };
   }
 

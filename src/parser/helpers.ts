@@ -10,10 +10,11 @@
 import { type Token, TokenType } from "src/lexer/tokens";
 import type { ErrorParams } from "src/errors/types";
 import type { ASTNode } from "src/ast/types";
+import type { SliceType } from "src/core/types";
 import { ParserError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ast } from "src/ast/ast";
-import {context} from "src/core/context";
+import { context } from "src/core/context";
 
 //=================================================================================
 
@@ -130,10 +131,7 @@ export function checkPreviousNode(
  * @param {number} index The index of the slice token
  * @returns {"left" | "right" | null} The type of slice
  */
-export function getSliceType(
-  tokens: Token[],
-  index: number
-): "left" | "right" | null {
+export function getSliceType(tokens: Token[], index: number): SliceType {
   const isLeftSlice =
     tokens[index - 1].type === TokenType.NUMBER &&
     tokens[index - 2].type === TokenType.LEFT_BRACKET &&
@@ -156,19 +154,26 @@ export function getSliceType(
  * @param {ErrorParams} errorParam The error parameters
  * @throws {ParserError} If the multiple select is not enabled
  */
-export function checkMultipleSelectAndOmit(token: Token, index: number, errorParam?: ErrorParams): void {
+export function checkMultipleSelectAndOmit(
+  token: Token,
+  index: number,
+  errorParam?: ErrorParams
+): void {
   // Get the value from context
   const isMultipleSelect = context.get("multipleSelect") ?? false;
   const isMultipleOmit = context.get("multipleOmit") ?? false;
 
   // Check the values
   if (!isMultipleSelect && !isMultipleOmit) {
-    throw new ParserError(errorParam ? errorParam : ERROR_MESSAGES.PARSER.MULTIPLE_FALSE, {
-      token: token.value,
-      index,
-      multipleSelect: isMultipleSelect,
-      multipleOmit: isMultipleOmit
-    });
+    throw new ParserError(
+      errorParam ? errorParam : ERROR_MESSAGES.PARSER.MULTIPLE_FALSE,
+      {
+        token: token.value,
+        index,
+        multipleSelect: isMultipleSelect,
+        multipleOmit: isMultipleOmit,
+      }
+    );
   }
 }
 

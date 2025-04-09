@@ -227,11 +227,11 @@ export class Parser {
     index: number,
     expectations: Expectations
   ): number {
-    // Check the slice type
-    const sliceType = getSliceType(tokens, index);
+    // Set the slice type in context
+    context.set("sliceType", getSliceType(tokens, index));
 
     // Expectations for the token
-    expectations.arraySlice(index, sliceType);
+    expectations.arraySlice(index);
 
     // Get the slice token
     const startRange = tokens[index - 1].value;

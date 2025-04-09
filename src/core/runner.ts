@@ -61,6 +61,11 @@ export class QueryRunner {
 
     // Get the result
     const result = evaluator.getResult();
+
+    // console.log(tokens);
+    // console.log(ast.toJSON());
+    // console.log(ast.preOrder());
+
     console.log(JSON.stringify(result, null, 2));
   }
 }
