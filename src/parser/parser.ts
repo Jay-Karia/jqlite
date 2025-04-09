@@ -8,8 +8,9 @@
 //======================================IMPORTS====================================
 
 import { TokenType, type Token } from "src/lexer/tokens";
+import type { functionNames } from "./functions";
 import { ast } from "src/ast/ast";
-import { checkMultipleSelectAndOmit, getSliceType, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
+import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -125,8 +126,8 @@ export class Parser {
 
         // Check for function declaration
         const isFunction = context.get("isFunction") ?? false;
-        console.log(isFunction);
         if (isFunction) continue;
+
         // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
         if (!isMultipleOmit) context.set("multipleSelect", true);
@@ -153,7 +154,6 @@ export class Parser {
 
         // Update the function context
         if (isFunction) context.set("isFunction", false);
-
         // Update the context if not function
         else {
           context.set("multipleSelect", false);
@@ -216,8 +216,14 @@ export class Parser {
         // Get the function name token
         const functionName = token.value;
 
+        // Check the function name
+        const validFunctionName: functionNames = checkFunctionName(functionName);
+
+        // Get function category
+        const functionCategory = getFunctionCategory(validFunctionName);
+
         // Add the token to the AST with parent as the last property node;
-        ast.createFunctionNode(functionName);
+        ast.createFunctionNode(functionName, functionCategory);
       }
 
       //========================================EOQ=============================================

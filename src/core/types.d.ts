@@ -5,6 +5,10 @@
 
 "use strict";
 
+//=======================================IMPORTS=================================
+
+import type { FunctionCategory } from "src/ast/types";
+
 //=======================================TYPES===================================
 
 export interface SliceRange {
@@ -20,6 +24,7 @@ export interface TContext {
   omittedKeys: string[];
   sliceType: SliceType;
   isFunction: boolean;
+  functionCategory: FunctionCategory | null;
 }
 export type Keys = keyof TContext;
 

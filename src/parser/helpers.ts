@@ -11,6 +11,7 @@ import { type Token, TokenType } from "src/lexer/tokens";
 import type { ErrorParams } from "src/errors/types";
 import type { ASTNode } from "src/ast/types";
 import type { SliceType } from "src/core/types";
+import { type functionCategories, functionCategoryMap, functionNames } from "./functions";
 import { ParserError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ast } from "src/ast/ast";
@@ -177,4 +178,35 @@ export function handleMultipleOmit(token: Token): void {
   const omittedKeys = context.get("omittedKeys") ?? [];
   omittedKeys.push(token.value);
   context.set("omittedKeys", omittedKeys);
+}
+
+/**
+ * Checks if the function name is valid
+ * @param {string} functionName The function name to check
+ * @returns {functionNames} The function name
+ */
+export function checkFunctionName(functionName: string): functionNames {
+  // Get valid function names
+  const validFunctionNames = Object.values(functionNames);
+
+  // Check if the function name is valid
+  if (!validFunctionNames.includes(functionName as functionNames)) {
+    throw new ParserError(ERROR_MESSAGES.PARSER.INVALID_FUNCTION_NAME, {
+      functionName,
+      validFunctionNames,
+    });
+  }
+
+  return functionName as functionNames;
+}
+
+/**
+ * Checks if the function is valid
+ * @param {string} functionName The function name to check
+ * @returns {functionCategories} The function category
+ */
+export function getFunctionCategory(functionName: functionNames): functionCategories {
+  // Get the function category
+  const functionCategory = functionCategoryMap[functionName as functionNames];
+  return functionCategory;
 }

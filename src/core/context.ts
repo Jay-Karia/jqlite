@@ -31,6 +31,7 @@ export class Context {
       omittedKeys: [],
       sliceType: null,
       isFunction: false,
+      functionCategory: null,
     };
   }
 

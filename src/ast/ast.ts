@@ -8,7 +8,7 @@
 //======================================IMPORTS====================================
 
 import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
-import type { ASTNode } from "./types";
+import type { ASTNode, FunctionCategory } from "./types";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ParserError } from "src/errors/factory";
 import { addSpecificKeys, checkRoot, updateParent } from "./helpers";
@@ -260,7 +260,7 @@ export class AST {
    * @param {ASTNode} parent - The parent node to set.
    * @returns {ASTNode} - The created function node.
    */
-  public createFunctionNode(functionName: string, parent?: ASTNode | null): ASTNode {
+  public createFunctionNode(functionName: string, functionCategory: FunctionCategory, parent?: ASTNode | null): ASTNode {
     // Check if the root node is empty
     this._root = checkRoot(this._root);
 
@@ -268,6 +268,7 @@ export class AST {
       type: "Function",
       parent: parent ?? this._root,
       functionName,
+      functionCategory,
     };
 
     // Update the parent

@@ -7,7 +7,7 @@
 
 //=====================================IMPORTS=====================================
 
-import type { SliceRange } from "src/core/types";
+import type { functionCategories } from "src/parser/functions";
 
 //=======================================TYPES=====================================
 
@@ -23,6 +23,7 @@ export interface ASTNode {
   selectedKeys?: string[];
   omittedKeys?: string[];
   functionName?: string;
+  functionCategory?: functionCategories;
 }
 
 //=================================================================================

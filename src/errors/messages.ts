@@ -155,6 +155,12 @@ export const ERROR_MESSAGES = {
       cause: "Tried to use comma `,` when multiple select/emit is off",
       solution: "Remove comma `,` or use multiple select/emit",
     } as ErrorParams,
+    INVALID_FUNCTION_NAME: {
+      message: "Invalid function name",
+      code: "INVALID_FUNCTION_NAME",
+      cause: "The function name is not valid",
+      solution: "Make sure the function name is valid",
+    } as ErrorParams,
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {
