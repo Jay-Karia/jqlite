@@ -14,6 +14,7 @@ import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, ch
 import { context } from "./context";
 import { ast } from "src/ast/ast";
 import {applyNumericArrayFunction} from "src/functions/apply";
+import {dataStore} from "src/data/store";
 
 //===================================================================================
 
@@ -373,13 +374,13 @@ export class Evaluator {
       });
     }
 
-    // Delete the keys from current data
-    keys.forEach(key => {
-      delete (this._current as Record<string, unknown>)[key];
-    });
+    let result: Record<string, unknown> | null = { ...this._current };
+    for (const key of keys) {
+      delete result[key];
+    }
 
     // Check if the value is not undefined
-    const result = checkValue(this._current, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_NOT, {
+    result = checkValue(result, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_NOT, {
       type: node.type,
       keys,
     });
