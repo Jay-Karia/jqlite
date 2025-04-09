@@ -33,15 +33,13 @@ export function updateParent(newNode: ASTNode, root: RootNode, parent?: ASTNode 
  * @param {any} obj - The JSON object of the node
  */
 export function addSpecificKeys(node: ASTNode, obj: any): void {
-  // Array access
   if (node.type === "ArrayAccess" && node.index !== undefined) obj["index"] = node.index;
-  // Property
   else if (node.type === "Property" && node.propertyName) obj["propertyName"] = node.propertyName;
-  // Fallback
   else if (node.type === "Fallback" && node.fallbackValue) obj["fallbackValue"] = node.fallbackValue;
   else if (node.type === "ArraySlice" && node.sliceRange) obj["sliceRange"] = node.sliceRange;
   else if (node.type === "MultipleSelect" && node.selectedKeys) obj["selectedKeys"] = node.selectedKeys;
   else if (node.type === "MultipleOmit" && node.omittedKeys) obj["omittedKeys"] = node.omittedKeys;
+  else if (node.type === "Function" && node.functionName) obj["functionName"] = node.functionName;
 }
 
 /**

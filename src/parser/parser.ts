@@ -9,13 +9,7 @@
 
 import { TokenType, type Token } from "src/lexer/tokens";
 import { ast } from "src/ast/ast";
-import {
-  checkMultipleSelectAndOmit,
-  getSliceType,
-  handleMultipleOmit,
-  handleMultipleSelect,
-  incrementIndex,
-} from "./helpers";
+import { checkMultipleSelectAndOmit, getSliceType, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -72,8 +66,7 @@ export class Parser {
         expectations.not(index);
 
         // Check for multiple omit
-        const isMultipleOmit =
-          tokens[index + 1].type === TokenType.LEFT_PARENTHESIS;
+        const isMultipleOmit = tokens[index + 1].type === TokenType.LEFT_PARENTHESIS;
 
         // Only update the context
         if (isMultipleOmit) {
@@ -130,7 +123,11 @@ export class Parser {
         // Expectations for the token
         expectations.leftParenthesis(index);
 
-        // Update the context
+        // Check for function declaration
+        const isFunction = context.get("isFunction") ?? false;
+        console.log(isFunction);
+        if (isFunction) continue;
+        // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
         if (!isMultipleOmit) context.set("multipleSelect", true);
       }
@@ -140,8 +137,11 @@ export class Parser {
         // Expectations for the token
         expectations.rightParenthesis(index);
 
-        // Throw an error if multiple select/omit is off
-        checkMultipleSelectAndOmit(token, index);
+        // Check for function call
+        const isFunction = context.get("isFunction") ?? false;
+
+        // Throw an error if multiple select/omit is off and not function
+        if (!isFunction) checkMultipleSelectAndOmit(token, index);
 
         // Check for selected keys and add it to AST
         const selectedKeys = context.get("selectedKeys");
@@ -151,11 +151,16 @@ export class Parser {
         const omittedKeys = context.get("omittedKeys");
         if (omittedKeys.length > 0) ast.createMultipleOmitNode(omittedKeys);
 
-        // Update the context
-        context.set("multipleSelect", false);
-        context.set("selectedKeys", []);
-        context.set("multipleOmit", false);
-        context.set("omittedKeys", []);
+        // Update the function context
+        if (isFunction) context.set("isFunction", false);
+
+        // Update the context if not function
+        else {
+          context.set("multipleSelect", false);
+          context.set("selectedKeys", []);
+          context.set("multipleOmit", false);
+          context.set("omittedKeys", []);
+        }
       }
 
       //======================================COMMA============================================
@@ -194,6 +199,27 @@ export class Parser {
         ast.createFallbackNode(fallbackToken.value);
       }
 
+      //=====================================DECLARATION========================================
+      else if (token.type === TokenType.DECLARATION) {
+        // Expectations for the token
+        expectations.declaration(index);
+
+        // Update the context of query
+        context.set("isFunction", true);
+      }
+
+      //======================================FUNCTION==========================================
+      else if (token.type === TokenType.FUNCTION) {
+        // Expectations for the token
+        expectations.function(index);
+
+        // Get the function name token
+        const functionName = token.value;
+
+        // Add the token to the AST with parent as the last property node;
+        ast.createFunctionNode(functionName);
+      }
+
       //========================================EOQ=============================================
       else if (token.type === TokenType.EOQ) {
         // Check if multiple select/omit is still on
@@ -222,11 +248,7 @@ export class Parser {
    * @param {number} index The index of the token
    * @param {Expectations} expectations The expectations for the token
    */
-  private parseArraySlice(
-    tokens: Token[],
-    index: number,
-    expectations: Expectations
-  ): number {
+  private parseArraySlice(tokens: Token[], index: number, expectations: Expectations): number {
     // Set the slice type in context
     context.set("sliceType", getSliceType(tokens, index));
 
@@ -238,11 +260,7 @@ export class Parser {
     const endRange = tokens[index + 1].value;
 
     // Add the token to the AST
-    ast.createArraySliceNode(
-      Number(startRange),
-      Number(endRange),
-      ast.getRecentNode()
-    );
+    ast.createArraySliceNode(Number(startRange), Number(endRange), ast.getRecentNode());
 
     return index + incrementIndex(TokenType.SLICE);
   }

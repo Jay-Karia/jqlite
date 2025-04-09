@@ -30,6 +30,7 @@ export class Context {
       multipleOmit: false,
       omittedKeys: [],
       sliceType: null,
+      isFunction: false,
     };
   }
 

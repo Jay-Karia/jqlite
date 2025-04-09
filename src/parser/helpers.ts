@@ -25,11 +25,7 @@ import { context } from "src/core/context";
  * @param {string} type The type of the token to check
  * @returns {boolean} Whether the token is valid or not
  */
-export function expect(
-  tokens: Token[],
-  index: number,
-  type: TokenType
-): boolean {
+export function expect(tokens: Token[], index: number, type: TokenType): boolean {
   let valid = false;
 
   const token = tokens[index];
@@ -55,11 +51,7 @@ export function expect(
  * @param {string[]} types The types of the token to check
  * @returns {boolean} Whether the token is valid or not
  */
-export function expectAny(
-  tokens: Token[],
-  index: number,
-  types: TokenType[]
-): boolean {
+export function expectAny(tokens: Token[], index: number, types: TokenType[]): boolean {
   let valid = false;
 
   const token = tokens[index];
@@ -114,12 +106,7 @@ export function incrementIndex(token: TokenType): number {
  * @param {ErrorParams} error - The error parameters for handling errors
  * @returns {ASTNode} The previous ASTNode if valid
  */
-export function checkPreviousNode(
-  tokens: Token[],
-  index: number,
-  type: TokenType,
-  error: ErrorParams
-): ASTNode {
+export function checkPreviousNode(tokens: Token[], index: number, type: TokenType, error: ErrorParams): ASTNode {
   const previousNode = ast.getRecentNode();
   if (!previousNode || previousNode.type !== type) {
     throw new ParserError(error, {
@@ -139,14 +126,8 @@ export function checkPreviousNode(
  * @returns {SliceType} The type of slice
  */
 export function getSliceType(tokens: Token[], index: number): SliceType {
-  const isLeftSlice =
-    tokens[index - 1].type === TokenType.NUMBER &&
-    tokens[index - 2].type === TokenType.LEFT_BRACKET &&
-    tokens[index + 1].type === TokenType.RIGHT_BRACKET;
-  const isRightSlice =
-    tokens[index + 1].type === TokenType.NUMBER &&
-    tokens[index + 2].type === TokenType.RIGHT_BRACKET &&
-    tokens[index - 1].type === TokenType.LEFT_BRACKET;
+  const isLeftSlice = tokens[index - 1].type === TokenType.NUMBER && tokens[index - 2].type === TokenType.LEFT_BRACKET && tokens[index + 1].type === TokenType.RIGHT_BRACKET;
+  const isRightSlice = tokens[index + 1].type === TokenType.NUMBER && tokens[index + 2].type === TokenType.RIGHT_BRACKET && tokens[index - 1].type === TokenType.LEFT_BRACKET;
 
   if (isLeftSlice) return "left";
   if (isRightSlice) return "right";
@@ -160,26 +141,19 @@ export function getSliceType(tokens: Token[], index: number): SliceType {
  * @param {number} index The index of the token
  * @param {ErrorParams} errorParam The error parameters
  */
-export function checkMultipleSelectAndOmit(
-  token: Token,
-  index: number,
-  errorParam?: ErrorParams
-): void {
+export function checkMultipleSelectAndOmit(token: Token, index: number, errorParam?: ErrorParams): void {
   // Get the value from context
   const isMultipleSelect = context.get("multipleSelect") ?? false;
   const isMultipleOmit = context.get("multipleOmit") ?? false;
 
   // Check the values
   if (!isMultipleSelect && !isMultipleOmit) {
-    throw new ParserError(
-      errorParam ? errorParam : ERROR_MESSAGES.PARSER.MULTIPLE_FALSE,
-      {
-        token: token.value,
-        index,
-        multipleSelect: isMultipleSelect,
-        multipleOmit: isMultipleOmit,
-      }
-    );
+    throw new ParserError(errorParam ? errorParam : ERROR_MESSAGES.PARSER.MULTIPLE_FALSE, {
+      token: token.value,
+      index,
+      multipleSelect: isMultipleSelect,
+      multipleOmit: isMultipleOmit,
+    });
   }
 }
 

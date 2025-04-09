@@ -33,8 +33,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public dot(index: number): void {
-    // Expect the next token to be a property or not or left parenthesis
-    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.NOT, TokenType.LEFT_PARENTHESIS]);
+    // Expect the next token to be property or not or left parenthesis or declaration
+    expectAny(this._tokens, index + 1, [TokenType.PROPERTY, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.DECLARATION]);
   }
 
   /**
@@ -156,11 +156,26 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public leftParenthesis(index: number): void {
-    // Expect the previous token to be dot or not
-    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT]);
+    // Get whether function is called or not
+    const isFunction = context.get("isFunction") ?? false;
 
-    // Expect the next token to be property
-    expect(this._tokens, index + 1, TokenType.PROPERTY);
+    // Expectations if function is called
+    if (isFunction) {
+      // Expect the next token to be right parenthesis
+      expect(this._tokens, index + 1, TokenType.RIGHT_PARENTHESIS);
+
+      // Expect the previous token to be function
+      expect(this._tokens, index - 1, TokenType.FUNCTION);
+    }
+
+    // Expectations id function is not called
+    else {
+      // Expect the previous token to be dot or not
+      expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT]);
+
+      // Expect the next token to be property
+      expect(this._tokens, index + 1, TokenType.PROPERTY);
+    }
   }
 
   /**
@@ -168,8 +183,20 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public rightParenthesis(index: number): void {
+    // Get whether function is called or not
+    const isFunction = context.get("isFunction") ?? false;
+
+    // Expectations if function is called
+    if (isFunction) {
+      // Expect the previous token to be left parenthesis
+      expect(this._tokens, index - 1, TokenType.LEFT_PARENTHESIS);
+    }
+
+    // Expectations id function is not called
+    else {
     // Expect the previous token to be property
     expect(this._tokens, index - 1, TokenType.PROPERTY);
+    }
   }
 
   /**
@@ -182,5 +209,29 @@ export class Expectations {
 
     // Expect the next token to be property
     expect(this._tokens, index + 1, TokenType.PROPERTY);
+  }
+
+  /**
+   * Expectations for the declaration token
+   * @param {number} index The index of the token
+   */
+  public declaration(index: number): void {
+    // Expect the previous token to be dot
+    expect(this._tokens, index - 1, TokenType.DOT);
+
+    // Expect the next token to be function
+    expect(this._tokens, index + 1, TokenType.FUNCTION);
+  }
+
+  /**
+   * Expectations for the function token
+   * @param {number} index The index of the token
+   */
+  public function(index: number): void {
+    // Expect the previous token to be declaration
+    expect(this._tokens, index - 1, TokenType.DECLARATION);
+
+    // Expect the next token to be left parenthesis
+    expect(this._tokens, index + 1, TokenType.LEFT_PARENTHESIS);
   }
 }

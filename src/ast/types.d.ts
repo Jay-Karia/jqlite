@@ -11,7 +11,7 @@ import type { SliceRange } from "src/core/types";
 
 //=======================================TYPES=====================================
 
-export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard" | "ArraySlice" | "Omit" | "MultipleSelect" | "MultipleOmit";
+export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard" | "ArraySlice" | "Omit" | "MultipleSelect" | "MultipleOmit" | "Function";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;
@@ -22,6 +22,7 @@ export interface ASTNode {
   sliceRange?: SliceRange;
   selectedKeys?: string[];
   omittedKeys?: string[];
+  functionName?: string;
 }
 
 //=================================================================================

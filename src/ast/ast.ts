@@ -254,6 +254,31 @@ export class AST {
     return multipleOmitNode;
   }
 
+  /**
+   * Create a function node.
+   * @param {string} functionName - The name of the function.
+   * @param {ASTNode} parent - The parent node to set.
+   * @returns {ASTNode} - The created function node.
+   */
+  public createFunctionNode(functionName: string, parent?: ASTNode | null): ASTNode {
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
+
+    const functionNode: ASTNode = {
+      type: "Function",
+      parent: parent ?? this._root,
+      functionName,
+    };
+
+    // Update the parent
+    updateParent(functionNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = functionNode;
+
+    return functionNode;
+  }
+
   //====================================DELETION=====================================
 
   /**

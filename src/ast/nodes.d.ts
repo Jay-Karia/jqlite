@@ -46,5 +46,9 @@ export interface MultipleOmitNode extends ASTNode {
   type: "MultipleOmit";
   omittedKeys: string[];
 }
+export interface FunctionNode extends ASTNode {
+  type: "Function";
+  functionName: string;
+}
 
 //===================================================================================

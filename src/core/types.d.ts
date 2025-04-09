@@ -19,6 +19,7 @@ export interface TContext {
   multipleOmit: boolean;
   omittedKeys: string[];
   sliceType: SliceType;
+  isFunction: boolean;
 }
 export type Keys = keyof TContext;
 
