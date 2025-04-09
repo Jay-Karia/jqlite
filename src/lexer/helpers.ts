@@ -169,6 +169,8 @@ export function getTokenType(char: string): TokenType {
       return TokenType.LEFT_PARENTHESIS;
     case ")":
       return TokenType.RIGHT_PARENTHESIS;
+    case "#":
+      return TokenType.DECLARATION;
     case " ":
     case "\t":
     case "\n":

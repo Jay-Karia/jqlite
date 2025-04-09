@@ -35,38 +35,40 @@ export class QueryRunner {
 
     // Parse the tokens
     const tokens: Token[] = lexer.tokenize(query);
-    parser.parse(tokens);
+    // parser.parse(tokens);
 
-    // Get the root node
-    const root = ast.getRootNode();
-    if (!root) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
-        root,
-      });
-    }
+    console.log(tokens);
 
-    // Get the data from memory
-    const data = dataStore.get();
-    if (!data) {
-      throw new EvaluatorError(ERROR_MESSAGES.DATA.NO_DATA, {
-        data,
-      });
-    }
+    // // Get the root node
+    // const root = ast.getRootNode();
+    // if (!root) {
+    //   throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
+    //     root,
+    //   });
+    // }
 
-    // Set the data in evaluator
-    evaluator.setData(data);
+    // // Get the data from memory
+    // const data = dataStore.get();
+    // if (!data) {
+    //   throw new EvaluatorError(ERROR_MESSAGES.DATA.NO_DATA, {
+    //     data,
+    //   });
+    // }
 
-    // Evaluate the query
-    evaluator.evaluate(root);
+    // // Set the data in evaluator
+    // evaluator.setData(data);
 
-    // Get the result
-    const result = evaluator.getResult();
+    // // Evaluate the query
+    // evaluator.evaluate(root);
 
-    // console.log(tokens);
-    // console.log(ast.toJSON());
-    // console.log(ast.preOrder());
+    // // Get the result
+    // const result = evaluator.getResult();
 
-    console.log(JSON.stringify(result, null, 2));
+    // // console.log(tokens);
+    // // console.log(ast.toJSON());
+    // // console.log(ast.preOrder());
+
+    // console.log(JSON.stringify(result, null, 2));
   }
 }
 

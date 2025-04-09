@@ -22,6 +22,8 @@ export enum TokenType {
   COMMA = "Comma", // ,
   LEFT_PARENTHESIS = "LeftParenthesis", // (
   RIGHT_PARENTHESIS = "RightParenthesis", // )
+  DECLARATION = "Declaration", // #
+  FUNCTION = "Function", // #function
   WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token

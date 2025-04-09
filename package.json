@@ -57,15 +57,5 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitepress": "^1.6.3",
     "vitest": "^3.1.1"
-  },
-  "dependencies": {
-    "@jqlite/core": "link:",
-    "core": "link:../../.local/share/pnpm/global/5/node_modules/@jqlite/core"
-  },
-  "pnpm": {
-    "overrides": {
-      "@jqlite/core": "link:",
-      "core": "link:../../.local/share/pnpm/global/5/node_modules/@jqlite/core"
-    }
   }
 }

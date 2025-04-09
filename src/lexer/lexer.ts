@@ -34,6 +34,7 @@ export class Lexer {
   private isEoq: boolean;
   private isFallback: boolean;
   private ignoreWhitespace: boolean;
+  private isDeclaration: boolean;
 
   //====================================CONSTRUCTOR==================================
 
@@ -47,6 +48,7 @@ export class Lexer {
     this.isEoq = false;
     this.isFallback = false;
     this.ignoreWhitespace = false;
+    this.isDeclaration = false;
   }
 
   //====================================TOKENIZATION==================================
@@ -86,6 +88,7 @@ export class Lexer {
     this.isEoq = false;
     this.isFallback = false;
     this.ignoreWhitespace = false;
+    this.isDeclaration = false;
 
     return tokens;
   }
@@ -110,8 +113,19 @@ export class Lexer {
       return getEoqToken(this.position);
     }
 
+    // Read the function name
+    if (this.isDeclaration) {
+      tokenType = TokenType.FUNCTION;
+      this.isDeclaration = false;
+    }
+
+    // Set the function declaration
+    if (this.character === "#") {
+      this.isDeclaration = true;
+    }
+
     // Read the whole word or number
-    if (isAlpha(this.character) || isDigit(this.character)) {
+    if ((isAlpha(this.character) || isDigit(this.character)) && !this.isDeclaration) {
       const word = readAlphanumeric(this.character, this.input, this.position);
       this.character = word;
       this.position += word.length - 1;
