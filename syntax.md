@@ -71,9 +71,6 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 
 ```js
 #contains()       // Check substring
-#toUpperCase()    // Convert to uppercase
-#toLowerCase()    // Convert to lowercase
-#trim()           // Remove whitespace
 #length()         // Get string length
 #matches()        // Regex matching
 ```
@@ -85,26 +82,14 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #sub()   // Subtraction
 #mul()   // Multiplication
 #div()   // Division
-#mod()   // Modulus
 ```
 
 - [ ] **Array Functions**
 
 ```js
-#sort(@.field, "asc"/"dsc")  // Sort array of objects
-#sort()                      // Sort array of primitives
 #first()                     // First element
 #last()                      // Last element
-#count()  // Count of elements
-```
-
-- [ ] **Date Functions**
-
-```js
-#format()    // Format date
-#getYear()   // Get year
-#getMonth()  // Get month
-#getDay()    // Get day
+#count()                     // Count of elements
 ```
 
 
