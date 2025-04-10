@@ -4,8 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json");
 
-query.run("$.me.!(name, age)");
-query.print();
-
-query.run("$.me.(name, age)");
+query.run("$.friends[*].name.#reverse()");
 query.print();

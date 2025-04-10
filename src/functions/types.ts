@@ -13,6 +13,9 @@ export enum functionNames {
   AVG = "avg",
   SUM = "sum",
   COUNT = "count",
+  SORT = "sort",
+  REVERSE = "reverse",
+  UNIQUE = "unique",
 }
 export enum functionCategories {
   NUMERIC_ARRAY = "numericArray",
@@ -24,6 +27,9 @@ export const functionCategoryMap: Record<functionNames, functionCategories> = {
   [functionNames.AVG]: functionCategories.NUMERIC_ARRAY,
   [functionNames.SUM]: functionCategories.NUMERIC_ARRAY,
   [functionNames.COUNT]: functionCategories.ARRAY,
+  [functionNames.SORT]: functionCategories.ARRAY,
+  [functionNames.REVERSE]: functionCategories.ARRAY,
+  [functionNames.UNIQUE]: functionCategories.ARRAY,
 };
 
 //==================================================================================

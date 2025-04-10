@@ -13,7 +13,7 @@ import { ERROR_MESSAGES } from "src/errors/messages";
 import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
 import { context } from "./context";
 import { ast } from "src/ast/ast";
-import {applyNumericArrayFunction} from "src/functions/apply";
+import {applyArrayFunction, applyNumericArrayFunction} from "src/functions/apply";
 
 //===================================================================================
 
@@ -87,6 +87,9 @@ export class Evaluator {
         switch (category) {
           case "numericArray":
             this.numericArrayFunction(node);
+            break;
+          case "array":
+            this.arrayFunction(node);
             break;
         }
         break;
@@ -393,6 +396,10 @@ export class Evaluator {
 
   //==================================FUNCTIONS=====================================
 
+  /**
+   * Evaluates the numeric array function
+   * @param {ASTNode} node The AST node to evaluate
+   */
   private numericArrayFunction(node: ASTNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
@@ -405,6 +412,32 @@ export class Evaluator {
 
     // Apply the function
     this._current = applyNumericArrayFunction(node, result);
+
+    // Evaluate children if any
+    evaluateChildren(node);
+  }
+
+  /**
+   * Evaluates the array function
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private arrayFunction(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Get the property name
+    const propertyName = getPropertyName(ast.getHighestParent(node));
+
+    // Check if the data is an array
+    if (!Array.isArray(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
+        type: node.type,
+        property: propertyName,
+      });
+    }
+
+    // Apply the function
+    this._current = applyArrayFunction(node, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);

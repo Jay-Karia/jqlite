@@ -5,7 +5,7 @@
 
 "use strict";
 
-//=====================================FUNCTIONS===================================
+//==================================NUMERIC ARRAY=============================
 
 /**
  * Get the maximum number from an array of numbers.
@@ -49,5 +49,44 @@ export function avg(nums: number[]): number {
   }
   return sum(nums) / nums.length;
 }
+
+//=======================================ARRAY=====================================
+
+/**
+ * Get the count of an array.
+ * @param {unknown[]} arr The array to be counted.
+ * @returns {number} The count of the array.
+ */
+export function count(arr: unknown[]): number {
+  return arr.length;
+}
+
+/**
+ * Get the unique values of an array.
+ * @param {unknown[]} arr The array to be filtered.
+ * @returns {unknown[]} The unique values of the array.
+ */
+export function sort(arr: unknown[]): unknown[] {
+  return arr.sort();
+}
+
+/**
+ * Reverse the order of an array.
+ * @param {unknown[]} arr The array to be reversed.
+ * @returns {unknown[]} The reversed array.
+ */
+export function reverse(arr: unknown[]): unknown[] {
+  return arr.reverse();
+}
+
+/**
+ * Get the unique values of an array.
+ * @param {unknown[]} arr The array to be filtered.
+ * @returns {unknown[]} The unique values of the array.
+ */
+export function unique(arr: unknown[]): unknown[] {
+  return Array.from(new Set(arr));
+}
+
 
 //=================================================================================

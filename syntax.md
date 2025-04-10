@@ -72,24 +72,16 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 ```js
 #contains()       // Check substring
 #length()         // Get string length
-#matches()        // Regex matching
+#matches()        // Regex matching (Optional)
 ```
 
-- [ ] **Numeric Functions**
+- [x] **Array Functions**
 
 ```js
-#add()   // Addition
-#sub()   // Subtraction
-#mul()   // Multiplication
-#div()   // Division
-```
-
-- [ ] **Array Functions**
-
-```js
-#first()                     // First element
-#last()                      // Last element
+#sort()                       // Sort array
 #count()                     // Count of elements
+#unique()                    // Unique elements
+#reverse()                  // Reverse array
 ```
 
 
