@@ -14,6 +14,7 @@ import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, ch
 import { context } from "./context";
 import { ast } from "src/ast/ast";
 import {applyArrayFunction, applyNumericArrayFunction} from "src/functions/apply";
+import {checkNumberOfArgs} from "src/functions/arguments";
 
 //===================================================================================
 
@@ -82,6 +83,9 @@ export class Evaluator {
       case "Function": {
         // Get function category
         const category = checkFunction(node.functionName, node.functionCategory);
+
+        // Check function arguments
+        checkNumberOfArgs(node);
 
         // Evaluate the functions based on the category
         switch (category) {

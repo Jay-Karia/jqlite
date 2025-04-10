@@ -31,5 +31,16 @@ export const functionCategoryMap: Record<functionNames, functionCategories> = {
   [functionNames.REVERSE]: functionCategories.ARRAY,
   [functionNames.UNIQUE]: functionCategories.ARRAY,
 };
+export const functionArgsNumber: Record<functionNames, number> = {
+  [functionNames.MIN]: 0,
+  [functionNames.MAX]: 0,
+  [functionNames.AVG]: 0,
+  [functionNames.SUM]: 0,
+  [functionNames.COUNT]: 0,
+  [functionNames.SORT]: 1,
+  [functionNames.REVERSE]: 0,
+  [functionNames.UNIQUE]: 0,
+};
+
 
 //==================================================================================
