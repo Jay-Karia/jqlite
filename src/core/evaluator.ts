@@ -13,7 +13,7 @@ import { ERROR_MESSAGES } from "src/errors/messages";
 import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
 import { context } from "./context";
 import { ast } from "src/ast/ast";
-import {applyArrayFunction, applyNumericArrayFunction} from "src/functions/apply";
+import {applyArrayFunction, applyNumericArrayFunction, applyStringFunction} from "src/functions/apply";
 import {checkNumberOfArgs} from "src/functions/arguments";
 
 //===================================================================================
@@ -94,6 +94,9 @@ export class Evaluator {
             break;
           case "array":
             this.arrayFunction(node);
+            break;
+          case "string":
+            this.stringFunction(node);
             break;
         }
         break;
@@ -450,6 +453,28 @@ export class Evaluator {
 
     // Apply the function
     this._current = applyArrayFunction(node, this._current);
+
+    // Evaluate children if any
+    evaluateChildren(node);
+  }
+
+  private stringFunction(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Get the property name
+    const propertyName = getPropertyName(ast.getHighestParent(node));
+
+    // Check if the data is a string
+    if (typeof this._current !== "string") {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_A_STRING, {
+        type: node.type,
+        property: propertyName,
+      });
+    }
+
+    // Apply the function
+    this._current = applyStringFunction(node, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);

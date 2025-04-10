@@ -1,4 +1,4 @@
-- [x] **Root Selector**
+****- [x] **Root Selector**
 
 ```js
 $ // Root of the JSON document
@@ -67,18 +67,20 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #avg()    // Average of values
 ```
 
-- [ ] **String Functions**
+- [x] **String Functions**
 
 ```js
 #contains()       // Check substring
 #length()         // Get string length
-#matches()        // Regex matching (Optional)
+#substring()      // Get substring
+#upper()          // Convert to uppercase
+#lower()          // Convert to lowercase
 ```
 
 - [x] **Array Functions**
 
 ```js
-#sort()                       // Sort array
+#sort(asc/desc)               // Sort array
 #count()                     // Count of elements
 #unique()                    // Unique elements
 #reverse()                  // Reverse array

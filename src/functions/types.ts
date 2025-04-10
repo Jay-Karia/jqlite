@@ -16,20 +16,34 @@ export enum functionNames {
   SORT = "sort",
   REVERSE = "reverse",
   UNIQUE = "unique",
+  CONTAINS = "contains",
+  LENGTH = "length",
+  SUBSTRING = "substring",
+  UPPER = "upper",
+  LOWER = "lower",
 }
 export enum functionCategories {
   NUMERIC_ARRAY = "numericArray",
   ARRAY = "array",
+  STRING = "string",
 }
 export const functionCategoryMap: Record<functionNames, functionCategories> = {
+  // Numeric Array
   [functionNames.MIN]: functionCategories.NUMERIC_ARRAY,
   [functionNames.MAX]: functionCategories.NUMERIC_ARRAY,
   [functionNames.AVG]: functionCategories.NUMERIC_ARRAY,
   [functionNames.SUM]: functionCategories.NUMERIC_ARRAY,
+  // Array
   [functionNames.COUNT]: functionCategories.ARRAY,
   [functionNames.SORT]: functionCategories.ARRAY,
   [functionNames.REVERSE]: functionCategories.ARRAY,
   [functionNames.UNIQUE]: functionCategories.ARRAY,
+  // String
+  [functionNames.CONTAINS]: functionCategories.STRING,
+  [functionNames.LENGTH]: functionCategories.STRING,
+  [functionNames.SUBSTRING]: functionCategories.STRING,
+  [functionNames.UPPER]: functionCategories.STRING,
+  [functionNames.LOWER]: functionCategories.STRING,
 };
 export const functionArgsNumber: Record<functionNames, number[]> = {
   [functionNames.MIN]: [0],
@@ -40,8 +54,18 @@ export const functionArgsNumber: Record<functionNames, number[]> = {
   [functionNames.SORT]: [0, 1],
   [functionNames.REVERSE]: [0],
   [functionNames.UNIQUE]: [0],
+  [functionNames.CONTAINS]: [1],
+  [functionNames.LENGTH]: [0],
+  [functionNames.SUBSTRING]: [2],
+  [functionNames.UPPER]: [0],
+  [functionNames.LOWER]: [0],
 };
 export type SortArgs = "asc" | "desc";
 export const sortArgs: SortArgs[] = ["asc", "desc"];
+export type SubstringArgs = {
+  start: number;
+  end: number;
+};
+export type substringArgs = [number, number];
 
 //==================================================================================

@@ -308,5 +308,11 @@ export const ERROR_MESSAGES = {
       cause: "The data is an array of non primitives",
       solution: "Make sure the data is an array of primitives",
     } as ErrorParams,
+    NOT_A_STRING: {
+      message: "Not a string",
+      code: "NOT_A_STRING",
+      cause: "The data is not a string",
+      solution: "Make sure the data is a string",
+    }
   },
 };

@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json");
 
-query.run("$.friends[*].hobbies.#sort()");
+query.run("$.me.name.#substring(0, 2)");
 query.print();

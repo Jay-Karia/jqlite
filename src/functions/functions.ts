@@ -5,9 +5,11 @@
 
 "use strict";
 
+import {EvaluatorError} from "src/errors/factory";
 //=====================================IMPORTS===================================
 
-import type { SortArgs } from "./types";
+import type { SortArgs, SubstringArgs } from "./types";
+import {ERROR_MESSAGES} from "src/errors/messages";
 
 //==================================NUMERIC ARRAY=============================
 
@@ -68,6 +70,7 @@ export function count(arr: unknown[]): number {
 /**
  * Get the unique values of an array.
  * @param {unknown[]} arr The array to be filtered.
+ * @param {SortArgs} type The sorting type (asc or desc).
  * @returns {unknown[]} The unique values of the array.
  */
 export function sort(arr: unknown[], type: SortArgs): unknown[] {
@@ -119,6 +122,63 @@ export function reverse(arr: unknown[]): unknown[] {
  */
 export function unique(arr: unknown[]): unknown[] {
   return Array.from(new Set(arr));
+}
+
+//=======================================STRING====================================
+
+/**
+ * Get the length of a string.
+ * @param {string} str The string to be measured.
+ * @returns {number} The length of the string.
+ */
+export function strLength(str: string): number {
+  return str.length;
+}
+
+/**
+ * Get a substring of a string.
+ * @param {string} str The string to be sliced.
+ * @param {SubstringArgs} args The arguments for the substring function.
+ * @returns {string} The substring.
+ */
+export function substring(str: string, args: SubstringArgs): string {
+  const { start, end } = args;
+  if (start < 0 || end < 0 || start > str.length || end > str.length) {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_ARGUMENTS, {
+      start,
+      end,
+      stringLength: str.length,
+    });
+  }
+  return str.slice(start, end);
+}
+
+/**
+ * Check if a string contains another string.
+ * @param {string} str The string to be checked.
+ * @param {string} substring The substring to check for.
+ * @returns {boolean} True if the string contains the substring, false otherwise.
+ */
+export function contains(str: string, substring: string): boolean {
+  return str.includes(substring);
+}
+
+/**
+ * Convert a string to uppercase.
+ * @param {string} str The string to be converted.
+ * @returns {string} The uppercase string.
+ */
+export function upper(str: string): string {
+  return str.toUpperCase();
+}
+
+/**
+ * Convert a string to lowercase.
+ * @param {string} str The string to be converted.
+ * @returns {string} The lowercase string.
+ */
+export function lower(str: string): string {
+  return str.toLowerCase();
 }
 
 //=================================================================================

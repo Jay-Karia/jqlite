@@ -8,10 +8,10 @@
 //=====================================IMPORTS===================================
 
 import type { ASTNode } from "src/ast/types";
-import { avg, max, min, sum, count, sort, unique, reverse } from "./functions";
+import { avg, max, min, sum, count, sort, unique, reverse, contains, substring, upper, lower, strLength } from "./functions";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
-import {checkSortArguments} from "./arguments";
+import {checkContainsArguments, checkSortArguments, checkSubstringArguments} from "./arguments";
 
 //===============================================================================
 
@@ -62,6 +62,29 @@ export function applyArrayFunction(node: ASTNode, data: unknown[]): unknown {
       return reverse(data);
     case "unique":
       return unique(data);
+    default:
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
+        functionName,
+      });
+  }
+}
+
+export function applyStringFunction(node: ASTNode, data: string): unknown {
+  // Get the function name
+  const functionName = node.functionName;
+
+  // Apply the function
+  switch (functionName) {
+    case "contains":
+      return contains(data, checkContainsArguments(node));
+    case "substring":
+      return substring(data, checkSubstringArguments(node));
+    case "length":
+      return strLength(data);
+    case "upper":
+      return upper(data);
+    case "lower":
+      return lower(data);
     default:
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
         functionName,
