@@ -1,4 +1,4 @@
-****- [x] **Root Selector**
+- [x] **Root Selector**
 
 ```js
 $ // Root of the JSON document
