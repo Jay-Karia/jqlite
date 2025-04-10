@@ -7,7 +7,7 @@
 
 //=======================================IMPORTS=================================
 
-import type { FunctionCategory } from "src/ast/types";
+import type {functionCategories} from "src/functions/types";
 
 //=======================================TYPES===================================
 
@@ -24,7 +24,8 @@ export interface TContext {
   omittedKeys: string[];
   sliceType: SliceType;
   isFunction: boolean;
-  functionCategory: FunctionCategory | null;
+  functionCategory: functionCategories | null;
+  functionArgs: string[];
 }
 export type Keys = keyof TContext;
 

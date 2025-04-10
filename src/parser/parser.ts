@@ -10,7 +10,7 @@
 import { TokenType, type Token } from "src/lexer/tokens";
 import type { functionNames } from "../functions/types";
 import { ast } from "src/ast/ast";
-import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
+import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleFunctionArgs, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -212,6 +212,18 @@ export class Parser {
         context.set("isFunction", true);
       }
 
+      //======================================ARGUMENT==========================================
+      else if (token.type === TokenType.ARGUMENT) {
+        // Expectations for the token
+        expectations.argument(index);
+
+        // Check for function
+        const isFunction = context.get("isFunction") ?? false;
+
+        // Handle function arguments
+        if (isFunction) handleFunctionArgs(token);
+      }
+
       //======================================FUNCTION==========================================
       else if (token.type === TokenType.FUNCTION) {
         // Expectations for the token
@@ -226,11 +238,14 @@ export class Parser {
         // Get function category
         const functionCategory = getFunctionCategory(validFunctionName);
 
+        // Get function arguments
+        const functionArgs = context.get("functionArgs") ?? [];
+
         // Get the property node
         const propertyNode = ast.getRecentNode();
 
         // Add the token to the AST with parent as the last property node;
-        ast.createFunctionNode(functionName, functionCategory, propertyNode);
+        ast.createFunctionNode(validFunctionName, functionArgs, functionCategory, propertyNode);
       }
 
       //========================================EOQ=============================================

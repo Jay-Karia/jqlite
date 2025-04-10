@@ -40,6 +40,7 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
   else if (node.type === "MultipleSelect" && node.selectedKeys) obj["selectedKeys"] = node.selectedKeys;
   else if (node.type === "MultipleOmit" && node.omittedKeys) obj["omittedKeys"] = node.omittedKeys;
   else if (node.type === "Function" && node.functionName) obj["functionName"] = node.functionName;
+  else if (node.type === "Function" && node.functionArgs) obj["functionArgs"] = node.functionArgs;
 }
 
 /**

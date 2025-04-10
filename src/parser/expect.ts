@@ -245,4 +245,16 @@ export class Expectations {
     // Expect the next token to be left parenthesis
     expect(this._tokens, index + 1, TokenType.LEFT_PARENTHESIS);
   }
+
+  /**
+   * Expectations for the argument token
+   * @param {number} index The index of the token
+   */
+  public argument(index: number): void {
+    // Expect the previous token to be left parenthesis or comma
+    expectAny(this._tokens, index - 1, [TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
+
+    // Expect the next token to be right parenthesis or comma
+    expectAny(this._tokens, index + 1, [TokenType.RIGHT_PARENTHESIS, TokenType.COMMA]);
+  }
 }

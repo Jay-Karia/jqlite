@@ -5,10 +5,10 @@
 
 "use strict";
 
-import {functionCategories, functionNames} from "src/functions/types";
 //======================================IMPORTS====================================
 
 import type { ASTNode } from "./types";
+import type {functionCategories, functionNames} from "src/functions/types";
 
 //========================================NODES======================================
 
@@ -51,6 +51,7 @@ export interface FunctionNode extends ASTNode {
   type: "Function";
   functionName: functionNames;
   functionCategory: functionCategories;
+  functionArgs: string[]
 }
 
 //===================================================================================

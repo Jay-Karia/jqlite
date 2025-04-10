@@ -32,6 +32,7 @@ export class Context {
       sliceType: null,
       isFunction: false,
       functionCategory: null,
+      functionArgs: [],
     };
   }
 

@@ -181,6 +181,19 @@ export function handleMultipleOmit(token: Token): void {
 }
 
 /**
+ * Handles the function arguments
+ * @param {Token} token The token to handle
+ */
+export function handleFunctionArgs(token: Token): void {
+  // Get the function args from context
+  const functionArgs = context.get("functionArgs") ?? [];
+
+  // Add the token value to the function args
+  functionArgs.push(token.value);
+  context.set("functionArgs", functionArgs);
+}
+
+/**
  * Checks if the function name is valid
  * @param {string} functionName The function name to check
  * @returns {functionNames} The function name

@@ -24,6 +24,7 @@ export interface ASTNode {
   omittedKeys?: string[];
   functionName?: functionNames;
   functionCategory?: functionCategories;
+  functionArgs?: string[];
 }
 
 //=================================================================================
