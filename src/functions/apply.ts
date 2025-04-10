@@ -69,6 +69,12 @@ export function applyArrayFunction(node: ASTNode, data: unknown[]): unknown {
   }
 }
 
+/**
+ * Applies a function to the data based on the AST node.
+ * @param {ASTNode} node The AST node containing the function to apply
+ * @param {string} data The data to which the function will be applied
+ * @returns {unknown} The result of applying the function
+ */
 export function applyStringFunction(node: ASTNode, data: string): unknown {
   // Get the function name
   const functionName = node.functionName;

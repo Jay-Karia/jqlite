@@ -56,6 +56,7 @@ export function checkSortArguments(node: ASTNode): SortArgs {
   const functionArgs = node.functionArgs;
   let args: SortArgs = "asc";
 
+  // Check if the function arguments are valid
   if (functionArgs && functionArgs.length > 0) {
     if (functionArgs[0] === "asc" || functionArgs[0] === "desc") {
       args = functionArgs[0];
@@ -81,8 +82,7 @@ export function checkContainsArguments(node: ASTNode): string {
   // Get the function arguments
   const functionArgs = node.functionArgs;
 
-  console.log(node);
-
+  // Check if the function arguments are valid
   if (functionArgs && functionArgs.length > 0) {
     return functionArgs[0];
   } else {
@@ -103,6 +103,7 @@ export function checkSubstringArguments(node: ASTNode): SubstringArgs {
   // Get the function arguments
   const functionArgs = node.functionArgs;
 
+  // Check if the function arguments are valid
   if (!functionArgs || functionArgs.length === 0) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_ARGUMENTS, {
       functionName: node.functionName,
@@ -111,7 +112,7 @@ export function checkSubstringArguments(node: ASTNode): SubstringArgs {
     });
   }
 
-  // Parse start index (required)
+  // Get the start index
   const start = parseInt(functionArgs[0], 10);
   if (isNaN(start)) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_ARGUMENTS, {
@@ -122,7 +123,7 @@ export function checkSubstringArguments(node: ASTNode): SubstringArgs {
     });
   }
 
-  // Parse end index (required according to type)
+  // Check for end index
   if (functionArgs.length <= 1) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_ARGUMENTS, {
       functionName: node.functionName,
@@ -132,6 +133,7 @@ export function checkSubstringArguments(node: ASTNode): SubstringArgs {
     });
   }
 
+  // Get the end index
   const end = parseInt(functionArgs[1], 10);
   if (isNaN(end)) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_ARGUMENTS, {
