@@ -168,6 +168,10 @@ export class Parser {
         // Expectations for the token
         expectations.comma(index);
 
+        // Check for function
+        const ifFunction = context.get("isFunction") ?? false;
+        if (ifFunction) continue;
+
         // Throw an error if multiple select/omit is off
         checkMultipleSelectAndOmit(token, index, ERROR_MESSAGES.PARSER.MULTIPLE_SELECT_COMMA);
       }

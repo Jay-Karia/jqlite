@@ -161,8 +161,8 @@ export class Expectations {
 
     // Expectations if function is called
     if (isFunction) {
-      // Expect the next token to be right parenthesis
-      expect(this._tokens, index + 1, TokenType.RIGHT_PARENTHESIS);
+      // Expect the next token to be right parenthesis or argument
+      expectAny(this._tokens, index + 1, [TokenType.RIGHT_PARENTHESIS, TokenType.ARGUMENT]);
 
       // Expect the previous token to be function
       expect(this._tokens, index - 1, TokenType.FUNCTION);
@@ -188,14 +188,14 @@ export class Expectations {
 
     // Expectations if function is called
     if (isFunction) {
-      // Expect the previous token to be left parenthesis
-      expect(this._tokens, index - 1, TokenType.LEFT_PARENTHESIS);
+      // Expect the previous token to be left parenthesis or argument
+      expectAny(this._tokens, index - 1, [TokenType.LEFT_PARENTHESIS, TokenType.ARGUMENT]);
     }
 
     // Expectations id function is not called
     else {
-    // Expect the previous token to be property
-    expect(this._tokens, index - 1, TokenType.PROPERTY);
+      // Expect the previous token to be property
+      expect(this._tokens, index - 1, TokenType.PROPERTY);
     }
   }
 
@@ -204,11 +204,22 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public comma(index: number): void {
-    // Expect the previous token to be property
-    expect(this._tokens, index - 1, TokenType.PROPERTY);
+    // Check for function
+    const isFunction = context.get("isFunction") ?? false;
 
-    // Expect the next token to be property
-    expect(this._tokens, index + 1, TokenType.PROPERTY);
+    if (isFunction) {
+      // Expect the previous token to be argument
+      expect(this._tokens, index - 1, TokenType.ARGUMENT);
+
+      // Expect the next token to be argument
+      expect(this._tokens, index + 1, TokenType.ARGUMENT);
+    } else {
+      // Expect the previous token to be property
+      expect(this._tokens, index - 1, TokenType.PROPERTY);
+
+      // Expect the next token to be property
+      expect(this._tokens, index + 1, TokenType.PROPERTY);
+    }
   }
 
   /**

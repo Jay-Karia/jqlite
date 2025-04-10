@@ -36,9 +36,9 @@ export class QueryRunner {
 
     // Parse the tokens
     const tokens: Token[] = lexer.tokenize(query);
-    // parser.parse(tokens);
+    parser.parse(tokens);
 
-    console.log(tokens);
+    console.log(ast.preOrder());
 
     // // Get the root node
     // const root = ast.getRootNode();
