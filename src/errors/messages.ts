@@ -296,5 +296,17 @@ export const ERROR_MESSAGES = {
       cause: "The number of arguments is not valid",
       solution: "Make sure the number of arguments is valid",
     } as ErrorParams,
+    INVALID_ARGUMENTS: {
+      message: "Invalid arguments",
+      code: "INVALID_ARGUMENTS",
+      cause: "The arguments are not valid",
+      solution: "Make sure the arguments are valid",
+    } as ErrorParams,
+    ERR_ARRAY_OF_NON_PRIMITIVES: {
+      message: "Error occurred while evaluating array of non primitives",
+      code: "ERR_ARRAY_OF_NON_PRIMITIVES",
+      cause: "The data is an array of non primitives",
+      solution: "Make sure the data is an array of primitives",
+    } as ErrorParams,
   },
 };

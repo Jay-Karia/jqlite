@@ -11,6 +11,7 @@ import type { ASTNode } from "src/ast/types";
 import { avg, max, min, sum, count, sort, unique, reverse } from "./functions";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
+import {checkSortArguments} from "./arguments";
 
 //===============================================================================
 
@@ -56,7 +57,7 @@ export function applyArrayFunction(node: ASTNode, data: unknown[]): unknown {
     case "count":
       return count(data);
     case "sort":
-      return sort(data);
+      return sort(data, checkSortArguments(node));
     case "reverse":
       return reverse(data);
     case "unique":

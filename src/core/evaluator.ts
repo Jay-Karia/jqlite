@@ -440,6 +440,14 @@ export class Evaluator {
       });
     }
 
+    // Check if the data is an array of non primitives
+    if (containsObjects(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_ARRAY_OF_NON_PRIMITIVES, {
+        type: node.type,
+        property: propertyName,
+      });
+    }
+
     // Apply the function
     this._current = applyArrayFunction(node, this._current);
 

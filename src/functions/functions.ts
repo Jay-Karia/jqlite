@@ -5,6 +5,10 @@
 
 "use strict";
 
+//=====================================IMPORTS===================================
+
+import type { SortArgs } from "./types";
+
 //==================================NUMERIC ARRAY=============================
 
 /**
@@ -66,8 +70,37 @@ export function count(arr: unknown[]): number {
  * @param {unknown[]} arr The array to be filtered.
  * @returns {unknown[]} The unique values of the array.
  */
-export function sort(arr: unknown[]): unknown[] {
-  return arr.sort();
+export function sort(arr: unknown[], type: SortArgs): unknown[] {
+  if (!Array.isArray(arr) || arr.length === 0) {
+    return arr;
+  }
+
+  // Create a copy to avoid mutating the original array
+  return [...arr].sort((a, b) => {
+    let compareResult: number;
+
+    // Both null/undefined
+    if ((a == null) && (b == null)) return 0;
+
+    // One is null/undefined
+    if (a == null) return -1;
+    if (b == null) return 1;
+
+    // Compare based on types
+    if (typeof a === 'number' && typeof b === 'number') {
+      compareResult = a - b;
+    } else if (typeof a === 'string' && typeof b === 'string') {
+      compareResult = a.localeCompare(b);
+    } else if (typeof a === 'boolean' && typeof b === 'boolean') {
+      compareResult = a === b ? 0 : a ? 1 : -1;
+    } else {
+      // Convert to string for comparison when types don't match
+      compareResult = String(a).localeCompare(String(b));
+    }
+
+    // Apply sort direction
+    return type === 'asc' ? compareResult : -compareResult;
+  });
 }
 
 /**
@@ -87,6 +120,5 @@ export function reverse(arr: unknown[]): unknown[] {
 export function unique(arr: unknown[]): unknown[] {
   return Array.from(new Set(arr));
 }
-
 
 //=================================================================================
