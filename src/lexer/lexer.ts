@@ -84,6 +84,8 @@ export class Lexer {
     this.isFallback = false;
     this.ignoreWhitespace = false;
     this.isDeclaration = false;
+    this.isFunction = false;
+    this.functionDeclared = false;
 
     return tokens;
   }
@@ -121,13 +123,14 @@ export class Lexer {
     }
 
     // Read the whole word or number
-    if ((isAlpha(this.character) || isDigit(this.character)) && !this.isDeclaration) {
+    if ((isAlpha(this.character) || isDigit(this.character))) {
       const word = readAlphanumeric(this.input, this.position);
       this.character = word;
       this.position += word.length - 1;
 
       // Check the token type
       if (this.isFunction) tokenType = TokenType.ARGUMENT;
+      else if (this.functionDeclared) tokenType = TokenType.FUNCTION;
       else tokenType = TokenType.PROPERTY;
     }
 
