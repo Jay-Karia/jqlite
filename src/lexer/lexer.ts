@@ -8,16 +8,7 @@
 //======================================IMPORTS====================================
 
 import { type Token, TokenType } from "./tokens";
-import {
-  countSkippable,
-  getEoqToken,
-  getTokenType,
-  hasNextToken,
-  isAlpha,
-  isDigit,
-  readAlphanumeric,
-  readFallbackValue,
-} from "./helpers";
+import { countSkippable, getEoqToken, getTokenType, hasNextToken, isAlpha, isDigit, readAlphanumeric, readFallbackValue } from "./helpers";
 
 //=================================================================================
 
@@ -35,6 +26,8 @@ export class Lexer {
   private isFallback: boolean;
   private ignoreWhitespace: boolean;
   private isDeclaration: boolean;
+  private isFunction: boolean;
+  private functionDeclared: boolean;
 
   //====================================CONSTRUCTOR==================================
 
@@ -49,6 +42,8 @@ export class Lexer {
     this.isFallback = false;
     this.ignoreWhitespace = false;
     this.isDeclaration = false;
+    this.isFunction = false;
+    this.functionDeclared = false;
   }
 
   //====================================TOKENIZATION==================================
@@ -117,6 +112,7 @@ export class Lexer {
     if (this.isDeclaration) {
       tokenType = TokenType.FUNCTION;
       this.isDeclaration = false;
+      this.functionDeclared = true;
     }
 
     // Set the function declaration
@@ -126,9 +122,13 @@ export class Lexer {
 
     // Read the whole word or number
     if ((isAlpha(this.character) || isDigit(this.character)) && !this.isDeclaration) {
-      const word = readAlphanumeric(this.character, this.input, this.position);
+      const word = readAlphanumeric(this.input, this.position);
       this.character = word;
       this.position += word.length - 1;
+
+      // Check the token type
+      if (this.isFunction) tokenType = TokenType.ARGUMENT;
+      else tokenType = TokenType.PROPERTY;
     }
 
     // Read the fallback value
@@ -151,11 +151,14 @@ export class Lexer {
     // Ignore whitespace if left parenthesis is found
     if (this.character === "(") {
       this.ignoreWhitespace = true;
+      if (this.functionDeclared) this.isFunction = true;
     }
 
     // Stop ignoring whitespace if right parenthesis is found
     if (this.character === ")") {
       this.ignoreWhitespace = false;
+      this.isFunction = false;
+      this.functionDeclared = false;
     }
 
     // Get the token type and return the token.

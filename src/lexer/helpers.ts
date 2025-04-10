@@ -65,6 +65,15 @@ export function isSkippable(char: string): boolean {
   return /\s/.test(char);
 }
 
+/**
+ * Check if the current character is a valid identifier.
+ * @param {string} char The current character in the input string.
+ * @returns {boolean} Whether the current character is a valid identifier.
+ */
+export function isAlphanumeric(char: string): boolean {
+  return isAlpha(char) || isDigit(char);
+}
+
 //====================================READERS=====================================
 
 /**
@@ -104,29 +113,30 @@ export function readNumber(input: string, position: number): string {
  * @param {string} position The current position of the character
  * @returns {string} The whole word.
  */
-export function readAlphanumeric(character: string, input: string, position: number): string {
-  let word = "";
+export function readAlphanumeric(input: string, position: number): string {
+  let identifier = "";
 
-  // Read the whole word
-  if (isAlpha(character)) {
-    while (hasNextToken(input, position) && isAlpha(input[position])) {
-      word += input[position];
-      position++;
-    }
+  // Continue reading as long as we have valid identifier characters
+  while (
+    hasNextToken(input, position) &&
+    (isAlpha(input[position]) ||
+     isDigit(input[position]) ||
+     input[position] === '_'  || // Allow underscore in identifiers
+     input[position] === '-'  // Allow hyphen in identifiers
+    )
+  ) {
+    identifier += input[position];
+    position++;
   }
 
-  // Read the whole number
-  if (isDigit(character)) {
-    while (hasNextToken(input, position) && isDigit(input[position])) {
-      word += input[position];
-      position++;
-    }
-  }
-  return word;
+  return identifier;
 }
 
 /**
- * Reads the remaining characters after fallback mark
+ * Read the fallback value from the input string.
+ * @param {string} input The input string.
+ * @param {number} position The position of the character.
+ * @returns The fallback value.
  */
 export function readFallbackValue(input: string, position: number): string {
   let word = "";
@@ -176,8 +186,7 @@ export function getTokenType(char: string): TokenType {
     case "\n":
       return TokenType.WHITESPACE;
     default:
-      if (isAlpha(char)) return TokenType.PROPERTY;
-      else if (isDigit(char)) return TokenType.NUMBER;
+      if (isDigit(char)) return TokenType.NUMBER;
       else return TokenType.UNKNOWN;
   }
 }

@@ -24,6 +24,7 @@ export enum TokenType {
   RIGHT_PARENTHESIS = "RightParenthesis", // )
   DECLARATION = "Declaration", // #
   FUNCTION = "Function", // #function
+  ARGUMENT = "Argument", // #function(arg1, arg2)
   WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token
