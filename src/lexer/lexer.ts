@@ -131,6 +131,7 @@ export class Lexer {
       // Check the token type
       if (this.isFunction) tokenType = TokenType.ARGUMENT;
       else if (this.functionDeclared) tokenType = TokenType.FUNCTION;
+      else if (isDigit(this.character)) tokenType = TokenType.NUMBER;
       else tokenType = TokenType.PROPERTY;
     }
 

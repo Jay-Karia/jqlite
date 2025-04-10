@@ -186,8 +186,7 @@ export function getTokenType(char: string): TokenType {
     case "\n":
       return TokenType.WHITESPACE;
     default:
-      if (isDigit(char)) return TokenType.NUMBER;
-      else return TokenType.UNKNOWN;
+      return TokenType.UNKNOWN;
   }
 }
 
