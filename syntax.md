@@ -87,15 +87,19 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 ```
 
 
-- [ ] **Condition Filters**
+- [ ] **Array Conditions**
 
 ```js
-// Single condition
-$.users[?(@.age > 18)]
+$.users[?(@.age > 18)] // Returns the array OR like wildcard (configurable)
+$.users[?(@.age > 18 && @.country == IN)].name // Returns the names of users who fulfills the condition and if the return type is set to wildcard like.
+```
 
-// Multiple conditions
-$.users[?(@.age > 18 && @.country == "USA")]
-$.users[?(@.age > 18 || @.isAdmin == true)]
+---
+- [ ] **Object Conditions**
+
+```js
+$.me.?(@.age > 18).name // Returns the name if the condition is true
+$.me.?(@.age > 18 && @.country == IN) // Returns the `me` object if the condition is true
 ```
 
 ---
