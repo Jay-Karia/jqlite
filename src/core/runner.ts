@@ -82,8 +82,7 @@ export class QueryRunner {
    * @returns {string} The result of the query as a string
    */
   public print(): void {
-    if (this._result) console.log(this._result);
-    else console.log("No result found. Please run the query first.");
+    console.log(this._result);
   }
 }
 
