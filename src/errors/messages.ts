@@ -313,6 +313,12 @@ export const ERROR_MESSAGES = {
       code: "NOT_A_STRING",
       cause: "The data is not a string",
       solution: "Make sure the data is a string",
-    }
+    } as ErrorParams,
+    NO_QUOTES: {
+      message: "No quotes",
+      code: "NO_QUOTES",
+      cause: "The string is not quoted",
+      solution: "Make sure the string is quoted",
+    } as ErrorParams,
   },
 };

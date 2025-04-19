@@ -71,7 +71,7 @@ export function isSkippable(char: string): boolean {
  * @returns {boolean} Whether the current character is a valid identifier.
  */
 export function isAlphanumeric(char: string): boolean {
-  return isAlpha(char) || isDigit(char);
+  return isAlpha(char) || isDigit(char) || char === "_" || char === "-" || char === "'" || char === '"';
 }
 
 //====================================READERS=====================================
@@ -122,7 +122,9 @@ export function readAlphanumeric(input: string, position: number): string {
     (isAlpha(input[position]) ||
      isDigit(input[position]) ||
      input[position] === '_'  || // Allow underscore in identifiers
-     input[position] === '-'  // Allow hyphen in identifiers
+     input[position] === '-'  || // Allow hyphen in identifiers
+     input[position] === '\'' || // Allow single quote in identifiers
+     input[position] === '"'     // Allow double quote in identifiers
     )
   ) {
     identifier += input[position];

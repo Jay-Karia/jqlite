@@ -160,6 +160,15 @@ export function substring(str: string, args: SubstringArgs): string {
  * @returns {boolean} True if the string contains the substring, false otherwise.
  */
 export function contains(str: string, substring: string): boolean {
+  // Check for single and double quotes
+  if ((substring.startsWith("'") && substring.endsWith("'")) || (substring.startsWith('"') && substring.endsWith('"'))) {
+    substring = substring.slice(1, -1);
+  } else {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_QUOTES, {
+      propertyValue: str,
+      compareValue: substring,
+    });
+  }
   return str.includes(substring);
 }
 
@@ -188,6 +197,15 @@ export function lower(str: string): string {
  * @returns {boolean} True if the strings are equal, false otherwise.
  */
 export function equals(str1: string, str2: string): boolean {
+  // Check for single and double quotes
+  if ((str2.startsWith("'") && str2.endsWith("'")) || (str2.startsWith('"') && str2.endsWith('"'))) {
+    str2 = str2.slice(1, -1);
+  } else {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_QUOTES, {
+      propertyValue: str1,
+      compareValue: str2,
+    });
+  }
   return str1 === str2;
 }
 

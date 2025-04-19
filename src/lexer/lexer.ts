@@ -8,7 +8,7 @@
 //======================================IMPORTS====================================
 
 import { type Token, TokenType } from "./tokens";
-import { countSkippable, getEoqToken, getTokenType, hasNextToken, isAlpha, isDigit, readAlphanumeric, readFallbackValue } from "./helpers";
+import { countSkippable, getEoqToken, getTokenType, hasNextToken, isAlphanumeric, isDigit, readAlphanumeric, readFallbackValue } from "./helpers";
 
 //=================================================================================
 
@@ -123,7 +123,7 @@ export class Lexer {
     }
 
     // Read the whole word or number
-    if ((isAlpha(this.character) || isDigit(this.character))) {
+    if (isAlphanumeric(this.character)) {
       const word = readAlphanumeric(this.input, this.position);
       this.character = word;
       this.position += word.length - 1;
