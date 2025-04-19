@@ -21,6 +21,7 @@ export enum functionNames {
   SUBSTRING = "substring",
   UPPER = "upper",
   LOWER = "lower",
+  EQUALS = "equals",
 }
 export enum functionCategories {
   NUMERIC_ARRAY = "numericArray",
@@ -44,6 +45,7 @@ export const functionCategoryMap: Record<functionNames, functionCategories> = {
   [functionNames.SUBSTRING]: functionCategories.STRING,
   [functionNames.UPPER]: functionCategories.STRING,
   [functionNames.LOWER]: functionCategories.STRING,
+  [functionNames.EQUALS]: functionCategories.STRING,
 };
 export const functionArgsNumber: Record<functionNames, number[]> = {
   [functionNames.MIN]: [0],
@@ -59,6 +61,7 @@ export const functionArgsNumber: Record<functionNames, number[]> = {
   [functionNames.SUBSTRING]: [2],
   [functionNames.UPPER]: [0],
   [functionNames.LOWER]: [0],
+  [functionNames.EQUALS]: [1],
 };
 export type SortArgs = "asc" | "desc";
 export const sortArgs: SortArgs[] = ["asc", "desc"];

@@ -8,10 +8,10 @@
 //=====================================IMPORTS===================================
 
 import type { ASTNode } from "src/ast/types";
-import { avg, max, min, sum, count, sort, unique, reverse, contains, substring, upper, lower, strLength } from "./functions";
+import { avg, max, min, sum, count, sort, unique, reverse, contains, substring, upper, lower, strLength, equals } from "./functions";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
-import {checkContainsArguments, checkSortArguments, checkSubstringArguments} from "./arguments";
+import {checkContainsArguments, checkEqualsArguments, checkSortArguments, checkSubstringArguments} from "./arguments";
 
 //===============================================================================
 
@@ -91,6 +91,8 @@ export function applyStringFunction(node: ASTNode, data: string): unknown {
       return upper(data);
     case "lower":
       return lower(data);
+    case "equals":
+      return equals(data, checkEqualsArguments(node));
     default:
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
         functionName,

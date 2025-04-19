@@ -181,4 +181,14 @@ export function lower(str: string): string {
   return str.toLowerCase();
 }
 
+/**
+ * Check if two strings are equal.
+ * @param {string} str1 The first string.
+ * @param {string} str2 The second string.
+ * @returns {boolean} True if the strings are equal, false otherwise.
+ */
+export function equals(str1: string, str2: string): boolean {
+  return str1 === str2;
+}
+
 //=================================================================================

@@ -146,3 +146,25 @@ export function checkSubstringArguments(node: ASTNode): SubstringArgs {
 
   return { start, end };
 }
+
+/**
+ * Checks the arguments for the equals function based on the AST node.
+ * @param {ASTNode} node The AST node containing the function to check
+ * @returns {string} The argument to compare with
+ * @throws {EvaluatorError} If the arguments are incorrect
+ */
+export function checkEqualsArguments(node: ASTNode): string {
+  // Get the function arguments
+  const functionArgs = node.functionArgs;
+
+  // Check if the function arguments are valid
+  if (functionArgs && functionArgs.length > 0) {
+    return functionArgs[0];
+  } else {
+    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_ARGUMENTS, {
+      functionName: node.functionName,
+      type: node.type,
+      arguments: functionArgs,
+    });
+  }
+}
