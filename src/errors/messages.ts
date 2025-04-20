@@ -318,7 +318,7 @@ export const ERROR_MESSAGES = {
       message: "No quotes",
       code: "NO_QUOTES",
       cause: "The string is not quoted",
-      solution: "Make sure the string is quoted",
+      solution: "Make sure the string is quoted or change the config option: quotedArguments to false",
     } as ErrorParams,
   },
 };

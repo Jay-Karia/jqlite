@@ -11,6 +11,7 @@ import type { ASTNode } from "src/ast/types";
 import { functionArgsNumber, sortArgs, type SubstringArgs, type SortArgs } from "./types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
+import {configStore} from "src/config/store";
 
 //===============================================================================
 
@@ -166,5 +167,30 @@ export function checkEqualsArguments(node: ASTNode): string {
       type: node.type,
       arguments: functionArgs,
     });
+  }
+}
+
+/**
+ * Checks if a string is enclosed in quotes and removes them.
+ * @param {string} str The string to be checked
+ * @returns {string} The string without quotes
+ */
+export function checkQuotes(str: string): string {
+  // Check for single and double quotes
+  if ((str.startsWith("'") && str.endsWith("'")) || (str.startsWith('"') && str.endsWith('"'))) {
+    return str.slice(1, -1);
+  } else {
+    // Check for the config option
+    const quotedArguments = configStore.get().quotedArguments;
+
+    // If the config option is set to true, throw an error
+    if (quotedArguments) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NO_QUOTES, {
+        propertyValue: str,
+        quotedArguments
+      });
+    }
+
+    return str;
   }
 }

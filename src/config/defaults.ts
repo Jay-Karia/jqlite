@@ -16,6 +16,7 @@ export const DEFAULT_CONFIG: ConfigType = {
   loadFile: null,
   fetchUrl: null,
   fallback: null,
+  quotedArguments: true,
 };
 
 //=================================================================================
