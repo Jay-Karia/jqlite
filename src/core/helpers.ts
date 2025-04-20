@@ -184,7 +184,8 @@ export function checkSliceRange(sliceRange: SliceRange | undefined, arrayLength:
   if (!sliceRange.start) sliceRange.start = 0;
   if (!sliceRange.end) sliceRange.end = arrayLength;
 
-  if (sliceRange.start < 0 || sliceRange.end > arrayLength) {
+  // Ignoring negative values
+  if (sliceRange.start > arrayLength || sliceRange.end > arrayLength) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_SLICE_RANGE, {
       sliceRange,
       arrayLength,

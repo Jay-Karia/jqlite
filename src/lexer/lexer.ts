@@ -122,6 +122,15 @@ export class Lexer {
       this.isDeclaration = true;
     }
 
+    // Negative numbers
+    if (this.character === "-") {
+      if (isDigit(this.peek())) {
+        this.character = `-${this.peek()}`;
+        this.shift();
+        tokenType = TokenType.NUMBER;
+      }
+    }
+
     // Read the whole word or number
     if (isAlphanumeric(this.character)) {
       const word = readAlphanumeric(this.input, this.position);

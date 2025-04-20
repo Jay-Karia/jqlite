@@ -2,7 +2,7 @@
 
 import { config, data, query } from "./src/index";
 
-data.load("./data/sample.json");
+data.load("./data/sample.json")
 
-query.run("$.friends[*].name[0].#upper()");
+query.run("$.animals[:-2]")
 query.print();
