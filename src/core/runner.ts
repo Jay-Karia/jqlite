@@ -72,7 +72,7 @@ export class QueryRunner {
    * @description Returns the result of the query
    * @returns {unknown} The result of the query
    */
-  public result(): unknown {
+  get result(): unknown {
     return this._result;
   }
 
@@ -83,6 +83,31 @@ export class QueryRunner {
    */
   public print(): void {
     console.log(this._result);
+  }
+
+  /**
+   * Validate the query
+   * @description Validates the query and returns true if valid, false otherwise
+   * @param {string} query The query to validate
+   * @returns {boolean} True if the query is valid, false otherwise
+   */
+  public validate(query: string): boolean {
+    // Remove leading and trailing white spaces
+    query = query.trim();
+
+    // Parse the tokens
+    const tokens: Token[] = lexer.tokenize(query);
+    parser.parse(tokens);
+
+    // Get the root node
+    const root = ast.getRootNode();
+    if (!root) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
+        root,
+      });
+    }
+
+    return true;
   }
 }
 
