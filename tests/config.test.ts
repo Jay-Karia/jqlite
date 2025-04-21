@@ -48,7 +48,6 @@ describe("ConfigManager", () => {
     const newConfig = {
       loadFile: "./test.json",
       fetchUrl: "https://example.com/test.json",
-      createIfMissing: false,
     };
 
     config.set(newConfig);
@@ -61,7 +60,6 @@ describe("ConfigManager", () => {
     const newConfig = {
       loadFile: "./test.json",
       fetchUrl: "https://example.com/test.json",
-      createIfMissing: false,
     };
 
     config.set(newConfig);
@@ -76,7 +74,8 @@ describe("ConfigManager", () => {
     const newConfig = {
       loadFile: "./test.json",
       fetchUrl: "https://example.com/test.json",
-      createIfMissing: false,
+      quotedArguments: true,
+      fallback: "no data",
     };
 
     config.set(newConfig);
@@ -93,10 +92,11 @@ describe("ConfigManager", () => {
   });
 
   test("load()", () => {
-    // Creating a new config file
     const newConfigData = {
       fetchUrl: "https://example.com/test.json",
     };
+
+    // Creating a new config file
     const configFilePath = "./tests/test2.json";
     writeFileSync(configFilePath, JSON.stringify(newConfigData, null, 2));
 
