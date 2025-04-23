@@ -38,7 +38,7 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
-    // Get the root node
+    // Check the root node
     const root = ast.getRootNode();
     if (!root) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
@@ -92,14 +92,11 @@ export class QueryRunner {
    * @returns {boolean} True if the query is valid, false otherwise
    */
   public validate(query: string): boolean {
-    // Remove leading and trailing white spaces
-    query = query.trim();
-
     // Parse the tokens
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
-    // Get the root node
+    // Check the root node
     const root = ast.getRootNode();
     if (!root) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {

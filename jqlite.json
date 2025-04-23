@@ -1,5 +1,0 @@
-{
-  "fallback": "not found",
-  "loadFile": "./data.test.json",
-  "quotedArguments": false
-}
