@@ -5,7 +5,7 @@
 </div>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.0.0-green?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-0.0.1-green?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT">
   <img src="https://img.shields.io/codecov/c/github/Jay-Karia/jqlite?style=flat-square"alt="Test Coverage">
 </p>

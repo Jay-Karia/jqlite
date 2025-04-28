@@ -1,6 +1,6 @@
 {
   "name": "@jqlite/core",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "The core engine of the query language",
   "packageManager": "pnpm@10.8.0",
   "main": "dist/index.js",
@@ -8,8 +8,7 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE",
-    "package.json"
+    "LICENSE"
   ],
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist --format=esm --minify",
