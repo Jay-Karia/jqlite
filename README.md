@@ -34,4 +34,4 @@
 - **Functions**
 - **Comparison Operators**
 - **Conditions**
-- **Configurable*
+- **Configurable**
