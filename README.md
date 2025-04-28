@@ -24,14 +24,14 @@
 
 ### 🌟 Features
 
-- **Basic query selection**: Select keys and index array values using dot notation and brackets.
-- **Fallback Mechanism**: If a key is not found, it will return a custom value.
-- **Wildcard support**: Select all keys from an array.
-- **Array Slices**: Select a range of values from an array.
-- **Multiple Key Selection**: Select multiple keys from an object.
-- **Multiple Key Omission**: Omit multiple keys from an object.
-- **Single Key Omission**: Omit a single key from an object.
-- **Functions**: Built-in functions for different data types.
-- **Comparison Operators**: Support for comparison operators like `==`, `!=`, `>`, `<`, `>=`, and `<=`.
-- **Conditions**: Support for conditional filtering of an array and objects.
-- **Configurable**: Customizable syntax features to suit your needs.
+- **Basic query selection**
+- **Fallback Mechanism**
+- **Wildcard support**
+- **Array Slices**
+- **Multiple Key Selection**
+- **Multiple Key Omission**
+- **Single Key Omission**
+- **Functions**
+- **Comparison Operators**
+- **Conditions**
+- **Configurable*
