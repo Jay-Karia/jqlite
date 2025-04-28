@@ -35,3 +35,40 @@
 - **Comparison Operators**
 - **Conditions**
 - **Configurable**
+
+### 📦 Installation
+
+**npm**
+```sh
+npm install @jqlite/core
+```
+
+**yarn**
+```sh
+yarn add @jqlite/core
+```
+
+**pnpm**
+```sh
+pnpm add @jqlite/core
+```
+
+### 🚀 Getting Started
+
+```js
+import { config, data, query } from '@jqlite/core';
+
+// Load the data from a JSON file
+data.load("./data.json");
+
+// Override the default config
+config.set({
+  fallback: "No data found!"
+});
+
+// Run the query
+query.run("$.friends[*].(name, age)", (result) => {
+  console.log(result);
+});
+
+```
