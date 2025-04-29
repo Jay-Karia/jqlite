@@ -32,24 +32,16 @@
 - **Multiple Key Omission**
 - **Single Key Omission**
 - **Functions**
-- **Comparison Operators**
-- **Conditions**
 - **Configurable**
 
 ### 📦 Installation
 
-**npm**
 ```sh
+# npm
 npm install @jqlite/core
-```
-
-**yarn**
-```sh
+# yarn
 yarn add @jqlite/core
-```
-
-**pnpm**
-```sh
+# pnpm
 pnpm add @jqlite/core
 ```
 
@@ -71,4 +63,27 @@ query.run("$.friends[*].(name, age)", (result) => {
   console.log(result);
 });
 
+```
+
+### 📌 Examples
+
+```js
+// Basic Selection
+$.friends[0].name
+// Fallback
+$.friends[0].favorites.game ?? "No favorite game"
+// Wildcard
+$.friends[*].name
+// Array Slices
+$.friends[0:2].name
+// Multiple Key Selection
+$.friends[0].(name, age)
+// Multiple Key Omission
+$.friends[0].!(name, age)
+// Single Key Omission
+$.friends[0].!name
+// Functions
+$.friends[0].name.#upper()
+$.friends[*].age.#avg()
+$.friends[*].hobbies.#length()
 ```
