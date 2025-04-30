@@ -174,6 +174,28 @@ export class Lexer {
       this.functionDeclared = false;
     }
 
+    // Check for comparison operators
+    if (this.character === ">" && this.peek() === "=") {
+      this.character = ">=";
+      this.shift();
+      tokenType = TokenType.GREATER_THAN_EQUAL;
+    }
+    else if (this.character === "<" && this.peek() === "=") {
+      this.character = "<=";
+      this.shift();
+      tokenType = TokenType.LESS_THAN_EQUAL;
+    }
+    else if (this.character === "=" && this.peek() === "=") {
+      this.character = "==";
+      this.shift();
+      tokenType = TokenType.EQUAL;
+    }
+    else if (this.character === "!" && this.peek() === "=") {
+      this.character = "!=";
+      this.shift();
+      tokenType = TokenType.NOT_EQUAL;
+    }
+
     // Get the token type and return the token.
     if (tokenType === TokenType.UNKNOWN) tokenType = getTokenType(this.character);
     const token: Token = {

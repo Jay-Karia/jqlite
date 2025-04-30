@@ -183,6 +183,10 @@ export function getTokenType(char: string): TokenType {
       return TokenType.RIGHT_PARENTHESIS;
     case "#":
       return TokenType.DECLARATION;
+    case ">":
+      return TokenType.GREATER_THAN;
+    case "<":
+      return TokenType.LESS_THAN;
     case " ":
     case "\t":
     case "\n":

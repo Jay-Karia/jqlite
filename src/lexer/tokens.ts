@@ -25,6 +25,12 @@ export enum TokenType {
   DECLARATION = "Declaration", // #
   FUNCTION = "Function", // #function
   ARGUMENT = "Argument", // #function(arg1, arg2)
+  GREATER_THAN = "GreaterThan", // >
+  GREATER_THAN_EQUAL = "GreaterThanEqual", // >=
+  LESS_THAN = "LessThan", // <
+  LESS_THAN_EQUAL = "LessThanEqual", // <=
+  EQUAL = "Equal", // ==
+  NOT_EQUAL = "NotEqual", // !=
   WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token
