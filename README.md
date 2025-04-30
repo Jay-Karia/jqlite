@@ -70,18 +70,25 @@ query.run("$.friends[*].(name, age)", (result) => {
 ```js
 // Basic Selection
 $.friends[0].name
+
 // Fallback
 $.friends[0].favorites.game ?? "No favorite game"
+
 // Wildcard
 $.friends[*].name
+
 // Array Slices
 $.friends[0:2].name
+
 // Multiple Key Selection
 $.friends[0].(name, age)
+
 // Multiple Key Omission
 $.friends[0].!(name, age)
+
 // Single Key Omission
 $.friends[0].!name
+
 // Functions
 $.friends[0].name.#upper()
 $.friends[*].age.#avg()
