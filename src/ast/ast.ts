@@ -311,30 +311,6 @@ export class AST {
     return comparisonNode;
   }
 
-  //====================================DELETION=====================================
-
-  /**
-   * Delete the given node along with children.
-   * @param {ASTNode} node - The node to be deleted.
-   * @return {ASTNode} - The deleted node.
-   */
-  public deleteNode(node: ASTNode): ASTNode {
-    const siblings = node.parent?.children;
-
-    // Get the index of node among it's siblings
-    const index = siblings?.indexOf(node);
-    if (index === -1 || index === undefined) return node;
-
-    // Remove node from siblings
-    siblings?.splice(index, 1);
-
-    // Remove children and parent
-    node.children = [];
-    node.parent = undefined;
-
-    return node;
-  }
-
   //===================================TRAVERSAL=====================================
 
   /**
@@ -394,30 +370,6 @@ export class AST {
   }
 
   //=================================================================================
-
-  /**
-   * Add a child node to a parent node.
-   * @param {ASTNode} node - The node to which the child will be added.
-   * @param {ASTNode} child - The child node to be added.
-   * @returns {ASTNode} - The added child node.
-   */
-  public addChild(node: ASTNode, child: ASTNode): ASTNode {
-    const originalParent = child.parent;
-
-    // Add child to the node
-    if (node.children) node.children.push(child);
-    else node.children = [child];
-
-    // Update the parent of the child
-    child.parent = node;
-
-    // Remove child from the original parent
-    const index = originalParent?.children?.indexOf(child);
-    if (index === -1 || index === undefined) return child;
-    originalParent?.children?.splice(index, 1);
-
-    return child;
-  }
 
   /**
    * Get the highest-level parent node after root
