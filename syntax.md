@@ -86,7 +86,7 @@ $.me.about.!(age, gender)  // Returns object without specified keys
 #reverse()                  // Reverse array
 ```
 
-- [ ] **Comparison Operators**
+- [x] **Comparison Operators**
 
 ```js
 $.me.age > 18

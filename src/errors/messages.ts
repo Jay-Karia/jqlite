@@ -326,5 +326,23 @@ export const ERROR_MESSAGES = {
       cause: "The string is not quoted",
       solution: "Make sure the string is quoted or change the config option: quotedArguments to false",
     } as ErrorParams,
+    NOT_A_NUMBER: {
+      message: "Not a number",
+      code: "NOT_A_NUMBER",
+      cause: "The data is not a number",
+      solution: "Make sure the data is a number",
+    } as ErrorParams,
+    ERR_COMPARISON_OPERATOR: {
+      message: "Error occurred while evaluating comparison",
+      code: "ERR_COMPARISON_OPERATOR",
+      cause: "Undefined value of the comparison operator",
+      solution: "Check whether the comparison operator is valid",
+    } as ErrorParams,
+    ERR_COMPARISON_VALUE: {
+      message: "Error occurred while evaluating comparison value",
+      code: "ERR_COMPARISON_VALUE",
+      cause: "Undefined value of the comparison value",
+      solution: "Check whether the comparison value is valid",
+    } as ErrorParams,
   },
 };

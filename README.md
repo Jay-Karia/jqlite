@@ -32,6 +32,7 @@
 - **Multiple Key Omission**
 - **Single Key Omission**
 - **Functions**
+- **Comparison Operators**
 - **Configurable**
 
 ### 📦 Installation
@@ -93,4 +94,7 @@ $.friends[0].!name
 $.friends[0].name.#upper()
 $.friends[*].age.#avg()
 $.friends[*].hobbies.#length()
+
+// Comparison Operators
+$.friends[0].age > 20
 ```

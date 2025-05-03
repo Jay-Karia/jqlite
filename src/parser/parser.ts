@@ -263,12 +263,16 @@ export class Parser {
         // Set the context
         context.set("isComparison", true);
 
-        // Set the comparison operator
-        const comparisonOperator = token.type === TokenType.LESS_THAN ? "LessThan" :
-          token.type === TokenType.GREATER_THAN ? "GreaterThan" :
-            token.type === TokenType.EQUALS ? "Equals" :
-              token.type === TokenType.NOT_EQUALS ? "NotEquals" :
-                token.type === TokenType.GREATER_THAN_EQUAL ? "GreaterThanEqual" : "LessThanEqual";
+        // Get the comparison operator
+        const comparisonOperator =
+           token.type === TokenType.LESS_THAN ? "<" :
+          token.type === TokenType.GREATER_THAN ? ">" :
+          token.type === TokenType.EQUALS ? "==" :
+          token.type === TokenType.NOT_EQUALS ? "!=" :
+          token.type === TokenType.GREATER_THAN_EQUAL ? ">=" :
+          token.type === TokenType.LESS_THAN_EQUAL ? "<=" : null;
+
+        // Set the comparison operator in context
         context.set("comparisonOperator", comparisonOperator);
       }
 

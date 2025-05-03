@@ -80,6 +80,9 @@ export class Evaluator {
       case "MultipleOmit":
         this.evaluateMultipleOmit(node);
         break;
+      case "Comparison":
+        this.evaluateComparison(node);
+        break;
       case "Function": {
         // Get function category
         const category = checkFunction(node.functionName, node.functionCategory);
@@ -401,6 +404,75 @@ export class Evaluator {
     evaluateChildren(node);
   }
 
+  /**
+   * Evaluates the comparison node
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private evaluateComparison(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Check if the current value is a number
+    if (typeof this._current !== "number") {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_A_NUMBER, {
+        type: node.type,
+      });
+    }
+
+    // Get the operator
+    const operator = node.comparisonOperator;
+    if (!operator) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_COMPARISON_OPERATOR, {
+        type: node.type,
+      });
+    }
+
+    // Get the value
+    const value = node.comparisonValue;
+    if (value === undefined) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_COMPARISON_VALUE, {
+        type: node.type,
+      });
+    }
+
+    // Compare the values
+    let result: boolean;
+    switch (operator) {
+      case "==":
+        result = this._current == value;
+        break;
+      case "===":
+        result = this._current === value;
+        break;
+      case "!=":
+        result = this._current != value;
+        break;
+      case "!==":
+        result = this._current !== value;
+        break;
+      case "<":
+        result = this._current < value;
+        break;
+      case "<=":
+        result = this._current <= value;
+        break;
+      case ">":
+        result = this._current > value;
+        break;
+      case ">=":
+        result = this._current >= value;
+        break;
+      default:
+        throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_COMPARISON_OPERATOR, {
+          type: node.type,
+          operator,
+        });
+    }
+
+    // Update the current value
+    this._current = result;
+  }
+
   //==================================FUNCTIONS=====================================
 
   /**
@@ -458,6 +530,10 @@ export class Evaluator {
     evaluateChildren(node);
   }
 
+  /**
+   * Evaluates the string function
+   * @param {ASTNode} node The AST node to evaluate
+   */
   private stringFunction(node: ASTNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);

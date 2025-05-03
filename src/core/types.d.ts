@@ -16,7 +16,7 @@ export interface SliceRange {
   end: number;
 }
 export type SliceType = "left" | "right" | null;
-export type ComparisonOperator = "LessThan" | "GreaterThan" | "Equals" | "NotEquals" | "LessThanEqual" | "GreaterThanEqual";
+export type ComparisonOperator = "<" | "<=" | ">" | ">=" | "==" | "!=" ;
 
 export interface TContext {
   fallback: string | null;
