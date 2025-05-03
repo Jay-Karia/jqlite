@@ -136,6 +136,9 @@ export class Expectations {
       // Expect the previous token to be whitespace
       expect(this._tokens, index - 1, TokenType.WHITESPACE);
 
+      // Expect the second next token to be end of query
+      expect(this._tokens, index + 2, TokenType.EOQ);
+
       // Expect the second previous token to be comparison operator
       expectAny(this._tokens, index - 2, [TokenType.LESS_THAN, TokenType.GREATER_THAN, TokenType.EQUALS, TokenType.NOT_EQUALS, TokenType.GREATER_THAN_EQUAL, TokenType.LESS_THAN_EQUAL]);
     }
