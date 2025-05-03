@@ -33,6 +33,7 @@ export class Context {
       isFunction: false,
       functionCategory: null,
       functionArgs: [],
+      isComparison: false,
     };
   }
 

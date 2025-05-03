@@ -26,6 +26,7 @@ export interface TContext {
   isFunction: boolean;
   functionCategory: functionCategories | null;
   functionArgs: string[];
+  isComparison: boolean;
 }
 export type Keys = keyof TContext;
 

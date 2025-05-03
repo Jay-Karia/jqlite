@@ -248,6 +248,15 @@ export class Parser {
         ast.createFunctionNode(validFunctionName, functionArgs, functionCategory, propertyNode);
       }
 
+      //======================================COMPARISON========================================
+      else if (token.type === TokenType.LESS_THAN || token.type === TokenType.GREATER_THAN || token.type === TokenType.EQUALS || token.type === TokenType.NOT_EQUALS || token.type === TokenType.GREATER_THAN_EQUAL || token.type === TokenType.LESS_THAN_EQUAL) {
+        // Expectations for the token
+        expectations.comparison(index);
+
+        // Set the context
+        context.set("isComparison", true);
+      }
+
       //========================================EOQ=============================================
       else if (token.type === TokenType.EOQ) {
         // Check if multiple select/omit is still on

@@ -123,11 +123,22 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public number(index: number): void {
-    // Expect the previous token to be left bracket or slice
-    expectAny(this._tokens, index - 1, [TokenType.LEFT_BRACKET, TokenType.SLICE]);
+    // Check for comparison
+    const isComparison = context.get("isComparison") ?? false;
 
-    // Expect the next token to be slice or right bracket
-    expectAny(this._tokens, index + 1, [TokenType.RIGHT_BRACKET, TokenType.SLICE]);
+    if (!isComparison) {
+      // Expect the previous token to be left bracket or slice
+      expectAny(this._tokens, index - 1, [TokenType.LEFT_BRACKET, TokenType.SLICE]);
+
+      // Expect the next token to be slice or right bracket
+      expectAny(this._tokens, index + 1, [TokenType.RIGHT_BRACKET, TokenType.SLICE]);
+    } else {
+      // Expect the previous token to be whitespace
+      expect(this._tokens, index - 1, TokenType.WHITESPACE);
+
+      // Expect the second previous token to be comparison operator
+      expectAny(this._tokens, index - 2, [TokenType.LESS_THAN, TokenType.GREATER_THAN, TokenType.EQUALS, TokenType.NOT_EQUALS, TokenType.GREATER_THAN_EQUAL, TokenType.LESS_THAN_EQUAL]);
+    }
   }
 
   /**
@@ -256,5 +267,20 @@ export class Expectations {
 
     // Expect the next token to be right parenthesis or comma
     expectAny(this._tokens, index + 1, [TokenType.RIGHT_PARENTHESIS, TokenType.COMMA]);
+  }
+
+  /**
+   * Expectations for the comparison operator token
+   * @param {number} index The index of the token
+   */
+  public comparison(index: number): void {
+    // Expect the next token to be whitespace
+    expect(this._tokens, index + 1, TokenType.WHITESPACE);
+
+    // Expect the second next token to be number
+    expect(this._tokens, index + 2, TokenType.NUMBER);
+
+    // Expect the previous token to be whitespace
+    expect(this._tokens, index - 1, TokenType.WHITESPACE);
   }
 }

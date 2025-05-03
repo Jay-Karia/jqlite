@@ -29,8 +29,8 @@ export enum TokenType {
   GREATER_THAN_EQUAL = "GreaterThanEqual", // >=
   LESS_THAN = "LessThan", // <
   LESS_THAN_EQUAL = "LessThanEqual", // <=
-  EQUAL = "Equal", // ==
-  NOT_EQUAL = "NotEqual", // !=
+  EQUALS = "Equals", // ==
+  NOT_EQUALS = "NotEquals", // !=
   WHITESPACE = "WhiteSpace", //
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token

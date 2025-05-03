@@ -188,12 +188,12 @@ export class Lexer {
     else if (this.character === "=" && this.peek() === "=") {
       this.character = "==";
       this.shift();
-      tokenType = TokenType.EQUAL;
+      tokenType = TokenType.EQUALS;
     }
     else if (this.character === "!" && this.peek() === "=") {
       this.character = "!=";
       this.shift();
-      tokenType = TokenType.NOT_EQUAL;
+      tokenType = TokenType.NOT_EQUALS;
     }
 
     // Get the token type and return the token.
