@@ -44,6 +44,7 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
     obj["functionCategory"] = node.functionCategory;
     obj["functionArgs"] = node.functionArgs;
   }
+  else if (node.type === "Comparison" && node.comparisonOperator) obj["comparisonOperator"] = node.comparisonOperator;
 }
 
 /**

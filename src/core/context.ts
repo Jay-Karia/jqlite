@@ -34,6 +34,7 @@ export class Context {
       functionCategory: null,
       functionArgs: [],
       isComparison: false,
+      comparisonOperator: null,
     };
   }
 

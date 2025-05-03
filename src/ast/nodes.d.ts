@@ -53,5 +53,10 @@ export interface FunctionNode extends ASTNode {
   functionCategory: functionCategories;
   functionArgs: string[]
 }
+export interface ComparisonNode extends ASTNode {
+  type: "Comparison";
+  comparisonOperator: string;
+  comparisonValue: number;
+}
 
 //===================================================================================

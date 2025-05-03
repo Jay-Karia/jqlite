@@ -284,6 +284,33 @@ export class AST {
     return functionNode;
   }
 
+  /**
+   * Create a comparison node.
+   * @param {string} comparisonOperator - The comparison operator.
+   * @param {number} number - The number to compare.
+   * @param {ASTNode | null} parent - The parent node to set.
+   * @returns {ASTNode} The created comparison node.
+   */
+  public createComparisonNode(comparisonOperator: string, number: number, parent?: ASTNode | null): ASTNode {
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
+
+    const comparisonNode: ASTNode = {
+      type: "Comparison",
+      parent: parent ?? this._root,
+      comparisonOperator,
+      comparisonValue: number,
+    };
+
+    // Update the parent
+    updateParent(comparisonNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = comparisonNode;
+
+    return comparisonNode;
+  }
+
   //====================================DELETION=====================================
 
   /**

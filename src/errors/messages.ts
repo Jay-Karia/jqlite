@@ -161,6 +161,12 @@ export const ERROR_MESSAGES = {
       cause: "The function name is not valid",
       solution: "Make sure the function name is valid",
     } as ErrorParams,
+    INVALID_COMPARISON_OPERATOR: {
+      message: "Invalid comparison operator",
+      code: "INVALID_COMPARISON_OPERATOR",
+      cause: "The comparison operator is not valid",
+      solution: "Make sure the comparison operator is valid",
+    } as ErrorParams,
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {

@@ -105,6 +105,13 @@ export class Parser {
         // Expectations for the token
         expectations.number(index);
 
+        // Check for comparison
+        const isComparison = context.get("isComparison") ?? false;
+        if (isComparison) {
+          index = this.parseComparison(tokens, index);
+          continue;
+        }
+
         // Check for array slice
         const isArraySlice = tokens[index + 1].type === TokenType.SLICE;
         if (isArraySlice) {
@@ -255,6 +262,14 @@ export class Parser {
 
         // Set the context
         context.set("isComparison", true);
+
+        // Set the comparison operator
+        const comparisonOperator = token.type === TokenType.LESS_THAN ? "LessThan" :
+          token.type === TokenType.GREATER_THAN ? "GreaterThan" :
+            token.type === TokenType.EQUALS ? "Equals" :
+              token.type === TokenType.NOT_EQUALS ? "NotEquals" :
+                token.type === TokenType.GREATER_THAN_EQUAL ? "GreaterThanEqual" : "LessThanEqual";
+        context.set("comparisonOperator", comparisonOperator);
       }
 
       //========================================EOQ=============================================
@@ -316,6 +331,33 @@ export class Parser {
 
     // Add the token to the AST with parent as the last property node;
     ast.createWildcardNode(previousNode);
+  }
+
+  /**
+   * Parse the comparison token
+   * @param {Token[]} tokens The tokens of the query
+   * @param {number} index The index of the token
+   * @returns {number} The new index
+   */
+  private parseComparison(tokens: Token[], index: number): number {
+    // Get the comparison operator
+    const comparisonOperator = context.get("comparisonOperator") ?? null;
+
+    // Check if the comparison operator is valid
+    if (!comparisonOperator) {
+      throw new ParserError(ERROR_MESSAGES.PARSER.INVALID_COMPARISON_OPERATOR, {
+        token: tokens[index].value,
+        index: index,
+      });
+    }
+
+    // Get the number
+    const number = tokens[index].value;
+
+    // Create the AST node
+    ast.createComparisonNode(comparisonOperator, Number(number));
+
+    return index + incrementIndex(TokenType.NUMBER);
   }
 
   //==================================================================================================
