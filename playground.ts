@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json")
 
-query.run("$.colors[*].name")
+query.run("$.friends[?(@.age > 30)]")
 query.print();

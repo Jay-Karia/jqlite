@@ -32,6 +32,8 @@ export enum TokenType {
   EQUALS = "Equals", // ==
   NOT_EQUALS = "NotEquals", // !=
   WHITESPACE = "WhiteSpace", //
+  CONDITION_MARK = "ConditionMark", // ?
+  CONTEXT = "Context", // @
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token
 }
