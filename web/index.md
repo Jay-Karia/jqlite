@@ -8,8 +8,8 @@ hero:
   image:
     src: /logo.svg
     alt: JQLite Logo
-    width: 150
-    height: 150
+    width: 120
+    height: 120
   actions:
     - theme: brand
       text: Get Started
@@ -19,10 +19,12 @@ hero:
       link: https://github.com/Jay-Karia/jqlite
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 🔗 Simple
+    details: Designed to be easy to use and understand, making it widely accessible.
+  - title: ⚙ Configurable
+    details: Easily customizable to fit your specific needs and preferences.
+  - title: 📦 Functions
+    details: Built-in functions for common tasks, on specific data types.
+  - title: 🔍 Conditions
+    details: Powerful conditions syntax for filtering data.
 ---
