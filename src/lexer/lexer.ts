@@ -180,6 +180,7 @@ export class Lexer {
       this.ignoreWhitespace = false;
       this.isFunction = false;
       this.functionDeclared = false;
+      this.isCondition = false;
     }
 
     // Check for comparison operators

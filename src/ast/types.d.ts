@@ -11,7 +11,7 @@ import type { functionCategories, functionNames } from "src/functions/types";
 
 //=======================================TYPES=====================================
 
-export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard" | "ArraySlice" | "Omit" | "MultipleSelect" | "MultipleOmit" | "Function" | "Comparison";
+export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard" | "ArraySlice" | "Omit" | "MultipleSelect" | "MultipleOmit" | "Function" | "Comparison" | "Condition";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;

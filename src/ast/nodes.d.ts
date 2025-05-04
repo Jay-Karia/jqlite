@@ -58,5 +58,8 @@ export interface ComparisonNode extends ASTNode {
   comparisonOperator: string;
   comparisonValue: number;
 }
+export interface ConditionNode extends ASTNode {
+  type: "Condition";
+}
 
 //===================================================================================

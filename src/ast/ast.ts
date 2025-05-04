@@ -311,6 +311,29 @@ export class AST {
     return comparisonNode;
   }
 
+  /**
+   * Create a condition node.
+   * @param {ASTNode | null} parent - The parent node to set.
+   * @returns {ASTNode} The created condition node.
+   */
+  public createConditionNode(parent?: ASTNode | null): ASTNode {
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
+
+    const conditionNode: ASTNode = {
+      type: "Condition",
+      parent: parent ?? this._root,
+    };
+
+    // Update the parent
+    updateParent(conditionNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = conditionNode;
+
+    return conditionNode;
+  }
+
   //===================================TRAVERSAL=====================================
 
   /**

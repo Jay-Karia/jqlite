@@ -58,7 +58,18 @@ export class Parser {
         // Add the omitted keys to context
         else if (isMultipleOmit) handleMultipleOmit(token);
         // Add the token to the AST
-        else ast.createPropertyNode(token.value);
+        else {
+          // Check for condition
+          const isCondition = context.get("isCondition") ?? false;
+          // Add the children to condition node
+          if (isCondition) {
+            const conditionNode = ast.getRecentNode();
+            ast.createPropertyNode(token.value, null, conditionNode);
+          } else {
+            // Add the token to the AST with parent as the last property node;
+            ast.createPropertyNode(token.value);
+          }
+        }
       }
 
       //=========================================NOT============================================
@@ -98,12 +109,21 @@ export class Parser {
 
         // Expectations for the token
         expectations.leftBracket(index);
+
+        // Create the condition node
+        if (isCondition) ast.createConditionNode();
       }
 
       //================================RIGHT BRACKET==========================================
       else if (token.type === TokenType.RIGHT_BRACKET) {
         // Expectations for the token
         expectations.rightBracket(index);
+
+        // Check for condition
+        const isCondition = context.get("isCondition") ?? false;
+
+        // Reset the condition context
+        if (isCondition) context.set("isCondition", false);
       }
 
       //====================================NUMBER=============================================
@@ -114,7 +134,7 @@ export class Parser {
         // Check for comparison
         const isComparison = context.get("isComparison") ?? false;
         if (isComparison) {
-          index = this.parseComparison(tokens, index);
+          this.parseComparison(tokens, index);
           continue;
         }
 
@@ -158,8 +178,11 @@ export class Parser {
         // Check for function call
         const isFunction = context.get("isFunction") ?? false;
 
+        // Check for condition
+        const isCondition = context.get("isCondition") ?? false;
+
         // Throw an error if multiple select/omit is off and not function
-        if (!isFunction) checkMultipleSelectAndOmit(token, index);
+        if (!isFunction && !isCondition) checkMultipleSelectAndOmit(token, index);
 
         // Check for selected keys and add it to AST
         const selectedKeys = context.get("selectedKeys");
@@ -274,13 +297,7 @@ export class Parser {
         context.set("isComparison", true);
 
         // Get the comparison operator
-        const comparisonOperator =
-           token.type === TokenType.LESS_THAN ? "<" :
-          token.type === TokenType.GREATER_THAN ? ">" :
-          token.type === TokenType.EQUALS ? "==" :
-          token.type === TokenType.NOT_EQUALS ? "!=" :
-          token.type === TokenType.GREATER_THAN_EQUAL ? ">=" :
-          token.type === TokenType.LESS_THAN_EQUAL ? "<=" : null;
+        const comparisonOperator = token.type === TokenType.LESS_THAN ? "<" : token.type === TokenType.GREATER_THAN ? ">" : token.type === TokenType.EQUALS ? "==" : token.type === TokenType.NOT_EQUALS ? "!=" : token.type === TokenType.GREATER_THAN_EQUAL ? ">=" : token.type === TokenType.LESS_THAN_EQUAL ? "<=" : null;
 
         // Set the comparison operator in context
         context.set("comparisonOperator", comparisonOperator);
@@ -359,7 +376,7 @@ export class Parser {
    * @param {number} index The index of the token
    * @returns {number} The new index
    */
-  private parseComparison(tokens: Token[], index: number): number {
+  private parseComparison(tokens: Token[], index: number): void {
     // Get the comparison operator
     const comparisonOperator = context.get("comparisonOperator") ?? null;
 
@@ -374,10 +391,17 @@ export class Parser {
     // Get the number
     const number = tokens[index].value;
 
-    // Create the AST node
-    ast.createComparisonNode(comparisonOperator, Number(number));
+    // Get the recent node
+    const recentNode = ast.getRecentNode();
 
-    return index + incrementIndex(TokenType.NUMBER);
+    // Create the AST node
+    ast.createComparisonNode(comparisonOperator, Number(number), recentNode);
+
+    // Reset the context
+    context.set("isComparison", false);
+    context.set("comparisonOperator", null);
+
+    // return index + incrementIndex(TokenType.NUMBER);
   }
 
   //==================================================================================================
