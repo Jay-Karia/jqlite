@@ -97,19 +97,11 @@ $.me.age == 18
 $.me.age != 18
 ```
 
-- [ ] **Array Conditions**
+- [ ] **Conditions**
 
 ```js
 $.users[?(@.age > 18)] // Returns the array OR like wildcard (configurable)
 $.users[?(@.age > 18 && @.country == IN)].name // Returns the names of users who fulfills the condition and if the return type is set to wildcard like.
-```
-
----
-- [ ] **Object Conditions**
-
-```js
-$.me.?(@.age > 18).name // Returns the name if the condition is true
-$.me.?(@.age > 18 && @.country == IN) // Returns the `me` object if the condition is true
 ```
 
 ---
