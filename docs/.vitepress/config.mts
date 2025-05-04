@@ -19,7 +19,6 @@ export default defineConfig({
     sidebar: [
       { text: "Introduction", link: "/introduction" },
       { text: "Get Started", link: "/get-started" },
-      { text: "API Reference", link: "/api-reference" },
     ],
   },
 })
