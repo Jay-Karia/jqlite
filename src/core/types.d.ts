@@ -30,6 +30,7 @@ export interface TContext {
   functionArgs: string[];
   isComparison: boolean;
   comparisonOperator: ComparisonOperator | null;
+  isCondition: boolean;
 }
 export type Keys = keyof TContext;
 

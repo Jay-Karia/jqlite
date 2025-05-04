@@ -90,6 +90,12 @@ export class Parser {
 
       //===================================LEFT BRACKET=======================================
       else if (token.type === TokenType.LEFT_BRACKET) {
+        // Check for condition
+        const isCondition = tokens[index + 1].type === TokenType.CONDITION_MARK;
+
+        // Update the context
+        context.set("isCondition", isCondition);
+
         // Expectations for the token
         expectations.leftBracket(index);
       }
@@ -134,6 +140,10 @@ export class Parser {
         // Check for function declaration
         const isFunction = context.get("isFunction") ?? false;
         if (isFunction) continue;
+
+        // Check for conditions
+        const isCondition = context.get("isCondition") ?? false;
+        if (isCondition) continue;
 
         // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
@@ -274,6 +284,12 @@ export class Parser {
 
         // Set the comparison operator in context
         context.set("comparisonOperator", comparisonOperator);
+      }
+
+      //===================================CONDITION MARK=======================================
+      else if (token.type === TokenType.CONDITION_MARK) {
+        // Expectations for the token
+        expectations.conditionMark(index);
       }
 
       //========================================EOQ=============================================

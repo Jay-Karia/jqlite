@@ -28,6 +28,7 @@ export class Lexer {
   private isDeclaration: boolean;
   private isFunction: boolean;
   private functionDeclared: boolean;
+  private isCondition: boolean;
 
   //====================================CONSTRUCTOR==================================
 
@@ -44,6 +45,7 @@ export class Lexer {
     this.isDeclaration = false;
     this.isFunction = false;
     this.functionDeclared = false;
+    this.isCondition = false;
   }
 
   //====================================TOKENIZATION==================================
@@ -86,6 +88,7 @@ export class Lexer {
     this.isDeclaration = false;
     this.isFunction = false;
     this.functionDeclared = false;
+    this.isCondition = false;
 
     return tokens;
   }
@@ -161,8 +164,13 @@ export class Lexer {
       this.isFallback = true;
     }
 
-    // Ignore whitespace if left parenthesis is found
-    if (this.character === "(") {
+    // Check for condition
+    if (this.character === "?" && this.peek() === "(") {
+      this.isCondition = true;
+    }
+
+    // Ignore whitespace if left parenthesis is found and is not condition
+    if (this.character === "(" && !this.isCondition) {
       this.ignoreWhitespace = true;
       if (this.functionDeclared) this.isFunction = true;
     }

@@ -105,8 +105,17 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public leftBracket(index: number): void {
-    // Expect the next token to be number or wildcard or slice
-    expectAny(this._tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD, TokenType.SLICE]);
+    // Check for condition
+    const isCondition = context.get("isCondition") ?? false;
+
+    if (isCondition) {
+      // Expect the next token to be condition mark
+      expect(this._tokens, index + 1, TokenType.CONDITION_MARK);
+    }
+    else {
+      // Expect the next token to be number or wildcard or slice
+      expectAny(this._tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD, TokenType.SLICE]);
+    }
   }
 
   /**
@@ -126,13 +135,24 @@ export class Expectations {
     // Check for comparison
     const isComparison = context.get("isComparison") ?? false;
 
+    // Check for condition
+    const isCondition = context.get("isCondition") ?? false;
+
     if (!isComparison) {
       // Expect the previous token to be left bracket or slice
       expectAny(this._tokens, index - 1, [TokenType.LEFT_BRACKET, TokenType.SLICE]);
 
       // Expect the next token to be slice or right bracket
       expectAny(this._tokens, index + 1, [TokenType.RIGHT_BRACKET, TokenType.SLICE]);
-    } else {
+    }
+    else if (isCondition) {
+      // Expect the previous token to be whitespace
+      expect(this._tokens, index - 1, TokenType.WHITESPACE);
+
+      // Expect the second previous token to be comparison operator
+      expectAny(this._tokens, index - 2, [TokenType.LESS_THAN, TokenType.GREATER_THAN, TokenType.EQUALS, TokenType.NOT_EQUALS, TokenType.GREATER_THAN_EQUAL, TokenType.LESS_THAN_EQUAL]);
+    }
+    else {
       // Expect the previous token to be whitespace
       expect(this._tokens, index - 1, TokenType.WHITESPACE);
 
@@ -173,6 +193,9 @@ export class Expectations {
     // Get whether function is called or not
     const isFunction = context.get("isFunction") ?? false;
 
+    // Check for condition
+    const isCondition = context.get("isCondition") ?? false;
+
     // Expectations if function is called
     if (isFunction) {
       // Expect the next token to be right parenthesis or argument
@@ -181,7 +204,11 @@ export class Expectations {
       // Expect the previous token to be function
       expect(this._tokens, index - 1, TokenType.FUNCTION);
     }
-
+    // Expectations if conditions are used
+    else if (isCondition) {
+      // Expect the previous token to be left condition mark
+      expect(this._tokens, index - 1, TokenType.CONDITION_MARK);
+    }
     // Expectations id function is not called
     else {
       // Expect the previous token to be dot or not
@@ -277,7 +304,7 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public comparison(index: number): void {
-    // Expect the next token to be whitespace
+    // Expect the next token to be whitespace or number
     expect(this._tokens, index + 1, TokenType.WHITESPACE);
 
     // Expect the second next token to be number
@@ -285,5 +312,17 @@ export class Expectations {
 
     // Expect the previous token to be whitespace
     expect(this._tokens, index - 1, TokenType.WHITESPACE);
+  }
+
+  /**
+   * Expectations for the condition mark token
+   * @param {number} index The index of the token
+   */
+  public conditionMark(index: number): void {
+    // Expect the next token to be left parenthesis
+    expect(this._tokens, index + 1, TokenType.LEFT_PARENTHESIS);
+
+    // Expect the previous token to be left bracket
+    expect(this._tokens, index - 1, TokenType.LEFT_BRACKET);
   }
 }

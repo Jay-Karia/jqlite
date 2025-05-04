@@ -35,6 +35,7 @@ export class Context {
       functionArgs: [],
       isComparison: false,
       comparisonOperator: null,
+      isCondition: false,
     };
   }
 
