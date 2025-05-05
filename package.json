@@ -1,14 +1,15 @@
 {
-  "name": "@jqlite/core",
-  "version": "0.0.1",
-  "description": "The core engine of the query language",
+  "name": "jqlite-ts",
+  "version": "0.0.2",
+  "description": "⚡ The query language for JSON ",
   "packageManager": "pnpm@10.8.0",
   "main": "dist/index.js",
   "type": "module",
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "public"
   ],
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist --format=esm --minify",

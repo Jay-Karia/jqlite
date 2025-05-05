@@ -39,17 +39,17 @@
 
 ```sh
 # npm
-npm install @jqlite/core
+npm install jqlite-ts
 # yarn
-yarn add @jqlite/core
+yarn add jqlite-ts
 # pnpm
-pnpm add @jqlite/core
+pnpm add jqlite-ts
 ```
 
 ### 🚀 Getting Started
 
 ```js
-import { config, data, query } from '@jqlite/core';
+import { config, data, query } from 'jqlite-ts';
 
 // Load the data from a JSON file
 data.load("./data.json");
