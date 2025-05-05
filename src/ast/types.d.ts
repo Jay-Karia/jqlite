@@ -11,7 +11,7 @@ import type { functionCategories, functionNames } from "src/functions/types";
 
 //=======================================TYPES=====================================
 
-export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard" | "ArraySlice" | "Omit" | "MultipleSelect" | "MultipleOmit" | "Function" | "Comparison" | "Condition" | "Context";
+export type NodeType = "Root" | "Property" | "ArrayAccess" | "Fallback" | "Wildcard" | "ArraySlice" | "Omit" | "MultipleSelect" | "MultipleOmit" | "Function" | "Comparison" | "Condition" | "Context" | "Logical";
 export interface ASTNode {
   type: NodeType;
   parent?: ASTNode;
@@ -27,6 +27,7 @@ export interface ASTNode {
   functionArgs?: string[];
   comparisonOperator?: string;
   comparisonValue?: number;
+  logicalOperator?: string;
 }
 
 //=================================================================================

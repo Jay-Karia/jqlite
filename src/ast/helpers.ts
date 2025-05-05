@@ -47,7 +47,7 @@ export function addSpecificKeys(node: ASTNode, obj: any): void {
   else if (node.type === "Comparison") {
     obj["comparisonOperator"] = node.comparisonOperator;
     obj["comparisonValue"] = node.comparisonValue;
-  }
+  } else if (node.type === "Logical") obj["logicalOperator"] = node.logicalOperator;
 }
 
 /**

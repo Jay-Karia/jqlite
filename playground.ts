@@ -6,3 +6,6 @@ data.load("./data/sample.json")
 
 query.run("$.scores[?((@ >= 100) && (@ <= 150))]");
 // query.print();
+
+// TODO: fix opening and closing of brackets
+// TODO: create AST nodes for logical operators

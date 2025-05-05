@@ -64,5 +64,9 @@ export interface ConditionNode extends ASTNode {
 export interface ContextNode extends ASTNode {
   type: "Context"
 }
+export interface LogicalNode extends ASTNode {
+  type: "Logical",
+  logicalOperator: string;
+}
 
 //===================================================================================
