@@ -110,8 +110,11 @@ export class Parser {
         // Expectations for the token
         expectations.leftBracket(index);
 
+        // Get the previous node
+        const previousNode = ast.getRecentNode();
+
         // Create the condition node
-        if (isCondition) ast.createConditionNode();
+        if (isCondition) ast.createConditionNode(previousNode);
       }
 
       //================================RIGHT BRACKET==========================================

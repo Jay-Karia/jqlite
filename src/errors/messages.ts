@@ -344,5 +344,17 @@ export const ERROR_MESSAGES = {
       cause: "Undefined value of the comparison value",
       solution: "Check whether the comparison value is valid",
     } as ErrorParams,
+    EMPTY_CONDITION: {
+      message: "Empty condition",
+      code: "EMPTY_CONDITION",
+      cause: "The condition is empty",
+      solution: "Make sure the condition is valid",
+    },
+    CONDITION_NOT_BOOLEAN: {
+      message: "Condition is not boolean",
+      code: "CONDITION_NOT_BOOLEAN",
+      cause: "The condition is not boolean",
+      solution: "Make sure the condition is boolean",
+    }
   },
 };

@@ -86,6 +86,9 @@ export class Evaluator {
       case "Condition":
         this.evaluateCondition(node);
         break;
+      case "Context":
+        this.evaluateContext(node);
+        break;
       case "Function": {
         // Get function category
         const category = checkFunction(node.functionName, node.functionCategory);
@@ -206,7 +209,7 @@ export class Evaluator {
     const propertyNode = ast.getHighestParent(node);
     const property: string | string[] | undefined = getPropertyName(propertyNode);
 
-    // Get the parent property is array
+    // Check the current data is an array
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         type: node.type,
@@ -483,6 +486,37 @@ export class Evaluator {
   private evaluateCondition(node: ASTNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
+
+    // Get the property name
+    const propertyNode = ast.getHighestParent(node);
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
+
+    // Check if the current value is an array
+    if (!Array.isArray(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
+        type: node.type,
+        property,
+      });
+    }
+
+    // Check the children
+    const children = node.children;
+    if (!children || children.length === 0) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
+        type: node.type,
+      });
+    }
+  }
+
+  /**
+   * Evaluates the context node
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private evaluateContext(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    console.log("hello from context");
   }
 
   //==================================FUNCTIONS=====================================

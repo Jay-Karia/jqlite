@@ -241,7 +241,7 @@ export class Expectations {
       // Expect the previous token to be left parenthesis or argument
       expectAny(this._tokens, index - 1, [TokenType.LEFT_PARENTHESIS, TokenType.ARGUMENT]);
     }
-    // Expectations id function is not called
+    // Expectations if function is not called
     else if (!isCondition) {
       // Expect the previous token to be property
       expect(this._tokens, index - 1, TokenType.PROPERTY);
