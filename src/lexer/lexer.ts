@@ -125,6 +125,20 @@ export class Lexer {
       this.isDeclaration = true;
     }
 
+    // AND
+    if (this.character === "&" && this.peek() === "&") {
+      this.character = "&&";
+      tokenType = TokenType.AND;
+      this.shift();
+    }
+
+    // OR
+    if (this.character === "|" && this.peek() === "|") {
+      this.character = "||";
+      tokenType = TokenType.OR;
+      this.shift();
+    }
+
     // Negative numbers
     if (this.character === "-") {
       if (isDigit(this.peek())) {

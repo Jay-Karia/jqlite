@@ -34,6 +34,8 @@ export enum TokenType {
   WHITESPACE = "WhiteSpace", //
   CONDITION_MARK = "ConditionMark", // ?
   CONTEXT = "Context", // @
+  AND = "And", // &&
+  OR = "Or", // ||
   EOQ = "EndOfQuery", // End Of Query
   UNKNOWN = "Unknown", // Unknown token
 }
