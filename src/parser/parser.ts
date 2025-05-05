@@ -278,8 +278,15 @@ export class Parser {
         // Get function arguments
         const functionArgs = context.get("functionArgs") ?? [];
 
+        // Get the previous node
+        const previousNode = ast.getRecentNode();
+
+        // Check for condition
+        const isCondition = context.get("isCondition") ?? false;
+
         // Add the token to the AST with parent as the last property node;
-        ast.createFunctionNode(validFunctionName, functionArgs, functionCategory);
+        if (isCondition)  ast.createFunctionNode(validFunctionName, functionArgs, functionCategory, previousNode);
+        else ast.createFunctionNode(validFunctionName, functionArgs, functionCategory);
       }
 
       //======================================COMPARISON========================================

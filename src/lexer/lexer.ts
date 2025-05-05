@@ -169,6 +169,18 @@ export class Lexer {
       this.isCondition = true;
     }
 
+    // Set is function to true
+    if (this.character === "(") {
+      if (this.functionDeclared) this.isFunction = true;
+    }
+
+    // Reset the function variables
+    if (this.character === ")") {
+      this.isFunction = false;
+      this.functionDeclared = false;
+      this.isCondition = false;
+    }
+
     // Check for comparison operators
     if (this.character === ">" && this.peek() === "=") {
       this.character = ">=";
