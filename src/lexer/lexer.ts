@@ -8,7 +8,7 @@
 //======================================IMPORTS====================================
 
 import { type Token, TokenType } from "./tokens";
-import { countSkippable, getEoqToken, getTokenType, hasNextToken, isAlphanumeric, isDigit, readAlphanumeric, readFallbackValue } from "./helpers";
+import { countSkippable, getEoqToken, getTokenType, hasNextToken, isAlphanumeric, isDigit, readAlphanumeric, readFallbackValue, readNumber } from "./helpers";
 
 //=================================================================================
 
@@ -128,8 +128,8 @@ export class Lexer {
     // Negative numbers
     if (this.character === "-") {
       if (isDigit(this.peek())) {
-        this.character = `-${this.peek()}`;
-        this.shift();
+        this.character = `-${readNumber(this.input, this.position + 1)}`;
+        this.position += this.character.length - 1;
         tokenType = TokenType.NUMBER;
       }
     }
