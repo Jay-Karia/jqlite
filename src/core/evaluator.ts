@@ -15,6 +15,7 @@ import { context } from "./context";
 import { ast } from "src/ast/ast";
 import { applyArrayFunction, applyNumericArrayFunction, applyStringFunction } from "src/functions/apply";
 import { checkNumberOfArgs } from "src/functions/arguments";
+import { configStore } from "src/config/store";
 
 //===================================================================================
 
@@ -519,6 +520,10 @@ export class Evaluator {
     // Check if the data is not null
     this._current = checkData(this._current);
 
+    // Get the property name
+    const propertyNode = ast.getHighestParent(node);
+    const property: string | string[] | undefined = getPropertyName(propertyNode);
+
     // Check if the current value is an array
     if (!Array.isArray(this._current)) {
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
@@ -535,22 +540,32 @@ export class Evaluator {
       });
     }
 
-    // Backup the current data
-    const current = this._current;
+    // Result for array format
+    const result: unknown[] = [];
 
-    let result = [];
+    // Result for object format
+    const keys: string[] = extractUniqueKeys(this._current);
+    let objResult: Record<string, unknown> = {};
+
+    // Get the data format from config
+    const format = configStore.get().arrayConditionFormat;
 
     // Iterate over all the values in array
     this._current.forEach(elem => {
       // Evaluate the children for every element
       this.setData(elem);
-      this.evaluate(node.children[0])
+      this.evaluate(children[0]);
 
-      if (this._current === true)
-        result.push(elem)
+      if (this._current === true) {
+        result.push(elem);
+        // Filter for object format
+        if (format === "object") {
+          objResult = fillArray(result, keys);
+        }
+      }
     });
 
-    this._current = result;
+    this._current = format === "array" ? result : objResult;
   }
 
   //==================================FUNCTIONS=====================================
