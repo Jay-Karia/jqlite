@@ -281,11 +281,8 @@ export class Parser {
         // Get function arguments
         const functionArgs = context.get("functionArgs") ?? [];
 
-        // Get the property node
-        const propertyNode = ast.getRecentNode();
-
         // Add the token to the AST with parent as the last property node;
-        ast.createFunctionNode(validFunctionName, functionArgs, functionCategory, propertyNode);
+        ast.createFunctionNode(validFunctionName, functionArgs, functionCategory);
       }
 
       //======================================COMPARISON========================================
@@ -375,11 +372,8 @@ export class Parser {
     // Expect the previous token to be a left bracket
     expectations.wildcard(index);
 
-    // Get the previous node
-    const previousNode = ast.getRecentNode();
-
-    // Add the token to the AST with parent as the last property node;
-    ast.createWildcardNode(previousNode);
+    // Add the token to the AST
+    ast.createWildcardNode();
   }
 
   /**
@@ -403,11 +397,17 @@ export class Parser {
     // Get the number
     const number = tokens[index].value;
 
+    // Check for condition
+    const isCondition = context.get("isCondition") ?? false;
+
     // Get the recent node
     const recentNode = ast.getRecentNode();
 
-    // Create the AST node
-    ast.createComparisonNode(comparisonOperator, Number(number), recentNode);
+    // Create the AST node with parent
+    if (isCondition) ast.createComparisonNode(comparisonOperator, Number(number), recentNode);
+
+    // Create the AST node without parent
+    else ast.createComparisonNode(comparisonOperator, Number(number));
 
     // Reset the context
     context.set("isComparison", false);
