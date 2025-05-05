@@ -333,11 +333,29 @@ export class Expectations {
   }
 
   /**
-   * Expectations for the whitespace token
+   * Expectations for the context token
    * @param {number} index The index of the token
    */
   public context(index: number): void {
     // Expect the previous token to be a dot or not or left parenthesis or comma
     expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
+  }
+
+  /**
+   * Expectations for the AND and OR token
+   * @param {number} index The index of the token
+   */
+  public logicGate(index: number): void {
+    // Expect the next token to be whitespace
+    expect(this._tokens, index + 1, TokenType.WHITESPACE);
+
+    // Expect the previous token to be whitespace
+    expect(this._tokens, index - 1, TokenType.WHITESPACE);
+
+    // Expect the second next token to be left parenthesis
+    expect(this._tokens, index + 2, TokenType.LEFT_PARENTHESIS);
+
+    // Expect the second previous token to be right parenthesis
+    expect(this._tokens, index - 2, TokenType.RIGHT_PARENTHESIS);
   }
 }

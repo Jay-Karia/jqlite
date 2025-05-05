@@ -167,6 +167,12 @@ export const ERROR_MESSAGES = {
       cause: "The comparison operator is not valid",
       solution: "Make sure the comparison operator is valid",
     } as ErrorParams,
+    UNKNOWN_TOKEN: {
+      message: "Unknown token encountered",
+      code: "UNKNOWN_TOKEN",
+      cause: "Unrecognized token used",
+      solution: "Use a valid token",
+    }
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {

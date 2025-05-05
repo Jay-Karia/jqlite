@@ -322,6 +322,25 @@ export class Parser {
         ast.createContextNode(previousNode);
       }
 
+      //========================================AND=============================================
+      else if (token.type === TokenType.AND) {
+        // Expectations for the token
+        expectations.logicGate(index);
+      }
+
+      //=========================================OR=============================================
+      else if (token.type === TokenType.OR) {
+        // Expectations for the token
+        expectations.logicGate(index);
+      }
+
+      //======================================UNKNOWN===========================================
+      else if (token.type === TokenType.UNKNOWN) {
+        throw new ParserError(ERROR_MESSAGES.PARSER.UNKNOWN_TOKEN, {
+          token: token.value
+        });
+      }
+
       //========================================EOQ=============================================
       else if (token.type === TokenType.EOQ) {
         // Check if multiple select/omit is still on
