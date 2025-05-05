@@ -13,8 +13,8 @@ import { ERROR_MESSAGES } from "src/errors/messages";
 import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
 import { context } from "./context";
 import { ast } from "src/ast/ast";
-import {applyArrayFunction, applyNumericArrayFunction, applyStringFunction} from "src/functions/apply";
-import {checkNumberOfArgs} from "src/functions/arguments";
+import { applyArrayFunction, applyNumericArrayFunction, applyStringFunction } from "src/functions/apply";
+import { checkNumberOfArgs } from "src/functions/arguments";
 
 //===================================================================================
 
@@ -82,6 +82,9 @@ export class Evaluator {
         break;
       case "Comparison":
         this.evaluateComparison(node);
+        break;
+      case "Condition":
+        this.evaluateCondition(node);
         break;
       case "Function": {
         // Get function category
@@ -471,6 +474,15 @@ export class Evaluator {
 
     // Update the current value
     this._current = result;
+  }
+
+  /**
+   * Evaluates the condition node
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private evaluateCondition(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
   }
 
   //==================================FUNCTIONS=====================================

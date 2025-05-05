@@ -333,4 +333,13 @@ export class Expectations {
     // Expect the previous token to be left bracket
     expect(this._tokens, index - 1, TokenType.LEFT_BRACKET);
   }
+
+  /**
+   * Expectations for the whitespace token
+   * @param {number} index The index of the token
+   */
+  public context(index: number): void {
+    // Expect the previous token to be a dot or not or left parenthesis or comma
+    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
+  }
 }

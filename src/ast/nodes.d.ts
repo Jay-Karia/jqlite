@@ -61,5 +61,8 @@ export interface ComparisonNode extends ASTNode {
 export interface ConditionNode extends ASTNode {
   type: "Condition";
 }
+export interface ContextNode extends ASTNode {
+  type: "Context"
+}
 
 //===================================================================================

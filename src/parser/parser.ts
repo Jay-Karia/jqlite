@@ -309,6 +309,18 @@ export class Parser {
         expectations.conditionMark(index);
       }
 
+      //======================================CONTEXT===========================================
+      else if (token.type === TokenType.CONTEXT) {
+        // Expectations for the token
+        expectations.context(index);
+
+        // Get the previous node
+        const previousNode = ast.getRecentNode();
+
+        // Create the AST node
+        ast.createContextNode(previousNode);
+      }
+
       //========================================EOQ=============================================
       else if (token.type === TokenType.EOQ) {
         // Check if multiple select/omit is still on

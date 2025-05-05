@@ -334,6 +334,29 @@ export class AST {
     return conditionNode;
   }
 
+  /**
+   * Create a context node.
+   * @param {ASTNode | null} parent - The parent node to set.
+   * @returns {ASTNode} The created context node.
+   */
+  public createContextNode(parent?: ASTNode | null): ASTNode {
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
+
+    const contextNode: ASTNode = {
+      type: "Context",
+      parent: parent ?? this._root,
+    };
+
+    // Update the parent
+    updateParent(contextNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = contextNode;
+
+    return contextNode;
+  }
+
   //===================================TRAVERSAL=====================================
 
   /**
