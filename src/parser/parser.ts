@@ -148,11 +148,8 @@ export class Parser {
           continue;
         }
 
-        // Get the previous node
-        const previous = ast.getRecentNode();
-
         // Add the token to AST
-        ast.createArrayAccessNode(Number(token.value), previous);
+        ast.createArrayAccessNode(Number(token.value));
       }
 
       //================================LEFT PARENTHESIS=======================================
@@ -364,7 +361,7 @@ export class Parser {
     const endRange = tokens[index + 1].value;
 
     // Add the token to the AST
-    ast.createArraySliceNode(Number(startRange), Number(endRange), ast.getRecentNode());
+    ast.createArraySliceNode(Number(startRange), Number(endRange));
 
     return index + incrementIndex(TokenType.SLICE);
   }
