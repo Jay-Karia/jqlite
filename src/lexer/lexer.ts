@@ -169,20 +169,6 @@ export class Lexer {
       this.isCondition = true;
     }
 
-    // Ignore whitespace if left parenthesis is found and is not condition
-    if (this.character === "(" && !this.isCondition) {
-      this.ignoreWhitespace = true;
-      if (this.functionDeclared) this.isFunction = true;
-    }
-
-    // Stop ignoring whitespace if right parenthesis is found
-    if (this.character === ")") {
-      this.ignoreWhitespace = false;
-      this.isFunction = false;
-      this.functionDeclared = false;
-      this.isCondition = false;
-    }
-
     // Check for comparison operators
     if (this.character === ">" && this.peek() === "=") {
       this.character = ">=";

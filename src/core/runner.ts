@@ -39,6 +39,7 @@ export class QueryRunner {
     parser.parse(tokens);
 
     console.log(ast.toJSON());
+    console.log(tokens);
 
     // Check the root node
     const root = ast.getRootNode();

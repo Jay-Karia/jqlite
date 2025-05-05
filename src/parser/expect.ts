@@ -42,8 +42,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public property(index: number): void {
-    // Expect the previous token to be a dot or not or left parenthesis or comma
-    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
+    // Expect the previous token to be a dot or not or left parenthesis or comma or whitespace
+    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA, TokenType.WHITESPACE]);
   }
 
   /**
@@ -210,13 +210,8 @@ export class Expectations {
       // Expect the previous token to be function
       expect(this._tokens, index - 1, TokenType.FUNCTION);
     }
-    // Expectations if conditions are used
-    else if (isCondition) {
-      // Expect the previous token to be left condition mark
-      expect(this._tokens, index - 1, TokenType.CONDITION_MARK);
-    }
     // Expectations id function is not called
-    else {
+    else if (!isCondition) {
       // Expect the previous token to be dot or not
       expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT]);
 
@@ -266,8 +261,11 @@ export class Expectations {
       // Expect the previous token to be property
       expect(this._tokens, index - 1, TokenType.PROPERTY);
 
-      // Expect the next token to be property
-      expect(this._tokens, index + 1, TokenType.PROPERTY);
+      // Expect the next token to be whitespace
+      expect(this._tokens, index + 1, TokenType.WHITESPACE);
+
+      // Expect the second next token to be property
+      expect(this._tokens, index + 2, TokenType.PROPERTY);
     }
   }
 
