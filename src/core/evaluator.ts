@@ -506,6 +506,9 @@ export class Evaluator {
         type: node.type,
       });
     }
+
+    // Evaluate children if any
+    evaluateChildren(node);
   }
 
   /**
@@ -516,7 +519,38 @@ export class Evaluator {
     // Check if the data is not null
     this._current = checkData(this._current);
 
-    console.log("hello from context");
+    // Check if the current value is an array
+    if (!Array.isArray(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
+        type: node.type,
+        property,
+      });
+    }
+
+    // Get the children
+    const children = node.children;
+    if (!children || children.length === 0) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
+        type: node.type,
+      });
+    }
+
+    // Backup the current data
+    const current = this._current;
+
+    let result = [];
+
+    // Iterate over all the values in array
+    this._current.forEach(elem => {
+      // Evaluate the children for every element
+      this.setData(elem);
+      this.evaluate(node.children[0])
+
+      if (this._current === true)
+        result.push(elem)
+    });
+
+    this._current = result;
   }
 
   //==================================FUNCTIONS=====================================

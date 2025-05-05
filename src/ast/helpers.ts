@@ -33,18 +33,18 @@ export function updateParent(newNode: ASTNode, root: RootNode, parent?: ASTNode 
  * @param {any} obj - The JSON object of the node
  */
 export function addSpecificKeys(node: ASTNode, obj: any): void {
-  if (node.type === "ArrayAccess" && node.index !== undefined) obj["index"] = node.index;
-  else if (node.type === "Property" && node.propertyName) obj["propertyName"] = node.propertyName;
-  else if (node.type === "Fallback" && node.fallbackValue) obj["fallbackValue"] = node.fallbackValue;
-  else if (node.type === "ArraySlice" && node.sliceRange) obj["sliceRange"] = node.sliceRange;
-  else if (node.type === "MultipleSelect" && node.selectedKeys) obj["selectedKeys"] = node.selectedKeys;
-  else if (node.type === "MultipleOmit" && node.omittedKeys) obj["omittedKeys"] = node.omittedKeys;
-  else if (node.type === "Function" && node.functionName) {
+  if (node.type === "ArrayAccess") obj["index"] = node.index;
+  else if (node.type === "Property") obj["propertyName"] = node.propertyName;
+  else if (node.type === "Fallback") obj["fallbackValue"] = node.fallbackValue;
+  else if (node.type === "ArraySlice") obj["sliceRange"] = node.sliceRange;
+  else if (node.type === "MultipleSelect") obj["selectedKeys"] = node.selectedKeys;
+  else if (node.type === "MultipleOmit") obj["omittedKeys"] = node.omittedKeys;
+  else if (node.type === "Function") {
     obj["functionName"] = node.functionName;
     obj["functionCategory"] = node.functionCategory;
     obj["functionArgs"] = node.functionArgs;
   }
-  else if (node.type === "Comparison" && node.comparisonOperator) {
+  else if (node.type === "Comparison") {
     obj["comparisonOperator"] = node.comparisonOperator;
     obj["comparisonValue"] = node.comparisonValue;
   }
