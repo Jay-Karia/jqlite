@@ -355,12 +355,18 @@ export const ERROR_MESSAGES = {
       code: "EMPTY_CONDITION",
       cause: "The condition is empty",
       solution: "Make sure the condition is valid",
-    },
+    } as ErrorParams,
     CONDITION_NOT_BOOLEAN: {
       message: "Condition is not boolean",
       code: "CONDITION_NOT_BOOLEAN",
       cause: "The condition is not boolean",
       solution: "Make sure the condition is boolean",
-    }
+    } as ErrorParams,
+    ERR_LOGICAL_OPERATOR: {
+      message: "Error occurred while evaluating logical operator",
+      code: "ERR_LOGICAL_OPERATOR",
+      cause: "Undefined value of the logical operator",
+      solution: "Check whether the logical operator is valid",
+    } as ErrorParams,
   },
 };

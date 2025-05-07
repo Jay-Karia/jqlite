@@ -90,6 +90,9 @@ export class Evaluator {
       case "Context":
         this.evaluateContext(node);
         break;
+      case "Logical":
+        this.evaluateLogicGate(node);
+        break;
       case "Function": {
         // Get function category
         const category = checkFunction(node.functionName, node.functionCategory);
@@ -566,6 +569,61 @@ export class Evaluator {
     });
 
     this._current = format === "array" ? result : objResult;
+  }
+
+  /**
+   * Evaluates the logic gate node
+   * @param {ASTNode} node The AST node to evaluate
+   */
+  private evaluateLogicGate(node: ASTNode): void {
+    // Check if the data is not null
+    this._current = checkData(this._current);
+
+    // Get the logical operator
+    const operator = node.logicalOperator;
+    if (!operator) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_LOGICAL_OPERATOR, {
+        type: node.type,
+      });
+    }
+
+    switch(operator) {
+      case "AND": {
+        // Check for children
+        const children = node.children;
+        if (!children || children.length === 0) {
+          throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
+            type: node.type,
+          });
+        }
+
+        // Update the current value
+        this.evaluateContext(children[0]);
+        break;
+      }
+      // case "OR": {
+      //   // Check for children
+      //   const children = node.children;
+      //   if (!children || children.length === 0) {
+      //     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
+      //       type: node.type,
+      //     });
+      //   }
+
+      //   // Backup the current value
+      //   const current = this._current;
+
+      //   this.evaluateContext(children[0]);
+
+      //   console.log(current, this._current);
+      //   break;
+      // }
+      default:
+        throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_LOGICAL_OPERATOR, {
+          type: node.type,
+          operator,
+        });
+    }
   }
 
   //==================================FUNCTIONS=====================================
