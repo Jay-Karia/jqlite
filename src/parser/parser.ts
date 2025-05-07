@@ -49,6 +49,9 @@ export class Parser {
         // Expectations for the token
         expectations.property(index);
 
+        // Check for condition
+        const isCondition = context.get("isCondition") ?? false;
+
         // Check for multiple select/omit
         const isMultipleSelect = context.get("multipleSelect") ?? false;
         const isMultipleOmit = context.get("multipleOmit") ?? false;
@@ -59,8 +62,6 @@ export class Parser {
         else if (isMultipleOmit) handleMultipleOmit(token);
         // Add the token to the AST
         else {
-          // Check for condition
-          const isCondition = context.get("isCondition") ?? false;
           // Add the children to condition node
           if (isCondition) {
             const conditionNode = ast.getRecentNode();
@@ -158,9 +159,12 @@ export class Parser {
         const isFunction = context.get("isFunction") ?? false;
         if (isFunction) continue;
 
+        // Check for condition start
+        const isConditionStart = tokens[index - 1].type === TokenType.CONDITION_MARK;
+
         // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
-        if (!isMultipleOmit) context.set("multipleSelect", true);
+        if (!isMultipleOmit && !isConditionStart) context.set("multipleSelect", true);
       }
 
       //===============================RIGHT PARENTHESIS=======================================
