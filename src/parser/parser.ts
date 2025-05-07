@@ -390,8 +390,12 @@ export class Parser {
     const startRange = tokens[index - 1].value;
     const endRange = tokens[index + 1].value;
 
+    // Check for condition
+    const isCondition = context.get("isCondition");
+    const previousNode = isCondition ? ast.getRecentNode() : null;
+
     // Add the token to the AST
-    ast.createArraySliceNode(Number(startRange), Number(endRange));
+    ast.createArraySliceNode(Number(startRange), Number(endRange), previousNode);
 
     return index + incrementIndex(TokenType.SLICE);
   }
