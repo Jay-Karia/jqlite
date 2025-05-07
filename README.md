@@ -97,4 +97,8 @@ $.friends[*].hobbies.#length()
 
 // Comparison Operators
 $.friends[0].age > 20
+
+// Conditions
+$.friends[?(@.age >= 18)]
+$.friends[?(@.country.#contains('IN'))].name
 ```
