@@ -62,10 +62,10 @@ export class Parser {
         else if (isMultipleOmit) handleMultipleOmit(token);
         // Add the token to the AST
         else {
-          // Add the children to condition node
+          // Add the children to previous node
           if (isCondition) {
-            const conditionNode = ast.getRecentNode();
-            ast.createPropertyNode(token.value, null, conditionNode);
+            const previousNode = ast.getRecentNode();
+            ast.createPropertyNode(token.value, null, previousNode);
           } else {
             // Add the token to the AST with parent as the last property node;
             ast.createPropertyNode(token.value);
@@ -106,7 +106,7 @@ export class Parser {
         const isCondition = tokens[index + 1].type === TokenType.CONDITION_MARK;
 
         // Update the context
-        context.set("isCondition", isCondition);
+        if (isCondition) context.set("isCondition", true);
 
         // Expectations for the token
         expectations.leftBracket(index);
@@ -123,8 +123,12 @@ export class Parser {
         // Check for condition
         const isCondition = context.get("isCondition") ?? false;
 
-        // Reset the condition context
-        if (isCondition) context.set("isCondition", false);
+        // Check for array access
+        const isArrayAccess = context.get("isArrayAccess");
+        if (isArrayAccess) context.set("isArrayAccess", false);
+
+        // Reset the condition context when required
+        if (isCondition && !isArrayAccess) context.set("isCondition", false);
       }
 
       //====================================NUMBER=============================================
@@ -146,8 +150,17 @@ export class Parser {
           continue;
         }
 
+        // Check for condition
+        const isCondition = context.get("isCondition");
+
+        // Get the previous node if condition
+        const previousNode = isCondition ? ast.getRecentNode() : null;
+
         // Add the token to AST
-        ast.createArrayAccessNode(Number(token.value));
+        ast.createArrayAccessNode(Number(token.value), previousNode);
+
+        // Update the context
+        context.set("isArrayAccess", true);
       }
 
       //================================LEFT PARENTHESIS=======================================

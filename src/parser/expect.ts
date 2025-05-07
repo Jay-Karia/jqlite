@@ -108,11 +108,7 @@ export class Expectations {
     // Check for condition
     const isCondition = context.get("isCondition") ?? false;
 
-    if (isCondition) {
-      // Expect the next token to be condition mark
-      expect(this._tokens, index + 1, TokenType.CONDITION_MARK);
-    }
-    else {
+    if (!isCondition) {
       // Expect the next token to be number or wildcard or slice
       expectAny(this._tokens, index + 1, [TokenType.NUMBER, TokenType.WILDCARD, TokenType.SLICE]);
     }
@@ -126,11 +122,7 @@ export class Expectations {
     // Check for condition
     const isCondition = context.get("isCondition") ?? false;
 
-    if (isCondition) {
-      // Expect the previous token to be right parenthesis
-      expect(this._tokens, index - 1, TokenType.RIGHT_PARENTHESIS);
-    }
-    else {
+    if (!isCondition) {
       // Expect the previous token to be number or wildcard
       expectAny(this._tokens, index - 1, [TokenType.NUMBER, TokenType.WILDCARD]);
     }
@@ -210,7 +202,15 @@ export class Expectations {
       // Expect the previous token to be function
       expect(this._tokens, index - 1, TokenType.FUNCTION);
     }
-    // Expectations id function is not called
+    // Expectations if condition is called
+    else if (isCondition) {
+      // Expect the previous token to be condition mark
+      expect(this._tokens, index - 1, TokenType.CONDITION_MARK);
+
+      // Expect the second previous token to be left bracket
+      expect(this._tokens, index - 2, TokenType.LEFT_BRACKET);
+    }
+    // Expectations if function is not called
     else if (!isCondition) {
       // Expect the previous token to be dot or not
       expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT]);

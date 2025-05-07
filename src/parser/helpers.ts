@@ -215,6 +215,9 @@ export function handleFunctionCreation(): void {
   // Add the token to the AST with parent as the last property node;
   if (isCondition) ast.createFunctionNode(functionName, functionArgs, functionCategory, previousNode);
   else ast.createFunctionNode(functionName, functionArgs, functionCategory);
+
+  // Reset the context
+  context.set("isFunction", false);
 }
 
 /**

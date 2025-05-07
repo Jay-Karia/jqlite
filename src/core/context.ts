@@ -37,6 +37,7 @@ export class Context {
       isComparison: false,
       comparisonOperator: null,
       isCondition: false,
+      isArrayAccess: false,
     };
   }
 

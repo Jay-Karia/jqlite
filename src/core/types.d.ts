@@ -32,6 +32,7 @@ export interface TContext {
   isComparison: boolean;
   comparisonOperator: ComparisonOperator | null;
   isCondition: boolean;
+  isArrayAccess: boolean;
 }
 export type Keys = keyof TContext;
 
