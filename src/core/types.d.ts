@@ -7,7 +7,7 @@
 
 //=======================================IMPORTS=================================
 
-import type {functionCategories} from "src/functions/types";
+import type { functionCategories, functionNames } from "src/functions/types";
 
 //=======================================TYPES===================================
 
@@ -16,7 +16,7 @@ export interface SliceRange {
   end: number;
 }
 export type SliceType = "left" | "right" | null;
-export type ComparisonOperator = "<" | "<=" | ">" | ">=" | "==" | "!=" ;
+export type ComparisonOperator = "<" | "<=" | ">" | ">=" | "==" | "!=";
 
 export interface TContext {
   fallback: string | null;
@@ -28,6 +28,7 @@ export interface TContext {
   isFunction: boolean;
   functionCategory: functionCategories | null;
   functionArgs: string[];
+  functionName: functionNames | null;
   isComparison: boolean;
   comparisonOperator: ComparisonOperator | null;
   isCondition: boolean;

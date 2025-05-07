@@ -10,7 +10,7 @@
 import { TokenType, type Token } from "src/lexer/tokens";
 import type { functionNames } from "../functions/types";
 import { ast } from "src/ast/ast";
-import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleFunctionArgs, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
+import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleFunctionArgs, handleFunctionCreation, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -189,8 +189,8 @@ export class Parser {
         const omittedKeys = context.get("omittedKeys");
         if (omittedKeys.length > 0) ast.createMultipleOmitNode(omittedKeys);
 
-        // Update the function context
-        if (isFunction) context.set("isFunction", false);
+        // Update the function context and create the node
+        if (isFunction) handleFunctionCreation();
         // Update the context if not function
         else {
           context.set("multipleSelect", false);
@@ -266,6 +266,9 @@ export class Parser {
         // Expectations for the token
         expectations.function(index);
 
+        // Reset the previous function args in context
+        context.set("functionArgs", []);
+
         // Get the function name token
         const functionName = token.value;
 
@@ -274,19 +277,10 @@ export class Parser {
 
         // Get function category
         const functionCategory = getFunctionCategory(validFunctionName);
+        context.set("functionCategory", functionCategory);
 
-        // Get function arguments
-        const functionArgs = context.get("functionArgs") ?? [];
-
-        // Get the previous node
-        const previousNode = ast.getRecentNode();
-
-        // Check for condition
-        const isCondition = context.get("isCondition") ?? false;
-
-        // Add the token to the AST with parent as the last property node;
-        if (isCondition)  ast.createFunctionNode(validFunctionName, functionArgs, functionCategory, previousNode);
-        else ast.createFunctionNode(validFunctionName, functionArgs, functionCategory);
+        // Set the function name in context
+        context.set("functionName", validFunctionName);
       }
 
       //======================================COMPARISON========================================

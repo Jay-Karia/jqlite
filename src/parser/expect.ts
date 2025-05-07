@@ -255,8 +255,11 @@ export class Expectations {
       // Expect the previous token to be argument
       expect(this._tokens, index - 1, TokenType.ARGUMENT);
 
-      // Expect the next token to be argument
-      expect(this._tokens, index + 1, TokenType.ARGUMENT);
+      // Expect the next token to be whitespace
+      expect(this._tokens, index + 1, TokenType.WHITESPACE);
+
+      // Expect the second next token to be argument
+      expect(this._tokens, index + 2, TokenType.ARGUMENT);
     } else {
       // Expect the previous token to be property
       expect(this._tokens, index - 1, TokenType.PROPERTY);
@@ -298,8 +301,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public argument(index: number): void {
-    // Expect the previous token to be left parenthesis or comma
-    expectAny(this._tokens, index - 1, [TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
+    // Expect the previous token to be left parenthesis or whitespace
+    expectAny(this._tokens, index - 1, [TokenType.LEFT_PARENTHESIS, TokenType.WHITESPACE]);
 
     // Expect the next token to be right parenthesis or comma
     expectAny(this._tokens, index + 1, [TokenType.RIGHT_PARENTHESIS, TokenType.COMMA]);

@@ -38,35 +38,36 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
-    console.log(ast.toJSON());
+    // console.log(ast.toJSON());
+    // console.log(context);
 
     // Check the root node
-    // const root = ast.getRootNode();
-    // if (!root) {
-    //   throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
-    //     root,
-    //   });
-    // }
+    const root = ast.getRootNode();
+    if (!root) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
+        root,
+      });
+    }
 
-    // // Get the data from memory
-    // const data = dataStore.get();
-    // if (!data) {
-    //   throw new EvaluatorError(ERROR_MESSAGES.DATA.NO_DATA, {
-    //     data,
-    //   });
-    // }
+    // Get the data from memory
+    const data = dataStore.get();
+    if (!data) {
+      throw new EvaluatorError(ERROR_MESSAGES.DATA.NO_DATA, {
+        data,
+      });
+    }
 
-    // // Set the data in evaluator
-    // evaluator.setData(data);
+    // Set the data in evaluator
+    evaluator.setData(data);
 
-    // // Evaluate the query
-    // evaluator.evaluate(root);
+    // Evaluate the query
+    evaluator.evaluate(root);
 
-    // // Get the query result
-    // this._result = evaluator.getResult();
+    // Get the query result
+    this._result = evaluator.getResult();
 
-    // // Use the callback if given
-    // if (callback) callback(this._result);
+    // Use the callback if given
+    if (callback) callback(this._result);
   }
 
   /**

@@ -4,8 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json")
 
-query.run("$.scores[?((@ >= 100) && (@ <= 150))]");
-// query.print();
-
-// TODO: fix opening and closing of brackets
-// TODO: create AST nodes for logical operators
+query.run("$.friends[*].name[1].#substring(0, 3).#contains('e')");
+query.print();

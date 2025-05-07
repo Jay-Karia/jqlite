@@ -194,6 +194,30 @@ export function handleFunctionArgs(token: Token): void {
 }
 
 /**
+ * Create an AST node for the function
+ */
+export function handleFunctionCreation(): void {
+  // Get the function name
+  const functionName = context.get("functionName") as functionNames;
+
+  // Get the function args
+  const functionArgs = context.get("functionArgs") ?? [];
+
+  // Get the function category
+  const functionCategory = getFunctionCategory(functionName as functionNames);
+
+  // Get the previous node
+  const previousNode = ast.getRecentNode();
+
+  // Check for condition
+  const isCondition = context.get("isCondition") ?? false;
+
+  // Add the token to the AST with parent as the last property node;
+  if (isCondition) ast.createFunctionNode(functionName, functionArgs, functionCategory, previousNode);
+  else ast.createFunctionNode(functionName, functionArgs, functionCategory);
+}
+
+/**
  * Checks if the function name is valid
  * @param {string} functionName The function name to check
  * @returns {functionNames} The function name

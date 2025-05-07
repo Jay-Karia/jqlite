@@ -11,6 +11,7 @@ import {EvaluatorError} from "src/errors/factory";
 import type { SortArgs, SubstringArgs } from "./types";
 import {ERROR_MESSAGES} from "src/errors/messages";
 import {checkQuotes} from "./arguments";
+import {context} from "src/core/context";
 
 //==================================NUMERIC ARRAY=============================
 
@@ -194,7 +195,7 @@ export function lower(str: string): string {
 export function equals(str1: string, str2: string): boolean {
   // Check for single and double quotes
   str2 = checkQuotes(str2);
-  
+
   return str1 === str2;
 }
 
