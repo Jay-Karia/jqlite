@@ -158,10 +158,6 @@ export class Parser {
         const isFunction = context.get("isFunction") ?? false;
         if (isFunction) continue;
 
-        // Check for conditions
-        const isCondition = context.get("isCondition") ?? false;
-        if (isCondition) continue;
-
         // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
         if (!isMultipleOmit) context.set("multipleSelect", true);
@@ -178,16 +174,19 @@ export class Parser {
         // Check for condition
         const isCondition = context.get("isCondition") ?? false;
 
+        // Get previous node if condition is on
+        const previousNode = isCondition ? ast.getRecentNode() : null;
+
         // Throw an error if multiple select/omit is off and not function
         if (!isFunction && !isCondition) checkMultipleSelectAndOmit(token, index);
 
         // Check for selected keys and add it to AST
         const selectedKeys = context.get("selectedKeys");
-        if (selectedKeys.length > 0) ast.createMultipleSelectNode(selectedKeys);
+        if (selectedKeys.length > 0) ast.createMultipleSelectNode(selectedKeys, previousNode);
 
         // Check for omitted keys and add it to AST
         const omittedKeys = context.get("omittedKeys");
-        if (omittedKeys.length > 0) ast.createMultipleOmitNode(omittedKeys);
+        if (omittedKeys.length > 0) ast.createMultipleOmitNode(omittedKeys, previousNode);
 
         // Update the function context and create the node
         if (isFunction) handleFunctionCreation();
@@ -205,7 +204,7 @@ export class Parser {
         // Expectations for the token
         expectations.comma(index);
 
-        // Check for function
+        // Check for function and condition
         const ifFunction = context.get("isFunction") ?? false;
         if (ifFunction) continue;
 

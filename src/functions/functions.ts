@@ -5,13 +5,12 @@
 
 "use strict";
 
-import {EvaluatorError} from "src/errors/factory";
 //=====================================IMPORTS===================================
 
 import type { SortArgs, SubstringArgs } from "./types";
-import {ERROR_MESSAGES} from "src/errors/messages";
-import {checkQuotes} from "./arguments";
-import {context} from "src/core/context";
+import { ERROR_MESSAGES } from "src/errors/messages";
+import { EvaluatorError } from "src/errors/factory";
+import { checkQuotes } from "./arguments";
 
 //==================================NUMERIC ARRAY=============================
 
@@ -85,18 +84,18 @@ export function sort(arr: unknown[], type: SortArgs): unknown[] {
     let compareResult: number;
 
     // Both null/undefined
-    if ((a == null) && (b == null)) return 0;
+    if (a == null && b == null) return 0;
 
     // One is null/undefined
     if (a == null) return -1;
     if (b == null) return 1;
 
     // Compare based on types
-    if (typeof a === 'number' && typeof b === 'number') {
+    if (typeof a === "number" && typeof b === "number") {
       compareResult = a - b;
-    } else if (typeof a === 'string' && typeof b === 'string') {
+    } else if (typeof a === "string" && typeof b === "string") {
       compareResult = a.localeCompare(b);
-    } else if (typeof a === 'boolean' && typeof b === 'boolean') {
+    } else if (typeof a === "boolean" && typeof b === "boolean") {
       compareResult = a === b ? 0 : a ? 1 : -1;
     } else {
       // Convert to string for comparison when types don't match
@@ -104,7 +103,7 @@ export function sort(arr: unknown[], type: SortArgs): unknown[] {
     }
 
     // Apply sort direction
-    return type === 'asc' ? compareResult : -compareResult;
+    return type === "asc" ? compareResult : -compareResult;
   });
 }
 
