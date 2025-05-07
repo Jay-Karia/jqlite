@@ -336,12 +336,24 @@ export class Parser {
       else if (token.type === TokenType.AND) {
         // Expectations for the token
         expectations.logicGate(index);
+
+        // Get the condition node
+        const conditionNode = ast.getConditionNode();
+
+        // Create the AST node
+        ast.createLogicalNode("AND", conditionNode);
       }
 
       //=========================================OR=============================================
       else if (token.type === TokenType.OR) {
         // Expectations for the token
         expectations.logicGate(index);
+
+        // Get the condition node
+        const conditionNode = ast.getConditionNode();
+
+        // Create the AST node
+        ast.createLogicalNode("OR", conditionNode);
       }
 
       //======================================UNKNOWN===========================================

@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json")
 
-query.run("$.friends[?(@.hobbies[1].#equals('gaming'))]");
+query.run("$.scores[?( ((@ > 80) && (@ < 100)) || (@ >= 120) )]");
 query.print();

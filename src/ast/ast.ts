@@ -23,6 +23,7 @@ import { addSpecificKeys, checkRoot, updateParent } from "./helpers";
 export class AST {
   private _root: RootNode | null;
   private _recentNode: ASTNode | null;
+  private _conditionNode: ASTNode | null;
 
   /**
    * Creates an instance of the AST class with a root node.
@@ -30,6 +31,7 @@ export class AST {
   constructor() {
     this._root = null;
     this._recentNode = null;
+    this._conditionNode = null;
   }
 
   //====================================INSERTION==================================
@@ -328,8 +330,9 @@ export class AST {
     // Update the parent
     updateParent(conditionNode, this._root, parent);
 
-    // Update the recent node
+    // Update the recent and condition node
     this._recentNode = conditionNode;
+    this._conditionNode = conditionNode;
 
     return conditionNode;
   }
@@ -355,6 +358,31 @@ export class AST {
     this._recentNode = contextNode;
 
     return contextNode;
+  }
+
+  /**
+   * Create a logical node.
+   * @param {string} logicalOperator - The logical operator.
+   * @param {ASTNode | null} parent - The parent node to set.
+   * @returns {ASTNode} The created logical node.
+   */
+  public createLogicalNode(logicalOperator: string, parent?: ASTNode | null): ASTNode {
+    // Check if the root node is empty
+    this._root = checkRoot(this._root);
+
+    const logicalNode: ASTNode = {
+      type: "Logical",
+      parent: parent ?? this._root,
+      logicalOperator,
+    };
+
+    // Update the parent
+    updateParent(logicalNode, this._root, parent);
+
+    // Update the recent node
+    this._recentNode = logicalNode;
+
+    return logicalNode;
   }
 
   //===================================TRAVERSAL=====================================
@@ -454,6 +482,14 @@ export class AST {
    */
   public getRecentNode(): ASTNode | null {
     return this._recentNode;
+  }
+
+  /**
+   * Get the condition node of the AST.
+   * @returns {ASTNode | null} - Returns the condition node of the AST.
+   */
+  public getConditionNode(): ASTNode | null {
+    return this._conditionNode;
   }
 }
 

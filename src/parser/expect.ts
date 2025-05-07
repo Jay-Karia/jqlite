@@ -194,6 +194,9 @@ export class Expectations {
     // Check for condition
     const isCondition = context.get("isCondition") ?? false;
 
+    // Check for condition start
+    const isConditionStart = isCondition && this._tokens[index - 1].type === TokenType.CONDITION_MARK;
+
     // Expectations if function is called
     if (isFunction) {
       // Expect the next token to be right parenthesis or argument
@@ -203,7 +206,7 @@ export class Expectations {
       expect(this._tokens, index - 1, TokenType.FUNCTION);
     }
     // Expectations if condition is called
-    else if (isCondition) {
+    else if (isConditionStart) {
       // Expect the previous token to be condition mark
       expect(this._tokens, index - 1, TokenType.CONDITION_MARK);
 
