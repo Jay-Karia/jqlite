@@ -28,6 +28,8 @@ export class Evaluator {
 
   public _current: unknown;
   public _fallback: string | null;
+  private _saveContextData: boolean;
+  private _savedContextData: unknown | null;
 
   //===================================CONSTRUCTOR==================================
 
@@ -37,6 +39,8 @@ export class Evaluator {
   constructor() {
     this._current = null;
     this._fallback = null;
+    this._saveContextData = false;
+    this._savedContextData = null;
   }
 
   //===================================METHODS=====================================
@@ -511,6 +515,10 @@ export class Evaluator {
       });
     }
 
+    // Check for OR node in children
+    const orNode = children.find(child => child.type === "Logical" && child.logicalOperator === "OR");
+    if (orNode) this._saveContextData = true;
+
     // Evaluate children if any
     evaluateChildren(node);
   }
@@ -520,6 +528,10 @@ export class Evaluator {
    * @param {ASTNode} node The AST node to evaluate
    */
   private evaluateContext(node: ASTNode): void {
+    // Check for saved context data
+    if (this._saveContextData && this._savedContextData)
+      this._current = this._savedContextData;
+
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -542,6 +554,9 @@ export class Evaluator {
         type: node.type,
       });
     }
+
+    // Backup the current value
+    const current = this._current;
 
     // Result for array format
     const result: unknown[] = [];
@@ -568,6 +583,8 @@ export class Evaluator {
       }
     });
 
+    // Save the data is required
+    if (this._saveContextData) this._savedContextData = current;
     this._current = format === "array" ? result : objResult;
   }
 
@@ -601,23 +618,30 @@ export class Evaluator {
         this.evaluateContext(children[0]);
         break;
       }
-      // case "OR": {
-      //   // Check for children
-      //   const children = node.children;
-      //   if (!children || children.length === 0) {
-      //     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
-      //       type: node.type,
-      //     });
-      //   }
+      case "OR": {
+        // Check for children
+        const children = node.children;
+        if (!children || children.length === 0) {
+          throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
+            type: node.type,
+          });
+        }
 
-      //   // Backup the current value
-      //   const current = this._current;
+        // Check for array
+        if (!Array.isArray(this._current)) {
+          throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
+            type: node.type,
+          });
+        }
 
-      //   this.evaluateContext(children[0]);
+        // Backup the current value
+        const current = this._current;
 
-      //   console.log(current, this._current);
-      //   break;
-      // }
+        // Concat the two arrays
+        this.evaluateContext(children[0]);
+        this._current = this._current.concat(current);
+        break;
+      }
       default:
         throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_LOGICAL_OPERATOR, {
           type: node.type,
