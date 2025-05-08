@@ -17,8 +17,8 @@ export default defineConfig({
       { icon: "github", link: "https://github.com/Jay-Karia/jqlite" },
     ],
     sidebar: [
-      { text: "Introduction", link: "/introduction" },
       { text: "Get Started", link: "/get-started" },
+      { text: "API Reference", link: "/api" },
     ],
   },
 })
