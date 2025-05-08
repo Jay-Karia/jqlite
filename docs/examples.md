@@ -7,8 +7,3 @@ import { data } from "jqlite-ts"
 
 data.load("./public/demo.json");
 ```
-
-**Get the `id` of all the products**
-```
-$.
-```

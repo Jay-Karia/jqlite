@@ -1,5 +1,11 @@
 # API Reference
 
+| Component | Description |
+| --------- | ----------- |
+| `data`    | Defines the data source for the query. |
+| `config`  | Defines the configuration for the query. |
+| `query`   | Defines the query to be executed on the data. |
+
 ### **`data`**
 The `data` component is used to define the data source for the query.
 
