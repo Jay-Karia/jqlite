@@ -55,10 +55,25 @@ query.run("$.users[?(@.age >= 25)]")
 */
 query.run("$.users[?(@.age >= 25)].name") // ["John", "Jane"]
 
+// Logical Conditions
+query.run("$.users[?((@.age > 25) && (@.name.#equals('Jane')))]")
+/*
+[
+  {
+    "name": "Jane",
+    "age": 30
+  }
+]
+*/
+
 // Using unknown key
 query.run("$.users[?(@.unknownKey)]") // Error
 ```
 
 :::tip
 Use `conditionFormat: "array" | "object"` config key to specify the return type of the condition. By default, it is set to `array`.
+:::
+
+:::danger
+While using logical operators (`&&` and `||`), make the sure to use parentheses `()` to group the conditions. Otherwise, it will throw an error.
 :::
