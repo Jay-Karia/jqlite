@@ -32,6 +32,7 @@ export default defineConfig({
           { text: "Comparison Operators", link: "/comparison" },
           { text: "Conditions", link: "/conditions" },
         ],
+        collapsed: false,
       },
       { text: "Configurations", link: "/config" },
       { text: "Errors", link: "/errors" },
