@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json")
 
-query.run("$.scores[?( (@ > 150) || (@ < 100) )]");
+query.run("$.friends[?(@.non >= 18)]");
 query.print();

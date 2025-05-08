@@ -33,6 +33,7 @@
 - **Single Key Omission**
 - **Functions**
 - **Comparison Operators**
+- **Conditions**
 - **Configurable**
 
 ### 📦 Installation

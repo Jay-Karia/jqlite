@@ -12,8 +12,8 @@ export type ConfigType = {
   fetchUrl: string | null;
   fallback: string | null;
   quotedArguments: boolean;
-  arrayConditionFormat: "array" | "object";
-  
+  conditionFormat: "array" | "object";
+
 };
 export type OverrideConfigType = Partial<ConfigType>;
 
