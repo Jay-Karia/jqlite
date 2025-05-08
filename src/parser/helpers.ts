@@ -250,3 +250,57 @@ export function getFunctionCategory(functionName: functionNames): functionCatego
   const functionCategory = functionCategoryMap[functionName as functionNames];
   return functionCategory;
 }
+
+/**
+ * Checks if the brackets are matching
+ * @param {Token} token The token to check
+ * @param {number} index The index of the token
+ * @param {number} openBracket The number of open brackets
+ */
+export function handleBracketMismatch(token: Token, index: number, openBracket: number): void {
+  // CLosing bracket
+  if (openBracket > 0) {
+    throw new ParserError(ERROR_MESSAGES.PARSER.BRACKET_MISMATCH, {
+      token: token.value,
+      index,
+      openBracket,
+      expected: "]",
+    });
+  }
+  // Opening bracket
+  else if (openBracket < 0) {
+    throw new ParserError(ERROR_MESSAGES.PARSER.BRACKET_MISMATCH, {
+      token: token.value,
+      index,
+      openBracket,
+      expected: "[",
+    });
+  }
+}
+
+/**
+ * Checks if the parenthesis are matching
+ * @param {Token} token The token to check
+ * @param {number} index The index of the token
+ * @param {number} openParen The number of open parenthesis
+ */
+export function handleParenthesisMismatch(token: Token, index: number, openParen: number): void {
+  // Closing parenthesis
+  if (openParen > 0) {
+    throw new ParserError(ERROR_MESSAGES.PARSER.PARENTHESIS_MISMATCH, {
+      token: token.value,
+      index,
+      openParen,
+      expected: ")",
+    });
+  }
+  // Opening parenthesis
+  else if (openParen < 0) {
+    throw new ParserError(ERROR_MESSAGES.PARSER.PARENTHESIS_MISMATCH, {
+      token: token.value,
+      index,
+      openParen,
+      expected: "(",
+    });
+  }
+}

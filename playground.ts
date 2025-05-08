@@ -6,5 +6,3 @@ data.load("./data/sample.json")
 
 query.run("$.scores[?( (@ > 150) || (@ < 100) )]");
 query.print();
-
-// TODO: condition groups

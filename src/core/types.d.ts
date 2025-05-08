@@ -33,7 +33,8 @@ export interface TContext {
   comparisonOperator: ComparisonOperator | null;
   isCondition: boolean;
   isArrayAccess: boolean;
-}
+  openParen: number;
+  openBracket: number;
 export type Keys = keyof TContext;
 
 //===============================================================================

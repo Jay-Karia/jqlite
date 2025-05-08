@@ -343,8 +343,8 @@ export class Expectations {
    * @param {number} index The index of the token
    */
   public context(index: number): void {
-    // Expect the previous token to be a dot or not or left parenthesis or comma
-    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA]);
+    // Expect the previous token to be a dot or not or left parenthesis or comma or whitespace
+    expectAny(this._tokens, index - 1, [TokenType.DOT, TokenType.NOT, TokenType.LEFT_PARENTHESIS, TokenType.COMMA, TokenType.WHITESPACE]);
   }
 
   /**

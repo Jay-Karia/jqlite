@@ -10,7 +10,7 @@
 import { TokenType, type Token } from "src/lexer/tokens";
 import type { functionNames } from "../functions/types";
 import { ast } from "src/ast/ast";
-import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleFunctionArgs, handleFunctionCreation, handleMultipleOmit, handleMultipleSelect, incrementIndex } from "./helpers";
+import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleBracketMismatch, handleFunctionArgs, handleFunctionCreation, handleMultipleOmit, handleMultipleSelect, handleParenthesisMismatch, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -113,6 +113,10 @@ export class Parser {
 
         // Create the condition node
         if (isCondition) ast.createConditionNode();
+
+        // Update the context
+        const openBracket = context.get("openBracket") ?? 0;
+        context.set("openBracket", openBracket + 1);
       }
 
       //================================RIGHT BRACKET==========================================
@@ -129,6 +133,10 @@ export class Parser {
 
         // Reset the condition context when required
         if (isCondition && !isArrayAccess) context.set("isCondition", false);
+
+        // Update the context
+        const openBracket = context.get("openBracket") ?? 0;
+        context.set("openBracket", openBracket - 1);
       }
 
       //====================================NUMBER=============================================
@@ -178,6 +186,10 @@ export class Parser {
         // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
         if (!isMultipleOmit && !isConditionStart) context.set("multipleSelect", true);
+
+        // Update the context
+        const openParen = context.get("openParen") ?? 0;
+        context.set("openParen", openParen + 1);
       }
 
       //===============================RIGHT PARENTHESIS=======================================
@@ -214,6 +226,10 @@ export class Parser {
           context.set("multipleOmit", false);
           context.set("omittedKeys", []);
         }
+
+        // Update the context
+        const openParen = context.get("openParen") ?? 0;
+        context.set("openParen", openParen - 1);
       }
 
       //======================================COMMA============================================
@@ -377,6 +393,14 @@ export class Parser {
             expected: ")",
           });
         }
+
+        // Check for number of open brackets and parentheses
+        const openBracket = context.get("openBracket") ?? 0;
+        const openParen = context.get("openParen") ?? 0;
+
+        // Handle the mismatch
+        handleBracketMismatch(token, index, openBracket);
+        handleParenthesisMismatch(token, index, openParen);
       }
 
       //========================================================================================

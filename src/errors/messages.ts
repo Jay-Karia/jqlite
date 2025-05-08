@@ -172,7 +172,19 @@ export const ERROR_MESSAGES = {
       code: "UNKNOWN_TOKEN",
       cause: "Unrecognized token used",
       solution: "Use a valid token",
-    }
+    } as ErrorParams,
+    BRACKET_MISMATCH: {
+      message: "Bracket mismatch",
+      code: "BRACKET_MISMATCH",
+      cause: "The brackets are not matching",
+      solution: "Make sure the brackets are matching",
+    } as ErrorParams,
+    PARENTHESIS_MISMATCH: {
+      message: "Parenthesis mismatch",
+      code: "PARENTHESIS_MISMATCH",
+      cause: "The parenthesis are not matching",
+      solution: "Make sure the parenthesis are matching",
+    } as ErrorParams,
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {

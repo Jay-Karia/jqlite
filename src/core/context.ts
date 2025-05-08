@@ -38,6 +38,8 @@ export class Context {
       comparisonOperator: null,
       isCondition: false,
       isArrayAccess: false,
+      openBracket: 0,
+      openParen: 0,
     };
   }
 
