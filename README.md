@@ -67,7 +67,7 @@ query.run("$.friends[*].(name, age)", (result) => {
 
 ```
 
-### 📌 Examples
+### 📌 Overview
 
 ```js
 // Basic Selection
