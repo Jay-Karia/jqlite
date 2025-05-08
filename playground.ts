@@ -2,7 +2,7 @@
 
 import { config, data, query } from "./src/index";
 
-data.load("./data/demo.json")
+data.load("./data/sample.json")
 
-query.run("$.orders[?(@.status.#equals('delivered'))][*].items");
+query.run("$.friends[*].(name, age)");
 query.print();

@@ -20,7 +20,12 @@ You can set the fallback value in the `config` object as well. The fallback valu
 
 **Queries**
 ```ts
-query.run("$.favorites.game ?? 'No favorite game'") // "No favorite game"
+query.run("$.favorites.game ?? 'No favorite game'")
+/*
+ {
+   __fallback__: 'No favorite game',
+ }
+*/
 query.run("$.favorites.color ?? 'No favorite color'") // "blue"
 query.run("$.favorites.place ?? 'No favorite place'") // null
 ```

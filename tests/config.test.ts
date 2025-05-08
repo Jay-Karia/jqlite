@@ -12,6 +12,7 @@ import { config } from "../src/index";
 import { DEFAULT_CONFIG } from "../src/config/defaults";
 import { unlinkSync, writeFileSync } from "fs";
 import { overrideConfig } from "../src/config/utils";
+import {ConfigType} from "../src/config/types";
 
 //=============================================================================
 
@@ -71,11 +72,12 @@ describe("ConfigManager", () => {
 
   test("print()", () => {
     // Initialize
-    const newConfig = {
+    const newConfig: ConfigType = {
       loadFile: "./test.json",
       fetchUrl: "https://example.com/test.json",
       quotedArguments: true,
       fallback: "no data",
+      conditionFormat: "array",
     };
 
     config.set(newConfig);

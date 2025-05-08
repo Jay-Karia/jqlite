@@ -20,6 +20,10 @@ describe("Syntax", () => {
       "$.friends[0].name",
       "$.friends[-1]",
       "$.friends[0][1]",
+      "$.friends[0][1].name",
+      "$.friends[0][1].name[0]",
+      "$.games.favorite ?? No favorite game",
+      "$.friends[*].name"
     ]
 
     validQueries.forEach((queryString) => {
@@ -36,6 +40,7 @@ describe("Syntax", () => {
       "$.me.[age]",
       "$.me.[1",
       "$.me.name.[1]",
+      ".friends[]"
     ]
     invalidQueries.forEach((queryString) => {
       expect(() => {
