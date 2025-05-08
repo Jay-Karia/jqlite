@@ -176,6 +176,10 @@ export class Parser {
         // Expectations for the token
         expectations.leftParenthesis(index);
 
+        // Update the context
+        const openParen = context.get("openParen") ?? 0;
+        context.set("openParen", openParen + 1);
+
         // Check for function declaration
         const isFunction = context.get("isFunction") ?? false;
         if (isFunction) continue;
@@ -186,10 +190,6 @@ export class Parser {
         // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
         if (!isMultipleOmit && !isConditionStart) context.set("multipleSelect", true);
-
-        // Update the context
-        const openParen = context.get("openParen") ?? 0;
-        context.set("openParen", openParen + 1);
       }
 
       //===============================RIGHT PARENTHESIS=======================================
