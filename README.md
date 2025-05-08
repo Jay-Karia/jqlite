@@ -19,7 +19,7 @@
 - **Wildcard support**
 - **Array Slices**
 - **Multiple Key Selection**
-- **Multiple Key Omission**
+- **Key Omission**
 - **Single Key Omission**
 - **Functions**
 - **Comparison Operators**
