@@ -566,7 +566,7 @@ export class Evaluator {
     let objResult: Record<string, unknown> = {};
 
     // Get the data format from config
-    const format = configStore.get().arrayConditionFormat;
+    const format = configStore.get().conditionFormat;
 
     // Iterate over all the values in array
     this._current.forEach(elem => {
