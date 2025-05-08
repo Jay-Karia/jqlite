@@ -35,7 +35,6 @@ export default defineConfig({
         collapsed: false,
       },
       { text: "Configurations", link: "/config" },
-      { text: "Errors", link: "/errors" },
     ],
   },
 });
