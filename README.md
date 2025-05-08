@@ -12,16 +12,6 @@
 
 ---
 
-<table align="center">
-  <tr>
-    <td align="center">
-      <strong>🚀 Coming Soon!</strong><br>
-    </td>
-  </tr>
-</table>
-
----
-
 ### 🌟 Features
 
 - **Basic query selection**
