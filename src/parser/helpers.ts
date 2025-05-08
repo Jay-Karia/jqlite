@@ -87,7 +87,6 @@ export function incrementIndex(token: TokenType): number {
       index = 1;
       break;
     case "Number":
-    case "Wildcard":
     case "Slice":
       index = 2;
       break;

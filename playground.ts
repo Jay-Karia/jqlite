@@ -2,7 +2,7 @@
 
 import { config, data, query } from "./src/index";
 
-data.load("./data/sample.json")
+data.load("./data/demo.json")
 
-query.run("$.friends[?(@.non >= 18)]");
+query.run("$.products[*].id");
 query.print();

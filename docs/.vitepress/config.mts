@@ -17,6 +17,7 @@ export default defineConfig({
     sidebar: [
       { text: "Get Started", link: "/get-started" },
       { text: "API Reference", link: "/api" },
+      { text: "Examples", link: "/examples" },
       {
         base: "features",
         text: "Features",
@@ -32,6 +33,8 @@ export default defineConfig({
           { text: "Conditions", link: "/conditions" },
         ],
       },
+      { text: "Configurations", link: "/config" },
+      { text: "Errors", link: "/errors" },
     ],
   },
 });
