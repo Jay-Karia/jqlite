@@ -7,14 +7,14 @@ Slices works similar to the `Array.prototype.slice()`.
 See [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice) for more info
 :::
 
-**Sample Data**
+### Sample Data
 ```json
 {
   "array": [1, 2, 3, 4, 5]
 }
 ```
 
-**Queries**
+### Queries
 ```ts
 // Select first 3 items
 query.run("$.array[:3]") // [1, 2, 3]

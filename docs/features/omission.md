@@ -2,7 +2,7 @@
 
 This feature allows you to omit single/multiple keys from an object using a single query.
 
-**Sample Data**
+### Sample Data
 ```json
 {
   "name": "John Doe",
@@ -12,7 +12,7 @@ This feature allows you to omit single/multiple keys from an object using a sing
 }
 ```
 
-**Queries**
+### Queries
 ```ts
 // Omit single key
 query.run("$.!gender")

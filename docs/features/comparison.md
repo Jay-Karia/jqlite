@@ -16,7 +16,7 @@ The comparing value should be a `number`. For string literals, you can use the `
 | `<`      | Less than   |
 | `<=`     | Less than or equal to |
 
-**Sample Data**
+### Sample Data
 ```json
 {
   "age": 25,
@@ -24,7 +24,7 @@ The comparing value should be a `number`. For string literals, you can use the `
 }
 ```
 
-**Queries**
+### Queries
 ```ts
 // Check if age is greater than 18
 query.run("$.age > 18") // true

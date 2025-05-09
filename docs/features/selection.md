@@ -2,7 +2,7 @@
 
 This features allows you to select multiple keys from an object using a single query.
 
-**Sample Data**
+### Sample Data
 ```json
 {
   "name": "John Doe",
@@ -11,7 +11,7 @@ This features allows you to select multiple keys from an object using a single q
 }
 ```
 
-**Queries**
+### Queries
 ```ts
 query.run("$.(name, age)") // { name: "John Doe", age: 30 }
 query.run("$.(name, address)") // Error

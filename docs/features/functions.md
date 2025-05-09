@@ -25,7 +25,7 @@ The built-in functions are available to perform some of the common tasks.
 | `lower`      | String            | String            | Lowercase the string | none |
 | `equals`     | String            | Boolean | Returns true if the two strings are equal | `String` |
 
-**Sample Data**
+### Sample Data
 
 ```json
 {
@@ -35,7 +35,7 @@ The built-in functions are available to perform some of the common tasks.
 }
 ```
 
-**Queries**
+### Queries
 ```ts
 // Get the minimum value from the numbers array
 query.run("$.numbers.#min()") // 1

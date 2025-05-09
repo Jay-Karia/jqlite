@@ -6,7 +6,7 @@ The fallback feature allows you to specify a default value to be returned when a
 You can set the fallback value in the `config` object as well. The fallback value in the query will have a higher priority.
 :::
 
-**Sample Data**
+### Sample Data
 ```json
 {
   "name": "John",
@@ -18,7 +18,7 @@ You can set the fallback value in the `config` object as well. The fallback valu
 }
 ```
 
-**Queries**
+### Queries
 ```ts
 query.run("$.favorites.game ?? 'No favorite game'")
 /*

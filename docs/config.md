@@ -1,5 +1,9 @@
 # Configurations
 
+:::info
+It will check for `jqlite.json` file in the root folder. If it exists, it will be used to override the default config.
+:::
+
 **Options**
 | Option | Description | Type | Default |
 | ------ | ----------- | ---- | ------- |
@@ -9,19 +13,19 @@
 | `quotedArguments` | Specify whether to use quotes in string arguments | `boolean` | `true` |
 | `conditionFormat` | The return format from conditions | `"array", "object"` | `"array"` |
 
-**`loadFile`**
+## `loadFile`
 
 Used when no argument is passed in [`data.load()`](/api#load) function, file path specified in the config will be used.
 
 If path is neither specified in config nor in function, it will throw an error.
 
-**`fetchUrl`**
+## `fetchUrl`
 
 Used when no argument is passed in [`data.fetch()`](/api#fetch) function, url specified in the config will be used.
 
 If url is neither specified in config nor in function, it will throw an error.
 
-**`fallback`**
+## `fallback`
 
 If the key is not found in the json file, the fallback value will be used.
 
@@ -29,7 +33,7 @@ If the key is not found in the json file, the fallback value will be used.
 The fallback value provided in query has higher priority, and will overwrite the fallback value from config.
 :::
 
-**`quotedArguments`**
+## `quotedArguments`
 
 Specifies whether to use quotes in string arguments.
 
@@ -45,7 +49,7 @@ query.run("$.user.name.#contains(a)") // Invalid (throws error)
 query.run("$.user.name.#contains('a')") // Valid
 ```
 
-**`conditionFormat`**
+## `conditionFormat`
 
 Specifies the return format from conditions.
 

@@ -6,11 +6,11 @@ This features allows to filter out array elements based on the specified conditi
 It only works on arrays
 :::
 
-**`@` Context**
+### **`@` Context**
 
 The `@` context is used to refer to the each and every element in the array. It can be used in the condition to filter out the elements.
 
-**Sample Data**
+### Sample Data
 
 ```json
 {
@@ -31,7 +31,7 @@ The `@` context is used to refer to the each and every element in the array. It 
 }
 ```
 
-**Queries**
+### Queries
 
 ```ts
 // Get all users whose age is greater than 25

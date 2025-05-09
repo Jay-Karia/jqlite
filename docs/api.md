@@ -6,17 +6,19 @@
 | `config`  | Defines the configuration for the query. |
 | `query`   | Defines the query to be executed on the data. |
 
-### **`data`**
+## `data`
 The `data` component is used to define the data source for the query.
 
-#### `get`
+`get`
+
 This method retrieves the current data source.
 
 ```ts
 data.get()
 ```
 
-#### `set`
+`set`
+
 
 This method sets the data source for the query.
 ```ts
@@ -28,28 +30,32 @@ data.set({
 
 ```
 
-#### `clear`
+`clear`
+
 
 This method clears the current data source.
 ```ts
 data.clear()
 ```
 
-#### `print`
+`print`
+
 
 This method prints the current data source to the console.
 ```ts
 data.print()
 ```
 
-#### `load`
+`load`
+
 
 This method loads data from a file.
 ```ts
 data.load('path/to/file.json')
 ```
 
-#### `fetch`
+`fetch`
+
 This method fetches data from a URL.
 
 ```ts
@@ -58,17 +64,19 @@ data.fetch('https://api.example.com/data')
 
 ---
 
-### **`config`**
+## `config`
 The `config` component is used to define the configuration for the query.
 
-#### `get`
+`get`
+
 This method retrieves the current configuration.
 
 ```ts
 config.get()
 ```
 
-#### `set`
+`set`
+
 This method sets the configuration for the query.
 
 ```ts
@@ -78,21 +86,24 @@ config.set({
 })
 ```
 
-#### `clear`
+`clear`
+
 This method clears the current configuration.
 
 ```ts
 config.clear()
 ```
 
-#### `print`
+`print`
+
 This method prints the current configuration to the console.
 
 ```ts
 config.print()
 ```
 
-#### `load`
+`load`
+
 This method loads configuration from a file.
 
 ```ts
@@ -101,11 +112,12 @@ config.load('path/to/config.json')
 
 ---
 
-### **`query`**
+## `query`
 
 The `query` component is used to define the query to be executed on the data.
 
-#### `run`
+`run`
+
 This method runs the query on the data.
 
 ```ts
@@ -114,21 +126,24 @@ query.run("$.friends[?(@.age >= 18)]", (result) => {
 })
 ```
 
-#### `print`
+`print`
+
 This method prints the current query to the console.
 
 ```ts
 query.print()
 ```
 
-#### `validate`
+`validate`
+
 This method validates the current query.
 
 ```ts
 query.validate("$.friends[?(@.age >= 18)]")
 ```
 
-#### `result`
+`result`
+
 This method retrieves the result of the last executed query.
 
 ```ts

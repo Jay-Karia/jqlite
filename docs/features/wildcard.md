@@ -6,7 +6,7 @@ This feature allows you to select all the keys inside an array.
 The key used should be an **array of objects**
 :::
 
-**Sample Data**
+### Sample Data
 ```json
 {
   "friends": [
@@ -29,7 +29,7 @@ The key used should be an **array of objects**
 }
 ```
 
-**Queries**
+### Queries
 ```ts
 query.run("$.friends[*]")
 /*
