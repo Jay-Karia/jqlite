@@ -9,7 +9,7 @@ next:
 
 # Array Slices
 
-This features allows you to select array items from a specified range.
+This features allows you to select array items with a specified range.
 
 :::info
 Slices works similar to the `Array.prototype.slice()`.

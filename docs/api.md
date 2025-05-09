@@ -2,7 +2,7 @@
 
 | Component | Description |
 | --------- | ----------- |
-| `data`    | Define the data source for the query. |
+| `data`    | Define the data for the query. |
 | `config`  | Define the configuration for the query. |
 | `query`   | Define the query to be executed on the data. |
 
@@ -10,7 +10,7 @@
 
 `get`
 
-Retrieve the current data source.
+Retrieve the current data.
 
 **Returns**: `Record<string, unknown> | unknown[]` - The current data object
 
@@ -20,7 +20,7 @@ data.get()
 
 `set`
 
-Set the data source for the query.
+Set the data for the query.
 
 **Parameters**:
  - jsonData: `Record<string, unknown> | unknown[]` - The data object to use
@@ -37,7 +37,7 @@ data.set({
 
 `clear`
 
-Clear the current data source.
+Clear the current data.
 
 **Returns**: `void`
 
@@ -47,7 +47,7 @@ data.clear()
 
 `print`
 
-Print the current data source to the console.
+Print the current data to the console.
 
 **Returns**: `void`
 
@@ -78,7 +78,7 @@ Fetch data from a URL.
 **Returns**: `object` - The JSON object
 
 ```ts
-data.fetch('https://api.example.com/data')
+await data.fetch('https://api.example.com/data')
 ```
 
 ---
@@ -97,7 +97,7 @@ config.get()
 
 `set`
 
-Set the configuration for the query.
+Override the configuration for the query.
 
 **Parameters**:
  - config: `object` - The config object to override
@@ -113,7 +113,7 @@ config.set({
 
 `load`
 
-load configuration from a JSON file.
+Load configuration from a JSON file.
 
 **Parameters**:
  - filePath: `string` - The config file path
@@ -166,7 +166,7 @@ query.run("$.friends[?(@.age >= 18)]", (result) => {
 
 `print`
 
-Prints the last executed query result to the console.
+Print the last executed query result to the console.
 
 **Returns**: `void`
 
@@ -176,7 +176,7 @@ query.print()
 
 `validate`
 
-Validate the current query.
+Validate the given query.
 
 **Parameters**:
  - query: `string` - The query string to validate

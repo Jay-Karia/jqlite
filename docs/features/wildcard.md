@@ -62,5 +62,5 @@ query.run("$.scores[*]") // Error
 ```
 
 :::info
-Note that the missing key `hobbies` in the second object is returned as an empty array.
+Note that the missing key: `hobbies` in the second object is returned as an empty array.
 :::

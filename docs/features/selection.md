@@ -9,10 +9,10 @@ next:
 
 # Multiple Key Selection
 
-This features allows you to select multiple keys from an object using a single query.
+This features allows you to select multiple keys from an object.
 
 ## Parenthesis
-Use parenthesis `()` to groups property names inside.
+Use parenthesis `()` to group property names inside.
 
 `$.(users, employees)`
 

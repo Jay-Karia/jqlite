@@ -9,7 +9,7 @@ next:
 
 # Key Omission
 
-This feature allows you to omit single/multiple keys from an object using a single query.
+This feature allows you to omit single/multiple keys from an object.
 
 ## Not
 The not token `!` is used to omit a single key.

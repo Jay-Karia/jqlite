@@ -11,10 +11,6 @@ next:
 
 This feature allows you to compare two values using various operators.
 
-:::warning
-The comparing value should be a `number`.
-:::
-
 **Available Operators**
 | Operator | Description |
 | -------- | ----------- |
@@ -26,7 +22,7 @@ The comparing value should be a `number`.
 | `<=`     | Less than or equal to |
 
 :::info
-The syntax works similar to [fall mark](/features/fallback#fall-mark), the comparison is always the last operation.
+The syntax works similar to [fall mark](/features/fallback#fall-mark), comparison is always the last operation.
 :::
 
 ---
@@ -47,3 +43,7 @@ query.run("$.age > 18") // true
 // Check if height is less than or equal to 150
 query.run("$.height <= 150") // false
 ```
+
+:::warning
+The comparing value should be a `number`.
+:::

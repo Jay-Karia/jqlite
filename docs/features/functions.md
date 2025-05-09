@@ -15,7 +15,7 @@ The built-in functions are available to perform some of the common tasks.
 `quotedArguments` config option is used to specify whether the `string` arguments should be quoted or not. By default, it is set to `true`.
 :::
 
-## Hashtag
+## Declaration
 The hashtag token `#` is used as function declaration.
 
 `$.products[0].reviews.#avg()`
@@ -31,18 +31,14 @@ Be careful with the spacing between the arguments.
 
 ---
 
-:::info
-**Category** is the type of input that the function accepts
-:::
-
-**Built-in Functions**
+## Built-in Functions
 
 | Name       | Category          | Returns   | Description        | Arguments |
 | ---------- | ----------------- | --------- | ------------------ | --------- |
 | `min`        | Numeric Array     | Number   | Returns the minimum value from the array | none |
 | `max`        | Numeric Array     | Number   | Returns the maximum value from the array | none |
 | `avg`        | Numeric Array     | Number   | Returns the average value from the array | none |
-| `sum`        | Numeric Array     | Number   | Returns the sum of the array | none |
+| `sum`        | Numeric Array     | Number   | Returns the sum of the array elements | none |
 | `count`      | Array             | Number   | Returns the number of elements in the array | none |
 | `sort`       | Array             | Array             | Returns the sorted array | none |
 | `reverse`    | Array             | Array             | Returns the reversed array | none |
@@ -53,6 +49,10 @@ Be careful with the spacing between the arguments.
 | `upper`      | String            | String            | Uppercase the string | none |
 | `lower`      | String            | String            | Lowercase the string | none |
 | `equals`     | String            | Boolean | Returns true if the two strings are equal | `String` |
+
+:::info
+**Category** is the type of input that the function accepts
+:::
 
 ---
 

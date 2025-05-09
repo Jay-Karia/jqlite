@@ -17,7 +17,7 @@ pnpm add jqlite-ts
 
 ## Quick Start
 
-```js
+```ts
 import { data, config, query } from 'jqlite-ts';
 
 // Load the data from a file
@@ -38,14 +38,14 @@ query.run("$.friends[*].(name, age)", (result) => {
 
 JQLite supports different data sources. You can load data from a file, a URL, or a object.
 
-```js
+```ts
 import { data } from 'jqlite-ts';
 
 // Load data from a file
 data.load("./data.json")
 
 // Load data from a URL
-data.fetch("https://api.example.com/data.json")
+await data.fetch("https://api.example.com/data.json")
 
 // Load data from a object
 data.set({
@@ -62,7 +62,7 @@ JQLite will check the root folder for `jqlite.json` file. If it exists, it will 
 
 You can also set the config manually.
 
-```js
+```ts
 import { config } from 'jqlite-ts';
 
 // Override the default config

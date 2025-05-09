@@ -15,15 +15,13 @@ It will check for `jqlite.json` file in the root folder. If it exists, it will b
 
 ## `loadFile`
 
-Used when no argument is passed in [`data.load()`](/api#load) function, file path specified in the config will be used.
-
+Used when no argument is passed in [`data.load()`](/api#load) function.
 If path is neither specified in config nor in function, it will throw an error.
 
 ## `fetchUrl`
 
-Used when no argument is passed in [`data.fetch()`](/api#fetch) function, url specified in the config will be used.
-
-If url is neither specified in config nor in function, it will throw an error.
+Used when no argument is passed in [`data.fetch()`](/api#fetch) function.
+If URL is neither specified in config nor in function, it will throw an error.
 
 ## `fallback`
 

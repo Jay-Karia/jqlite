@@ -16,7 +16,7 @@ Use `conditionFormat: "array" | "object"` config key to specify the return type 
 :::
 
 ## Declaration
-The `?()` token inside brackets is used to declare conditions.
+The `[?()]` token is used to declare conditions.
 
 `$.users[?(@.age > 18)]`
 
@@ -33,6 +33,9 @@ Be careful while using logical conditions, **parenthesis are required!**
 
 **Invalid**:
   - `$.users[?(@.age >= 18 && @.purchasedItems > 10)]`
+
+**Valid**
+ - `$.users[?((@.age >= 18) && (@.purchasedItems > 10))]`
 
 ---
 

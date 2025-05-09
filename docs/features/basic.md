@@ -17,7 +17,7 @@ Every JQLite query starts with a root selector `$` that represents the entire JS
 `$`
 
 ## Property Access
-Access object properties dot notation
+Access object properties with dot notation
 
 `$.propertyName`
 

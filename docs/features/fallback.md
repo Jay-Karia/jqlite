@@ -9,11 +9,13 @@ next:
 
 # Fallback
 
-The fallback feature allows you to specify a default value to be returned when a query does not match any data.
+The fallback feature allows you to specify a default value to be returned when a query does not return any data
 
 :::tip
-You can set the fallback value in the `config` object as well. The fallback value in the query will have a higher priority.
+You can set the fallback value in the `config` object as well.
 :::
+
+The fallback value in query will have a higher priority than the one in the config object.
 
 ## Fall Mark
 The fall mark token `??` is used to define the fallback value inside the query. Everything after fall mark will be considered as fallback value
