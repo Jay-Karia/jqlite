@@ -5,9 +5,9 @@
 </div>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.0.1-green?style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT">
-  <img src="https://img.shields.io/codecov/c/github/Jay-Karia/jqlite?style=flat-square"alt="Test Coverage">
+  <img src="https://img.shields.io/npm/v/jqlite-ts?style=flat-square&label=version&color=green" alt="Version" />
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License: MIT">
+  <img src="https://img.shields.io/npm/d18m/jqlite-ts?style=flat-square&color=%23eb4949"alt="NPM Downloads">
 </p>
 
 ---
@@ -31,8 +31,10 @@
 ```sh
 # npm
 npm install jqlite-ts
+
 # yarn
 yarn add jqlite-ts
+
 # pnpm
 pnpm add jqlite-ts
 ```

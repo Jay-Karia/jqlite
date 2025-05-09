@@ -7,12 +7,12 @@
 
 //===================================IMPORTS===================================
 
+import type { ConfigType } from "../src/config/types";
 import { expect, test, describe, vi } from "vitest";
 import { config } from "../src/index";
 import { DEFAULT_CONFIG } from "../src/config/defaults";
 import { unlinkSync, writeFileSync } from "fs";
 import { overrideConfig } from "../src/config/utils";
-import {ConfigType} from "../src/config/types";
 
 //=============================================================================
 
