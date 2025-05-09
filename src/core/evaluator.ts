@@ -174,7 +174,7 @@ export class Evaluator {
     this._current = checkData(this._current);
 
     // Get the property node
-    const propertyNode = ast.getHighestParent(node);
+    const propertyNode = node.parent;
     const property: string | string[] | undefined = getPropertyName(propertyNode);
 
     // Check if the current value is an array

@@ -265,7 +265,7 @@ export function evaluateChildren(node: ASTNode): void {
  * @param {ASTNode} node The AST node from which to get the property name
  * @returns {string | string[] | undefined} The property name
  */
-export function getPropertyName(node: ASTNode | null): string | string[] | undefined {
+export function getPropertyName(node: ASTNode | undefined | null): string | string[] | undefined {
   let property: string | string[] | undefined;
 
   // Use a single property name

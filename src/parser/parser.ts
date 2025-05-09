@@ -159,10 +159,10 @@ export class Parser {
         const isCondition = context.get("isCondition");
 
         // Get the previous node if condition
-        const previousNode = isCondition ? ast.getRecentNode() : null;
+        const previousNode = ast.getRecentNode();
 
         // Add the token to AST
-        ast.createArrayAccessNode(Number(token.value), previousNode);
+        ast.createArrayAccessNode(Number(token.value), isCondition || previousNode?.type === "Property" ? previousNode : null);
 
         // Update the context
         context.set("isArrayAccess", true);

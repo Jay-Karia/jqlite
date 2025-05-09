@@ -35,6 +35,8 @@ export interface TContext {
   isArrayAccess: boolean;
   openParen: number;
   openBracket: number;
+}
+
 export type Keys = keyof TContext;
 
 //===============================================================================
