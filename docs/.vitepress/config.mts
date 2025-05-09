@@ -36,5 +36,9 @@ export default defineConfig({
       },
       { text: "Configurations", link: "/config" },
     ],
+    nav: [
+      { text: 'API Reference', link: '/api' },
+      { text: 'Config', link: '/config' },
+    ]
   },
 });
