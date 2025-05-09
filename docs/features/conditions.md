@@ -1,3 +1,12 @@
+---
+prev:
+  text: Comparison Operators
+  link: /features/comparison
+next:
+  text: Configurations
+  link: /config
+---
+
 # Conditions
 
 This features allows to filter out array elements based on the specified conditions.
@@ -12,7 +21,7 @@ The `?()` token inside brackets is used to declare conditions.
 `$.users[?(@.age > 18)]`
 
 ## Context
-The `@` context is used to refer to the each and every element in the array.
+The `@` context is used to refer each and every element in the array.
 
 ## Logical Conditions
 Two logical operators `&&` and `||` are supported

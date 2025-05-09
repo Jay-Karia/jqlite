@@ -1,3 +1,12 @@
+---
+prev:
+  text: Examples
+  link: /examples
+next:
+  text: Fallback
+  link: /features/fallback
+---
+
 # Basic Selection
 
 Select data from a JSON object and index arrays.

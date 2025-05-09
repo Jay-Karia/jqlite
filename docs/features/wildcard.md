@@ -1,3 +1,12 @@
+---
+prev:
+  text: Fallback
+  link: /features/fallback
+next:
+  text: Array Slices
+  link: /features/slices
+---
+
 # Wildcard
 
 This feature allows you to select all the keys inside an array.

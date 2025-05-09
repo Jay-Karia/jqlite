@@ -1,3 +1,12 @@
+---
+prev:
+  text: Array Slices
+  link: /features/slices
+next:
+  text: Key Omission
+  link: /features/omission
+---
+
 # Multiple Key Selection
 
 This features allows you to select multiple keys from an object using a single query.

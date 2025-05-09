@@ -1,3 +1,12 @@
+---
+prev:
+  text: Functions
+  link: /features/functions
+next:
+  text: Conditions
+  link: /features/conditions
+---
+
 # Comparison Operators
 
 This feature allows you to compare two values using various operators.

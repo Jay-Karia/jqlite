@@ -1,3 +1,12 @@
+---
+prev:
+  text: Multiple Key Selection
+  link: /features/selection
+next:
+  text: Functions
+  link: /features/functions
+---
+
 # Key Omission
 
 This feature allows you to omit single/multiple keys from an object using a single query.

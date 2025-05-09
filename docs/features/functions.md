@@ -1,3 +1,12 @@
+---
+prev:
+  text: Key Omission
+  link: /features/omission
+next:
+  text: Comparison Operators
+  link: /features/comparison
+---
+
 # Functions
 
 The built-in functions are available to perform some of the common tasks.

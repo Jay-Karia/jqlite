@@ -1,3 +1,12 @@
+---
+prev:
+  text: Basic Selection
+  link: /features/basic
+next:
+  text: Wildcard
+  link: /features/wildcard
+---
+
 # Fallback
 
 The fallback feature allows you to specify a default value to be returned when a query does not match any data.

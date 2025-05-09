@@ -1,3 +1,12 @@
+---
+prev:
+  text: Wildcard
+  link: /features/wildcard
+next:
+  text: Multiple Key Selection
+  link: /features/selection
+---
+
 # Array Slices
 
 This features allows you to select array items from a specified range.
