@@ -7,7 +7,8 @@
 <p align="center">
   <img src="https://img.shields.io/npm/v/jqlite-ts?style=flat-square&label=version&color=green" alt="Version" />
   <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License: MIT">
-  <img src="https://img.shields.io/npm/d18m/jqlite-ts?style=flat-square&color=%23eb4949"alt="NPM Downloads">
+  <img src="https://img.shields.io/npm/d18m/jqlite-ts?style=flat-square&color=%23ffea2b
+  "alt="NPM Downloads">
 </p>
 
 ---
