@@ -89,9 +89,18 @@ describe("Syntax", () => {
       "$.user.age != 30",
       // Conditions
       "$.friends[?(@.age > 30)]",
+      "$.scores[?(@ > 30)]",
       "$.friends[?(@.(name, age))]",
       "$.friends[?(@.!(name, age))]",
       "$.friends[?(@.hobbies[1].#contains('sports'))]",
+      "$.friends[?(@.hobbies[*])]",
+      "$.friends[?(@.hobbies[:1])]",
+      "$.friends[?(@.hobbies[:1])]",
+      "$.friends[?((@.age > 30) && (@.level == 12))]",
+      "$.friends[?( (@.age > 30) && (@.level == 12) )]",
+      "$.friends[?(  (@.age > 30) && (@.level == 12)  )]",
+      "$.friends[?( (@.age > 30) && (@.level == 12) || (@.level == 5) && (@.age > 50) )]",
+      "$.friends[?( (@.age > 30) && (@.level == 12) || (@.level == 5) && (@.age > 50) ) ]",
     ];
 
     validQueries.forEach(queryString => {
@@ -211,6 +220,19 @@ describe("Syntax", () => {
       "$.user.name == Jay",
       "$.user.name != null",
       // Conditions
+      "$.friends[?(@.age ! 30)]",
+      "$.friends[?(@.age == 'Jay')]",
+      "$.friends[? (@.age == 'Jay')]",
+      "$.friends[ ?(@.age == 'Jay')]",
+      "$.friends[?()]",
+      "$.friends[?( (@.age ! 30)&& (@.level == 12)) ]",
+      "$.friends[?(@.age ! 30) &&(@.level == 12)]",
+      "$.friends[?(@.age ! 30 &&@.level == 12)]",
+      "$.friends[?( @.age ! 30) && (@.level == 12)) ]",
+      "$.friends[?( (@.age ! 30) && (@.level == 12) ]",
+      "$.friends[?( (@.age ! 30&& (@.level == 12)) ]",
+      "$.friends[?( (@.age ! 30)&& @.level == 12)) ]",
+      "$.friends[?( (@.age ! 30) && (@.level == 12) || ()) ]",
     ];
     invalidQueries.forEach(queryString => {
       expect(() => {
