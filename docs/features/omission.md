@@ -8,7 +8,7 @@ This feature allows you to omit single/multiple keys from an object using a sing
   "name": "John Doe",
   "age": 30,
   "city": "New York",
-  "gender": "Make"
+  "gender": "Male"
 }
 ```
 
@@ -38,7 +38,7 @@ query.run("$.!(name, address)")
  {
     "age": 30,
     "city": "New York",
-    "gender": "Make"
+    "gender": "Male"
  }
 */
 ```

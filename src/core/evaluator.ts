@@ -315,10 +315,11 @@ export class Evaluator {
     }
 
     // Remove the key from the current data
-    delete this._current[propertyName];
+    let result: Record<string, unknown> | null = { ...this._current };
+    delete result[propertyName];
 
     // Check if the value is not undefined
-    const result = checkValue(this._current, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_NOT, {
+    result = checkValue(result, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_NOT, {
       type: node.type,
       property: propertyName,
     });
@@ -400,6 +401,7 @@ export class Evaluator {
       });
     }
 
+    // Delete the key
     let result: Record<string, unknown> | null = { ...this._current };
     for (const key of keys) {
       delete result[key];

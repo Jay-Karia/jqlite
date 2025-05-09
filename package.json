@@ -9,7 +9,7 @@
     "dist",
     "README.md",
     "LICENSE",
-    "public"
+    "public/svg-logo-bg-trans-cropped.svg"
   ],
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist --format=esm --minify",

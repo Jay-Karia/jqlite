@@ -38,10 +38,10 @@ The built-in functions are available to perform some of the common tasks.
 **Queries**
 ```ts
 // Get the minimum value from the numbers array
-query.run("$.number.#min()") // 1
+query.run("$.numbers.#min()") // 1
 
 // Count the number of elements in the array
-query.run("$.array.#count()") // 3
+query.run("$.array.#count()") // 4
 
 // Check whether the string contains "World"
 query.run("$.text.#contains('World')") // true

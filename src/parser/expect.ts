@@ -123,8 +123,8 @@ export class Expectations {
     const isCondition = context.get("isCondition") ?? false;
 
     if (!isCondition) {
-      // Expect the previous token to be number or wildcard
-      expectAny(this._tokens, index - 1, [TokenType.NUMBER, TokenType.WILDCARD]);
+      // Expect the previous token to be number or wildcard or slice
+      expectAny(this._tokens, index - 1, [TokenType.NUMBER, TokenType.WILDCARD, TokenType.SLICE]);
     }
   }
 

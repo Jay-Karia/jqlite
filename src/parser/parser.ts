@@ -152,11 +152,8 @@ export class Parser {
         }
 
         // Check for array slice
-        const isArraySlice = tokens[index + 1].type === TokenType.SLICE;
-        if (isArraySlice) {
-          index = this.parseArraySlice(tokens, index + 1, expectations);
-          continue;
-        }
+        const isArraySlice = tokens[index + 1].type === TokenType.SLICE || tokens[index - 1].type ===TokenType.SLICE;
+        if (isArraySlice) continue;
 
         // Check for condition
         const isCondition = context.get("isCondition");
@@ -185,7 +182,7 @@ export class Parser {
         if (isFunction) continue;
 
         // Check for condition start
-        const isConditionStart = tokens[index - 1].type === TokenType.CONDITION_MARK;
+        const isConditionStart = tokens[index - 1].type === TokenType.CONDITION_MARK || tokens[index + 1].type !== TokenType.PROPERTY;
 
         // Update the context for multiple select/omit
         const isMultipleOmit = context.get("multipleOmit") ?? false;
@@ -485,8 +482,6 @@ export class Parser {
     // Reset the context
     context.set("isComparison", false);
     context.set("comparisonOperator", null);
-
-    // return index + incrementIndex(TokenType.NUMBER);
   }
 
   //==================================================================================================

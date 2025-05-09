@@ -3,15 +3,15 @@
 This feature allows you to compare two values using various operators.
 
 :::warning
-The comparing value should be a `number`. For string literals, you can use the `equals` function.
+The comparing value should be a `number`. For string literals, you can use the `#equals()` function.
 :::
 
 **Available Operators**
 | Operator | Description |
 | -------- | ----------- |
-| `==`     | Equal to    |
-| `!=`     | Not equal to|
-| `>`      | Greater than|
+| `==`     | Equal to     |
+| `!=`     | Not equal to |
+| `>`      | Greater than |
 | `>=`     | Greater than or equal to |
 | `<`      | Less than   |
 | `<=`     | Less than or equal to |
