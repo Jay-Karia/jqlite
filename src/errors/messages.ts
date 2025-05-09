@@ -185,6 +185,12 @@ export const ERROR_MESSAGES = {
       cause: "The parenthesis are not matching",
       solution: "Make sure the parenthesis are matching",
     } as ErrorParams,
+    ERR_NESTED_CONDITIONS: {
+      message: "Nested conditions are not allowed",
+      code: "ERR_NESTED_CONDITIONS",
+      cause: "The condition is nested",
+      solution: "Make sure the condition is not nested",
+    } as ErrorParams,
   },
   //===================================EVALUATOR======================================
   EVALUATOR: {

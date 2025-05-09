@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/sample.json");
 
-query.run("$.friends[?(@.age[:1] > 15)]")
-// query.print();
+query.run("$.friends[?(@.age > 15)]")
+query.print();
