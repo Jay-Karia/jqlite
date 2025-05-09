@@ -2,6 +2,26 @@
 
 The built-in functions are available to perform some of the common tasks.
 
+:::tip
+`quotedArguments` config option is used to specify whether the `string` arguments should be quoted or not. By default, it is set to `true`.
+:::
+
+## Hashtag
+The hashtag token `#` is used as function declaration.
+
+`$.products[0].reviews.#avg()`
+
+## Argument Spacing
+Be careful with the spacing between the arguments.
+
+**Invalid**:
+ - `$.users[0].name.#substring(1,2)`
+ - `$.users[0].name.#substring(1, 2 )`
+ - `$.users[0].name.#substring( 1, 2)`
+ - `$.users[0].name.#substring(1 , 2)`
+
+---
+
 :::info
 **Category** is the type of input that the function accepts
 :::
@@ -25,7 +45,9 @@ The built-in functions are available to perform some of the common tasks.
 | `lower`      | String            | String            | Lowercase the string | none |
 | `equals`     | String            | Boolean | Returns true if the two strings are equal | `String` |
 
-### Sample Data
+---
+
+**Sample Data**
 
 ```json
 {
@@ -35,7 +57,7 @@ The built-in functions are available to perform some of the common tasks.
 }
 ```
 
-### Queries
+**Queries**
 ```ts
 // Get the minimum value from the numbers array
 query.run("$.numbers.#min()") // 1
@@ -50,7 +72,3 @@ query.run("$.text.#contains('World')") // true
 query.run("$.text.#substring(0, 5)") // Hello
 
 ```
-
-:::tip
-`quotedArguments` config option is used to specify whether the `string` arguments should be quoted or not. By default, it is set to `true`.
-:::

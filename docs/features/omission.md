@@ -2,7 +2,22 @@
 
 This feature allows you to omit single/multiple keys from an object using a single query.
 
-### Sample Data
+## Not
+The not token `!` is used to omit a single key.
+Not token with parenthesis `!()` is used to omit multiple keys.
+
+`$.!users`
+
+`$.!(users, employees)`
+
+## Property Spacing
+Be careful with spacing between the property names.
+
+See [Multiple Select](/features/selection#spacing) for more info.
+
+---
+
+**Sample Data**
 ```json
 {
   "name": "John Doe",
@@ -12,7 +27,7 @@ This feature allows you to omit single/multiple keys from an object using a sing
 }
 ```
 
-### Queries
+**Queries**
 ```ts
 // Omit single key
 query.run("$.!gender")
@@ -43,6 +58,6 @@ query.run("$.!(name, address)")
 */
 ```
 
-:::info
+:::warning
 It will not throw an error if the key does not exist in the object.
 :::

@@ -2,16 +2,17 @@
 
 | Component | Description |
 | --------- | ----------- |
-| `data`    | Defines the data source for the query. |
-| `config`  | Defines the configuration for the query. |
-| `query`   | Defines the query to be executed on the data. |
+| `data`    | Define the data source for the query. |
+| `config`  | Define the configuration for the query. |
+| `query`   | Define the query to be executed on the data. |
 
 ## `data`
-The `data` component is used to define the data source for the query.
 
 `get`
 
-This method retrieves the current data source.
+Retrieve the current data source.
+
+**Returns**: `Record<string, unknown> | unknown[]` - The current data object
 
 ```ts
 data.get()
@@ -19,44 +20,62 @@ data.get()
 
 `set`
 
+Set the data source for the query.
 
-This method sets the data source for the query.
+**Parameters**:
+ - jsonData: `Record<string, unknown> | unknown[]` - The data object to use
+
+**Returns**: `void`
+
 ```ts
 data.set({
   "name": "John Doe",
   "age": 30,
   "city": "New York"
 })
-
 ```
 
 `clear`
 
+Clear the current data source.
 
-This method clears the current data source.
+**Returns**: `void`
+
 ```ts
 data.clear()
 ```
 
 `print`
 
+Print the current data source to the console.
 
-This method prints the current data source to the console.
+**Returns**: `void`
+
 ```ts
 data.print()
 ```
 
 `load`
 
+Load data from a file.
 
-This method loads data from a file.
+**Parameters**:
+ - filePath: `string` - The JSON file path
+
+**Returns**: `object` - The JSON object
+
 ```ts
 data.load('path/to/file.json')
 ```
 
 `fetch`
 
-This method fetches data from a URL.
+Fetch data from a URL.
+
+**Parameters**:
+ - url: `string` - The JSON URL path
+
+**Returns**: `object` - The JSON object
 
 ```ts
 data.fetch('https://api.example.com/data')
@@ -65,11 +84,12 @@ data.fetch('https://api.example.com/data')
 ---
 
 ## `config`
-The `config` component is used to define the configuration for the query.
 
 `get`
 
-This method retrieves the current configuration.
+Retrieve the current configuration.
+
+**Returns**: `object` - The config object
 
 ```ts
 config.get()
@@ -77,7 +97,12 @@ config.get()
 
 `set`
 
-This method sets the configuration for the query.
+Set the configuration for the query.
+
+**Parameters**:
+ - config: `object` - The config object to override
+
+**Returns**: `object` - The new config object
 
 ```ts
 config.set({
@@ -86,9 +111,24 @@ config.set({
 })
 ```
 
+`load`
+
+load configuration from a JSON file.
+
+**Parameters**:
+ - filePath: `string` - The config file path
+
+**Returns**: `object` - The new config object
+
+```ts
+config.load('path/to/config.json')
+```
+
 `clear`
 
-This method clears the current configuration.
+Clear the current configuration and reset to default.
+
+**Returns**: `void`
 
 ```ts
 config.clear()
@@ -96,29 +136,27 @@ config.clear()
 
 `print`
 
-This method prints the current configuration to the console.
+Prints the current configuration to the console.
+
+**Returns**: `void`
 
 ```ts
 config.print()
-```
-
-`load`
-
-This method loads configuration from a file.
-
-```ts
-config.load('path/to/config.json')
 ```
 
 ---
 
 ## `query`
 
-The `query` component is used to define the query to be executed on the data.
-
 `run`
 
-This method runs the query on the data.
+Run the query on the data.
+
+**Parameters**:
+ - query: `string` - The query string to run
+ - callback: `(result) => void` - The result callback
+
+**Returns**: `void`
 
 ```ts
 query.run("$.friends[?(@.age >= 18)]", (result) => {
@@ -128,7 +166,9 @@ query.run("$.friends[?(@.age >= 18)]", (result) => {
 
 `print`
 
-This method prints the current query to the console.
+Prints the last executed query result to the console.
+
+**Returns**: `void`
 
 ```ts
 query.print()
@@ -136,7 +176,12 @@ query.print()
 
 `validate`
 
-This method validates the current query.
+Validate the current query.
+
+**Parameters**:
+ - query: `string` - The query string to validate
+
+**Returns**: `boolean` - Whether the query is valid or not
 
 ```ts
 query.validate("$.friends[?(@.age >= 18)]")
@@ -144,7 +189,9 @@ query.validate("$.friends[?(@.age >= 18)]")
 
 `result`
 
-This method retrieves the result of the last executed query.
+Retrieve the result of the last executed query.
+
+**Returns**: `unknown` - The result of last executed query
 
 ```ts
 query.result

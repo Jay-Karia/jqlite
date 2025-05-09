@@ -18,7 +18,7 @@ pnpm add jqlite-ts
 ## Quick Start
 
 ```js
-import { data, config, query} from 'jqlite-ts';
+import { data, config, query } from 'jqlite-ts';
 
 // Load the data from a file
 data.load("./data.json")
@@ -56,7 +56,11 @@ data.set({
 
 ## Config Management
 
-JQLite will check the root folder for `jqlite.json` file. If it exists, it will be used to override the default config. You can also set the config manually.
+:::info
+JQLite will check the root folder for `jqlite.json` file. If it exists, it will be used to override the default config.
+:::
+
+You can also set the config manually.
 
 ```js
 import { config } from 'jqlite-ts';
@@ -64,7 +68,7 @@ import { config } from 'jqlite-ts';
 // Override the default config
 config.set({
   "fallback": "No data found",
-  "debug": true,
+  "conditionFormat": "object"
 })
 
 // Load a config file

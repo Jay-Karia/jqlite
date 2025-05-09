@@ -6,7 +6,14 @@ This feature allows you to select all the keys inside an array.
 The key used should be an **array of objects**
 :::
 
-### Sample Data
+## Asterisk
+The asterisk token along with brackets `[*]` is used for wildcard
+
+`$.friends[*]`
+
+---
+
+**Sample Data**
 ```json
 {
   "friends": [
@@ -29,7 +36,7 @@ The key used should be an **array of objects**
 }
 ```
 
-### Queries
+**Queries**
 ```ts
 query.run("$.friends[*]")
 /*

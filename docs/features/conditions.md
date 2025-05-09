@@ -2,15 +2,32 @@
 
 This features allows to filter out array elements based on the specified conditions.
 
-:::warning
-It only works on arrays
+:::tip
+Use `conditionFormat: "array" | "object"` config key to specify the return type of the condition. By default, it is set to `array`.
 :::
 
-### **`@` Context**
+## Declaration
+The `?()` token inside brackets is used to declare conditions.
 
-The `@` context is used to refer to the each and every element in the array. It can be used in the condition to filter out the elements.
+`$.users[?(@.age > 18)]`
 
-### Sample Data
+## Context
+The `@` context is used to refer to the each and every element in the array.
+
+## Logical Conditions
+Two logical operators `&&` and `||` are supported
+
+`$.users[?((@.age >= 18) && (@.purchasedItems > 10))]`
+
+## Parenthesis
+Be careful while using logical conditions, **parenthesis are required!**
+
+**Invalid**:
+  - `$.users[?(@.age >= 18 && @.purchasedItems > 10)]`
+
+---
+
+**Sample Data**
 
 ```json
 {
@@ -31,7 +48,7 @@ The `@` context is used to refer to the each and every element in the array. It 
 }
 ```
 
-### Queries
+**Queries**
 
 ```ts
 // Get all users whose age is greater than 25
@@ -69,10 +86,6 @@ query.run("$.users[?((@.age > 25) && (@.name.#equals('Jane')))]")
 // Using unknown key
 query.run("$.users[?(@.unknownKey)]") // Error
 ```
-
-:::tip
-Use `conditionFormat: "array" | "object"` config key to specify the return type of the condition. By default, it is set to `array`.
-:::
 
 :::danger
 While using logical operators (`&&` and `||`), make the sure to use parentheses `()` to group the conditions. Otherwise, it will throw an error.

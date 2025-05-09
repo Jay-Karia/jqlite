@@ -20,11 +20,11 @@ hero:
 
 features:
   - title: 🔗 Simple
-    details: Designed to be easy to use and understand, making it widely accessible.
+    details: Designed to be easy to use and understand.
   - title: ⚙ Configurable
-    details: Easily customizable to fit your specific needs and preferences.
+    details: Easily customizable to fit your specific needs.
   - title: 📦 Functions
-    details: Built-in functions for common tasks, on specific data types.
+    details: Built-in functions for common tasks.
   - title: 🔍 Conditions
-    details: Powerful conditions syntax for filtering data.
+    details: Powerful conditions for filtering data.
 ---

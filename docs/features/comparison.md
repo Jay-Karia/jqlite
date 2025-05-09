@@ -3,7 +3,7 @@
 This feature allows you to compare two values using various operators.
 
 :::warning
-The comparing value should be a `number`. For string literals, you can use the `#equals()` function.
+The comparing value should be a `number`.
 :::
 
 **Available Operators**
@@ -16,7 +16,13 @@ The comparing value should be a `number`. For string literals, you can use the `
 | `<`      | Less than   |
 | `<=`     | Less than or equal to |
 
-### Sample Data
+:::info
+The syntax works similar to [fall mark](/features/fallback#fall-mark), the comparison is always the last operation.
+:::
+
+---
+
+**Sample Data**
 ```json
 {
   "age": 25,
@@ -24,7 +30,7 @@ The comparing value should be a `number`. For string literals, you can use the `
 }
 ```
 
-### Queries
+**Queries**
 ```ts
 // Check if age is greater than 18
 query.run("$.age > 18") // true

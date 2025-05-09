@@ -2,7 +2,23 @@
 
 This features allows you to select multiple keys from an object using a single query.
 
-### Sample Data
+## Parenthesis
+Use parenthesis `()` to groups property names inside.
+
+`$.(users, employees)`
+
+## Property Spacing
+Be careful with spacing between the property names.
+
+**Invalid**:
+- `$.(users,employees)`
+- `$.(users,employees )`
+- `$.( users,employees)`
+- `$.(users ,employees)`
+
+---
+
+**Sample Data**
 ```json
 {
   "name": "John Doe",
@@ -11,12 +27,12 @@ This features allows you to select multiple keys from an object using a single q
 }
 ```
 
-### Queries
+**Queries**
 ```ts
 query.run("$.(name, age)") // { name: "John Doe", age: 30 }
 query.run("$.(name, address)") // Error
 ```
 
-:::warning
+:::danger
 If any one of the keys does not exist, it will throw an error.
 :::

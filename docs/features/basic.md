@@ -1,8 +1,25 @@
 # Basic Selection
 
-The basic selection syntax is simple and intuitive. You can select data from a JSON object using the dot notation or bracket notation.
+Select data from a JSON object and index arrays.
 
-### Sample Data
+## Root Selector
+Every JQLite query starts with a root selector `$` that represents the entire JSON document.
+
+`$`
+
+## Property Access
+Access object properties dot notation
+
+`$.propertyName`
+
+## Array Access
+Index array elements using brackets.
+
+`$.users[0]`
+
+---
+
+**Sample Data**
 ```json
 {
   "name": "John",
@@ -16,7 +33,7 @@ The basic selection syntax is simple and intuitive. You can select data from a J
 }
 ```
 
-### Queries
+**Queries**
 ```ts
 query.run("$.name") // "John"
 query.run("$.address.street") // "123 Main St"
