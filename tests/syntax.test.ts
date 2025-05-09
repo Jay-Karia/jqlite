@@ -221,6 +221,7 @@ describe("Syntax", () => {
       "$.user.name != null",
       // Conditions
       "$.friends[?(@.age ! 30)]",
+      "$.friends[?(!(@.age == 30))]",
       "$.friends[?(@.age == 'Jay')]",
       "$.friends[? (@.age == 'Jay')]",
       "$.friends[ ?(@.age == 'Jay')]",
