@@ -110,6 +110,12 @@ export const ERROR_MESSAGES = {
       cause: "The config file has invalid keys",
       solution: "Make sure the config file has valid keys",
     } as ErrorParams,
+    INVALID_CONFIG_VALUE: {
+      message: "Invalid config value",
+      code: "INVALID_CONFIG_VALUES",
+      cause: "The config file has invalid value",
+      solution: "Make sure the config file has a valid value",
+    } as ErrorParams,
   },
   //===================================PARSER========================================
   PARSER: {

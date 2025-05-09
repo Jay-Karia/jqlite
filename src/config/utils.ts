@@ -11,6 +11,7 @@ import type { ConfigType } from "./types";
 import { ConfigError } from "src/errors/factory";
 import { loadDefaultConfig } from "./loader";
 import { ERROR_MESSAGES } from "../errors/messages";
+import {validateBooleanValues, validateCustomValues, validateStringValues} from "./validation";
 
 //=================================================================================
 
@@ -68,12 +69,17 @@ export function validateConfig(config: ConfigType): boolean {
 
   // Check for any extra keys
   const extraKeys = configKeys.filter(key => !validKeys.includes(key));
-  if (extraKeys.length > 0)
+  if (extraKeys.length > 0) {
     throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_KEYS, {
       extraKeys,
     });
+  }
 
-  // Validate config values (if needed)
+  // Validate config values
+  validateStringValues(config, ["loadFile", "fetchUrl", "fallback"]);
+  validateBooleanValues(config, ["quotedArguments"]);
+  validateCustomValues<"array" | "object">(config, ["conditionFormat"], ["array", "object"]);
+
 
   return true;
 }
