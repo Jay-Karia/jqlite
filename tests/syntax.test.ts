@@ -89,9 +89,9 @@ describe("Syntax", () => {
       "$.user.age != 30",
       // Conditions
       "$.friends[?(@.age > 30)]",
-      // "$.friends[?(@.(name, age))]",
-      // "$.friends[?(@.!(name, age))]",
-      // "$.friends[?(@.hobbies[1].#contains('sports'))]",
+      "$.friends[?(@.(name, age))]",
+      "$.friends[?(@.!(name, age))]",
+      "$.friends[?(@.hobbies[1].#contains('sports'))]",
     ];
 
     validQueries.forEach(queryString => {

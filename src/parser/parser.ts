@@ -105,9 +105,12 @@ export class Parser {
         // Check for condition
         const isCondition = tokens[index + 1].type === TokenType.CONDITION_MARK;
 
+        // Check for condition start
+        const isConditionStart = tokens[index - 1].type === TokenType.CONDITION_MARK && tokens[index - 2].type !== TokenType.LEFT_BRACKET;
+
         // Check for nested condition
         const isContextCondition = context.get("isCondition") ?? false;
-        if (isContextCondition) {
+        if (isContextCondition && isConditionStart) {
           throw new ParserError(ERROR_MESSAGES.PARSER.ERR_NESTED_CONDITIONS, {
             token: token.value,
             index: index,
