@@ -10,7 +10,7 @@
 import { TokenType, type Token } from "src/lexer/tokens";
 import type { functionNames } from "../functions/types";
 import { ast } from "src/ast/ast";
-import { checkFunctionName, checkMultipleSelectAndOmit, getFunctionCategory, getSliceType, handleBracketMismatch, handleFunctionArgs, handleFunctionCreation, handleMultipleOmit, handleMultipleSelect, handleParenthesisMismatch, incrementIndex } from "./helpers";
+import { checkFunctionName, checkMultipleSelectAndOmit, checkNodeParent, getFunctionCategory, getSliceType, handleBracketMismatch, handleFunctionArgs, handleFunctionCreation, handleMultipleOmit, handleMultipleSelect, handleParenthesisMismatch, incrementIndex } from "./helpers";
 import { context } from "src/core/context";
 import { Expectations } from "./expect";
 import { ParserError } from "src/errors/factory";
@@ -111,11 +111,16 @@ export class Parser {
         // Expectations for the token
         expectations.leftBracket(index);
 
+        // Get the number of opened brackets
+        const openBracket = context.get("openBracket") ?? 0;
+
         // Create the condition node
-        if (isCondition) ast.createConditionNode();
+        if (isCondition) {
+          ast.createConditionNode();
+          context.set("conditionBracketPosition", openBracket + 1);
+        };
 
         // Update the context
-        const openBracket = context.get("openBracket") ?? 0;
         context.set("openBracket", openBracket + 1);
       }
 
@@ -127,15 +132,16 @@ export class Parser {
         // Check for condition
         const isCondition = context.get("isCondition") ?? false;
 
-        // Check for array access
-        const isArrayAccess = context.get("isArrayAccess");
-        if (isArrayAccess) context.set("isArrayAccess", false);
+        // Get the number of opened brackets
+        const openBracket = context.get("openBracket") ?? 0;
+
+        // Get the position of condition bracket
+        const conditionBracketPosition = context.get("conditionBracketPosition");
 
         // Reset the condition context when required
-        if (isCondition && !isArrayAccess) context.set("isCondition", false);
+        if (isCondition && (openBracket === conditionBracketPosition)) context.set("isCondition", false);
 
         // Update the context
-        const openBracket = context.get("openBracket") ?? 0;
         context.set("openBracket", openBracket - 1);
       }
 
@@ -155,14 +161,11 @@ export class Parser {
         const isArraySlice = tokens[index + 1].type === TokenType.SLICE || tokens[index - 1].type ===TokenType.SLICE;
         if (isArraySlice) continue;
 
-        // Check for condition
-        const isCondition = context.get("isCondition");
-
         // Get the previous node if condition
         const previousNode = ast.getRecentNode();
 
         // Add the token to AST
-        ast.createArrayAccessNode(Number(token.value), isCondition || previousNode?.type === "Property" ? previousNode : null);
+        ast.createArrayAccessNode(Number(token.value), checkNodeParent(previousNode));
 
         // Update the context
         context.set("isArrayAccess", true);
@@ -442,8 +445,11 @@ export class Parser {
     // Expect the previous token to be a left bracket
     expectations.wildcard(index);
 
+    // Get the previous node
+    const previousNode = ast.getRecentNode();
+
     // Add the token to the AST
-    ast.createWildcardNode();
+    ast.createWildcardNode(checkNodeParent(previousNode));
   }
 
   /**

@@ -40,6 +40,7 @@ export class Context {
       isArrayAccess: false,
       openBracket: 0,
       openParen: 0,
+      conditionBracketPosition: 0
     };
   }
 

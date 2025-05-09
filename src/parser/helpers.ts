@@ -299,3 +299,15 @@ export function handleParenthesisMismatch(token: Token, index: number, openParen
     });
   }
 }
+
+/**
+ * Checks if the previous node is a property or not
+ * @param {ASTNode | null} previousNode The previous node to check
+ * @returns {ASTNode | null} The previous node if valid, null otherwise
+ */
+export function checkNodeParent(previousNode: ASTNode | null): ASTNode | null {
+  // Check for condition
+  const isCondition = context.get("isCondition") ?? false;
+
+  return isCondition || previousNode?.type === "Property" ? previousNode : null;
+}
