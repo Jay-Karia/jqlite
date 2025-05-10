@@ -120,13 +120,13 @@ export function readAlphanumeric(input: string, position: number, allowWhitespac
   while (
     hasNextToken(input, position) &&
     (isAlpha(input[position]) ||
-     isDigit(input[position]) ||
-     input[position] === '_'  || // Allow underscore
-     input[position] === '-'  || // Allow hyphen
-     input[position] === '\'' || // Allow single quote
-     input[position] === '"'  ||   // Allow double quote
-     allowWhitespace === true ? input[position] === ' ': null //  Allow whitespace if specified
-    )
+      isDigit(input[position]) ||
+      input[position] === "_" || // Allow underscore
+      input[position] === "-" || // Allow hyphen
+      input[position] === "'" || // Allow single quote
+      input[position] === '"' || // Allow double quote
+      //  Allow whitespace if specified
+      (allowWhitespace && isSkippable(input[position]) && identifier.length > 0))
   ) {
     identifier += input[position];
     position++;
