@@ -110,4 +110,52 @@ describe("ConfigManager", () => {
     // Clean up
     unlinkSync(configFilePath);
   });
+
+  test("Config values", () => {
+    // loadFile, fetchUrl, fallback
+    const invalidStringValues = [101, true, {}, []];
+
+    // quotedArguments
+    const invalidBooleanValues = [101, "string", {}, []];
+
+    // conditionFormat
+    const invalidConditionFormatValues = [101, "string", true, [], "arr", "obj"];
+
+    // String values
+    invalidStringValues.forEach(value => {
+      const loadFileConfig = {
+        loadFile: value as any,
+      };
+      const fetchUrlConfig = {
+        fetchUrl: value as any,
+      };
+
+      const fallbackConfig = {
+        fallback: value as any,
+      };
+
+      expect(() => config.set(loadFileConfig)).toThrowError();
+      expect(() => config.set(fetchUrlConfig)).toThrowError();
+      expect(() => config.set(fallbackConfig)).toThrowError();
+    });
+
+    // Boolean values
+    invalidBooleanValues.forEach(value => {
+      const quotedArgumentsConfig = {
+        quotedArguments: value as any,
+      };
+
+      expect(() => config.set(quotedArgumentsConfig)).toThrowError();
+    });
+
+    // conditionFormat values
+    invalidConditionFormatValues.forEach(value => {
+      const conditionFormatConfig = {
+        conditionFormat: value as any,
+      };
+
+      expect(() => config.set(conditionFormatConfig)).toThrowError();
+    });
+
+  });
 });
