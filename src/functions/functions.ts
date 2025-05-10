@@ -113,7 +113,8 @@ export function sort(arr: unknown[], type: SortArgs): unknown[] {
  * @returns {unknown[]} The reversed array.
  */
 export function reverse(arr: unknown[]): unknown[] {
-  return arr.reverse();
+  const result = [...arr]; // Create a shallow copy of the array
+  return result.reverse();
 }
 
 /**
