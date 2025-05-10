@@ -226,14 +226,14 @@ describe("Syntax", () => {
       "$.friends[? (@.age == 'Jay')]",
       "$.friends[ ?(@.age == 'Jay')]",
       "$.friends[?()]",
-      "$.friends[?( (@.age ! 30)&& (@.level == 12)) ]",
-      "$.friends[?(@.age ! 30) &&(@.level == 12)]",
-      "$.friends[?(@.age ! 30 &&@.level == 12)]",
-      "$.friends[?( @.age ! 30) && (@.level == 12)) ]",
-      "$.friends[?( (@.age ! 30) && (@.level == 12) ]",
-      "$.friends[?( (@.age ! 30&& (@.level == 12)) ]",
-      "$.friends[?( (@.age ! 30)&& @.level == 12)) ]",
-      "$.friends[?( (@.age ! 30) && (@.level == 12) || ()) ]",
+      "$.friends[?( (@.age != 30)&& (@.level == 12)) ]",
+      "$.friends[?(@.age != 30) &&(@.level == 12)]",
+      "$.friends[?(@.age != 30 &&@.level == 12)]",
+      "$.friends[?( @.age != 30) && (@.level == 12)) ]",
+      "$.friends[?( (@.age != 30) && (@.level == 12) ]",
+      "$.friends[?( (@.age != 30&& (@.level == 12)) ]",
+      "$.friends[?( (@.age != 30)&& @.level == 12)) ]",
+      "$.friends[?( (@.age != 30) && (@.level == 12) || ()) ]",
     ];
     invalidQueries.forEach(queryString => {
       expect(() => {
