@@ -15,6 +15,7 @@ import { ast } from "src/ast/ast";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { dataStore } from "src/data/store";
+import { context } from "./context";
 
 //=================================================================================
 
@@ -62,6 +63,9 @@ export class QueryRunner {
 
     // Get the query result
     this._result = evaluator.getResult();
+
+    // Reset the context
+    context.reset();
 
     // Use the callback if given
     if (callback) callback(this._result);

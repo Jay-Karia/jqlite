@@ -76,6 +76,29 @@ export class Context {
     if (key in this._context) this._context[key] = value;
   }
 
+  /**
+   * Reset the context to default
+   */
+  public reset(): void {
+    this._context.fallback = null;
+    this._context.multipleSelect = false;
+    this._context.selectedKeys = [];
+    this._context.multipleOmit = false;
+    this._context.omittedKeys = [];
+    this._context.sliceType = null;
+    this._context.isFunction = false;
+    this._context.functionCategory = null;
+    this._context.functionArgs = [];
+    this._context.functionName = null;
+    this._context.isComparison = false;
+    this._context.comparisonOperator = null;
+    this._context.isCondition = false;
+    this._context.isArrayAccess = false;
+    this._context.openBracket = 0;
+    this._context.openParen = 0;
+    this._context.conditionBracketPosition = 0;
+  }
+
   //==================================================================================
 }
 
