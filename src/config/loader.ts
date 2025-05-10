@@ -45,10 +45,11 @@ export function loadConfigFile(configFilePath: string): ConfigType {
 
   // Validate the config
   const isValidConfig = validateConfig(parsedConfig);
-  if (!isValidConfig)
+  if (!isValidConfig) {
     throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_FILE, {
       filePath: configFilePath,
     });
+  }
 
   return parsedConfig;
 }

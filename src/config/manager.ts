@@ -13,6 +13,7 @@ import { loadConfigFile } from "./loader";
 import { configStore } from "./store";
 import { ConfigError } from "../errors/factory";
 import { ERROR_MESSAGES } from "../errors/messages";
+import { validateConfig } from "./utils";
 
 //=================================================================================
 
@@ -21,7 +22,6 @@ import { ERROR_MESSAGES } from "../errors/messages";
  * @description This class is used to manage the config object.
  */
 export class ConfigManager {
-
   //======================================GETTER / SETTER====================================
 
   /**
@@ -40,6 +40,13 @@ export class ConfigManager {
    * @returns {ConfigType} The config object
    */
   public set(newConfig: OverrideConfigType): ConfigType {
+    // Validate config values
+    const isValidConfig = validateConfig(newConfig);
+    if (!isValidConfig) {
+      throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_FILE, {});
+    }
+
+    // Set the config
     configStore.set(newConfig);
     return configStore.get();
   }
@@ -67,7 +74,6 @@ export class ConfigManager {
     return this.set(config);
   }
 
-
   //=======================================PRINT======================================
 
   /**
@@ -91,7 +97,6 @@ export class ConfigManager {
   }
 
   //====================================================================================
-
 }
 
 export const config = new ConfigManager();

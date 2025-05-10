@@ -62,7 +62,7 @@ export function overrideConfig<ConfigType>(
  * @param {ConfigType} config The config object to validate
  * @returns {boolean} Whether the config is valid or not
  */
-export function validateConfig(config: ConfigType): boolean {
+export function validateConfig(config: Partial<ConfigType>): boolean {
   // Get the config keys
   const configKeys = Object.keys(config);
   const validKeys = Object.keys(loadDefaultConfig());
