@@ -35,6 +35,9 @@ export class QueryRunner {
     // Remove leading and trailing white spaces
     query = query.trim();
 
+    // Reset the context
+    context.reset();
+
     // Parse the tokens
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
@@ -63,9 +66,6 @@ export class QueryRunner {
 
     // Get the query result
     this._result = evaluator.getResult();
-
-    // Reset the context
-    context.reset();
 
     // Use the callback if given
     if (callback) callback(this._result);

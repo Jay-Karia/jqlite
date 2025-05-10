@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/demo.json");
 
-query.run("$.nothing ?? Nothing found")
+query.run("$.stats.visitors[2:]");
 query.print();

@@ -18,7 +18,6 @@ await data.fetch("https://jqlite.vercel.app/demo.json");
  * Tests for basic selection feature
  */
 describe("Basic Selection", () => {
-
   test("Root Selector", () => {
     query.run("$");
     expect(query.result).toEqual(data.get());
@@ -27,16 +26,11 @@ describe("Basic Selection", () => {
   test("Should select a single property", () => {
     query.run("$.metadata");
     expect(query.result).toEqual({
-      "lastUpdated": "2023-11-15T14:30:00Z",
-      "version": "2.1.0",
-      "debug": false,
-      "notes": null,
-      "tags": [
-        "demo",
-        "sample",
-        "full",
-        "demo"
-      ]
+      lastUpdated: "2023-11-15T14:30:00Z",
+      version: "2.1.0",
+      debug: false,
+      notes: null,
+      tags: ["demo", "sample", "full", "demo"],
     });
   });
 
@@ -91,7 +85,7 @@ describe("Fallback", () => {
 
   test("Should use config fallback value if provided", () => {
     config.set({
-      fallback: "Config Fallback Value"
+      fallback: "Config Fallback Value",
     });
     query.run("$.metadata.nonExistentProperty");
     expect(query.result).toEqual("Config Fallback Value");
@@ -101,5 +95,59 @@ describe("Fallback", () => {
     query.run("$.metadata.nonExistentProperty ?? Query Fallback Value");
     expect(query.result).toEqual("Query Fallback Value");
     config.clear();
+  });
+});
+
+/**
+ * Tests for wildcard feature
+ */
+describe("Wildcard", () => {
+  test("Should throw an error if not an array of objects", () => {
+    expect(() => {
+      query.run("$.user.tags[*]");
+    }).toThrowError();
+  });
+
+  test("Root wildcard selection", async () => {
+    const jsonData = [
+      { name: "John", age: 30 },
+      { name: "Jane", age: 25 },
+      { name: "Doe", age: 40 },
+    ];
+    data.set(JSON.stringify(jsonData));
+
+    query.run("$[*]");
+    expect(query.result).toEqual({
+      name: ["John", "Jane", "Doe"],
+      age: [30, 25, 40],
+    });
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
+
+  test("Wildcard property selection", () => {
+    query.run("$.products[*].id");
+    expect(query.result).toEqual(["p1", "p2"]);
+  });
+
+  test("Wildcard nested property selection", () => {
+    query.run("$.orders[*].items[0][*].price");
+    expect(query.result).toEqual([1299.99, 1599.99]);
+  });
+});
+
+/**
+ * Tests for Array Slices
+ */
+describe("Array Slices", () => {
+  test("Should not accept empty slice", () => {
+    expect(() => {
+      query.run("$.products[:]");
+    }).toThrowError();
+  });
+
+  test("Should accept left slice", () => {
+    query.run("$");
+    // expect(query.result).toEqual([ 1900, 1832, 2100, 1920, 1850 ]);
   });
 });
