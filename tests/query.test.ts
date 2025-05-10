@@ -8,14 +8,16 @@
 //===================================IMPORTS===================================
 
 import { expect, test, describe } from "vitest";
-import { data, query } from "../src/index";
+import { config, data, query } from "../src/index";
 
 //=============================================================================
 
-describe("Basic Selection", () => {
-  // Load the testing JSON data
-  data.load("tests/test-data.json");
+await data.fetch("https://jqlite.vercel.app/demo.json");
 
+/**
+ * Tests for basic selection feature
+ */
+describe("Basic Selection", () => {
 
   test("Root Selector", () => {
     query.run("$");
@@ -53,10 +55,51 @@ describe("Basic Selection", () => {
     expect(query.result).toEqual(5);
   });
 
-  test("Root array selection", () => {
+  test("Root array selection", async () => {
     const jsonData = [120, 150, 200, 250, 300];
     data.set(JSON.stringify(jsonData));
     query.run("$[1]");
     expect(query.result).toEqual(150);
+    await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
+});
+
+/**
+ * Tests for fallback feature
+ */
+describe("Fallback", () => {
+  test("Should return null for nullish values", () => {
+    query.run("$.metadata.notes ?? No notes found");
+    expect(query.result).toEqual(null);
+  });
+
+  test("Should return the value if it exists", () => {
+    query.run("$.metadata.version ?? No version found");
+    expect(query.result).toEqual("2.1.0");
+  });
+
+  test("Should return the fallback value if the property is undefined", () => {
+    query.run("$.metadata.nonExistentProperty ?? Default Value");
+    expect(query.result).toEqual("Default Value");
+  });
+
+  test("Should throw an error if fallback value is not provided", () => {
+    expect(() => {
+      query.run("$.metadata.nonExistentProperty");
+    }).toThrowError();
+  });
+
+  test("Should use config fallback value if provided", () => {
+    config.set({
+      fallback: "Config Fallback Value"
+    });
+    query.run("$.metadata.nonExistentProperty");
+    expect(query.result).toEqual("Config Fallback Value");
+  });
+
+  test("Should overwrite config fallback value with query fallback", () => {
+    query.run("$.metadata.nonExistentProperty ?? Query Fallback Value");
+    expect(query.result).toEqual("Query Fallback Value");
+    config.clear();
   });
 });
