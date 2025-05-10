@@ -125,10 +125,10 @@ export function checkProperty(property: string | undefined, type: NodeType): str
  * @param {ErrorParams} errorParam The error parameters
  * @param {object} metadata The metadata to be passed to the error
  */
-export function checkValue(value: Record<string, unknown> | null, fallback: string | null, errorParam: ErrorParams, metadata: object): Record<string, unknown> | null {
+export function checkValue(value: Record<string, unknown> | string | null, fallback: string | null, errorParam: ErrorParams, metadata: object): Record<string, unknown> | string | null {
   if (value === undefined) {
     // Check for fallback
-    if (fallback) return { __fallback__: fallback };
+    if (fallback) return fallback;
 
     throw new EvaluatorError(errorParam, metadata);
   }
@@ -205,7 +205,7 @@ export function checkSliceRange(sliceRange: SliceRange | undefined, arrayLength:
 export function checkArray(value: unknown[] | unknown, fallback: string | null, metadata: Record<string, unknown>): unknown {
   if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
     // Check for fallback
-    if (fallback) return { __fallback__: fallback };
+    if (fallback) return fallback;
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_ARRAY, metadata);
   }
 

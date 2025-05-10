@@ -23,15 +23,11 @@ The fall mark token `??` is used to define the fallback value inside the query. 
 `$.user.phone ?? No phone provided`
 
 ## Return Value
-The returned fallback value is not a `string`, but rather a `object`
+The returned value will be the fallback string
 
 ```ts
-{
-  __fallback__: "Fallback value"
-}
+"Fallback value"
 ```
-
-`query.result.__fallback__`
 
 ---
 
@@ -49,12 +45,7 @@ The returned fallback value is not a `string`, but rather a `object`
 
 **Queries**
 ```ts
-query.run("$.favorites.game ?? No favorite game")
-/*
- {
-   __fallback__: 'No favorite game',
- }
-*/
+query.run("$.favorites.game ?? No favorite game") // "No favorite game"
 query.run("$.favorites.color ?? No favorite color") // "blue"
 query.run("$.favorites.place ?? No favorite place") // null
 ```

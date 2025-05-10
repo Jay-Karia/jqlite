@@ -192,7 +192,7 @@ export class Evaluator {
     const index = checkIndex(node.index, property, node.type, this._current.length);
 
     // Get the value
-    let value = this._current[index] as Record<string, unknown> | null;
+    let value = this._current[index] as Record<string, unknown> | string | null;
 
     // Check if the value is not  undefined
     value = checkValue(value, this._fallback, ERROR_MESSAGES.EVALUATOR.ARRAY_VALUE_NOT_FOUND, {
@@ -238,7 +238,7 @@ export class Evaluator {
 
     // Get all the unique keys and fill the values
     const keys: string[] = extractUniqueKeys(this._current);
-    let value: Record<string, unknown> | null = fillArray(this._current, keys);
+    let value: Record<string, unknown> | string | null = fillArray(this._current, keys);
 
     // Check if the value is not undefined
     value = checkValue(value, this._fallback, ERROR_MESSAGES.EVALUATOR.ERR_WILDCARD, {
@@ -318,7 +318,7 @@ export class Evaluator {
     }
 
     // Remove the key from the current data
-    let result: Record<string, unknown> | null = { ...this._current };
+    let result: Record<string, unknown> | string | null = { ...this._current };
     delete result[propertyName];
 
     // Check if the value is not undefined
@@ -405,7 +405,7 @@ export class Evaluator {
     }
 
     // Delete the key
-    let result: Record<string, unknown> | null = { ...this._current };
+    let result: Record<string, unknown> | string | null = { ...this._current };
     for (const key of keys) {
       delete result[key];
     }
