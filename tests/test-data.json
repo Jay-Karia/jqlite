@@ -1,0 +1,190 @@
+{
+  "user": {
+    "name": "John Doe",
+    "age": 32,
+    "isActive": true,
+    "email": "john.doe@example.com",
+    "tags": [
+      "developer",
+      "javascript",
+      "typescript"
+    ],
+    "address": {
+      "street": "123 Main St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94105",
+      "coordinates": {
+        "lat": 37.7749,
+        "lng": -122.4194
+      }
+    },
+    "skills": [
+      {
+        "name": "JavaScript",
+        "level": 9,
+        "years": 7
+      },
+      {
+        "name": "TypeScript",
+        "level": 8,
+        "years": 4
+      },
+      {
+        "name": "Python",
+        "level": 6,
+        "years": 3
+      }
+    ]
+  },
+  "company": {
+    "name": "TechCorp",
+    "founded": 2010,
+    "active": true,
+    "departments": [
+      "Engineering",
+      "Marketing",
+      "Sales",
+      "HR"
+    ]
+  },
+  "products": [
+    {
+      "id": "p1",
+      "name": "Laptop Pro",
+      "price": 1299.99,
+      "inStock": true,
+      "specs": {
+        "cpu": "i7",
+        "ram": "16GB",
+        "storage": "512GB SSD"
+      },
+      "reviews": [
+        4,
+        5,
+        3,
+        5,
+        4
+      ]
+    },
+    {
+      "id": "p2",
+      "name": "Desktop Ultra",
+      "price": 1599.99,
+      "inStock": false,
+      "specs": {
+        "cpu": "i9",
+        "ram": "32GB",
+        "storage": "1TB SSD"
+      },
+      "reviews": [
+        5,
+        5,
+        4,
+        3,
+        5
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-001",
+      "date": "2023-09-15",
+      "items": [
+        {
+          "productId": "p1",
+          "quantity": 1,
+          "price": 1299.99
+        },
+        {
+          "productId": "p2",
+          "quantity": 2,
+          "price": 1599.99
+        }
+      ],
+      "total": 4499.97,
+      "customer": {
+        "id": "c1",
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      },
+      "status": "delivered"
+    },
+    {
+      "id": "ord-002",
+      "date": "2023-10-20",
+      "items": [
+        {
+          "productId": "p1",
+          "quantity": 1,
+          "price": 1299.99
+        }
+      ],
+      "total": 1299.99,
+      "customer": {
+        "id": "c2",
+        "name": "Bob Smith",
+        "email": "bob@example.com"
+      },
+      "status": "processing"
+    }
+  ],
+  "stats": {
+    "visitors": [
+      1020,
+      1542,
+      1900,
+      1832,
+      2100,
+      1920,
+      1850
+    ],
+    "revenue": [
+      12500.50,
+      15000.75,
+      13750.25,
+      16200.10,
+      18000.00
+    ],
+    "topSearches": [
+      "laptop",
+      "desktop",
+      "monitor",
+      "keyboard",
+      "laptop",
+      "mouse"
+    ],
+    "conversionRate": 0.0325,
+    "quarterlyGrowth": [
+      0.05,
+      0.07,
+      -0.02,
+      0.09
+    ]
+  },
+  "settings": {
+    "darkMode": true,
+    "notifications": {
+      "email": true,
+      "sms": false,
+      "push": true
+    },
+    "display": {
+      "theme": "dark",
+      "fontSize": 14,
+      "compactView": true
+    }
+  },
+  "metadata": {
+    "lastUpdated": "2023-11-15T14:30:00Z",
+    "version": "2.1.0",
+    "debug": false,
+    "notes": null,
+    "tags": [
+      "demo",
+      "sample",
+      "full",
+      "demo"
+    ]
+  }
+}
