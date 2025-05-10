@@ -8,7 +8,7 @@
 //=====================================IMPORTS===================================
 
 import type { ASTNode } from "src/ast/types";
-import { avg, max, min, sum, count, sort, unique, reverse, contains, substring, upper, lower, strLength, equals } from "./functions";
+import { avg, max, min, sum, count, sort, unique, reverse, contains, substring, upper, lower, strLength, equals, isTrue, isFalse } from "./functions";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import {checkContainsArguments, checkEqualsArguments, checkSortArguments, checkSubstringArguments} from "./arguments";
@@ -93,6 +93,29 @@ export function applyStringFunction(node: ASTNode, data: string): unknown {
       return lower(data);
     case "equals":
       return equals(data, checkEqualsArguments(node));
+    default:
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
+        functionName,
+      });
+  }
+}
+
+/**
+ * Applies a boolean function to the data based on the AST node.
+ * @param {ASTNode} node The AST node containing the function to apply
+ * @param {boolean} data The data to which the function will be applied
+ * @returns {unknown} The result of applying the function
+ */
+export function applyBooleanFunction(node: ASTNode, data: boolean): unknown {
+  // Get the function name
+  const functionName = node.functionName;
+
+  // Apply the function
+  switch (functionName) {
+    case "isTrue":
+      return isTrue(data);
+    case "isFalse":
+      return isFalse(data);
     default:
       throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
         functionName,

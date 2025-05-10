@@ -392,5 +392,11 @@ export const ERROR_MESSAGES = {
       cause: "Undefined value of the logical operator",
       solution: "Check whether the logical operator is valid",
     } as ErrorParams,
+    NOT_A_BOOLEAN: {
+      message: "Not a boolean",
+      code: "NOT_A_BOOLEAN",
+      cause: "The data is not a boolean",
+      solution: "Make sure the data is a boolean",
+    } as ErrorParams,
   },
 };

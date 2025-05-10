@@ -49,6 +49,8 @@ Be careful with the spacing between the arguments.
 | `upper`      | String            | String            | Uppercase the string | none |
 | `lower`      | String            | String            | Lowercase the string | none |
 | `equals`     | String            | Boolean | Returns true if the two strings are equal | `String` |
+| `isTrue`     | Boolean           | Boolean            | Check whether the value is true | none |
+| `isFalse`    | Boolean           | Boolean            | Check whether the value is false | none |
 
 :::info
 **Category** is the type of input that the function accepts

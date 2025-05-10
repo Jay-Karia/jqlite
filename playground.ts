@@ -2,7 +2,8 @@
 
 import { config, data, query } from "./src/index";
 
-data.load("./data/sample.json");
+data.load("./data/demo.json");
 
-query.run("$.me.name.#substring(1, 2)")
+// Name of all products in stock
+query.run("$.products[?(@.inStock.#isTrue())][*].name")
 query.print();

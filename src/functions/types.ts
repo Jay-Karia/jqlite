@@ -22,11 +22,14 @@ export enum functionNames {
   UPPER = "upper",
   LOWER = "lower",
   EQUALS = "equals",
+  IS_TRUE = "isTrue",
+  IS_FALSE = "isFalse",
 }
 export enum functionCategories {
   NUMERIC_ARRAY = "numericArray",
   ARRAY = "array",
   STRING = "string",
+  BOOLEAN = "boolean",
 }
 export const functionCategoryMap: Record<functionNames, functionCategories> = {
   // Numeric Array
@@ -46,6 +49,9 @@ export const functionCategoryMap: Record<functionNames, functionCategories> = {
   [functionNames.UPPER]: functionCategories.STRING,
   [functionNames.LOWER]: functionCategories.STRING,
   [functionNames.EQUALS]: functionCategories.STRING,
+  // Boolean
+  [functionNames.IS_TRUE]: functionCategories.BOOLEAN,
+  [functionNames.IS_FALSE]: functionCategories.BOOLEAN,
 };
 export const functionArgsNumber: Record<functionNames, number[]> = {
   [functionNames.MIN]: [0],
@@ -62,6 +68,8 @@ export const functionArgsNumber: Record<functionNames, number[]> = {
   [functionNames.UPPER]: [0],
   [functionNames.LOWER]: [0],
   [functionNames.EQUALS]: [1],
+  [functionNames.IS_TRUE]: [0],
+  [functionNames.IS_FALSE]: [0],
 };
 export type SortArgs = "asc" | "desc";
 export const sortArgs: SortArgs[] = ["asc", "desc"];

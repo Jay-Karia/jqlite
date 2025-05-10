@@ -198,4 +198,24 @@ export function equals(str1: string, str2: string): boolean {
   return str1 === str2;
 }
 
+//======================================BOOLEAN====================================
+
+/**
+ * Check if a boolean value is true.
+ * @param {boolean} data The boolean value to check.
+ * @returns {boolean} True if the value is true, false otherwise.
+ */
+export function isTrue(data: boolean): boolean {
+  return data === true;
+}
+
+/**
+ * Check if a boolean value is false.
+ * @param {boolean} data The boolean value to check.
+ * @returns {boolean} True if the value is false, false otherwise.
+ */
+export function isFalse(data: boolean): boolean {
+  return data === false;
+}
+
 //=================================================================================
