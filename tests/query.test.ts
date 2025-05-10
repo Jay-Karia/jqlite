@@ -417,7 +417,7 @@ describe("Functions", () => {
 
     // unique
     query.run("$.products[0].reviews.#unique()");
-    expect(query.result).toEqual([5, 4, 3]);
+    expect(query.result).toEqual([4, 5, 3]);
   });
 
   test("String functions", () => {
@@ -457,10 +457,218 @@ describe("Functions", () => {
   });
 
   test("Boolean functions", () => {
+    // isTrue
+    query.run("$.user.isActive.#isTrue()");
+    expect(query.result).toEqual(true);
 
+    // isFalse
+    query.run("$.user.isActive.#isFalse()");
+    expect(query.result).toEqual(false);
   });
 
   test("Quoted string arguments", () => {
+    // false
+    config.set({
+      quotedArguments: false,
+    });
 
+    query.run("$.user.name.#contains('John')");
+    expect(query.result).toEqual(true);
+
+    query.run("$.user.name.#contains(John)");
+    expect(query.result).toEqual(true);
+
+    // true
+    config.set({
+      quotedArguments: true,
+    });
+
+    query.run("$.user.name.#contains('John')");
+    expect(query.result).toEqual(true);
+
+    expect(() => {
+      query.run("$.user.name.#contains(John)");
+    }).toThrowError();
+
+    // Reset to default
+    config.clear();
+  });
+});
+
+/**
+ * Tests for comparison operators
+ */
+describe("Comparison Operators", () => {
+  test("Equal to", () => {
+    query.run("$.products[0].price == 1200");
+    expect(query.result).toEqual(false);
+  });
+
+  test("Not equal to", () => {
+    query.run("$.products[0].price != 1200");
+    expect(query.result).toEqual(true);
+  });
+
+  test("Greater than", () => {
+    query.run("$.products[0].price > 1000");
+    expect(query.result).toEqual(true);
+  });
+
+  test("Less than", () => {
+    query.run("$.products[0].price < 1500");
+    expect(query.result).toEqual(true);
+  });
+
+  test("Greater than or equal to", () => {
+    query.run("$.products[0].price >= 1299");
+    expect(query.result).toEqual(true);
+
+  });
+
+  test("Less than or equal to", () => {
+    query.run("$.products[0].price <= 1500");
+    expect(query.result).toEqual(true);
+  });
+
+  test("Should be the last operation", () => {
+    expect(() => {
+      query.run("$.products[0].price == 1200 == 1300");
+    }).toThrowError();
+  });
+});
+
+/**
+ * Tests for conditions
+ */
+describe("Conditions", () => {
+  test("Should throw an error if condition is empty", () => {
+    expect(() => {
+      query.run("$.products[?()]");
+    });
+  });
+
+  test("Should throw an error if data is not an array", () => {
+    expect(() => {
+      query.run("$.metadata[?(@.debug.#isTrue())]");
+    }).toThrowError();
+  });
+
+  test("Should filter numeric arrays", () => {
+    query.run("$.stats.visitors[?(@ > 1500)]");
+    expect(query.result).toEqual([ 1542, 1900, 1832, 2100, 1920, 1850 ]);
+
+    query.run("$.stats.visitors[?(@ < 1500)]");
+    expect(query.result).toEqual([ 1020 ]);
+
+    query.run("$.stats.visitors[?(@ == 1500)]");
+    expect(query.result).toEqual([]);
+  });
+
+  test("Should filter string arrays", () => {
+    query.run("$.user.tags[?(@.#equals('developer'))]");
+    expect(query.result).toEqual([ "developer" ]);
+
+    query.run("$.user.tags[?(@.#contains('script'))]");
+    expect(query.result).toEqual([ "javascript", "typescript" ]);
+  });
+
+  test("Should filter object arrays", () => {
+    query.run("$.products[?(@.price > 1500)]");
+    expect(query.result).toEqual([
+      {
+        id: "p2",
+        name: "Desktop Ultra",
+        price: 1599.99,
+        inStock: false,
+        specs: {
+          cpu: "i9",
+          ram: "32GB",
+          storage: "1TB SSD",
+        },
+        reviews: [5, 5, 4, 3, 5],
+      },
+    ]);
+
+    query.run("$.products[?(@.inStock.#isTrue())]");
+    expect(query.result).toEqual([
+      {
+        id: "p1",
+        name: "Laptop Pro",
+        price: 1299.99,
+        inStock: true,
+        specs: {
+          cpu: "i7",
+          ram: "16GB",
+          storage: "512GB SSD",
+        },
+        reviews: [4, 5, 3, 5, 4],
+      },
+    ]);
+  });
+
+  test("Should filter nested object arrays", () => {
+    query.run("$.products[?(@.reviews[0] > 4)]");
+    expect(query.result).toEqual([
+      {
+        id: "p2",
+        name: "Desktop Ultra",
+        price: 1599.99,
+        inStock: false,
+        specs: {
+          cpu: "i9",
+          ram: "32GB",
+          storage: "1TB SSD",
+        },
+        reviews: [5, 5, 4, 3, 5],
+      },
+    ]);
+  });
+
+  test("Should filter with logical AND", () => {
+    query.run("$.products[?((@.price > 1200) && (@.inStock.#isTrue()))]");
+    expect(query.result).toEqual([
+      {
+        id: "p1",
+        name: "Laptop Pro",
+        price: 1299.99,
+        inStock: true,
+        specs: {
+          cpu: "i7",
+          ram: "16GB",
+          storage: "512GB SSD",
+        },
+        reviews: [4, 5, 3, 5, 4],
+      },
+    ]);
+  });
+
+  test("Should filter with logical OR", () => {
+    query.run("$.products[?((@.price > 1500) || (@.inStock.#isTrue()))]");
+    expect(query.result).toEqual([
+      {
+        id: "p1",
+        name: "Laptop Pro",
+        price: 1299.99,
+        inStock: true,
+        specs: {
+          cpu: "i7",
+          ram: "16GB",
+          storage: "512GB SSD",
+        },
+        reviews: [4, 5, 3, 5, 4],
+      },
+      {
+        id: "p2",
+        name: "Desktop Ultra",
+        price: 1599.99,
+        inStock: false,
+        specs: {
+          cpu: "i9",
+          ram: "32GB",
+          storage: "1TB SSD",
+        },
+        reviews: [5, 5, 4, 3, 5],
+      },
+    ]);
   });
 });
