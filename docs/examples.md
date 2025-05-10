@@ -1,6 +1,6 @@
 # Examples
 
-Using [`demo.json`](/public/demo.json) as data source
+Using [`demo.json`](/demo.json) as data source
 
 ---
 
