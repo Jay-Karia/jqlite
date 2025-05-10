@@ -150,7 +150,7 @@ export class Lexer {
 
     // Read the whole word or number
     if (isAlphanumeric(this.character)) {
-      const word = readAlphanumeric(this.input, this.position);
+      const word = readAlphanumeric(this.input, this.position, this.isFunction);
       this.character = word;
       this.position += word.length - 1;
 

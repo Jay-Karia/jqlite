@@ -113,7 +113,7 @@ export function readNumber(input: string, position: number): string {
  * @param {string} position The current position of the character
  * @returns {string} The whole word.
  */
-export function readAlphanumeric(input: string, position: number): string {
+export function readAlphanumeric(input: string, position: number, allowWhitespace?: boolean): string {
   let identifier = "";
 
   // Continue reading as long as we have valid identifier characters
@@ -121,10 +121,11 @@ export function readAlphanumeric(input: string, position: number): string {
     hasNextToken(input, position) &&
     (isAlpha(input[position]) ||
      isDigit(input[position]) ||
-     input[position] === '_'  || // Allow underscore in identifiers
-     input[position] === '-'  || // Allow hyphen in identifiers
-     input[position] === '\'' || // Allow single quote in identifiers
-     input[position] === '"'     // Allow double quote in identifiers
+     input[position] === '_'  || // Allow underscore
+     input[position] === '-'  || // Allow hyphen
+     input[position] === '\'' || // Allow single quote
+     input[position] === '"'  ||   // Allow double quote
+     allowWhitespace === true ? input[position] === ' ': null //  Allow whitespace if specified
     )
   ) {
     identifier += input[position];

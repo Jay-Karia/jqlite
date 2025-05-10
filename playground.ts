@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/demo.json");
 
-query.run("$.stats.visitors[2:]");
+query.run("$.user.name.#equals('John Doe')");
 query.print();
