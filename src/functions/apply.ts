@@ -7,21 +7,19 @@
 
 //=====================================IMPORTS===================================
 
-import type { ASTNode } from "src/ast/types";
+import type { FunctionNode } from "src/ast/nodes";
 import { avg, max, min, sum, count, sort, unique, reverse, contains, substring, upper, lower, strLength, equals, isTrue, isFalse } from "./functions";
-import { EvaluatorError } from "src/errors/factory";
-import { ERROR_MESSAGES } from "src/errors/messages";
-import {checkContainsArguments, checkEqualsArguments, checkSortArguments, checkSubstringArguments} from "./arguments";
+import { checkContainsArguments, checkEqualsArguments, checkSortArguments, checkSubstringArguments } from "./arguments";
 
 //===============================================================================
 
 /**
  * Applies a function to the data based on the AST node.
- * @param {ASTNode} node The AST node containing the function to apply
+ * @param {FunctionNode} node The AST node containing the function to apply
  * @param {number[]} data The data to which the function will be applied
  * @returns {unknown} The result of applying the function
  */
-export function applyNumericArrayFunction(node: ASTNode, data: number[]): unknown {
+export function applyNumericArrayFunction(node: FunctionNode, data: number[]): unknown {
   // Get the function name
   const functionName = node.functionName;
 
@@ -35,20 +33,16 @@ export function applyNumericArrayFunction(node: ASTNode, data: number[]): unknow
       return sum(data);
     case "avg":
       return avg(data);
-    default:
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
-        functionName,
-      });
   }
 }
 
 /**
  * Applies a function to the data based on the AST node.
- * @param {ASTNode} node The AST node containing the function to apply
+ * @param {FunctionNode} node The AST node containing the function to apply
  * @param {unknown[]} data The data to which the function will be applied
  * @returns {unknown} The result of applying the function
  */
-export function applyArrayFunction(node: ASTNode, data: unknown[]): unknown {
+export function applyArrayFunction(node: FunctionNode, data: unknown[]): unknown {
   // Get the function name
   const functionName = node.functionName;
 
@@ -62,20 +56,16 @@ export function applyArrayFunction(node: ASTNode, data: unknown[]): unknown {
       return reverse(data);
     case "unique":
       return unique(data);
-    default:
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
-        functionName,
-      });
   }
 }
 
 /**
  * Applies a function to the data based on the AST node.
- * @param {ASTNode} node The AST node containing the function to apply
+ * @param {FunctionNode} node The AST node containing the function to apply
  * @param {string} data The data to which the function will be applied
  * @returns {unknown} The result of applying the function
  */
-export function applyStringFunction(node: ASTNode, data: string): unknown {
+export function applyStringFunction(node: FunctionNode, data: string): unknown {
   // Get the function name
   const functionName = node.functionName;
 
@@ -93,20 +83,16 @@ export function applyStringFunction(node: ASTNode, data: string): unknown {
       return lower(data);
     case "equals":
       return equals(data, checkEqualsArguments(node));
-    default:
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
-        functionName,
-      });
   }
 }
 
 /**
  * Applies a boolean function to the data based on the AST node.
- * @param {ASTNode} node The AST node containing the function to apply
+ * @param {FunctionNode} node The AST node containing the function to apply
  * @param {boolean} data The data to which the function will be applied
  * @returns {unknown} The result of applying the function
  */
-export function applyBooleanFunction(node: ASTNode, data: boolean): unknown {
+export function applyBooleanFunction(node: FunctionNode, data: boolean): unknown {
   // Get the function name
   const functionName = node.functionName;
 
@@ -116,9 +102,5 @@ export function applyBooleanFunction(node: ASTNode, data: boolean): unknown {
       return isTrue(data);
     case "isFalse":
       return isFalse(data);
-    default:
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_APPLY, {
-        functionName,
-      });
   }
 }

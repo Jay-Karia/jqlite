@@ -75,7 +75,7 @@ export function count(arr: unknown[]): number {
  * @returns {unknown[]} The unique values of the array.
  */
 export function sort(arr: unknown[], type: SortArgs): unknown[] {
-  if (!Array.isArray(arr) || arr.length === 0) {
+  if (arr.length === 0) {
     return arr;
   }
 

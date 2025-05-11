@@ -8,6 +8,7 @@
 //======================================IMPORTS======================================
 
 import type { ASTNode } from "src/ast/types";
+import type { FunctionNode } from "src/ast/nodes";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
@@ -102,7 +103,7 @@ export class Evaluator {
         const category = checkFunction(node.functionName, node.functionCategory);
 
         // Check function arguments
-        checkNumberOfArgs(node);
+        checkNumberOfArgs(node as FunctionNode);
 
         // Evaluate the functions based on the category
         switch (category) {
@@ -534,8 +535,7 @@ export class Evaluator {
    */
   private evaluateContext(node: ASTNode): void {
     // Check for saved context data
-    if (this._saveContextData && this._savedContextData)
-      this._current = this._savedContextData;
+    if (this._saveContextData && this._savedContextData) this._current = this._savedContextData;
 
     // Check if the data is not null
     this._current = checkData(this._current);
@@ -609,7 +609,7 @@ export class Evaluator {
       });
     }
 
-    switch(operator) {
+    switch (operator) {
       case "AND": {
         // Check for children
         const children = node.children;
@@ -672,7 +672,7 @@ export class Evaluator {
     const result: number[] = checkNumericArray(this._current, propertyName);
 
     // Apply the function
-    this._current = applyNumericArrayFunction(node, result);
+    this._current = applyNumericArrayFunction(node as FunctionNode, result);
 
     // Evaluate children if any
     evaluateChildren(node);
@@ -698,7 +698,7 @@ export class Evaluator {
     }
 
     // Apply the function
-    this._current = applyArrayFunction(node, this._current);
+    this._current = applyArrayFunction(node as FunctionNode, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);
@@ -724,7 +724,7 @@ export class Evaluator {
     }
 
     // Apply the function
-    this._current = applyStringFunction(node, this._current);
+    this._current = applyStringFunction(node as FunctionNode, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);
@@ -750,7 +750,7 @@ export class Evaluator {
     }
 
     // Apply the function
-    this._current = applyBooleanFunction(node, this._current);
+    this._current = applyBooleanFunction(node as FunctionNode, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);
