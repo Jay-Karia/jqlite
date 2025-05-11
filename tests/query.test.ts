@@ -23,6 +23,21 @@ describe("Basic Selection", () => {
     expect(query.result).toEqual(data.get());
   });
 
+  test("Empty Root Selector", () => {
+    expect(() => {
+      query.run(".user.name");
+    }).toThrowError();
+  });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
+
   test("Should select a single property", () => {
     query.run("$.metadata");
     expect(query.result).toEqual({
@@ -42,6 +57,18 @@ describe("Basic Selection", () => {
   test("Should select an array element", () => {
     query.run("$.user.tags[0]");
     expect(query.result).toEqual("developer");
+  });
+
+  test("Should throw an error if array index is out of bounds", () => {
+    expect(() => {
+      query.run("$.user.tags[5]");
+    }).toThrowError();
+  });
+
+  test("Should throw an error if not an array", () => {
+    expect(() => {
+      query.run("$.metadata[0]");
+    }).toThrowError();
   });
 
   test("Should select a nested array element", () => {
@@ -143,6 +170,12 @@ describe("Array Slices", () => {
   test("Should not accept empty slice", () => {
     expect(() => {
       query.run("$.products[:]");
+    }).toThrowError();
+  });
+
+  test("Should throw an error if not an array", () => {
+    expect(() => {
+      query.run("$.metadata[2:]");
     }).toThrowError();
   });
 
@@ -341,6 +374,35 @@ describe("Functions", () => {
     // sum
     query.run("$.stats.visitors.#sum()");
     expect(query.result).toEqual(12164);
+
+    // Invalid arguments
+    expect(() => {
+      query.run("$.stats.visitors.#min(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.stats.visitors.#max(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.stats.visitors.#avg(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.stats.visitors.#sum(1)");
+    }).toThrowError();
+
+    // Invalid values
+    expect(() => {
+      query.run("$.products[?(@.price < 1000)].#min()");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products[?(@.price < 1000)].#max()");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products[?(@.price < 1000)].#avg()");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products[?(@.price < 1000)].#sum()");
+    }).toThrowError();
+
   });
 
   test("Array functions", () => {
@@ -418,6 +480,42 @@ describe("Functions", () => {
     // unique
     query.run("$.products[0].reviews.#unique()");
     expect(query.result).toEqual([4, 5, 3]);
+
+    // Invalid arguments
+    expect(() => {
+      query.run("$.products.#count(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products.#sort(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products.#reverse(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products.#unique(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products.#sort(asc, desc)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products.#sort(abc)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products.#sort(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.products.#sort('asc')");
+    }).toThrowError();
+
+    // Empty array
+    query.run("$.products[?(@.price < 1000)].#count()");
+    expect(query.result).toEqual(0);
+    query.run("$.products[?(@.price < 1000)].#sort()");
+    expect(query.result).toEqual([]);
+    query.run("$.products[?(@.price < 1000)].#reverse()");
+    expect(query.result).toEqual([]);
+    query.run("$.products[?(@.price < 1000)].#unique()");
+    expect(query.result).toEqual([]);
   });
 
   test("String functions", () => {
@@ -454,6 +552,51 @@ describe("Functions", () => {
     // equals
     query.run("$.user.name.#equals('John Doe')");
     expect(query.result).toEqual(true);
+
+    // Invalid arguments
+    expect(() => {
+      query.run("$.user.name.#contains(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#contains()");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#contains('abc', 'def')");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#length(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring(1, 2, 3)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring(-1, 2)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring(-1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring('1')");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring(abc)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#upper(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#lower(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#equals(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#equals('John Doe', 'Jane Doe')");
+    }).toThrowError();
+
   });
 
   test("Boolean functions", () => {
@@ -464,6 +607,14 @@ describe("Functions", () => {
     // isFalse
     query.run("$.user.isActive.#isFalse()");
     expect(query.result).toEqual(false);
+
+    // Invalid arguments
+    expect(() => {
+      query.run("$.user.isActive.#isTrue(1)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.isActive.#isFalse(1)");
+    }).toThrowError();
   });
 
   test("Quoted string arguments", () => {

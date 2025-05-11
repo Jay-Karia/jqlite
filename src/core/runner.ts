@@ -45,11 +45,6 @@ export class QueryRunner {
 
     // Check the root node
     const root = ast.getRootNode();
-    if (!root) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_ROOT_NODE, {
-        root,
-      });
-    }
 
     // Get the data from memory
     const data = dataStore.get();

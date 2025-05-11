@@ -170,6 +170,7 @@ describe("Syntax", () => {
       // Omission
       "$.products.!)",
       "$.products.!(name",
+      "$.products.!name)",
       "$.products.(name)!",
       "$.products.!(name,,price)",
       "$.products.!name.price",

@@ -472,8 +472,8 @@ export class AST {
    *  Get the root node of the AST.
    * @returns {RootNode} - Returns the root node of the AST.
    */
-  public getRootNode(): RootNode | null {
-    return this._root;
+  public getRootNode(): RootNode {
+    return this._root as RootNode;
   }
 
   /**
