@@ -35,8 +35,9 @@ export class QueryRunner {
     // Remove leading and trailing white spaces
     query = query.trim();
 
-    // Reset the context
+    // Reset the context and AST
     context.reset();
+    ast.reset();
 
     // Parse the tokens
     const tokens: Token[] = lexer.tokenize(query);

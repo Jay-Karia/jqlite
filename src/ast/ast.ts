@@ -491,6 +491,15 @@ export class AST {
   public getConditionNode(): ASTNode | null {
     return this._conditionNode;
   }
+
+  /**
+   * Reset the AST.
+   */
+  public reset(): void {
+    this._root = null;
+    this._recentNode = null;
+    this._conditionNode = null;
+  }
 }
 
 export const ast = new AST();
