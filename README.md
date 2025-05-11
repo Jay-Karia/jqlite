@@ -97,3 +97,9 @@ $.friends[?(@.country.#contains('IN'))].name
 $.scores[?( (@ > 150) || (@ < 100) )]
 $.friends[?( (@.age > 20) && (@.hobbies[0].#contains('sports')) )]
 ```
+
+---
+
+### 📝 Contributing
+
+Read the [CONTRIBUTING.md](/CONTRIBUTING.md) file for instructions on how to contribute to this project.
