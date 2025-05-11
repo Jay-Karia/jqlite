@@ -471,16 +471,8 @@ export class Parser {
    */
   private parseComparison(tokens: Token[], index: number): void {
     // Get the comparison operator
-    const comparisonOperator = context.get("comparisonOperator") ?? null;
-
-    // Check if the comparison operator is valid
-    if (!comparisonOperator) {
-      throw new ParserError(ERROR_MESSAGES.PARSER.INVALID_COMPARISON_OPERATOR, {
-        token: tokens[index].value,
-        index: index,
-      });
-    }
-
+    const comparisonOperator = context.get("comparisonOperator") as string;
+    
     // Get the number
     const number = tokens[index].value;
 

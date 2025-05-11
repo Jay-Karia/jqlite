@@ -109,6 +109,13 @@ describe("ConfigManager", () => {
 
     // Clean up
     unlinkSync(configFilePath);
+
+    // Load a non JSON file
+    const invalidConfigFilePath = "./tests/test2.txt";
+    writeFileSync(invalidConfigFilePath, "This is not a JSON file");
+
+    expect(() => config.load(invalidConfigFilePath)).toThrowError();
+    unlinkSync(invalidConfigFilePath);
   });
 
   test("Config values", () => {

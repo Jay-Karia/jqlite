@@ -389,7 +389,7 @@ describe("Functions", () => {
       query.run("$.stats.visitors.#sum(1)");
     }).toThrowError();
 
-    // Invalid values
+    // Empty array
     expect(() => {
       query.run("$.products[?(@.price < 1000)].#min()");
     }).toThrowError();
@@ -701,6 +701,12 @@ describe("Conditions", () => {
   test("Should throw an error if data is not an array", () => {
     expect(() => {
       query.run("$.metadata[?(@.debug.#isTrue())]");
+    }).toThrowError();
+  });
+
+  test("Should not allow nested conditions", () => {
+    expect(() => {
+      query.run("$.products[?(@.reviews[?(@ > 4)])]");
     }).toThrowError();
   });
 

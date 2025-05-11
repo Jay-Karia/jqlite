@@ -117,6 +117,8 @@ describe("Syntax", () => {
       "$.me.123",
       "$.me.[age]",
       "$.me.[1",
+      "$.me[1",
+      "$.me1]",
       "$.me.name.[1]",
       ".friends[]",
       "$friends[]",
