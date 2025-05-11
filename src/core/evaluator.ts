@@ -8,7 +8,7 @@
 //======================================IMPORTS======================================
 
 import type { ASTNode } from "src/ast/types";
-import type { FunctionNode } from "src/ast/nodes";
+import type { ArrayAccessNode, ArraySliceNode, ComparisonNode, ConditionNode, ContextNode, FunctionNode, LogicalNode, MultipleOmitNode, MultipleSelectNode, OmitNode, PropertyNode, WildcardNode } from "src/ast/nodes";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
@@ -66,37 +66,37 @@ export class Evaluator {
         }
         break;
       case "Property":
-        this.evaluateProperty(node);
+        this.evaluateProperty(node as PropertyNode);
         break;
       case "ArrayAccess":
-        this.evaluateArrayAccess(node);
+        this.evaluateArrayAccess(node as ArrayAccessNode);
         break;
       case "Wildcard":
-        this.evaluateWildCard(node);
+        this.evaluateWildCard(node as WildcardNode);
         break;
       case "ArraySlice":
-        this.evaluateArraySlice(node);
+        this.evaluateArraySlice(node as ArraySliceNode);
         break;
       case "Omit":
-        this.evaluateOmit(node);
+        this.evaluateOmit(node as OmitNode);
         break;
       case "MultipleSelect":
-        this.evaluateMultipleSelect(node);
+        this.evaluateMultipleSelect(node as MultipleSelectNode);
         break;
       case "MultipleOmit":
-        this.evaluateMultipleOmit(node);
+        this.evaluateMultipleOmit(node as MultipleOmitNode);
         break;
       case "Comparison":
-        this.evaluateComparison(node);
+        this.evaluateComparison(node as ComparisonNode);
         break;
       case "Condition":
-        this.evaluateCondition(node);
+        this.evaluateCondition(node as ConditionNode);
         break;
       case "Context":
-        this.evaluateContext(node);
+        this.evaluateContext(node as ContextNode);
         break;
       case "Logical":
-        this.evaluateLogicGate(node);
+        this.evaluateLogicGate(node as LogicalNode);
         break;
       case "Function": {
         // Get function category
@@ -108,16 +108,16 @@ export class Evaluator {
         // Evaluate the functions based on the category
         switch (category) {
           case "numericArray":
-            this.numericArrayFunction(node);
+            this.numericArrayFunction(node as FunctionNode);
             break;
           case "array":
-            this.arrayFunction(node);
+            this.arrayFunction(node as FunctionNode);
             break;
           case "string":
-            this.stringFunction(node);
+            this.stringFunction(node as FunctionNode);
             break;
           case "boolean":
-            this.booleanFunction(node);
+            this.booleanFunction(node as FunctionNode);
             break;
         }
         break;
@@ -147,7 +147,7 @@ export class Evaluator {
    * Evaluates the property node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateProperty(node: ASTNode): void {
+  private evaluateProperty(node: PropertyNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -173,7 +173,7 @@ export class Evaluator {
    * Evaluates the array access node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateArrayAccess(node: ASTNode): void {
+  private evaluateArrayAccess(node: ArrayAccessNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -213,7 +213,7 @@ export class Evaluator {
    * Evaluates the wildcard node
    * @param {ASTNode} node The AST Node to evaluate
    */
-  private evaluateWildCard(node: ASTNode): void {
+  private evaluateWildCard(node: WildcardNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -258,7 +258,7 @@ export class Evaluator {
    * Evaluates the array slice node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateArraySlice(node: ASTNode): void {
+  private evaluateArraySlice(node: ArraySliceNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -296,7 +296,7 @@ export class Evaluator {
    * Evaluates the not node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateOmit(node: ASTNode): void {
+  private evaluateOmit(node: OmitNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -336,7 +336,7 @@ export class Evaluator {
    * Evaluates the multiple select node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateMultipleSelect(node: ASTNode): void {
+  private evaluateMultipleSelect(node: MultipleSelectNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -386,7 +386,7 @@ export class Evaluator {
    * Evaluates the multiple omit node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateMultipleOmit(node: ASTNode): void {
+  private evaluateMultipleOmit(node: MultipleOmitNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -399,11 +399,6 @@ export class Evaluator {
 
     // Get the keys
     const keys = node.omittedKeys;
-    if (!keys || keys.length === 0) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_NO_KEYS, {
-        type: node.type,
-      });
-    }
 
     // Delete the key
     let result: Record<string, unknown> | string | null = { ...this._current };
@@ -428,7 +423,7 @@ export class Evaluator {
    * Evaluates the comparison node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateComparison(node: ASTNode): void {
+  private evaluateComparison(node: ComparisonNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -441,34 +436,18 @@ export class Evaluator {
 
     // Get the operator
     const operator = node.comparisonOperator;
-    if (!operator) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_COMPARISON_OPERATOR, {
-        type: node.type,
-      });
-    }
 
     // Get the value
     const value = node.comparisonValue;
-    if (value === undefined) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_COMPARISON_VALUE, {
-        type: node.type,
-      });
-    }
 
     // Compare the values
-    let result: boolean;
+    let result: boolean | null = null;
     switch (operator) {
       case "==":
-        result = this._current == value;
-        break;
-      case "===":
         result = this._current === value;
         break;
       case "!=":
         result = this._current != value;
-        break;
-      case "!==":
-        result = this._current !== value;
         break;
       case "<":
         result = this._current < value;
@@ -482,11 +461,6 @@ export class Evaluator {
       case ">=":
         result = this._current >= value;
         break;
-      default:
-        throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_COMPARISON_OPERATOR, {
-          type: node.type,
-          operator,
-        });
     }
 
     // Update the current value
@@ -497,7 +471,7 @@ export class Evaluator {
    * Evaluates the condition node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateCondition(node: ASTNode): void {
+  private evaluateCondition(node: ConditionNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -533,7 +507,7 @@ export class Evaluator {
    * Evaluates the context node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateContext(node: ASTNode): void {
+  private evaluateContext(node: ContextNode): void {
     // Check for saved context data
     if (this._saveContextData && this._savedContextData) this._current = this._savedContextData;
 
@@ -597,7 +571,7 @@ export class Evaluator {
    * Evaluates the logic gate node
    * @param {ASTNode} node The AST node to evaluate
    */
-  private evaluateLogicGate(node: ASTNode): void {
+  private evaluateLogicGate(node: LogicalNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -620,7 +594,7 @@ export class Evaluator {
         }
 
         // Update the current value
-        this.evaluateContext(children[0]);
+        this.evaluateContext(children[0] as ContextNode);
         break;
       }
       case "OR": {
@@ -643,7 +617,7 @@ export class Evaluator {
         const current = this._current;
 
         // Concat the two arrays
-        this.evaluateContext(children[0]);
+        this.evaluateContext(children[0] as ContextNode);
         this._current = this._current.concat(current);
         break;
       }
@@ -661,7 +635,7 @@ export class Evaluator {
    * Evaluates the numeric array function
    * @param {ASTNode} node The AST node to evaluate
    */
-  private numericArrayFunction(node: ASTNode): void {
+  private numericArrayFunction(node: FunctionNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -672,7 +646,7 @@ export class Evaluator {
     const result: number[] = checkNumericArray(this._current, propertyName);
 
     // Apply the function
-    this._current = applyNumericArrayFunction(node as FunctionNode, result);
+    this._current = applyNumericArrayFunction(node, result);
 
     // Evaluate children if any
     evaluateChildren(node);
@@ -682,7 +656,7 @@ export class Evaluator {
    * Evaluates the array function
    * @param {ASTNode} node The AST node to evaluate
    */
-  private arrayFunction(node: ASTNode): void {
+  private arrayFunction(node: FunctionNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -698,7 +672,7 @@ export class Evaluator {
     }
 
     // Apply the function
-    this._current = applyArrayFunction(node as FunctionNode, this._current);
+    this._current = applyArrayFunction(node, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);
@@ -708,7 +682,7 @@ export class Evaluator {
    * Evaluates the string function
    * @param {ASTNode} node The AST node to evaluate
    */
-  private stringFunction(node: ASTNode): void {
+  private stringFunction(node: FunctionNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -724,7 +698,7 @@ export class Evaluator {
     }
 
     // Apply the function
-    this._current = applyStringFunction(node as FunctionNode, this._current);
+    this._current = applyStringFunction(node, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);
@@ -734,7 +708,7 @@ export class Evaluator {
    * Evaluates the boolean function
    * @param {ASTNode} node The AST node to evaluate
    */
-  private booleanFunction(node: ASTNode): void {
+  private booleanFunction(node: FunctionNode): void {
     // Check if the data is not null
     this._current = checkData(this._current);
 
@@ -750,7 +724,7 @@ export class Evaluator {
     }
 
     // Apply the function
-    this._current = applyBooleanFunction(node as FunctionNode, this._current);
+    this._current = applyBooleanFunction(node, this._current);
 
     // Evaluate children if any
     evaluateChildren(node);
