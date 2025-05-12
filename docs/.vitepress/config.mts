@@ -34,11 +34,12 @@ export default defineConfig({
         ],
         collapsed: false,
       },
-      { text: "Configurations", link: "/config" },
+      { text: "Configuration", link: "/config" },
     ],
     nav: [
       { text: 'API Reference', link: '/api' },
       { text: 'Config', link: '/config' },
+      { text: 'Examples', link: '/examples' },
     ]
   },
 });

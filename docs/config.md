@@ -1,4 +1,4 @@
-# Configurations
+# Configuration
 
 :::info
 It will check for `jqlite.json` file in the root folder. If it exists, it will be used to override the default config.
