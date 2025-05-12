@@ -94,8 +94,8 @@ $.friends[0].age > 20
 // Conditions
 $.friends[?(@.age >= 18)]
 $.friends[?(@.country.#contains('IN'))].name
-$.scores[?( (@ > 150) || (@ < 100) )]
-$.friends[?( (@.age > 20) && (@.hobbies[0].#contains('sports')) )]
+$.scores[?((@ > 150) || (@ < 100))]
+$.friends[?((@.age > 20) && (@.hobbies[0].#contains('sports')))]
 ```
 
 ---
