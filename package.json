@@ -1,6 +1,6 @@
 {
   "name": "jqlite-ts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "⚡ The query language for JSON ",
   "packageManager": "pnpm@10.8.0",
   "main": "dist/index.js",
