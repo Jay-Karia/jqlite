@@ -123,6 +123,15 @@ describe("Fallback", () => {
     expect(query.result).toEqual("Query Fallback Value");
     config.clear();
   });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
 });
 
 /**
@@ -160,6 +169,15 @@ describe("Wildcard", () => {
   test("Wildcard nested property selection", () => {
     query.run("$.orders[*].items[0][*].price");
     expect(query.result).toEqual([1299.99, 1599.99]);
+  });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
   });
 });
 
@@ -242,6 +260,15 @@ describe("Array Slices", () => {
     query.run("$.products[0:1][0].reviews[-2:-1]");
     expect(query.result).toEqual([5]);
   });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
 });
 
 /**
@@ -290,6 +317,15 @@ describe("Multiple Key Selection", () => {
     expect(() => {
       query.run("$.products.(none, nonExistentKey)");
     }).toThrowError();
+  });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
   });
 });
 
@@ -345,6 +381,15 @@ describe("Key Omission", () => {
       notes: null,
       tags: ["demo", "sample", "full", "demo"],
     });
+  });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
   });
 });
 
@@ -402,7 +447,6 @@ describe("Functions", () => {
     expect(() => {
       query.run("$.products[?(@.price < 1000)].#sum()");
     }).toThrowError();
-
   });
 
   test("Array functions", () => {
@@ -596,7 +640,6 @@ describe("Functions", () => {
     expect(() => {
       query.run("$.user.name.#equals('John Doe', 'Jane Doe')");
     }).toThrowError();
-
   });
 
   test("Boolean functions", () => {
@@ -644,6 +687,15 @@ describe("Functions", () => {
     // Reset to default
     config.clear();
   });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
 });
 
 /**
@@ -673,7 +725,6 @@ describe("Comparison Operators", () => {
   test("Greater than or equal to", () => {
     query.run("$.products[0].price >= 1299");
     expect(query.result).toEqual(true);
-
   });
 
   test("Less than or equal to", () => {
@@ -685,6 +736,15 @@ describe("Comparison Operators", () => {
     expect(() => {
       query.run("$.products[0].price == 1200 == 1300");
     }).toThrowError();
+  });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
   });
 });
 
@@ -712,10 +772,10 @@ describe("Conditions", () => {
 
   test("Should filter numeric arrays", () => {
     query.run("$.stats.visitors[?(@ > 1500)]");
-    expect(query.result).toEqual([ 1542, 1900, 1832, 2100, 1920, 1850 ]);
+    expect(query.result).toEqual([1542, 1900, 1832, 2100, 1920, 1850]);
 
     query.run("$.stats.visitors[?(@ < 1500)]");
-    expect(query.result).toEqual([ 1020 ]);
+    expect(query.result).toEqual([1020]);
 
     query.run("$.stats.visitors[?(@ == 1500)]");
     expect(query.result).toEqual([]);
@@ -723,10 +783,10 @@ describe("Conditions", () => {
 
   test("Should filter string arrays", () => {
     query.run("$.user.tags[?(@.#equals('developer'))]");
-    expect(query.result).toEqual([ "developer" ]);
+    expect(query.result).toEqual(["developer"]);
 
     query.run("$.user.tags[?(@.#contains('script'))]");
-    expect(query.result).toEqual([ "javascript", "typescript" ]);
+    expect(query.result).toEqual(["javascript", "typescript"]);
   });
 
   test("Should filter object arrays", () => {
@@ -827,5 +887,14 @@ describe("Conditions", () => {
         reviews: [5, 5, 4, 3, 5],
       },
     ]);
+  });
+
+  test("Should throw an error if no data is found", async () => {
+    data.set(JSON.stringify(null));
+    expect(() => {
+      query.run("$");
+    }).toThrowError();
+
+    await data.fetch("https://jqlite.vercel.app/demo.json");
   });
 });
