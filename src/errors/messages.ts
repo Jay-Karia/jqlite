@@ -125,23 +125,11 @@ export const ERROR_MESSAGES = {
       cause: "The AST is empty",
       solution: "Add the '$' character to the query",
     } as ErrorParams,
-    CHILD_NOT_FOUND: {
-      message: "Child not found",
-      code: "CHILD_NOT_FOUND",
-      cause: "The child node is not present in the parent node",
-      solution: "Make sure the child node is present in the parent node",
-    } as ErrorParams,
     UNEXPECTED_TOKEN: {
       message: "Unexpected token",
       code: "UNEXPECTED_TOKEN",
       cause: "The token is not valid",
       solution: "Make sure the token is valid",
-    } as ErrorParams,
-    PROPERTY_NODE_REQUIRED: {
-      message: "Property node required",
-      code: "PROPERTY_NODE_REQUIRED",
-      cause: "The previous node is not a property node",
-      solution: "Make sure the previous node is a property node before using array access",
     } as ErrorParams,
     MULTIPLE_TRUE: {
       message: "Multiple select/omit is on",
@@ -166,12 +154,6 @@ export const ERROR_MESSAGES = {
       code: "INVALID_FUNCTION_NAME",
       cause: "The function name is not valid",
       solution: "Make sure the function name is valid",
-    } as ErrorParams,
-    INVALID_COMPARISON_OPERATOR: {
-      message: "Invalid comparison operator",
-      code: "INVALID_COMPARISON_OPERATOR",
-      cause: "The comparison operator is not valid",
-      solution: "Make sure the comparison operator is valid",
     } as ErrorParams,
     UNKNOWN_TOKEN: {
       message: "Unknown token encountered",
@@ -211,12 +193,6 @@ export const ERROR_MESSAGES = {
       code: "EMPTY_DATA",
       cause: "The data is empty",
       solution: "Make sure you set the data in memory",
-    } as ErrorParams,
-    UNKNOWN_NODE_TYPE: {
-      message: "Unknown node type",
-      code: "UNKNOWN_NODE_TYPE",
-      cause: "The node type is not valid",
-      solution: "Make sure the node type is valid",
     } as ErrorParams,
     PROPERTY_NOT_FOUND: {
       message: "Property not found",
@@ -308,24 +284,12 @@ export const ERROR_MESSAGES = {
       cause: "The data is not a numeric array",
       solution: "Make sure the data is a numeric array",
     } as ErrorParams,
-    ERR_FUNCTION_APPLY: {
-      message: "Error occurred while applying function",
-      code: "ERR_FUNCTION_APPLY",
-      cause: "Undefined value of the function name",
-      solution: "Check whether the function declaration is valid",
-    } as ErrorParams,
     ERR_MULTIPLE_SELECT: {
       message: "Error occurred while evaluating multiple select",
       code: "ERR_MULTIPLE_SELECT",
       cause: "Undefined value of the multiple select",
       solution: "Check whether the multiple select is valid",
     } as ErrorParams,
-    ERR_FUNCTION_NAME: {
-      message: "Error occurred while evaluating function name",
-      code: "ERR_FUNCTION_NAME",
-      cause: "Undefined value of the function name",
-      solution: "Check whether the function name is valid",
-    },
     INVALID_NUMBER_OF_ARGS: {
       message: "Invalid number of arguments",
       code: "INVALID_NUMBER_OF_ARGS",
@@ -337,12 +301,6 @@ export const ERROR_MESSAGES = {
       code: "INVALID_ARGUMENTS",
       cause: "The arguments are not valid",
       solution: "Make sure the arguments are valid",
-    } as ErrorParams,
-    ERR_ARRAY_OF_NON_PRIMITIVES: {
-      message: "Error occurred while evaluating array of non primitives",
-      code: "ERR_ARRAY_OF_NON_PRIMITIVES",
-      cause: "The data is an array of non primitives",
-      solution: "Make sure the data is an array of primitives",
     } as ErrorParams,
     NOT_A_STRING: {
       message: "Not a string",
@@ -362,29 +320,11 @@ export const ERROR_MESSAGES = {
       cause: "The data is not a number",
       solution: "Make sure the data is a number",
     } as ErrorParams,
-    ERR_COMPARISON_OPERATOR: {
-      message: "Error occurred while evaluating comparison",
-      code: "ERR_COMPARISON_OPERATOR",
-      cause: "Undefined value of the comparison operator",
-      solution: "Check whether the comparison operator is valid",
-    } as ErrorParams,
-    ERR_COMPARISON_VALUE: {
-      message: "Error occurred while evaluating comparison value",
-      code: "ERR_COMPARISON_VALUE",
-      cause: "Undefined value of the comparison value",
-      solution: "Check whether the comparison value is valid",
-    } as ErrorParams,
     EMPTY_CONDITION: {
       message: "Empty condition",
       code: "EMPTY_CONDITION",
       cause: "The condition is empty",
       solution: "Make sure the condition is valid",
-    } as ErrorParams,
-    CONDITION_NOT_BOOLEAN: {
-      message: "Condition is not boolean",
-      code: "CONDITION_NOT_BOOLEAN",
-      cause: "The condition is not boolean",
-      solution: "Make sure the condition is boolean",
     } as ErrorParams,
     ERR_LOGICAL_OPERATOR: {
       message: "Error occurred while evaluating logical operator",
