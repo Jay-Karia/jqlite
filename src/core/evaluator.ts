@@ -151,7 +151,7 @@ export class Evaluator {
     // Check if the data is not null
     this._current = checkData(this._current);
 
-    // Check if the property exists in the node
+    // Check if the property exists
     const propertyName = checkProperty(node.propertyName, node.type);
 
     // Get the value

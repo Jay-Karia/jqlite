@@ -9,7 +9,7 @@
 
 import type { ArrayAccessNode, PropertyNode, RootNode } from "./nodes";
 import type { ASTNode } from "./types";
-import type {functionCategories, functionNames} from "src/functions/types";
+import type { functionCategories, functionNames } from "src/functions/types";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { ParserError } from "src/errors/factory";
 import { addSpecificKeys, checkRoot, updateParent } from "./helpers";
@@ -274,7 +274,7 @@ export class AST {
       parent: parent ?? this._root,
       functionName,
       functionCategory,
-      functionArgs
+      functionArgs,
     };
 
     // Update the parent
@@ -388,30 +388,40 @@ export class AST {
   //===================================TRAVERSAL=====================================
 
   /**
-   * Get the nodes in pre-order traversal.
-   * @returns {ASTNode[]} - The nodes in pre-order traversal.
-   */
-  public preOrder(): ASTNode[] {
-    // Check if the root node is empty
-    if (!this._root) {
-      throw new ParserError(ERROR_MESSAGES.PARSER.ROOT_REQUIRED, {
-        root: this._root,
+ * Get the nodes in pre-order traversal with circular references removed.
+ * @returns {ASTNode[]} - The nodes in pre-order traversal.
+ */
+public preOrder(): ASTNode[] {
+  const result = new Array<ASTNode>();
+
+  // Traverse the AST in pre-order
+  const traverse = (node: ASTNode): void => {
+    // Create a copy of the node without circular references
+    const sanitizedNode = { ...node };
+
+    // Remove the parent property to break circular reference
+    delete sanitizedNode.parent;
+
+    // Also remove the children property initially
+    delete sanitizedNode.children;
+
+    // Add the sanitized node to results
+    result.push(sanitizedNode);
+
+    // Traverse children if they exist and recreate the children array
+    // without circular references
+    if (node.children && node.children.length > 0) {
+      sanitizedNode.children = [];
+      node.children.forEach(child => {
+        traverse(child);
       });
     }
+  };
 
-    const result = new Array<ASTNode>();
+  traverse(this._root as ASTNode);
 
-    // Traverse the AST in pre-order
-    const traverse = (node: ASTNode): void => {
-      result.push(node);
-      if (node.children) {
-        node.children.forEach(child => traverse(child));
-      }
-    };
-    traverse(this._root);
-
-    return result;
-  }
+  return result;
+}
 
   /**
    * Convert the AST to JSON format.
