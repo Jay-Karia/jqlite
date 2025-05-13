@@ -388,40 +388,40 @@ export class AST {
   //===================================TRAVERSAL=====================================
 
   /**
- * Get the nodes in pre-order traversal with circular references removed.
- * @returns {ASTNode[]} - The nodes in pre-order traversal.
- */
-public preOrder(): ASTNode[] {
-  const result = new Array<ASTNode>();
+   * Get the nodes in pre-order traversal with circular references removed.
+   * @returns {ASTNode[]} - The nodes in pre-order traversal.
+   */
+  public preOrder(): ASTNode[] {
+    const result = new Array<ASTNode>();
 
-  // Traverse the AST in pre-order
-  const traverse = (node: ASTNode): void => {
-    // Create a copy of the node without circular references
-    const sanitizedNode = { ...node };
+    // Traverse the AST in pre-order
+    const traverse = (node: ASTNode): void => {
+      // Create a copy of the node without circular references
+      const sanitizedNode = { ...node };
 
-    // Remove the parent property to break circular reference
-    delete sanitizedNode.parent;
+      // Remove the parent property to break circular reference
+      delete sanitizedNode.parent;
 
-    // Also remove the children property initially
-    delete sanitizedNode.children;
+      // Also remove the children property initially
+      delete sanitizedNode.children;
 
-    // Add the sanitized node to results
-    result.push(sanitizedNode);
+      // Add the sanitized node to results
+      result.push(sanitizedNode);
 
-    // Traverse children if they exist and recreate the children array
-    // without circular references
-    if (node.children && node.children.length > 0) {
-      sanitizedNode.children = [];
-      node.children.forEach(child => {
-        traverse(child);
-      });
-    }
-  };
+      // Traverse children if they exist and recreate the children array
+      // without circular references
+      if (node.children && node.children.length > 0) {
+        sanitizedNode.children = [];
+        node.children.forEach(child => {
+          traverse(child);
+        });
+      }
+    };
 
-  traverse(this._root as ASTNode);
+    traverse(this._root as ASTNode);
 
-  return result;
-}
+    return result;
+  }
 
   /**
    * Convert the AST to JSON format.
@@ -435,22 +435,28 @@ public preOrder(): ASTNode[] {
       });
     }
 
-    // Convert the AST to JSON
-    const traverse = (node: ASTNode): any => {
-      const obj: any = {
-        type: node.type,
-      };
+    // Create a deep copy of the AST without circular references
+    const sanitizeNode = (node: ASTNode): any => {
+      const copy: any = { ...node };
 
-      // Add specific node properties to the object
-      addSpecificKeys(node, obj);
+      // Remove parent reference to break circularity
+      delete copy.parent;
 
+      // Process children recursively
       if (node.children && node.children.length > 0) {
-        obj.children = node.children.map(child => traverse(child));
+        copy.children = node.children.map(child => sanitizeNode(child));
+      } else {
+        delete copy.children;
       }
 
-      return obj;
+      // Add type-specific keys
+      addSpecificKeys(node, copy);
+
+      return copy;
     };
-    return JSON.stringify(traverse(this._root), null, 2);
+
+    const sanitized = sanitizeNode(this._root);
+    return JSON.stringify(sanitized);
   }
 
   //=================================================================================

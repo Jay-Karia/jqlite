@@ -43,6 +43,7 @@ export class QueryRunner {
     const tokens: Token[] = lexer.tokenize(query);
     parser.parse(tokens);
 
+
     // Check the root node
     const root = ast.getRootNode();
 
