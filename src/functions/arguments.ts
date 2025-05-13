@@ -68,28 +68,6 @@ export function checkSortArguments(node: FunctionNode): SortArgs {
 }
 
 /**
- * Checks the arguments for the contains function based on the AST node.
- * @param {FunctionNode} node The AST node containing the function to check
- * @returns {string} The substring argument
- * @throws {EvaluatorError} If the arguments are incorrect
- */
-export function checkContainsArguments(node: FunctionNode): string {
-  // Get the function arguments
-  const functionArgs = node.functionArgs;
-
-  // Check if the function arguments are valid
-  if (functionArgs.length > 0) {
-    return functionArgs[0];
-  } else {
-    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.INVALID_ARGUMENTS, {
-      functionName: node.functionName,
-      type: node.type,
-      arguments: functionArgs,
-    });
-  }
-}
-
-/**
  * Checks the arguments for the substring function based on the AST node.
  * @param {FunctionNode} node The AST node containing the function to check
  * @returns {SubstringArgs} The substring arguments

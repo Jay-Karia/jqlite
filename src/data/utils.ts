@@ -18,7 +18,7 @@ import { ERROR_MESSAGES } from "../errors/messages";
  * @param {string} data The JSON data to parse
  * @returns {object | null} The parsed JSON data
  */
-export function parseJson(data: string): Record<string, unknown> | null {
+export function parseJson(data: string): Record<string, unknown> {
   try {
     return JSON.parse(data);
   } catch {
@@ -57,23 +57,4 @@ export function getDefaultLoadFile(): string {
     });
 
   return loadPath;
-}
-
-/**
- * Trim the data
- * @param {string} data The data to trim
- * @returns {string} The trimmed data
- */
-export function trimData(data?: string): string {
-  // Check if the data is defined
-  if (!data) return "";
-
-  // Check if the data is too long
-  const maxLength = 50;
-  if (data.length > maxLength) {
-    return `${data.substring(0, maxLength)}...`;
-  }
-
-  // Return the data as is
-  return data;
 }

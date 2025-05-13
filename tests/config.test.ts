@@ -17,12 +17,12 @@ import { overrideConfig } from "../src/config/utils";
 //=============================================================================
 
 describe("ConfigManager", () => {
-  test("default config", () => {
+  test("Default config", () => {
     // Initialize
     expect(config.get()).toEqual(DEFAULT_CONFIG);
   });
 
-  test("override", () => {
+  test("Override", () => {
     const newConfigs = [
       {
         loadFile: "./test.json",
@@ -54,6 +54,17 @@ describe("ConfigManager", () => {
     config.set(newConfig);
     expect(config.get()).toEqual(overrideConfig(DEFAULT_CONFIG, newConfig));
     config.clear();
+
+    // Invalid config
+    const invalidConfig: any = {
+      loadFile: 101,
+      fetchUrl: true,
+      quotedArguments: {},
+      fallback: [],
+      conditionFormat: "arr",
+    };
+    expect(() => config.set(invalidConfig)).toThrowError();
+    expect(config.get()).toEqual(DEFAULT_CONFIG);
   });
 
   test("clear()", () => {
@@ -116,6 +127,24 @@ describe("ConfigManager", () => {
 
     expect(() => config.load(invalidConfigFilePath)).toThrowError();
     unlinkSync(invalidConfigFilePath);
+
+    // Load a non-existing file
+    const nonExistingFilePath = "./tests/non-existing.json";
+    expect(() => config.load(nonExistingFilePath)).toThrowError();
+
+    // Load an invalid config file
+    const invalidConfigFilePath2 = "./tests/test3.json";
+    const invalidConfigData = {
+      loadFile: 101,
+      fetchUrl: true,
+      quotedArguments: {},
+      fallback: [],
+      conditionFormat: "arr",
+    };
+    writeFileSync(invalidConfigFilePath2, JSON.stringify(invalidConfigData, null, 2));
+
+    expect(() => config.load(invalidConfigFilePath2)).toThrowError();
+    unlinkSync(invalidConfigFilePath2);
   });
 
   test("Config values", () => {
@@ -163,6 +192,51 @@ describe("ConfigManager", () => {
 
       expect(() => config.set(conditionFormatConfig)).toThrowError();
     });
+  });
 
+  test("Extra keys", () => {
+    const newConfig = {
+      loadFile: "./test.json",
+      fetchUrl: "https://example.com/test.json",
+      extraKey: "extraValue",
+    };
+
+    expect(() => config.set(newConfig)).toThrowError();
+
+    // Load from a file
+    const configFilePath = "./tests/test3.json";
+    const configData = {
+      loadFile: "./test.json",
+      fetchUrl: "https://example.com/test.json",
+      extraKey: "extraValue",
+    };
+    writeFileSync(configFilePath, JSON.stringify(configData, null, 2));
+
+    expect(() => config.load(configFilePath)).toThrowError();
+    unlinkSync(configFilePath);
+  });
+
+  test("overrideConfig()", () => {
+    const nestedObject = {
+      key1: "value1",
+      key2: {
+        key3: "value3",
+        key4: "value4",
+      },
+    };
+    const overrideObject = {
+      key2: {
+        key4: "newValue4",
+      },
+    };
+
+    const newObject = overrideConfig<any>(nestedObject, overrideObject);
+    expect(newObject).toEqual({
+      key1: "value1",
+      key2: {
+        key3: "value3",
+        key4: "newValue4",
+      },
+    });
   });
 });

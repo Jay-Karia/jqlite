@@ -108,7 +108,7 @@ export function checkData(data: Record<string, unknown> | unknown | null): Recor
  * @returns {string} The property name if it is not null or undefined
  */
 export function checkProperty(property: string | undefined, type: NodeType): string {
-  if (!property) {
+  if (!property || property === null) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.PROPERTY_NOT_FOUND, {
       property,
       type: type,
@@ -144,17 +144,7 @@ export function checkValue(value: Record<string, unknown> | string | null, fallb
  * @param {number} arrayLength The expected length of the array
  * @returns {number} The index if it is valid
  */
-export function checkIndex(index: number | undefined, property: string | string[] | undefined, type: NodeType, arrayLength: number): number {
-  // Check whether the index is defined
-  if (index === undefined) {
-    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_ARRAY_INDEX_NOT_DEFINED, {
-      type,
-      property,
-      index,
-      arrayLength,
-    });
-  }
-
+export function checkIndex(index: number, property: string | string[] | undefined, type: NodeType, arrayLength: number): number {
   // Check the index bounds
   if (index < 0 || index >= arrayLength) {
     throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ARRAY_INDEX_OUT_OF_BOUNDS, {
@@ -174,13 +164,7 @@ export function checkIndex(index: number | undefined, property: string | string[
  * @param {number} arrayLength The actual array length
  * @returns {SliceRange} The valid slice range
  */
-export function checkSliceRange(sliceRange: SliceRange | undefined, arrayLength: number): SliceRange {
-  if (sliceRange === undefined) {
-    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_SLICE_RANGE, {
-      sliceRange,
-    });
-  }
-
+export function checkSliceRange(sliceRange: SliceRange, arrayLength: number): SliceRange {
   if (!sliceRange.start) sliceRange.start = 0;
   if (!sliceRange.end) sliceRange.end = arrayLength;
 

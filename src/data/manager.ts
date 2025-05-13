@@ -63,10 +63,6 @@ export class DataManager {
 
     // Check if data is in file
     const fileData = loadFromFile(filePath);
-    if (!fileData)
-      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
-        filePath,
-      });
 
     // Set data to memory
     this.set(fileData);
@@ -100,10 +96,6 @@ export class DataManager {
 
     // Check if data is in URL
     const urlData = await loadFromUrl(urlToLoad);
-    if (!urlData)
-      throw new DataError(ERROR_MESSAGES.DATA.NO_DATA_TO_LOAD, {
-        url: urlToLoad,
-      });
 
     // Set data to memory
     this.set(urlData);

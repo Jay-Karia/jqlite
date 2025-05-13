@@ -8,7 +8,7 @@
 //======================================IMPORTS====================================
 
 import { type Token, TokenType } from "./tokens";
-import { countSkippable, getEoqToken, getTokenType, hasNextToken, isAlphanumeric, isDigit, readAlphanumeric, readFallbackValue, readNumber } from "./helpers";
+import { getEoqToken, getTokenType, hasNextToken, isAlphanumeric, isDigit, readAlphanumeric, readFallbackValue, readNumber } from "./helpers";
 
 //=================================================================================
 
@@ -24,7 +24,6 @@ export class Lexer {
   private character: string;
   private isEoq: boolean;
   private isFallback: boolean;
-  private ignoreWhitespace: boolean;
   private isDeclaration: boolean;
   private isFunction: boolean;
   private functionDeclared: boolean;
@@ -41,7 +40,6 @@ export class Lexer {
     this.character = "";
     this.isEoq = false;
     this.isFallback = false;
-    this.ignoreWhitespace = false;
     this.isDeclaration = false;
     this.isFunction = false;
     this.functionDeclared = false;
@@ -84,7 +82,6 @@ export class Lexer {
     this.character = "";
     this.isEoq = false;
     this.isFallback = false;
-    this.ignoreWhitespace = false;
     this.isDeclaration = false;
     this.isFunction = false;
     this.functionDeclared = false;
@@ -100,18 +97,6 @@ export class Lexer {
    */
   public getToken(): Token {
     let tokenType: TokenType = TokenType.UNKNOWN;
-
-    // Ignore whitespace
-    if (this.ignoreWhitespace) {
-      this.position += countSkippable(this.input, this.position);
-      this.character = this.input[this.position];
-    }
-
-    // Check for end of query.
-    if (!hasNextToken(this.input, this.position)) {
-      this.isEoq = true;
-      return getEoqToken(this.position);
-    }
 
     // Read the function name
     if (this.isDeclaration) {
@@ -263,23 +248,6 @@ export class Lexer {
   public shift(): void {
     if (!hasNextToken(this.input, this.position)) return;
     this.position++;
-  }
-
-  /**
-   * Checks the token against the given types
-   * @param {Token} token - The token to be checked
-   * @param {string[]} types - The types to be checked against
-   * @returns {boolean} True if the token is of the given type, false otherwise
-   */
-  public match(token: Token, types: string[]): boolean {
-    let valid = false;
-
-    // Check if the token is of the given type
-    types.forEach(type => {
-      if (token.type === type) valid = true;
-    });
-
-    return valid;
   }
 
   //=================================================================================

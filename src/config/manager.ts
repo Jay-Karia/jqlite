@@ -41,10 +41,7 @@ export class ConfigManager {
    */
   public set(newConfig: OverrideConfigType): ConfigType {
     // Validate config values
-    const isValidConfig = validateConfig(newConfig);
-    if (!isValidConfig) {
-      throw new ConfigError(ERROR_MESSAGES.CONFIG.INVALID_CONFIG_FILE, {});
-    }
+    validateConfig(newConfig);
 
     // Set the config
     configStore.set(newConfig);

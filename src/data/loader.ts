@@ -8,7 +8,7 @@
 //======================================IMPORTS====================================
 
 import { readFileSync } from "fs";
-import { parseJson, trimData } from "./utils";
+import { parseJson } from "./utils";
 import { DataError } from "../errors/factory";
 import { ERROR_MESSAGES } from "../errors/messages";
 
@@ -19,7 +19,7 @@ import { ERROR_MESSAGES } from "../errors/messages";
  * @param {string} url The URL to fetch data from
  * @returns {Promise<object | null>} The fetched data
  */
-export async function loadFromUrl(url: string): Promise<Record<string, unknown> | null> {
+export async function loadFromUrl(url: string): Promise<Record<string, unknown>> {
   let urlData;
   try {
     const response = await fetch(url);
@@ -28,7 +28,6 @@ export async function loadFromUrl(url: string): Promise<Record<string, unknown> 
   } catch {
     throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_URL_DATA, {
       url,
-      urlData: trimData(urlData),
     });
   }
 }
@@ -38,7 +37,7 @@ export async function loadFromUrl(url: string): Promise<Record<string, unknown> 
  * @param {string} path The file path to load data from
  * @returns {object | null} The loaded data
  */
-export function loadFromFile(path: string): Record<string, unknown> | null {
+export function loadFromFile(path: string): Record<string, unknown> {
   let data;
   try {
     data = readFileSync(path, "utf-8");
@@ -46,7 +45,6 @@ export function loadFromFile(path: string): Record<string, unknown> | null {
   } catch {
     throw new DataError(ERROR_MESSAGES.DATA.CANNOT_LOAD_FILE_DATA, {
       filePath: path,
-      fileData: trimData(data),
     });
   }
 }

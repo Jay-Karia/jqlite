@@ -95,27 +95,6 @@ export function incrementIndex(token: TokenType): number {
 }
 
 /**
- * Checks if the previous node is of a certain type
- * @param {Token[]} tokens - The tokens array
- * @param {number} index - The current index
- * @param {string} type - The expected type of the previous node
- * @param {ErrorParams} error - The error parameters for handling errors
- * @returns {ASTNode} The previous ASTNode if valid
- */
-export function checkPreviousNode(tokens: Token[], index: number, type: TokenType, error: ErrorParams): ASTNode {
-  const previousNode = ast.getRecentNode();
-  if (!previousNode || previousNode.type !== type) {
-    throw new ParserError(error, {
-      previousNode,
-      currentNode: tokens[index],
-      expectedNode: type,
-    });
-  }
-
-  return previousNode;
-}
-
-/**
  * Get the type of slice among three types
  * @param {Token[]} tokens The tokens fro the query
  * @param {number} index The index of the slice token
@@ -262,15 +241,6 @@ export function handleBracketMismatch(token: Token, index: number, openBracket: 
       expected: "]",
     });
   }
-  // Opening bracket
-  else if (openBracket < 0) {
-    throw new ParserError(ERROR_MESSAGES.PARSER.BRACKET_MISMATCH, {
-      token: token.value,
-      index,
-      openBracket,
-      expected: "[",
-    });
-  }
 }
 
 /**
@@ -287,15 +257,6 @@ export function handleParenthesisMismatch(token: Token, index: number, openParen
       index,
       openParen,
       expected: ")",
-    });
-  }
-  // Opening parenthesis
-  else if (openParen < 0) {
-    throw new ParserError(ERROR_MESSAGES.PARSER.PARENTHESIS_MISMATCH, {
-      token: token.value,
-      index,
-      openParen,
-      expected: "(",
     });
   }
 }

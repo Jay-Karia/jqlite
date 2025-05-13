@@ -80,6 +80,5 @@ export function validateConfig(config: Partial<ConfigType>): boolean {
   validateBooleanValues(config, ["quotedArguments"]);
   validateCustomValues<"array" | "object">(config, ["conditionFormat"], ["array", "object"]);
 
-
   return true;
 }

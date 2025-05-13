@@ -7,7 +7,7 @@
 
 //===================================IMPORTS===================================
 
-import { expect, test, describe } from "vitest";
+import { expect, test, describe, vi } from "vitest";
 import { config, data, query } from "../src/index";
 
 //=============================================================================
@@ -82,6 +82,12 @@ describe("Basic Selection", () => {
     query.run("$[1]");
     expect(query.result).toEqual(150);
     await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
+
+  test("Should throw an error if property is not found", () => {
+    expect(() => {
+      query.run("$.user.null");
+    }).toThrowError();
   });
 });
 
@@ -269,6 +275,18 @@ describe("Array Slices", () => {
 
     await data.fetch("https://jqlite.vercel.app/demo.json");
   });
+
+  test("Should throw an error if slice range out of bonds", () => {
+    expect(() => {
+      query.run("$.stats.visitors[:9]");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.stats.visitors[7:]");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.stats.visitors[7:9]");
+    }).toThrowError();
+  });
 });
 
 /**
@@ -326,6 +344,12 @@ describe("Multiple Key Selection", () => {
     }).toThrowError();
 
     await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
+
+  test("Should throw an error if multiple select is off", () => {
+    expect(() => {
+      query.run("$.products[*].name)");
+    }).toThrowError();
   });
 });
 
@@ -492,6 +516,9 @@ describe("Functions", () => {
     query.run("$.stats.visitors.#sort(desc)");
     expect(query.result).toEqual([2100, 1920, 1900, 1850, 1832, 1542, 1020]);
 
+    query.run("$.user.tags.#sort()");
+    expect(query.result).toEqual(["developer", "javascript", "typescript"]);
+
     // reverse
     query.run("$.products.#reverse()");
     expect(query.result).toEqual([
@@ -614,6 +641,12 @@ describe("Functions", () => {
       query.run("$.user.name.#substring(1, 2, 3)");
     }).toThrowError();
     expect(() => {
+      query.run("$.user.name.#substring(7, 9)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring(-10, 15)");
+    }).toThrowError();
+    expect(() => {
       query.run("$.user.name.#substring(1)");
     }).toThrowError();
     expect(() => {
@@ -626,7 +659,16 @@ describe("Functions", () => {
       query.run("$.user.name.#substring('1')");
     }).toThrowError();
     expect(() => {
+      query.run("$.user.name.#substring('1', 3)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring(0, '1')");
+    }).toThrowError();
+    expect(() => {
       query.run("$.user.name.#substring(abc)");
+    }).toThrowError();
+    expect(() => {
+      query.run("$.user.name.#substring()");
     }).toThrowError();
     expect(() => {
       query.run("$.user.name.#upper(1)");
@@ -896,5 +938,31 @@ describe("Conditions", () => {
     }).toThrowError();
 
     await data.fetch("https://jqlite.vercel.app/demo.json");
+  });
+
+  test("Should throw an error for bracket/parenthesis mismatch", () => {
+    // Bracket mismatch
+    expect(() => {
+      query.run("$.products[?(@.price > 1500)");
+    }).toThrowError();
+
+    // Parenthesis mismatch
+    expect(() => {
+      query.run("$.products[?(@.price > 1500]");
+    }).toThrowError();
+
+  });
+});
+
+describe("print()", () => {
+  test("Should print the result", () => {
+    query.run("$.user.name");
+
+    // Mock console.log
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    query.print();
+
+    expect(logSpy).toHaveBeenCalledWith(query.result);
+    logSpy.mockRestore();
   });
 });

@@ -34,19 +34,4 @@ export class BaseError extends Error {
     this.solution = solution;
     this.metadata = metadata;
   }
-
-  /**
-   * Get the error as a JSON object
-   * @returns The error as a JSON object
-   */
-  public toJSON(): Record<string, any> {
-    return {
-      name: this.name,
-      message: this.message,
-      code: this.code,
-      cause: this.cause,
-      solution: this.solution,
-      metadata: this.metadata,
-    };
-  }
 }

@@ -9,7 +9,7 @@
 
 import type { FunctionNode } from "src/ast/nodes";
 import { avg, max, min, sum, count, sort, unique, reverse, contains, substring, upper, lower, strLength, equals, isTrue, isFalse } from "./functions";
-import { checkContainsArguments, checkEqualsArguments, checkSortArguments, checkSubstringArguments } from "./arguments";
+import { checkEqualsArguments, checkSortArguments, checkSubstringArguments } from "./arguments";
 
 //===============================================================================
 
@@ -72,7 +72,7 @@ export function applyStringFunction(node: FunctionNode, data: string): unknown {
   // Apply the function
   switch (functionName) {
     case "contains":
-      return contains(data, checkContainsArguments(node));
+      return contains(data, node.functionArgs[0]);
     case "substring":
       return substring(data, checkSubstringArguments(node));
     case "length":

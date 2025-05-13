@@ -86,6 +86,31 @@ describe("DataManager", () => {
 
     // Clean up
     unlinkSync(filePath);
+
+    // Load from non-existing file
+    const nonExistingFilePath = "./tests/none.json";
+    expect(() => {
+      data.load(nonExistingFilePath);
+    }).toThrowError();
+
+    // Load from non-json file
+    const invalidConfigFilePath = "./tests/test2.txt";
+    writeFileSync(invalidConfigFilePath, "This is not a JSON file");
+
+    expect(() => data.load(invalidConfigFilePath)).toThrowError();
+    unlinkSync(invalidConfigFilePath);
+
+    // No load arguments
+    expect(() => {
+      data.load();
+    }).toThrowError();
+
+    // No data in file
+    const emptyFilePath = "./tests/empty.json";
+    writeFileSync(emptyFilePath, "");
+
+    expect(() => data.load(emptyFilePath)).toThrowError();
+    unlinkSync(emptyFilePath);
   });
 
   test("fetch()", async () => {
@@ -105,6 +130,11 @@ describe("DataManager", () => {
     // No URL provided
     await expect(async () => {
       await data.fetch();
+    }).rejects.toThrowError();
+
+    // Non JSON URL
+    await expect(async () => {
+      await data.fetch("https://github.com/Jay-Karia/jqlite");
     }).rejects.toThrowError();
   });
 
