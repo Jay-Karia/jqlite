@@ -4,5 +4,5 @@ import { config, data, query } from "./src/index";
 
 data.load("./data/demo.json");
 
-query.run("$.products[*].name)");
+query.run("$.products[?(@.price > 1500)]");
 console.log(query.result);

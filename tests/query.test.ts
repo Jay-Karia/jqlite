@@ -150,6 +150,12 @@ describe("Wildcard", () => {
     }).toThrowError();
   });
 
+  test("Should throw an error if not an array", () => {
+    expect(() => {
+      query.run("$.metadata[*]");
+    }).toThrowError();
+  });
+
   test("Root wildcard selection", async () => {
     const jsonData = [
       { name: "John", age: 30 },
@@ -415,6 +421,12 @@ describe("Key Omission", () => {
 
     await data.fetch("https://jqlite.vercel.app/demo.json");
   });
+
+  test("Should throw an error if data is not an object", () => {
+    expect(() => {
+      query.run("$.user.tags.!developer");
+    }).toThrowError();
+  });
 });
 
 /**
@@ -451,6 +463,7 @@ describe("Functions", () => {
     expect(() => {
       query.run("$.stats.visitors.#max(1)");
     }).toThrowError();
+
     expect(() => {
       query.run("$.stats.visitors.#avg(1)");
     }).toThrowError();
@@ -470,6 +483,11 @@ describe("Functions", () => {
     }).toThrowError();
     expect(() => {
       query.run("$.products[?(@.price < 1000)].#sum()");
+    }).toThrowError();
+
+    // Non array
+    expect(() => {
+      query.run("$.user.#min()");
     }).toThrowError();
   });
 
@@ -950,7 +968,23 @@ describe("Conditions", () => {
     expect(() => {
       query.run("$.products[?(@.price > 1500]");
     }).toThrowError();
+  });
 
+  test("Should return object format if specified in config", () => {
+    config.set({
+      conditionFormat: "object",
+    });
+    query.run("$.products[?(@.price > 1500)]");
+    expect(query.result).toStrictEqual({
+      id: ["p2"],
+      name: ["Desktop Ultra"],
+      price: [1599.99],
+      inStock: [false],
+      specs: [{ cpu: "i9", ram: "32GB", storage: "1TB SSD" }],
+      reviews: [[5, 5, 4, 3, 5]],
+    });
+
+    config.clear();
   });
 });
 

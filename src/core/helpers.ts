@@ -10,7 +10,6 @@
 import type { ASTNode, NodeType } from "src/ast/types";
 import type { ErrorParams } from "src/errors/types";
 import type { SliceRange } from "./types";
-import type { functionCategories, functionNames } from "src/functions/types";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
 import { evaluator } from "./evaluator";
@@ -215,23 +214,6 @@ export function checkNumericArray(data: unknown, propertyName: string | string[]
 }
 
 /**
- * Check if the function name is valid
- * @param {functionNames | undefined} functionName The function name to be checked
- * @param {functionCategories | undefined} functionCategory The function category to be checked
- * @returns {functionCategories} The function category if it is valid
- */
-export function checkFunction(functionName: functionNames | undefined, functionCategory: functionCategories | undefined): functionCategories {
-  if (!functionCategory) {
-    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_FUNCTION_CATEGORY, {
-      functionName,
-      functionCategory,
-    });
-  }
-
-  return functionCategory;
-}
-
-/**
  * Evaluates the children nodes
  * @param {ASTNode} node The AST node to be evaluated
  */
@@ -258,24 +240,6 @@ export function getPropertyName(node: ASTNode | undefined | null): string | stri
   else if (node?.type === "MultipleSelect") property = node?.selectedKeys;
 
   return property;
-}
-
-/**
- * Checks if the data is an array
- * @param {unknown} data The data to be checked
- * @param {ASTNode} node The AST node to be checked
- * @param {string | string[]} property The property name
- * @returns {any[]} The data if it is an array
- */
-export function isArray(data: unknown, node: ASTNode, property?: string | string[]): any[] {
-  if (!Array.isArray(data)) {
-    throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
-      type: node.type,
-      property,
-    });
-  }
-
-  return data;
 }
 
 //===================================================================================

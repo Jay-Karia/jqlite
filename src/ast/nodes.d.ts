@@ -38,6 +38,7 @@ export interface ArraySliceNode extends ASTNode {
 }
 export interface OmitNode extends ASTNode {
   type: "Omit";
+  children: ASTNode[];
 }
 export interface MultipleSelectNode extends ASTNode {
   type: "MultipleSelect";
@@ -60,6 +61,7 @@ export interface ComparisonNode extends ASTNode {
 }
 export interface ConditionNode extends ASTNode {
   type: "Condition";
+  children: ASTNode[];
 }
 export interface ContextNode extends ASTNode {
   type: "Context"
@@ -67,6 +69,7 @@ export interface ContextNode extends ASTNode {
 export interface LogicalNode extends ASTNode {
   type: "Logical",
   logicalOperator: string;
+  children: ASTNode[];
 }
 
 //===================================================================================

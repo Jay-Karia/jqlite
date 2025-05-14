@@ -231,10 +231,10 @@ export const ERROR_MESSAGES = {
       solution: "Check whether the array exists or not",
     } as ErrorParams,
     NO_OBJECTS: {
-      message: "No objects allowed",
+      message: "No objects found",
       code: "NO_OBJECTS",
-      cause: "The array does not have objects",
-      solution: "Make sure that the value is an array of objects",
+      cause: "The value is not an object",
+      solution: "Make sure that the value is an object",
     } as ErrorParams,
     ERR_SLICE_RANGE: {
       message: "Error in array slice",

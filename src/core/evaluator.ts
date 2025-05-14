@@ -11,7 +11,7 @@ import type { ASTNode } from "src/ast/types";
 import type { ArrayAccessNode, ArraySliceNode, ComparisonNode, ConditionNode, ContextNode, FunctionNode, LogicalNode, MultipleOmitNode, MultipleSelectNode, OmitNode, PropertyNode, WildcardNode } from "src/ast/nodes";
 import { EvaluatorError } from "src/errors/factory";
 import { ERROR_MESSAGES } from "src/errors/messages";
-import { checkArray, checkData, checkFunction, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
+import { checkArray, checkData, checkIndex, checkNumericArray, checkProperty, checkSliceRange, checkValue, containsObjects, evaluateChildren, extractUniqueKeys, fillArray, getPropertyName, isRecord } from "./helpers";
 import { context } from "./context";
 import { ast } from "src/ast/ast";
 import { applyArrayFunction, applyBooleanFunction, applyNumericArrayFunction, applyStringFunction } from "src/functions/apply";
@@ -100,7 +100,7 @@ export class Evaluator {
         break;
       case "Function": {
         // Get function category
-        const category = checkFunction(node.functionName, node.functionCategory);
+        const category = node.functionCategory;
 
         // Check function arguments
         checkNumberOfArgs(node as FunctionNode);
@@ -300,13 +300,6 @@ export class Evaluator {
     // Check if the data is not null
     this._current = checkData(this._current);
 
-    // Check the children of the node
-    if (!node.children || node.children.length === 0 || node.children[0].type !== "Property") {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_EMIT_PROPERTY, {
-        type: node.type,
-      });
-    }
-
     // Get the property name
     const propertyName = checkProperty(node.children[0].propertyName, node.type);
 
@@ -349,11 +342,6 @@ export class Evaluator {
 
     // Get the keys
     const keys = node.selectedKeys;
-    if (!keys || keys.length === 0) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_NO_KEYS, {
-        type: node.type,
-      });
-    }
 
     // Get the value
     let value: Record<string, unknown> = {};
@@ -487,16 +475,8 @@ export class Evaluator {
       });
     }
 
-    // Check the children
-    const children = node.children;
-    if (!children || children.length === 0) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
-        type: node.type,
-      });
-    }
-
     // Check for OR node in children
-    const orNode = children.find(child => child.type === "Logical" && child.logicalOperator === "OR");
+    const orNode = node.children.find(child => child.type === "Logical" && child.logicalOperator === "OR");
     if (orNode) this._saveContextData = true;
 
     // Evaluate children if any
@@ -575,49 +555,28 @@ export class Evaluator {
     // Check if the data is not null
     this._current = checkData(this._current);
 
-    // Get the logical operator
-    const operator = node.logicalOperator;
-    if (!operator) {
-      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.ERR_LOGICAL_OPERATOR, {
+    // Check if the current value is an array
+    if (!Array.isArray(this._current)) {
+      throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
         type: node.type,
       });
     }
 
+    // Get the logical operator
+    const operator = node.logicalOperator;
+
     switch (operator) {
       case "AND": {
-        // Check for children
-        const children = node.children;
-        if (!children || children.length === 0) {
-          throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
-            type: node.type,
-          });
-        }
-
         // Update the current value
-        this.evaluateContext(children[0] as ContextNode);
+        this.evaluateContext(node.children[0] as ContextNode);
         break;
       }
       case "OR": {
-        // Check for children
-        const children = node.children;
-        if (!children || children.length === 0) {
-          throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.EMPTY_CONDITION, {
-            type: node.type,
-          });
-        }
-
-        // Check for array
-        if (!Array.isArray(this._current)) {
-          throw new EvaluatorError(ERROR_MESSAGES.EVALUATOR.NOT_AN_ARRAY, {
-            type: node.type,
-          });
-        }
-
         // Backup the current value
         const current = this._current;
 
         // Concat the two arrays
-        this.evaluateContext(children[0] as ContextNode);
+        this.evaluateContext(node.children[0] as ContextNode);
         this._current = this._current.concat(current);
         break;
       }
